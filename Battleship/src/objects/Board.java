@@ -29,7 +29,7 @@ public class Board {
     /**
      * The board with the saved fields.
      */
-    private Field[][] board;
+    private final Field[][] board = new Field[HEIGTH_LENGTH][HEIGTH_LENGTH];
 
     /**
      * Public-Constructor which initialize the Field-Matrix.
@@ -73,5 +73,17 @@ public class Board {
      */
     public Ship[] getShipList() {
         return shipList;
+    }
+    
+    public Field[][] getBoard() {
+        return board;
+    }
+    
+    public Field getField(int x, int y) {
+        return board[x][y];
+    }
+    
+    public void shoot(int x, int y) {
+        board[x][y].setHit(true);
     }
 }
