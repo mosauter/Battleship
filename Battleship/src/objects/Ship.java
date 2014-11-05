@@ -62,7 +62,7 @@ public class Ship {
         if (positionStart.length != 2) {
             return;
         }
-        if (positionStart[0] < 1 || positionStart[1] < 1) {
+        if (positionStart[0] < 0 || positionStart[1] < 0) {
             return;
         }
         this.positionStart = positionStart;
