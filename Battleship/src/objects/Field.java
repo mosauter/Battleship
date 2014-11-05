@@ -36,6 +36,22 @@ public class Field {
     }
 
     /**
+     * Getter for the y-coordinate.
+     * @return the y-coordinate as Integer.
+     */
+    public final int getY() {
+        return this.y;
+    }
+
+    /**
+     * Getter for the x-coordinate.
+     * @return the x-coordinate as Integer.
+     */
+    public final int getX() {
+        return this.x;
+    }
+
+    /**
      * Getter if the Field is already hit.
      * @return true if the field is hit, false if not.
      */
