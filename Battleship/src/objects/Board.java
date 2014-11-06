@@ -11,11 +11,11 @@ package objects;
 public class Board {
 
     /**
-     * The heigth and the length of the board.
+     * The heigth and the length of the field.
      */
     private static final int HEIGTH_LENGTH = 10;
     /**
-     * The max number of ships that could be on the board.
+     * The max number of ships that could be on the field.
      */
     private static final int SHIP_NUMBER_MAX = 5;
     /**
@@ -23,13 +23,13 @@ public class Board {
      */
     private Ship[] shipList;
     /**
-     * The number of ships that are current on the board.
+     * The number of ships that are current on the field.
      */
     private int ships;
     /**
-     * The board with the saved fields.
+     * The field with the saved fields.
      */
-    private final Field[][] board = new Field[HEIGTH_LENGTH][HEIGTH_LENGTH];
+    private final Field[][] field = new Field[HEIGTH_LENGTH][HEIGTH_LENGTH];
 
     /**
      * Public-Constructor which initialize the Field-Matrix.
@@ -39,16 +39,16 @@ public class Board {
         this.ships = 0;
         for (int x = 0; x < HEIGTH_LENGTH; x++) {
             for (int y = 0; y < HEIGTH_LENGTH; y++) {
-                board[x][y] = new Field(x, y);
+                field[x][y] = new Field(x, y);
             }
         }
     }
 
     /**
-     * Method for adding a new Ship on the board.
+     * Method for adding a new Ship on the field.
      * @param ship the ship that should be added.
      * @return the number of ships that could be added after.
-     *         returns -1 if the board is already full.
+         returns -1 if the field is already full.
      */
     public final int addShip(final Ship ship) {
         if (this.ships == SHIP_NUMBER_MAX) {
@@ -56,19 +56,19 @@ public class Board {
         }
         this.shipList[ships] = ship;
         this.ships++;
-        return (SHIP_NUMBER_MAX - this.ships);
+        return SHIP_NUMBER_MAX - this.ships;
     }
 
     /**
      * Getter for the number of Ships.
-     * @return the number of ships that are current on the board as Integer.
+     * @return the number of ships that are current on the field as Integer.
      */
     public int getShips() {
         return ships;
     }
 
     /**
-     * Getter for the list of ships that are on the board.
+     * Getter for the list of ships that are on the field.
      * @return the list of ships as Ship[]-Array.
      */
     public Ship[] getShipList() {
@@ -76,14 +76,14 @@ public class Board {
     }
     
     public Field[][] getBoard() {
-        return board;
+        return field;
     }
     
     public Field getField(int x, int y) {
-        return board[x][y];
+        return field[x][y];
     }
     
     public void shoot(int x, int y) {
-        board[x][y].setHit(true);
+        field[x][y].setHit(true);
     }
 }
