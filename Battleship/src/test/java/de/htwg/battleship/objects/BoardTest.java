@@ -1,6 +1,6 @@
 // BoardTest.java
 
-package objects;
+package de.htwg.battleship.objects;
 
 import org.junit.After;
 import static org.junit.Assert.assertArrayEquals;
