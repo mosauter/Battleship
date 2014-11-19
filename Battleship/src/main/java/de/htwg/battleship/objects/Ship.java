@@ -69,7 +69,7 @@ public class Ship {
         if (positionStart[0] < 0 || positionStart[1] < 0) {
             return;
         }
-        this.positionStart = positionStart;
+        this.positionStart = new int[] {positionStart[0], positionStart[1]};
     }
 
     /**
