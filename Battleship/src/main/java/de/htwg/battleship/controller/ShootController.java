@@ -24,10 +24,12 @@ public class ShootController {
         Board board = player.getShootBoard();
         if (board.getField(x, y).isHit()) {
             return false;
+        } else {
+            board.getField(x, y).setHit(true);
         }
         Ship[] shipList = board.getShipList();
-        for (Ship ship : shipList) {
-            if (hit(ship, x, y)) {
+        for (int i = 0; i < board.getShips(); i++) {
+            if (hit(shipList[i], x, y)) {
                 return true;
             }
         }
@@ -39,12 +41,12 @@ public class ShootController {
         int size = ship.getSize();
         if (ship.isOrientation()) {
             int xupp = pos[0] + size;
-            if (x > pos[0] && x < xupp && y == pos[1]) {
+            if (x >= pos[0] && x <= xupp && y == pos[1]) {
                 return true;
             }
         } else {
             int yupp = pos[1] + size;
-            if (y > pos[1] && y < yupp && x == pos[0]) {
+            if (y >= pos[1] && y <= yupp && x == pos[0]) {
                 return true;
             }
         }
