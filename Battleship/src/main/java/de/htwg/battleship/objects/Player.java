@@ -11,17 +11,27 @@ package de.htwg.battleship.objects;
 public class Player {
     private final Board ownBoard;
     private final Board shootBoard;
-    //private final String name;
-//    private boolean turn;
-    
-    
+    private String name = "";
+
     public Player(Board player1Board, Board player2Board) {
         ownBoard = player1Board;
         shootBoard = player2Board;
     }
     
-    public boolean shoot(int x, int y) {
-        return false;  
+    public void setName(final String name) {
+        if (this.name.isEmpty())
+            this.name = name;
+    }
+    
+    public String getName() {
+        return this.name;
     }
 
+    public Board getOwnBoard() {
+        return ownBoard;
+    }
+
+    public Board getShootBoard() {
+        return shootBoard;
+    }
 }
