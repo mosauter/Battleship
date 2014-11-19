@@ -76,13 +76,4 @@ public class FieldTest {
         assertEquals(field.isHit(), false);
     }
     
-    @Test(expected = IllegalArgumentException.class)
-    public void testIsBetweenXException() {
-        field = new Field(-1, 5);
-    }
-    
-    @Test(expected = IllegalArgumentException.class)
-    public void testIsBetweenYException() {
-        field = new Field(5, 13);
-    }
 }
