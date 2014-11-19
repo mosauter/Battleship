@@ -3,9 +3,9 @@ package de.htwg.battleship.objects;
 // PlayerTest.java
 
 import org.junit.After;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * PlayerTest
@@ -15,21 +15,74 @@ import static org.junit.Assert.*;
  */
 public class PlayerTest {
 
+    Player player;
     public PlayerTest() {
     }
 
     @Before
     public void setUp() {
+        player = new Player(new Board(), new Board());
     }
 
     @After
     public void tearDown() {
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
-
+    @Test
+    public void getOwnBoard() {
+        Field[][] expResult = new Field[10][10];
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++) {
+                expResult[x][y] = new Field(x, y);
+            }
+        }
+        Field[][] result = player.getOwnBoard().getBoard();
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++) {
+                int expX = expResult[x][y].getX();
+                int expY = expResult[x][y].getY();
+                int resX = result[x][y].getX();
+                int resY = result[x][y].getY();
+                assertEquals(expX, resX);
+                assertEquals(expY, resY);
+                assertEquals(expResult[x][y].isHit(), result[x][y].isHit());
+            }
+        }
+    }
+    
+    @Test
+    public void getShootBoard() {
+        Field[][] expResult = new Field[10][10];
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++) {
+                expResult[x][y] = new Field(x, y);
+            }
+        }
+        Field[][] result = player.getShootBoard().getBoard();
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++) {
+                int expX = expResult[x][y].getX();
+                int expY = expResult[x][y].getY();
+                int resX = result[x][y].getX();
+                int resY = result[x][y].getY();
+                assertEquals(expX, resX);
+                assertEquals(expY, resY);
+                assertEquals(expResult[x][y].isHit(), result[x][y].isHit());
+            }
+        }
+    }
+    
+    @Test
+    public void setGetName() {
+        String expResult = "";
+        String result = player.getName();
+        assertEquals(expResult, result);
+        expResult = "Moritz";
+        player.setName(expResult);
+        result = player.getName();
+        assertEquals(expResult, result);
+        player.setName("Hans");
+        result = player.getName();
+        assertEquals(expResult, result);
+    }
 }
