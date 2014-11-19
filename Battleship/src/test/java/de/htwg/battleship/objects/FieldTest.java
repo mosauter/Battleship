@@ -37,9 +37,9 @@ public class FieldTest {
 
     @Test
     public void testGetXY() {
-        this.field = new Field(5, 10);
+        this.field = new Field(5, 9);
         assertEquals(5, field.getX());
-        assertEquals(10, field.getY());
+        assertEquals(9, field.getY());
         this.field = new Field(2, 3);
         assertEquals(2, field.getX());
         assertEquals(3, field.getY());
@@ -54,7 +54,7 @@ public class FieldTest {
         boolean expResult = false;
         boolean result = field.isHit();
         assertEquals(expResult, result);
-        this.field = new Field(15, 23);
+        this.field = new Field(2, 3);
         result = field.isHit();
         assertEquals(expResult, result);
     }
@@ -76,4 +76,13 @@ public class FieldTest {
         assertEquals(field.isHit(), false);
     }
     
+    @Test(expected = IllegalArgumentException.class)
+    public void testIsBetweenXException() {
+        field = new Field(-1, 5);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testIsBetweenYException() {
+        field = new Field(5, 13);
+    }
 }
