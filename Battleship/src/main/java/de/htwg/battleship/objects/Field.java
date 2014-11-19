@@ -23,6 +23,7 @@ public class Field {
      * True if it is hit, false if not.
      */
     private boolean hit;
+    private int HEIGHT_LENGTH = 10;
 
     /**
      * Public-Constructor.
@@ -30,8 +31,12 @@ public class Field {
      * @param y y-Coordinate of the Field.
      */
     public Field(final int x, final int y) {
-        this.x = x;
-        this.y = y;
+        if (isBetween(x) && isBetween(y)) {
+            this.x = x;
+            this.y = y;
+        } else {
+            throw new IllegalArgumentException("The Field is not big enough.");
+        }
         this.hit = false;
     }
 
@@ -68,5 +73,9 @@ public class Field {
             return;
         }
         this.hit = hit;
+    }
+
+    private boolean isBetween(int x) {
+        return (0 <= x && x < HEIGHT_LENGTH);
     }
 }
