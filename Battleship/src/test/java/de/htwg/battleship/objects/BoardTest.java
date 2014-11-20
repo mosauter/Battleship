@@ -34,11 +34,11 @@ public class BoardTest {
      */
     @Test
     public void testAddShip() {
-        Ship[] expRes = { new Ship(2, true, new int[]{3, 4}),
-                          new Ship(3, false, new int[]{5, 8}),
-                          new Ship(6, true, new int[]{1, 1}),
-                          new Ship(1, true, new int[]{10, 10}),
-                          new Ship(4, false, new int[]{1, 10}) };
+        Ship[] expRes = { new Ship(2, true, 3, 4),
+                          new Ship(3, false, 5, 8),
+                          new Ship(6, true, 1, 1),
+                          new Ship(1, true, 10, 10),
+                          new Ship(4, false, 1, 10) };
         board.addShip(expRes[0]);
         
         Ship[] result = board.getShipList();
@@ -58,11 +58,11 @@ public class BoardTest {
         int expRes = 0;
         int result = board.getShips();
         assertEquals(expRes, result);
-        Ship[] shipList = { new Ship(2, true, new int[]{3, 4}),
-                            new Ship(3, false, new int[]{5, 8}),
-                            new Ship(6, true, new int[]{1, 1}),
-                            new Ship(1, true, new int[]{10, 10}),
-                            new Ship(4, false, new int[]{1, 10}) };
+        Ship[] shipList = { new Ship(2, true, 3, 4),
+                            new Ship(3, false, 5, 8),
+                            new Ship(6, true, 1, 1),
+                            new Ship(1, true, 10, 10),
+                            new Ship(4, false, 1, 10) };
         for (int i = 0; i < shipList.length; i++) {
             board.addShip(shipList[i]);
             expRes++;

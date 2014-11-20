@@ -2,7 +2,6 @@ package de.htwg.battleship.objects;
 
 import de.htwg.battleship.objects.Ship;
 import org.junit.After;
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,8 +16,9 @@ public class ShipTest {
     
     @Before
     public void setUp() {
-        int[] xy = { 2, 3 };
-        ship = new Ship(5, true, xy);
+        int x = 2;
+        int y = 3;
+        ship = new Ship(5, true, x, y);
     }
     
     @After
@@ -44,36 +44,21 @@ public class ShipTest {
      */
     @Test
     public void testNormalSetPositionStart() {
-        int[] expRes = {2, 3};
-        int[] result = ship.getPositionStart();
-        assertArrayEquals(expRes, result);
-        expRes = new int[] {4, 5};
-        ship.setPositionStart(expRes);
-        result = ship.getPositionStart();
-        assertArrayEquals(expRes, result);
+        int expResX = 2;
+        int expResY = 3;
+        int resultX = ship.getX();
+        int resultY = ship.getY();
+        assertEquals(expResX, resultX);
+        assertEquals(expResY, resultY);
+        Ship s = new Ship(1, true, 4, 5);
+        expResX = 4;
+        expResY = 5;
+        resultX = s.getX();
+        resultY = s.getY();
+        assertEquals(expResX, resultX);
+        assertEquals(expResY, resultY);
     }
 
-    @Test
-    public void testFalseSetPositionStart() {
-        int[] expRes = {2, 3};
-        int[] falseEnter = {-1, -3};
-        this.ship.setPositionStart(falseEnter);
-        int[] result = ship.getPositionStart();
-        assertArrayEquals(expRes, result);
-        falseEnter = new int[] {1, -1};
-        ship.setPositionStart(falseEnter);
-        result = ship.getPositionStart();
-        assertArrayEquals(expRes, result);
-    }
-
-    @Test
-    public void testFalseLengthSetPositionStart() {
-        int[] expRes = {2, 3};
-        int[] falseEnter = {0, 3, 5};
-        ship.setPositionStart(falseEnter);
-        int[] result = ship.getPositionStart();
-        assertArrayEquals(expRes, result);
-    }
 
     /**
      * Test of getSize method, of class Ship.

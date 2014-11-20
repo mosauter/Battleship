@@ -37,16 +37,17 @@ public class ShootController {
     }
 
     private boolean hit(Ship ship, int x, int y) {
-        int[] pos = ship.getPositionStart();
+        int shipX = ship.getX();
+        int shipY = ship.getY();
         int size = ship.getSize();
         if (ship.isOrientation()) {
-            int xupp = pos[0] + size;
-            if (x >= pos[0] && x <= xupp && y == pos[1]) {
+            int xupp = shipX + size;
+            if (x >= shipX && x <= xupp && y == shipY) {
                 return true;
             }
         } else {
-            int yupp = pos[1] + size;
-            if (y >= pos[1] && y <= yupp && x == pos[0]) {
+            int yupp = shipY + size;
+            if (y >= shipY && y <= yupp && x == shipX) {
                 return true;
             }
         }

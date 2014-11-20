@@ -18,10 +18,8 @@ public class Ship {
      * Size of the ship.
      */
     private int size;
-    /**
-     * Where the ship starts in the 2D-Field.
-     */
-    private int[] positionStart;
+    private final int x;
+    private final int y;
     /**
      * If it is vertical or horizontal.
      * True if horizontal, False if vertical.
@@ -35,10 +33,11 @@ public class Ship {
      * @param positionStart there the ship starts.
      */
     public Ship(final int size, final boolean orientation,
-            final int[] positionStart) {
+            final int x, final int y) {
         this.size = size;
         this.orientation = orientation;
-        this.positionStart = positionStart;
+        this.x = x;
+        this.y = y;
     }
 
     /**
@@ -57,27 +56,12 @@ public class Ship {
         this.orientation = orientation;
     }
 
-    /**
-     * Setter for the position where the ship starts.
-     * @param positionStart array with the length = 2,
-     *                      with a x- and a y-Coordinate.
-     */
-    public final void setPositionStart(final int[] positionStart) {
-        if (positionStart.length != CORRECT_FIELD_SIZE) {
-            return;
-        }
-        if (positionStart[0] < 0 || positionStart[1] < 0) {
-            return;
-        }
-        this.positionStart = new int[] {positionStart[0], positionStart[1]};
+    public final int getX() {
+        return this.x;
     }
-
-    /**
-     * Getter for the position where the ship starts.
-     * @return an array of a x- and a y-Coordinate.
-     */
-    public final int[] getPositionStart() {
-        return positionStart;
+    
+    public final int getY() {
+        return this.y;
     }
 
     /**

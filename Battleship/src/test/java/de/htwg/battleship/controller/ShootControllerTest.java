@@ -27,8 +27,8 @@ public class ShootControllerTest {
     @Before
     public void setUp() {
         player = new Player(new Board(), new Board());
-        Ship ship1 = new Ship(5, true, new int[] { 3, 2 });
-        Ship ship2 = new Ship(1, false, new int[] { 6, 6 });
+        Ship ship1 = new Ship(5, true, 3, 2 );
+        Ship ship2 = new Ship(1, false, 6, 6);
         player.getShootBoard().addShip(ship1);
         player.getShootBoard().addShip(ship2);
         sc = new ShootController(player);
