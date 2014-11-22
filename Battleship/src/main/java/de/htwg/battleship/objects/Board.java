@@ -21,7 +21,7 @@ public class Board {
     /**
      * The Ships which were on the Board.
      */
-    private Ship[] shipList;
+    private final Ship[] shipList;
     /**
      * The number of ships that are current on the field.
      */
@@ -63,7 +63,7 @@ public class Board {
      * Getter for the number of Ships.
      * @return the number of ships that are current on the field as Integer.
      */
-    public int getShips() {
+    public final int getShips() {
         return ships;
     }
 
@@ -71,19 +71,34 @@ public class Board {
      * Getter for the list of ships that are on the field.
      * @return the list of ships as Ship[]-Array.
      */
-    public Ship[] getShipList() {
+    public final Ship[] getShipList() {
         return shipList;
     }
-    
-    public Field[][] getBoard() {
+
+    /**
+     * Getter for the Field-Matrix.
+     * @return Field[][]
+     */
+    public final Field[][] getBoard() {
         return field;
     }
-    
-    public Field getField(int x, int y) {
+
+    /**
+     * Getter for one Field in the Board.
+     * @param x x-Coordinate of the Field
+     * @param y y-Coordinate of the Field
+     * @return Field
+     */
+    public final Field getField(final int x, final int y) {
         return field[x][y];
     }
-    
-    public void shoot(int x, int y) {
+
+    /**
+     * Method to shoot on one Field.
+     * @param x x-Coordinate of the Field
+     * @param y y-Coordinate of the Field
+     */
+    public final void shoot(final int x, final int y) {
         field[x][y].setHit(true);
     }
 }
