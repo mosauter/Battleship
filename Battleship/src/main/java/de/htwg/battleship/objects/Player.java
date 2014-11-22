@@ -18,21 +18,25 @@ public class Player {
         shootBoard = player2Board;
     }
 
-    public void setName(final String name) {
+    public final void setName(final String name) {
         if (this.name.isEmpty()) {
             this.name = name;
         }
     }
-    
-    public String getName() {
+
+    /**
+     * Getter for the Name of the Player.
+     * @return String
+     */
+    public final String getName() {
         return this.name;
     }
 
-    public Board getOwnBoard() {
+    public final Board getOwnBoard() {
         return ownBoard;
     }
 
-    public Board getShootBoard() {
+    public final Board getShootBoard() {
         return shootBoard;
     }
 }
