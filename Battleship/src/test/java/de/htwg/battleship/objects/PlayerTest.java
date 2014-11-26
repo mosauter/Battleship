@@ -21,7 +21,7 @@ public class PlayerTest {
 
     @Before
     public void setUp() {
-        player = new Player(new Board(), new Board());
+        player = new Player(new Board());
     }
 
     @After
@@ -37,28 +37,6 @@ public class PlayerTest {
             }
         }
         Field[][] result = player.getOwnBoard().getBoard();
-        for (int x = 0; x < 10; x++) {
-            for (int y = 0; y < 10; y++) {
-                int expX = expResult[x][y].getX();
-                int expY = expResult[x][y].getY();
-                int resX = result[x][y].getX();
-                int resY = result[x][y].getY();
-                assertEquals(expX, resX);
-                assertEquals(expY, resY);
-                assertEquals(expResult[x][y].isHit(), result[x][y].isHit());
-            }
-        }
-    }
-    
-    @Test
-    public void getShootBoard() {
-        Field[][] expResult = new Field[10][10];
-        for (int x = 0; x < 10; x++) {
-            for (int y = 0; y < 10; y++) {
-                expResult[x][y] = new Field(x, y);
-            }
-        }
-        Field[][] result = player.getShootBoard().getBoard();
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
                 int expX = expResult[x][y].getX();
