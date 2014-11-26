@@ -7,21 +7,47 @@ import de.htwg.battleship.objects.Player;
 import de.htwg.battleship.objects.Ship;
 
 /**
- * ShootController
+ * ShootController.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-11-19
  */
 public class ShootController {
 
-    private Player player;
-    
-    public ShootController(Player player) {
-        this.player = player;
+    /**
+     * First Player.
+     */
+    private final Player player1;
+    /**
+     * Second Player.
+     */
+    private final Player player2;
+
+    /**
+     * Public Constructor.
+     * @param player1 first Player
+     * @param player2 second Player
+     */
+    public ShootController(final Player player1, final Player player2) {
+        this.player1 = player1;
+        this.player2 = player2;
     }
-    
-    public boolean shoot(int x, int y) {
-        Board board = player.getShootBoard();
+
+    /**
+     * Method to shoot on a board.
+     * @param x x-Coordinate where to shoot.
+     * @param y y-Coordinate where to shoot.
+     * @param first true if the first Player shoots on the second Player
+     *              false if the other way round
+     * @return boolean if hit or not
+     */
+    public final boolean shoot(final int x, final int y, final boolean first) {
+        Board board;
+        if (first) {
+            board = player2.getOwnBoard();
+        } else {
+            board = player1.getOwnBoard();
+        }
         if (board.getField(x, y).isHit()) {
             return false;
         } else {
@@ -36,7 +62,14 @@ public class ShootController {
         return false;
     }
 
-    private boolean hit(Ship ship, int x, int y) {
+    /**
+     * Utility-Method if a shoot is a hit or not.
+     * @param ship which ship should be test.
+     * @param x x-Coordinate where to shoot
+     * @param y y-Coordinate where to shoot
+     * @return true if it is a hit
+     */
+    private boolean hit(final Ship ship, final int x, final int y) {
         int shipX = ship.getX();
         int shipY = ship.getY();
         int size = ship.getSize();
