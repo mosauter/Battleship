@@ -115,7 +115,17 @@ public class ShootController {
         return (x >= xlow && x <= xupp);
     }
 
-    private boolean isHit(int xupp, int xlow, int x, int y, int shipY) {
+    /**
+     * Utility-Method to combine the Method isBetween and compare the row.
+     * @param xupp upper border
+     * @param xlow lower border
+     * @param x value x
+     * @param y value y
+     * @param shipY right row shipY
+     * @return true if it is a hit
+     */
+    private boolean isHit(final int xupp, final int xlow,
+            final int x, final int y, final int shipY) {
         return isBetween(xupp, xlow, x) && y == shipY;
     }
 }
