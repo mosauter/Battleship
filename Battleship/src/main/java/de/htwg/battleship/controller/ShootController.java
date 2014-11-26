@@ -42,12 +42,7 @@ public class ShootController {
      * @return boolean if hit or not
      */
     public final boolean shoot(final int x, final int y, final boolean first) {
-        Board board;
-        if (first) {
-            board = player2.getOwnBoard();
-        } else {
-            board = player1.getOwnBoard();
-        }
+        Board board = getBoard(first);
         if (board.getField(x, y).isHit()) {
             return false;
         } else {
@@ -85,5 +80,19 @@ public class ShootController {
             }
         }
         return false;
+    }
+
+    /**
+     * Utility-Method to get the Board of one player.
+     * @param first if the board of the first or the second player should
+     *              be returned
+     * @return Board
+     */
+    private Board getBoard(boolean first) {
+        if (first) {
+            return player2.getOwnBoard();
+        } else {
+            return player1.getOwnBoard();
+        }
     }
 }
