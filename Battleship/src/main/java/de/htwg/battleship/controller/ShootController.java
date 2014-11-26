@@ -49,12 +49,7 @@ public class ShootController {
             board.getField(x, y).setHit(true);
         }
         Ship[] shipList = board.getShipList();
-        for (int i = 0; i < board.getShips(); i++) {
-            if (hit(shipList[i], x, y)) {
-                return true;
-            }
-        }
-        return false;
+        return isHit(shipList, x, y, board.getShips());
     }
 
     /**
@@ -94,5 +89,14 @@ public class ShootController {
         } else {
             return player1.getOwnBoard();
         }
+    }
+
+    private boolean isHit(Ship[] shipList, int x, int y, int counter) {
+        for (int i = 0; i < counter; i++) {
+            if (hit(shipList[i], x, y)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
