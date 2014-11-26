@@ -19,19 +19,21 @@ import org.junit.Test;
 public class ShootControllerTest {
 
     ShootController sc;
-    Player player;
+    Player player1;
+    Player player2;
     
     public ShootControllerTest() {
     }
 
     @Before
     public void setUp() {
-        player = new Player(new Board(), new Board());
+        player1 = new Player(new Board());
+        player2 = new Player(new Board());
         Ship ship1 = new Ship(5, true, 3, 2 );
         Ship ship2 = new Ship(1, false, 6, 6);
-        player.getShootBoard().addShip(ship1);
-        player.getShootBoard().addShip(ship2);
-        sc = new ShootController(player);
+        player1.getOwnBoard().addShip(ship1);
+        player2.getOwnBoard().addShip(ship2);
+        sc = new ShootController(player1, player2);
     }
 
     @After
@@ -46,10 +48,10 @@ public class ShootControllerTest {
     @Test
     public void shootTestOneOriTrue() {
         boolean expResult = true;
-        boolean result = sc.shoot(3, 2);
+        boolean result = sc.shoot(3, 2, false);
         assertEquals(expResult, result);
         expResult = false;
-        result = sc.shoot(3, 3);
+        result = sc.shoot(3, 3, false);
         assertEquals(expResult, result);
     }
     
@@ -61,33 +63,33 @@ public class ShootControllerTest {
     @Test
     public void shootTestTwoOriTrue() {
         boolean expResult = false;
-        boolean result = sc.shoot(3, 2); // first Time true, second time false
-        result = sc.shoot(3, 2);
+        boolean result = sc.shoot(3, 2, false); // first Time true, second time false
+        result = sc.shoot(3, 2, false);
         assertEquals(expResult, result);
-        result = sc.shoot(9, 2);
+        result = sc.shoot(9, 2, false);
         assertEquals(expResult, result);
-        result = sc.shoot(2, 2);
+        result = sc.shoot(2, 2, false);
         assertEquals(expResult, result);
     }
     
     @Test
     public void shootTestOneOriFalse() {
         boolean expResult = true;
-        boolean result = sc.shoot(6, 6);
+        boolean result = sc.shoot(6, 6, true);
         assertEquals(expResult, result);
         expResult = false;
-        result = sc.shoot(6, 6);
+        result = sc.shoot(6, 6, true);
         assertEquals(expResult, result);
     }
     
     @Test
     public void shootTestTwoOriFalse() {
         boolean expResult = false;
-        boolean result = sc.shoot(6, 5);
+        boolean result = sc.shoot(6, 5, true);
         assertEquals(expResult, result);
-        result = sc.shoot(6, 8);
+        result = sc.shoot(6, 8, true);
         assertEquals(expResult, result);
-        result = sc.shoot(5, 6);
+        result = sc.shoot(5, 6, true);
         assertEquals(expResult, result);
     }
 }
