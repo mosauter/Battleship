@@ -2,11 +2,9 @@
 
 package de.htwg.battleship.controller;
 
-import de.htwg.battleship.objects.Ship;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * ShipControllerTest
@@ -32,15 +30,6 @@ public class ShipControllerTest {
      */
     @Test
     public void testPlaceShip() {
-        System.out.println("placeShip");
-        Ship ship = null;
-        boolean player = false;
-        ShipController instance = null;
-        boolean expResult = false;
-        boolean result = instance.placeShip(ship, player);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
 }
