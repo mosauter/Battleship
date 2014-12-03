@@ -8,7 +8,7 @@ package de.htwg.battleship.util;
  * @version 1.00
  * @since 2014-12-03
  */
-public class StatCollection {
+public final class StatCollection {
 
     /**
      * Private - Constructor.
