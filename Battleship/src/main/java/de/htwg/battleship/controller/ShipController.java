@@ -1,5 +1,4 @@
 // ShipController.java
-
 package de.htwg.battleship.controller;
 
 import de.htwg.battleship.objects.Player;
@@ -8,6 +7,7 @@ import de.htwg.battleship.util.StatCollection;
 
 /**
  * ShipController to place the ships and test if there are collisions.
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-11-27
@@ -25,6 +25,7 @@ public class ShipController {
 
     /**
      * Public Constructor.
+     *
      * @param player1 first player
      * @param player2 second player
      */
@@ -35,11 +36,12 @@ public class ShipController {
 
     /**
      * Method to place a Ship on the board.
+     *
      * @param ship to add on the board
      * @param player true for the first, false for the second player
      * @return true if it is possible and set, false if not
      */
-    public boolean placeShip(final Ship ship, final boolean player) {
+    public final boolean placeShip(final Ship ship, final boolean player) {
         if (player) {
             return playerShip(ship, player1);
         }
@@ -48,6 +50,7 @@ public class ShipController {
 
     /**
      * Utility-Method to set a ship for a specified player.
+     *
      * @param ship to place
      * @param player which player
      * @return true if it is set, false if not
@@ -64,11 +67,12 @@ public class ShipController {
 
     /**
      * Tests if two ships collide.
+     *
      * @param ship on the board
      * @param shipIn to place
      * @return true if they collide
      */
-    private boolean isCollision(Ship ship, Ship shipIn) {
+    private boolean isCollision(final Ship ship, final Ship shipIn) {
         if (shipIn.isOrientation() && ship.isOrientation()) {
             return bothOriTrue(ship, shipIn);
         }
@@ -83,6 +87,7 @@ public class ShipController {
 
     /**
      * Utility if both ships are horicontal.
+     *
      * @param ship on board
      * @param shipIn to place
      * @return if collision
@@ -104,6 +109,7 @@ public class ShipController {
 
     /**
      * Utility if both ships are vertical.
+     *
      * @param ship on board
      * @param shipIn to place
      * @return if collision
@@ -125,6 +131,7 @@ public class ShipController {
 
     /**
      * Utility if the ships have different Orientations.
+     *
      * @param shipX orientation true
      * @param shipY orientation false
      * @return if collision
@@ -136,10 +143,9 @@ public class ShipController {
         int ylow = shipY.getY();
         int yupp = ylow + shipY.getSize();
         int x = shipY.getX();
-        if (StatCollection.isBetween(ylow, yupp, yin)) {
-            if (StatCollection.isBetween(xinlow, xinupp, x)) {
-                return true;
-            }
+        if (StatCollection.isBetween(ylow, yupp, yin)
+                && StatCollection.isBetween(xinlow, xinupp, x)) {
+            return true;
         }
         return false;
     }
