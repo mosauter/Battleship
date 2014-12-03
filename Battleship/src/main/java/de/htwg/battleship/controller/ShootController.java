@@ -5,7 +5,7 @@ package de.htwg.battleship.controller;
 import de.htwg.battleship.objects.Board;
 import de.htwg.battleship.objects.Player;
 import de.htwg.battleship.objects.Ship;
-import de.htwg.battleship.util.Util;
+import de.htwg.battleship.util.StatCollection;
 
 /**
  * ShootController.
@@ -116,6 +116,6 @@ public class ShootController {
      */
     private boolean isHit(final int xupp, final int xlow,
             final int x, final int y, final int shipY) {
-        return Util.isBetween(xupp, xlow, x) && y == shipY;
+        return StatCollection.isBetween(xupp, xlow, x) && y == shipY;
     }
 }

@@ -1,14 +1,14 @@
-// Util.java
+// StatCollection.java
 
 package de.htwg.battleship.util;
 
 /**
- * Utility Collection of static methods.
+ * Set of static util Methods.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-03
  */
-public class Util {
+public class StatCollection {
 
     /**
      * Utility-Method to check if a value is between.

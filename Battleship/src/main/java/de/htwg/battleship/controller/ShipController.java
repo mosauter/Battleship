@@ -4,7 +4,7 @@ package de.htwg.battleship.controller;
 
 import de.htwg.battleship.objects.Player;
 import de.htwg.battleship.objects.Ship;
-import de.htwg.battleship.util.Util;
+import de.htwg.battleship.util.StatCollection;
 
 /**
  * ShipController to place the ships and test if there are collisions.
@@ -95,7 +95,7 @@ public class ShipController {
         int xupp = xlow + ship.getSize();
         int y = ship.getY();
         for (int i = xlow; i <= xupp; i++) {
-            if (Util.isBetween(xinlow, xinupp, i) && y == yin) {
+            if (StatCollection.isBetween(xinlow, xinupp, i) && y == yin) {
                 return true;
             }
         }
@@ -116,7 +116,7 @@ public class ShipController {
         int yupp = ylow + ship.getSize();
         int x = ship.getX();
         for (int i = ylow; i <= yupp; i++) {
-            if (Util.isBetween(yinlow, yinupp, i) && x == xin) {
+            if (StatCollection.isBetween(yinlow, yinupp, i) && x == xin) {
                 return true;
             }
         }
@@ -136,8 +136,8 @@ public class ShipController {
         int ylow = shipY.getY();
         int yupp = ylow + shipY.getSize();
         int x = shipY.getX();
-        if (Util.isBetween(ylow, yupp, yin)) {
-            if (Util.isBetween(xinlow, xinupp, x)) {
+        if (StatCollection.isBetween(ylow, yupp, yin)) {
+            if (StatCollection.isBetween(xinlow, xinupp, x)) {
                 return true;
             }
         }
