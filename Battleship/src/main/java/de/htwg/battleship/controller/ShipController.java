@@ -1,8 +1,8 @@
 // ShipController.java
 package de.htwg.battleship.controller;
 
-import de.htwg.battleship.objects.Player;
-import de.htwg.battleship.objects.Ship;
+import de.htwg.battleship.model.Player;
+import de.htwg.battleship.model.Ship;
 import de.htwg.battleship.util.StatCollection;
 
 /**
@@ -100,7 +100,7 @@ public class ShipController {
         int xupp = xlow + ship.getSize();
         int y = ship.getY();
         for (int i = xlow; i <= xupp; i++) {
-            if (StatCollection.isBetween(xinlow, xinupp, i) && y == yin) {
+            if (StatCollection.isBetween(xinupp, xinlow, i) && y == yin) {
                 return true;
             }
         }
@@ -122,7 +122,7 @@ public class ShipController {
         int yupp = ylow + ship.getSize();
         int x = ship.getX();
         for (int i = ylow; i <= yupp; i++) {
-            if (StatCollection.isBetween(yinlow, yinupp, i) && x == xin) {
+            if (StatCollection.isBetween(yinupp, yinlow, i) && x == xin) {
                 return true;
             }
         }
@@ -144,7 +144,7 @@ public class ShipController {
         int yupp = ylow + shipY.getSize();
         int x = shipY.getX();
         if (StatCollection.isBetween(ylow, yupp, yin)
-                && StatCollection.isBetween(xinlow, xinupp, x)) {
+                && StatCollection.isBetween(xinupp, xinlow, x)) {
             return true;
         }
         return false;
