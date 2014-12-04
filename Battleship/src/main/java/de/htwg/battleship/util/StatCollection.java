@@ -11,11 +11,6 @@ package de.htwg.battleship.util;
 public final class StatCollection {
 
     /**
-     * Private - Constructor.
-     */
-    private StatCollection() { }
-
-    /**
      * Utility-Method to check if a value is between.
      * @param xupp upper border
      * @param xlow lower border
