@@ -2,9 +2,9 @@
 
 package de.htwg.battleship.controller;
 
-import de.htwg.battleship.objects.Board;
-import de.htwg.battleship.objects.Player;
-import de.htwg.battleship.objects.Ship;
+import de.htwg.battleship.model.Board;
+import de.htwg.battleship.model.Player;
+import de.htwg.battleship.model.Ship;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
