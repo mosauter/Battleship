@@ -3,7 +3,6 @@ package de.htwg.battleship.controller;
 
 import de.htwg.battleship.model.Player;
 import de.htwg.battleship.model.Ship;
-import de.htwg.battleship.util.StatCollection;
 
 /**
  * ShipController to place the ships and test if there are collisions.
@@ -22,6 +21,8 @@ public class ShipController {
      * Player two.
      */
     private final Player player2;
+    
+    private CollisionController cc;
 
     /**
      * Public Constructor.
@@ -32,6 +33,7 @@ public class ShipController {
     public ShipController(final Player player1, final Player player2) {
         this.player1 = player1;
         this.player2 = player2;
+        createCC();
     }
 
     /**
@@ -73,80 +75,13 @@ public class ShipController {
      * @return true if they collide
      */
     private boolean isCollision(final Ship ship, final Ship shipIn) {
-        if (shipIn.isOrientation() && ship.isOrientation()) {
-            return bothOriTrue(ship, shipIn);
-        }
-        if (!shipIn.isOrientation() && !ship.isOrientation()) {
-            return bothOriFalse(ship, shipIn);
-        }
-        if (shipIn.isOrientation()) {
-            return oriDiff(shipIn, ship);
-        }
-        return oriDiff(ship, shipIn);
+        return cc.responsibility(shipIn, ship);
     }
 
-    /**
-     * Utility if both ships are horicontal.
-     *
-     * @param ship on board
-     * @param shipIn to place
-     * @return if collision
-     */
-    private boolean bothOriTrue(final Ship ship, final Ship shipIn) {
-        int xinlow = shipIn.getX();
-        int xinupp = xinlow + shipIn.getSize();
-        int yin = shipIn.getY();
-        int xlow = ship.getX();
-        int xupp = xlow + ship.getSize();
-        int y = ship.getY();
-        for (int i = xlow; i <= xupp; i++) {
-            if (StatCollection.isBetween(xinupp, xinlow, i) && y == yin) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Utility if both ships are vertical.
-     *
-     * @param ship on board
-     * @param shipIn to place
-     * @return if collision
-     */
-    private boolean bothOriFalse(final Ship ship, final Ship shipIn) {
-        int yinlow = shipIn.getY();
-        int yinupp = yinlow + shipIn.getSize();
-        int xin = shipIn.getX();
-        int ylow = ship.getY();
-        int yupp = ylow + ship.getSize();
-        int x = ship.getX();
-        for (int i = ylow; i <= yupp; i++) {
-            if (StatCollection.isBetween(yinupp, yinlow, i) && x == xin) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Utility if the ships have different Orientations.
-     *
-     * @param shipX orientation true
-     * @param shipY orientation false
-     * @return if collision
-     */
-    private boolean oriDiff(final Ship shipX, final Ship shipY) {
-        int xinlow = shipX.getX();
-        int xinupp = xinlow + shipX.getSize();
-        int yin = shipX.getY();
-        int ylow = shipY.getY();
-        int yupp = ylow + shipY.getSize();
-        int x = shipY.getX();
-        if (StatCollection.isBetween(ylow, yupp, yin)
-                && StatCollection.isBetween(xinupp, xinlow, x)) {
-            return true;
-        }
-        return false;
+    private void createCC() {
+        this.cc = new CollisionOrientationBothTrue();
+        this.cc.setNext(new CollisionOrientationBothFalse());
+        this.cc.next.setNext(new CollisionOrientationFirstTrue());
+        this.cc.next.next.setNext(new CollisionOrientationFirstFalse());
     }
 }
