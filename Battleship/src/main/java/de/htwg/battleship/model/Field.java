@@ -1,6 +1,6 @@
 // Field.java
 
-package de.htwg.battleship.objects;
+package de.htwg.battleship.model;
 
 /**
  * Field Object for the Fields in a Board.

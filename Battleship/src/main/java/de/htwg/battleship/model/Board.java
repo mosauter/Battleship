@@ -1,6 +1,6 @@
 // Board.java
 
-package de.htwg.battleship.objects;
+package de.htwg.battleship.model;
 
 /**
  * The Board-Object where each player adds his own ships.

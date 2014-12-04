@@ -1,5 +1,5 @@
 // Player.java
-package de.htwg.battleship.objects;
+package de.htwg.battleship.model;
 
 /**
  * Player.

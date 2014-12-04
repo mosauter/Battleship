@@ -1,6 +1,6 @@
 // Ship.java
 
-package de.htwg.battleship.objects;
+package de.htwg.battleship.model;
 
 /**
  * Ship for Battleship.
