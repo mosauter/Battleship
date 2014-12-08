@@ -1,5 +1,6 @@
 package de.htwg.battleship.objects;
 
+import de.htwg.battleship.model.Field;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;

@@ -47,7 +47,7 @@ public class Ship {
      * Getter for the Orientation of the ship.
      * @return true if horizontal, false if vertical.
      */
-    public boolean isOrientation() {
+    public final boolean isOrientation() {
         return orientation;
     }
 

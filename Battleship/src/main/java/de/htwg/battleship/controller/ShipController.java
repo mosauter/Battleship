@@ -6,7 +6,8 @@ import de.htwg.battleship.model.Ship;
 
 /**
  * ShipController to place the ships and test if there are collisions.
- *
+ * to test that it uses another controller which uses a
+ * chain-of-responsibility-pattern
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-11-27
@@ -21,7 +22,10 @@ public class ShipController {
      * Player two.
      */
     private final Player player2;
-    
+
+    /**
+     * Controller with a chain of responsibility.
+     */
     private CollisionController cc;
 
     /**
@@ -78,6 +82,9 @@ public class ShipController {
         return cc.responsibility(shipIn, ship);
     }
 
+    /**
+     * Utility Method to create the chain-of-responsibility.
+     */
     private void createCC() {
         this.cc = new CollisionOrientationBothTrue();
         this.cc.setNext(new CollisionOrientationBothFalse());

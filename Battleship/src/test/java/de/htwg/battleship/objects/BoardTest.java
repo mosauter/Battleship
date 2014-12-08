@@ -2,6 +2,9 @@
 
 package de.htwg.battleship.objects;
 
+import de.htwg.battleship.model.Ship;
+import de.htwg.battleship.model.Field;
+import de.htwg.battleship.model.Board;
 import org.junit.After;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;

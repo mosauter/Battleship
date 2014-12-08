@@ -78,10 +78,10 @@ class CollisionOrientationBothTrue extends CollisionController {
     @Override
     public boolean isCollision(final Ship shipIn, final Ship ship) {
         int xinlow = shipIn.getX();
-        int xinupp = xinlow + shipIn.getSize();
+        int xinupp = xinlow + shipIn.getSize() - 1;
         int yin = shipIn.getY();
         int xlow = ship.getX();
-        int xupp = xlow + ship.getSize();
+        int xupp = xlow + ship.getSize() - 1;
         int y = ship.getY();
         for (int i = xlow; i <= xupp; i++) {
             if (StatCollection.isBetween(xinupp, xinlow, i) && y == yin) {
@@ -109,10 +109,10 @@ class CollisionOrientationBothFalse extends CollisionController {
     @Override
     public boolean isCollision(final Ship shipIn, final Ship ship) {
         int yinlow = shipIn.getY();
-        int yinupp = yinlow + shipIn.getSize();
+        int yinupp = yinlow + shipIn.getSize() - 1;
         int xin = shipIn.getX();
         int ylow = ship.getY();
-        int yupp = ylow + ship.getSize();
+        int yupp = ylow + ship.getSize() - 1;
         int x = ship.getX();
         for (int i = ylow; i <= yupp; i++) {
             if (StatCollection.isBetween(yinupp, yinlow, i) && x == xin) {
@@ -141,12 +141,12 @@ class CollisionOrientationFirstTrue extends CollisionController {
     @Override
     public boolean isCollision(final Ship shipX, final Ship shipY) {
         int xinlow = shipX.getX();
-        int xinupp = xinlow + shipX.getSize();
+        int xinupp = xinlow + shipX.getSize() - 1;
         int yin = shipX.getY();
         int ylow = shipY.getY();
-        int yupp = ylow + shipY.getSize();
+        int yupp = ylow + shipY.getSize() - 1;
         int x = shipY.getX();
-        if (StatCollection.isBetween(ylow, yupp, yin)
+        if (StatCollection.isBetween(yupp, ylow, yin)
                 && StatCollection.isBetween(xinupp, xinlow, x)) {
             return true;
         }
@@ -172,10 +172,10 @@ class CollisionOrientationFirstFalse extends CollisionController {
     @Override
     public boolean isCollision(final Ship shipY, final Ship shipX) {
         int xinlow = shipX.getX();
-        int xinupp = xinlow + shipX.getSize();
+        int xinupp = xinlow + shipX.getSize() - 1;
         int yin = shipX.getY();
         int ylow = shipY.getY();
-        int yupp = ylow + shipY.getSize();
+        int yupp = ylow + shipY.getSize() - 1;
         int x = shipY.getX();
         if (StatCollection.isBetween(ylow, yupp, yin)
                 && StatCollection.isBetween(xinupp, xinlow, x)) {

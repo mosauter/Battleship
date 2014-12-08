@@ -2,6 +2,9 @@ package de.htwg.battleship.objects;
 
 // PlayerTest.java
 
+import de.htwg.battleship.model.Field;
+import de.htwg.battleship.model.Player;
+import de.htwg.battleship.model.Board;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
