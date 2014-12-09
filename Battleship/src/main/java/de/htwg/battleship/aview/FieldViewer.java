@@ -11,7 +11,7 @@ import de.htwg.battleship.model.Player;
  * @version 1.00
  * @since 2014-12-09
  */
-public class FieldViewer {
+public class FieldViewer implements Viewer {
     private Player player1;
     private Player player2;
     
@@ -20,7 +20,7 @@ public class FieldViewer {
         this.player1 = player2;
     }
 
-    public String getBoard() {
+    public String getString() {
         StringBuilder sb = new StringBuilder();
         sb.append(" ");
         Board boardPlayer1 = player1.getOwnBoard();
