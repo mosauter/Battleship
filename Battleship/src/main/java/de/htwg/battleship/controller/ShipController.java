@@ -63,8 +63,8 @@ public class ShipController {
      */
     private boolean playerShip(final Ship ship, final Player player) {
         Ship[] shipList = player.getOwnBoard().getShipList();
-        for (Ship shipIn : shipList) {
-            if (isCollision(ship, shipIn)) {
+        for (int i = 0; i < player.getOwnBoard().getShips(); i++) {
+            if (isCollision(ship, shipList[i])) {
                 return false;
             }
         }
