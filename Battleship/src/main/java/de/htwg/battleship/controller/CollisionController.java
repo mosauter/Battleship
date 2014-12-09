@@ -18,17 +18,17 @@ public abstract class CollisionController {
      * Orientation of the first ship.
      * indicates the responsibility of the Controller implementation
      */
-    protected boolean firstShip;
+    boolean firstShip;
     /**
      * Orientation of the second ship.
      * indicates the responsibility of the Controller implementation
      */
-    protected boolean secondShip;
+    boolean secondShip;
 
     /**
      * Next Controller implementation of the chain.
      */
-    protected CollisionController next;
+    CollisionController next;
 
     /**
      * Method which checks if the ship collides.
@@ -38,13 +38,13 @@ public abstract class CollisionController {
      */
     public abstract boolean isCollision(Ship shipIn, Ship ship);
 
-    /**
-     * Setter for the next Controller in the chain.
-     * @param next CollisionController in chain
-     */
-    public final void setNext(final CollisionController next) {
-        this.next = next;
-    }
+//    /**
+//     * Setter for the next Controller in the chain.
+//     * @param next CollisionController in chain
+//     */
+//    public final void setNext(final CollisionController next) {
+//        this.next = next;
+//    }
 
     /**
      * Checks if the implementation is responsible for the case.
@@ -53,8 +53,8 @@ public abstract class CollisionController {
      * @return true if they collide
      */
     public final boolean responsibility(final Ship shipIn, final Ship ship) {
-        if (shipIn.isOrientation() == firstShip
-                && ship.isOrientation() == secondShip) {
+        if ((shipIn.isOrientation() == firstShip)
+                && (ship.isOrientation() == secondShip)) {
             return isCollision(shipIn, ship);
         }
         return next.responsibility(shipIn, ship);
@@ -73,6 +73,7 @@ class CollisionOrientationBothTrue extends CollisionController {
     public CollisionOrientationBothTrue() {
         this.firstShip = true;
         this.secondShip = true;
+        this.next = new CollisionOrientationBothFalse();
     }
 
     @Override
@@ -104,6 +105,7 @@ class CollisionOrientationBothFalse extends CollisionController {
     public CollisionOrientationBothFalse() {
         this.firstShip = false;
         this.secondShip = false;
+        this.next = new CollisionOrientationFirstTrue();
     }
 
     @Override
@@ -136,6 +138,7 @@ class CollisionOrientationFirstTrue extends CollisionController {
     public CollisionOrientationFirstTrue() {
         this.firstShip = true;
         this.secondShip = false;
+        this.next = new CollisionOrientationFirstFalse();
     }
 
     @Override
