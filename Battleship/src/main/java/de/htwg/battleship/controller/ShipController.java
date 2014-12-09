@@ -37,7 +37,7 @@ public class ShipController {
     public ShipController(final Player player1, final Player player2) {
         this.player1 = player1;
         this.player2 = player2;
-        createCC();
+        this.cc = new CollisionOrientationBothTrue();
     }
 
     /**
@@ -68,6 +68,7 @@ public class ShipController {
                 return false;
             }
         }
+        player.getOwnBoard().addShip(ship);
         return true;
     }
 
@@ -80,15 +81,5 @@ public class ShipController {
      */
     private boolean isCollision(final Ship ship, final Ship shipIn) {
         return cc.responsibility(shipIn, ship);
-    }
-
-    /**
-     * Utility Method to create the chain-of-responsibility.
-     */
-    private void createCC() {
-        this.cc = new CollisionOrientationBothTrue();
-        this.cc.setNext(new CollisionOrientationBothFalse());
-        this.cc.next.setNext(new CollisionOrientationFirstTrue());
-        this.cc.next.next.setNext(new CollisionOrientationFirstFalse());
     }
 }
