@@ -12,7 +12,7 @@ import de.htwg.battleship.util.StatCollection;
  * @version 1.00
  * @since 2014-12-04
  */
-public abstract class CollisionController {
+public abstract class CollisionController implements ICollisionController {
 
     /**
      * Orientation of the first ship.
@@ -30,20 +30,10 @@ public abstract class CollisionController {
      */
     CollisionController next;
 
-    /**
-     * Method which checks if the ship collides.
-     * @param shipIn first ship
-     * @param ship second ship
-     * @return true if collides
-     */
+    @Override
     public abstract boolean isCollision(Ship shipIn, Ship ship);
 
-    /**
-     * Checks if the implementation is responsible for the case.
-     * @param shipIn first ship
-     * @param ship second ship
-     * @return true if they collide
-     */
+    @Override
     public final boolean responsibility(final Ship shipIn, final Ship ship) {
         if ((shipIn.isOrientation() == firstShip)
                 && (ship.isOrientation() == secondShip)) {
