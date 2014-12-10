@@ -163,7 +163,7 @@ class CollisionOrientationFirstFalse extends CollisionController {
         int ylow = shipY.getY();
         int yupp = ylow + shipY.getSize() - 1;
         int x = shipY.getX();
-        if (StatCollection.isBetween(ylow, yupp, yin)
+        if (StatCollection.isBetween(yupp, ylow, yin)
                 && StatCollection.isBetween(xinupp, xinlow, x)) {
             return true;
         }

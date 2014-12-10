@@ -2,6 +2,7 @@
 
 package de.htwg.battleship.controller.impl;
 
+import de.htwg.battleship.controller.IShootController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
@@ -13,7 +14,7 @@ import de.htwg.battleship.util.StatCollection;
  * @version 1.00
  * @since 2014-11-19
  */
-public class ShootController {
+public class ShootController implements IShootController {
 
     /**
      * First Player.
@@ -34,16 +35,9 @@ public class ShootController {
         this.player2 = player2;
     }
 
-    /**
-     * Method to shoot on a board.
-     * @param x x-Coordinate where to shoot.
-     * @param y y-Coordinate where to shoot.
-     * @param first true if the first Player shoots on the second Player
-     *              false if the other way round
-     * @return boolean if hit or not
-     */
-    public final boolean shoot(final int x, final int y, final boolean first) {
-        IBoard board = getBoard(first);
+    @Override
+    public final boolean shoot(final int x, final int y, final boolean player) {
+        IBoard board = getBoard(player);
         if (board.getField(x, y).isHit()) {
             return false;
         } else {

@@ -56,5 +56,18 @@ public class ShipControllerTest {
         result = sc.placeShip(ship2, true);
         assertEquals(expRes, result);
     }
+    
+    @Test
+    public void testPlayer2PlaceShip() {
+        boolean expRes = true;
+        boolean result = sc.placeShip(ship1, false);
+        assertEquals(expRes, result);
+        expRes = false;
+        result = sc.placeShip(ship1, false);
+        assertEquals(expRes, result);
+        expRes = false;
+        result = sc.placeShip(ship2, false);
+        assertEquals(expRes, result);
+    }
 
 }
