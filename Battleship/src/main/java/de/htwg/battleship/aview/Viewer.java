@@ -10,5 +10,10 @@ package de.htwg.battleship.aview;
  */
 public interface Viewer {
 
-    public String getString();
+    /**
+     * To get a String - Representation of something the
+     * Viewer has to implement.
+     * @return String
+     */
+    String getString();
 }
