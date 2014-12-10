@@ -38,14 +38,6 @@ public abstract class CollisionController {
      */
     public abstract boolean isCollision(Ship shipIn, Ship ship);
 
-//    /**
-//     * Setter for the next Controller in the chain.
-//     * @param next CollisionController in chain
-//     */
-//    public final void setNext(final CollisionController next) {
-//        this.next = next;
-//    }
-
     /**
      * Checks if the implementation is responsible for the case.
      * @param shipIn first ship
@@ -186,5 +178,4 @@ class CollisionOrientationFirstFalse extends CollisionController {
         }
         return false;
     }
-    
 }
