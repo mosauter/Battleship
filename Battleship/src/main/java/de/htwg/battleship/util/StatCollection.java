@@ -11,6 +11,11 @@ package de.htwg.battleship.util;
 public final class StatCollection {
 
     /**
+     * The heigth and the length of the field.
+     */
+    public static final int HEIGTH_LENGTH = 10;
+
+    /**
      * Utility-Method to check if a value is between.
      * @param xupp upper border
      * @param xlow lower border
