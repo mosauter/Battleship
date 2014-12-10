@@ -26,7 +26,7 @@ public class ShipController {
     /**
      * Controller with a chain of responsibility.
      */
-    private CollisionController cc;
+    private ICollisionController cc;
 
     /**
      * Public Constructor.
