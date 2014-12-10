@@ -1,6 +1,6 @@
 //IObserver.java
 
-package de.htwg.battleship.util;
+package de.htwg.battleship.observer;
 
 /**
  * IObserver is an Utility-Interface.

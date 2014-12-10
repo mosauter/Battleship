@@ -1,7 +1,9 @@
 // Observable.java
 
-package de.htwg.battleship.util;
+package de.htwg.battleship.observer.impl;
 
+import de.htwg.battleship.observer.IObservable;
+import de.htwg.battleship.observer.IObserver;
 import java.util.LinkedList;
 import java.util.List;
 
