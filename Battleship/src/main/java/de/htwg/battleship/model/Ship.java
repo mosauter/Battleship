@@ -8,7 +8,7 @@ package de.htwg.battleship.model;
  * @version 1.00
  * @since 2014-10-29
  */
-public class Ship {
+public class Ship implements IShip {
 
     /**
      * Size of the ship.
@@ -43,50 +43,32 @@ public class Ship {
         this.y = y;
     }
 
-    /**
-     * Getter for the Orientation of the ship.
-     * @return true if horizontal, false if vertical.
-     */
+    @Override
     public final boolean isOrientation() {
         return orientation;
     }
 
-    /**
-     * Setter for the Orientation of the ship.
-     * @param orientation true if horizontal, false if vertical.
-     */
+    @Override
     public final void setOrientation(final boolean orientation) {
         this.orientation = orientation;
     }
 
-    /**
-     * Getter for the X-Coordinate.
-     * @return X-Coordinate as integer
-     */
+    @Override
     public final int getX() {
         return this.x;
     }
 
-    /**
-     * Getter for the Y-Coordinate.
-     * @return Y-Coordinate as integer
-     */
+    @Override
     public final int getY() {
         return this.y;
     }
 
-    /**
-     * Getter for the size of the ship.
-     * @return size as an int.
-     */
+    @Override
     public final int getSize() {
         return size;
     }
 
-    /**
-     * Setter for the size of the ship.
-     * @param size > 0
-     */
+    @Override
     public final void setSize(final int size) {
         if (size <= 0) {
             return;
