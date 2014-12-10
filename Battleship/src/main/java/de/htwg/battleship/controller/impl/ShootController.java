@@ -6,6 +6,7 @@ import de.htwg.battleship.controller.IShootController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.observer.impl.Observable;
 import de.htwg.battleship.util.StatCollection;
 
 /**
@@ -14,7 +15,7 @@ import de.htwg.battleship.util.StatCollection;
  * @version 1.00
  * @since 2014-11-19
  */
-public class ShootController implements IShootController {
+public class ShootController extends Observable implements IShootController {
 
     /**
      * First Player.
@@ -44,7 +45,9 @@ public class ShootController implements IShootController {
             board.getField(x, y).setHit(true);
         }
         IShip[] shipList = board.getShipList();
-        return hitShipList(shipList, x, y, board.getShips());
+        boolean ret = hitShipList(shipList, x, y, board.getShips());
+        notifyObserver();
+        return ret;
     }
 
     /**

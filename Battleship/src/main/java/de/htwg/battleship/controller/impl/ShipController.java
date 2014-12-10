@@ -5,6 +5,7 @@ import de.htwg.battleship.controller.ICollisionController;
 import de.htwg.battleship.controller.IShipController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.observer.impl.Observable;
 
 /**
  * ShipController to place the ships and test if there are collisions.
@@ -14,7 +15,7 @@ import de.htwg.battleship.model.IShip;
  * @version 1.00
  * @since 2014-11-27
  */
-public class ShipController implements IShipController {
+public class ShipController extends Observable implements IShipController {
 
     /**
      * Player one.
@@ -65,6 +66,7 @@ public class ShipController implements IShipController {
             }
         }
         player.getOwnBoard().addShip(ship);
+        notifyObserver();
         return true;
     }
 
