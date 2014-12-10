@@ -34,10 +34,7 @@ public class FieldViewer implements Viewer {
         this.player2 = player2;
     }
 
-    /**
-     * Method to get the String-Presentation of the Field.
-     * @return String
-     */
+    @Override
     public final String getString() {
         StringBuilder sb = new StringBuilder();
         sb.append(" ");
