@@ -2,6 +2,8 @@
 
 package de.htwg.battleship.model;
 
+import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
+
 /**
  * The Board-Object where each player adds his own ships.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
@@ -10,10 +12,6 @@ package de.htwg.battleship.model;
  */
 public class Board {
 
-    /**
-     * The heigth and the length of the field.
-     */
-    private static final int HEIGTH_LENGTH = 10;
     /**
      * The max number of ships that could be on the field.
      */
