@@ -1,10 +1,8 @@
-package de.htwg.battleship.objects;
+package de.htwg.battleship.model.impl;
 
 // PlayerTest.java
 
-import de.htwg.battleship.model.Field;
-import de.htwg.battleship.model.Player;
-import de.htwg.battleship.model.Board;
+import de.htwg.battleship.model.IField;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -33,13 +31,13 @@ public class PlayerTest {
 
     @Test
     public void getOwnBoard() {
-        Field[][] expResult = new Field[10][10];
+        IField[][] expResult = new Field[10][10];
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
                 expResult[x][y] = new Field(x, y);
             }
         }
-        Field[][] result = player.getOwnBoard().getBoard();
+        IField[][] result = player.getOwnBoard().getBoard();
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
                 int expX = expResult[x][y].getX();

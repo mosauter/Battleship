@@ -1,10 +1,9 @@
 // BoardTest.java
 
-package de.htwg.battleship.objects;
+package de.htwg.battleship.model.impl;
 
-import de.htwg.battleship.model.Ship;
-import de.htwg.battleship.model.Field;
-import de.htwg.battleship.model.Board;
+import de.htwg.battleship.model.IField;
+import de.htwg.battleship.model.IShip;
 import org.junit.After;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -37,14 +36,14 @@ public class BoardTest {
      */
     @Test
     public void testAddShip() {
-        Ship[] expRes = { new Ship(2, true, 3, 4),
+        IShip[] expRes = { new Ship(2, true, 3, 4),
                           new Ship(3, false, 5, 8),
                           new Ship(6, true, 1, 1),
                           new Ship(1, true, 10, 10),
                           new Ship(4, false, 1, 10) };
         board.addShip(expRes[0]);
         
-        Ship[] result = board.getShipList();
+        IShip[] result = board.getShipList();
         assertEquals(expRes[0], result[0]);
         for (int i = 1; i < expRes.length; i++) {
             board.addShip(expRes[i]);
@@ -79,13 +78,13 @@ public class BoardTest {
 
     @Test
     public void testGetBoard() {
-        Field[][] expResult = new Field[10][10];
+        IField[][] expResult = new Field[10][10];
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
                 expResult[x][y] = new Field(x, y);
             }
         }
-        Field[][] result = board.getBoard();
+        IField[][] result = board.getBoard();
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
                 int expX = expResult[x][y].getX();

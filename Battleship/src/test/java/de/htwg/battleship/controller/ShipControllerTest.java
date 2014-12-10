@@ -2,9 +2,10 @@
 
 package de.htwg.battleship.controller;
 
-import de.htwg.battleship.model.Board;
-import de.htwg.battleship.model.Player;
-import de.htwg.battleship.model.Ship;
+import de.htwg.battleship.controller.impl.ShipController;
+import de.htwg.battleship.model.impl.Board;
+import de.htwg.battleship.model.impl.Player;
+import de.htwg.battleship.model.impl.Ship;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -18,7 +19,7 @@ import org.junit.Test;
  */
 public class ShipControllerTest {
     
-    ShipController sc;
+    IShipController sc;
     Player player1;
     Player player2;
     Ship ship1;

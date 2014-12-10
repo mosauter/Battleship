@@ -1,8 +1,9 @@
 // CollisionController.java
 
-package de.htwg.battleship.controller;
+package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.model.Ship;
+import de.htwg.battleship.controller.ICollisionController;
+import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.util.StatCollection;
 
 /**
@@ -28,13 +29,13 @@ public abstract class CollisionController implements ICollisionController {
     /**
      * Next Controller implementation of the chain.
      */
-    CollisionController next;
+    ICollisionController next;
 
     @Override
-    public abstract boolean isCollision(Ship shipIn, Ship ship);
+    public abstract boolean isCollision(IShip shipIn, IShip ship);
 
     @Override
-    public final boolean responsibility(final Ship shipIn, final Ship ship) {
+    public final boolean responsibility(final IShip shipIn, final IShip ship) {
         if ((shipIn.isOrientation() == firstShip)
                 && (ship.isOrientation() == secondShip)) {
             return isCollision(shipIn, ship);
@@ -59,7 +60,7 @@ class CollisionOrientationBothTrue extends CollisionController {
     }
 
     @Override
-    public boolean isCollision(final Ship shipIn, final Ship ship) {
+    public boolean isCollision(final IShip shipIn, final IShip ship) {
         int xinlow = shipIn.getX();
         int xinupp = xinlow + shipIn.getSize() - 1;
         int yin = shipIn.getY();
@@ -91,7 +92,7 @@ class CollisionOrientationBothFalse extends CollisionController {
     }
 
     @Override
-    public boolean isCollision(final Ship shipIn, final Ship ship) {
+    public boolean isCollision(final IShip shipIn, final IShip ship) {
         int yinlow = shipIn.getY();
         int yinupp = yinlow + shipIn.getSize() - 1;
         int xin = shipIn.getX();
@@ -124,7 +125,7 @@ class CollisionOrientationFirstTrue extends CollisionController {
     }
 
     @Override
-    public boolean isCollision(final Ship shipX, final Ship shipY) {
+    public boolean isCollision(final IShip shipX, final IShip shipY) {
         int xinlow = shipX.getX();
         int xinupp = xinlow + shipX.getSize() - 1;
         int yin = shipX.getY();
@@ -155,7 +156,7 @@ class CollisionOrientationFirstFalse extends CollisionController {
     }
 
     @Override
-    public boolean isCollision(final Ship shipY, final Ship shipX) {
+    public boolean isCollision(final IShip shipY, final IShip shipX) {
         int xinlow = shipX.getX();
         int xinupp = xinlow + shipX.getSize() - 1;
         int yin = shipX.getY();

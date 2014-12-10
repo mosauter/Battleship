@@ -1,10 +1,10 @@
 // ShootController.java
 
-package de.htwg.battleship.controller;
+package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.model.Board;
-import de.htwg.battleship.model.Player;
-import de.htwg.battleship.model.Ship;
+import de.htwg.battleship.model.IBoard;
+import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.util.StatCollection;
 
 /**
@@ -18,18 +18,18 @@ public class ShootController {
     /**
      * First Player.
      */
-    private final Player player1;
+    private final IPlayer player1;
     /**
      * Second Player.
      */
-    private final Player player2;
+    private final IPlayer player2;
 
     /**
      * Public Constructor.
      * @param player1 first Player
      * @param player2 second Player
      */
-    public ShootController(final Player player1, final Player player2) {
+    public ShootController(final IPlayer player1, final IPlayer player2) {
         this.player1 = player1;
         this.player2 = player2;
     }
@@ -43,13 +43,13 @@ public class ShootController {
      * @return boolean if hit or not
      */
     public final boolean shoot(final int x, final int y, final boolean first) {
-        Board board = getBoard(first);
+        IBoard board = getBoard(first);
         if (board.getField(x, y).isHit()) {
             return false;
         } else {
             board.getField(x, y).setHit(true);
         }
-        Ship[] shipList = board.getShipList();
+        IShip[] shipList = board.getShipList();
         return hitShipList(shipList, x, y, board.getShips());
     }
 
@@ -60,7 +60,7 @@ public class ShootController {
      * @param y y-Coordinate where to shoot
      * @return true if it is a hit
      */
-    private boolean hit(final Ship ship, final int x, final int y) {
+    private boolean hit(final IShip ship, final int x, final int y) {
         int shipX = ship.getX();
         int shipY = ship.getY();
         int size = ship.getSize();
@@ -79,7 +79,7 @@ public class ShootController {
      *              be returned
      * @return Board
      */
-    private Board getBoard(final boolean first) {
+    private IBoard getBoard(final boolean first) {
         if (first) {
             return player2.getOwnBoard();
         } else {
@@ -95,7 +95,7 @@ public class ShootController {
      * @param counter how many ships are on the board
      * @return true if one ship is hit
      */
-    private boolean hitShipList(final Ship[] shipList, final int x,
+    private boolean hitShipList(final IShip[] shipList, final int x,
             final int y, final int counter) {
         for (int i = 0; i < counter; i++) {
             if (hit(shipList[i], x, y)) {

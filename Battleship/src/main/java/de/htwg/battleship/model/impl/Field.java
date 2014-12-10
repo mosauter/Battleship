@@ -1,6 +1,8 @@
 // Field.java
 
-package de.htwg.battleship.model;
+package de.htwg.battleship.model.impl;
+
+import de.htwg.battleship.model.IField;
 
 /**
  * Field Object for the Fields in a Board.
@@ -8,7 +10,7 @@ package de.htwg.battleship.model;
  * @version 1.00
  * @since 2014-10-29
  */
-public class Field {
+public class Field implements IField {
 
     /**
      * X-Coordinate of the Field in the board.
@@ -35,34 +37,22 @@ public class Field {
         this.hit = false;
     }
 
-    /**
-     * Getter for the y-coordinate.
-     * @return the y-coordinate as Integer.
-     */
+    @Override
     public final int getY() {
         return this.y;
     }
 
-    /**
-     * Getter for the x-coordinate.
-     * @return the x-coordinate as Integer.
-     */
+    @Override
     public final int getX() {
         return this.x;
     }
 
-    /**
-     * Getter if the Field is already hit.
-     * @return true if the field is hit, false if not.
-     */
+    @Override
     public final boolean isHit() {
         return hit;
     }
 
-    /**
-     * Setter if the Field is now hit.
-     * @param hit had to be true. False would be nonsensical.
-     */
+    @Override
     public final void setHit(final boolean hit) {
         if (this.hit || !hit) {
             return;

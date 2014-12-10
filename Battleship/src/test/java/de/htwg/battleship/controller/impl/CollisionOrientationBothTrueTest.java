@@ -1,35 +1,35 @@
-// CollisionOrientationBothFalseTest.java
+// CollisionOrientationBothTrueTest.java
 
-package de.htwg.battleship.controller;
+package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.model.Ship;
+import de.htwg.battleship.model.impl.Ship;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * CollisionOrientationBothFalseTest
+ * CollisionOrientationBothTrueTest
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-04
  */
-public class CollisionOrientationBothFalseTest {
+public class CollisionOrientationBothTrueTest {
 
-    CollisionOrientationBothFalse cc;
+    CollisionOrientationBothTrue cc;
     Ship ship1;
     Ship ship2;
     Ship ship3;
 
-    public CollisionOrientationBothFalseTest() {
+    public CollisionOrientationBothTrueTest() {
     }
 
     @Before
     public void setUp() {
-        cc = new CollisionOrientationBothFalse();
-        ship1 = new Ship(3, false, 1, 1);
-        ship2 = new Ship(5, false, 3, 5);
-        ship3 = new Ship(3, false, 1, 1);
+        cc = new CollisionOrientationBothTrue();
+        ship1 = new Ship(3, true, 4, 4);
+        ship2 = new Ship(3, true, 4, 5);
+        ship3 = new Ship(3, true, 6, 4);
     }
 
     @After
@@ -37,7 +37,7 @@ public class CollisionOrientationBothFalseTest {
     }
 
     /**
-     * Test of isCollision method, of class CollisionOrientationBothFalse.
+     * Test of isCollision method, of class CollisionOrientationBothTrue.
      */
     @Test
     public void testIsCollision() {

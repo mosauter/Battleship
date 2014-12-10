@@ -1,6 +1,5 @@
-package de.htwg.battleship.objects;
+package de.htwg.battleship.model.impl;
 
-import de.htwg.battleship.model.Field;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;

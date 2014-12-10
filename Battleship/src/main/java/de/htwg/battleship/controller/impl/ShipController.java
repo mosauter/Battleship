@@ -1,8 +1,10 @@
 // ShipController.java
-package de.htwg.battleship.controller;
+package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.model.Player;
-import de.htwg.battleship.model.Ship;
+import de.htwg.battleship.controller.ICollisionController;
+import de.htwg.battleship.controller.IShipController;
+import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.IShip;
 
 /**
  * ShipController to place the ships and test if there are collisions.
@@ -12,16 +14,16 @@ import de.htwg.battleship.model.Ship;
  * @version 1.00
  * @since 2014-11-27
  */
-public class ShipController {
+public class ShipController implements IShipController {
 
     /**
      * Player one.
      */
-    private final Player player1;
+    private final IPlayer player1;
     /**
      * Player two.
      */
-    private final Player player2;
+    private final IPlayer player2;
 
     /**
      * Controller with a chain of responsibility.
@@ -34,20 +36,14 @@ public class ShipController {
      * @param player1 first player
      * @param player2 second player
      */
-    public ShipController(final Player player1, final Player player2) {
+    public ShipController(final IPlayer player1, final IPlayer player2) {
         this.player1 = player1;
         this.player2 = player2;
         this.cc = new CollisionOrientationBothTrue();
     }
 
-    /**
-     * Method to place a Ship on the board.
-     *
-     * @param ship to add on the board
-     * @param player true for the first, false for the second player
-     * @return true if it is possible and set, false if not
-     */
-    public final boolean placeShip(final Ship ship, final boolean player) {
+    @Override
+    public final boolean placeShip(final IShip ship, final boolean player) {
         if (player) {
             return playerShip(ship, player1);
         }
@@ -61,8 +57,8 @@ public class ShipController {
      * @param player which player
      * @return true if it is set, false if not
      */
-    private boolean playerShip(final Ship ship, final Player player) {
-        Ship[] shipList = player.getOwnBoard().getShipList();
+    private boolean playerShip(final IShip ship, final IPlayer player) {
+        IShip[] shipList = player.getOwnBoard().getShipList();
         for (int i = 0; i < player.getOwnBoard().getShips(); i++) {
             if (isCollision(ship, shipList[i])) {
                 return false;
@@ -79,7 +75,7 @@ public class ShipController {
      * @param shipIn to place
      * @return true if they collide
      */
-    private boolean isCollision(final Ship ship, final Ship shipIn) {
+    private boolean isCollision(final IShip ship, final IShip shipIn) {
         return cc.responsibility(shipIn, ship);
     }
 }

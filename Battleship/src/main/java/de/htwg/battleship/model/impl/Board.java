@@ -1,7 +1,10 @@
 // Board.java
 
-package de.htwg.battleship.model;
+package de.htwg.battleship.model.impl;
 
+import de.htwg.battleship.model.IBoard;
+import de.htwg.battleship.model.IField;
+import de.htwg.battleship.model.IShip;
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
 
 /**
@@ -10,7 +13,7 @@ import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
  * @version 1.00
  * @since 2014-10-29
  */
-public class Board {
+public class Board implements IBoard {
 
     /**
      * The max number of ships that could be on the field.
@@ -19,7 +22,7 @@ public class Board {
     /**
      * The Ships which were on the Board.
      */
-    private final Ship[] shipList;
+    private final IShip[] shipList;
     /**
      * The number of ships that are current on the field.
      */
@@ -42,13 +45,8 @@ public class Board {
         }
     }
 
-    /**
-     * Method for adding a new Ship on the field.
-     * @param ship the ship that should be added.
-     * @return the number of ships that could be added after.
-         returns -1 if the field is already full.
-     */
-    public final int addShip(final Ship ship) {
+    @Override
+    public final int addShip(final IShip ship) {
         if (this.ships == SHIP_NUMBER_MAX) {
             return -1;
         }
@@ -57,45 +55,27 @@ public class Board {
         return SHIP_NUMBER_MAX - this.ships;
     }
 
-    /**
-     * Getter for the number of Ships.
-     * @return the number of ships that are current on the field as Integer.
-     */
+    @Override
     public final int getShips() {
         return ships;
     }
 
-    /**
-     * Getter for the list of ships that are on the field.
-     * @return the list of ships as Ship[]-Array.
-     */
-    public final Ship[] getShipList() {
+    @Override
+    public final IShip[] getShipList() {
         return shipList;
     }
 
-    /**
-     * Getter for the Field-Matrix.
-     * @return Field[][]
-     */
-    public final Field[][] getBoard() {
+    @Override
+    public final IField[][] getBoard() {
         return field;
     }
 
-    /**
-     * Getter for one Field in the Board.
-     * @param x x-Coordinate of the Field
-     * @param y y-Coordinate of the Field
-     * @return Field
-     */
-    public final Field getField(final int x, final int y) {
+    @Override
+    public final IField getField(final int x, final int y) {
         return field[x][y];
     }
 
-    /**
-     * Method to shoot on one Field.
-     * @param x x-Coordinate of the Field
-     * @param y y-Coordinate of the Field
-     */
+    @Override
     public final void shoot(final int x, final int y) {
         field[x][y].setHit(true);
     }

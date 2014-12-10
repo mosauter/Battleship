@@ -1,6 +1,8 @@
 // Ship.java
 
-package de.htwg.battleship.model;
+package de.htwg.battleship.model.impl;
+
+import de.htwg.battleship.model.IShip;
 
 /**
  * Ship for Battleship.

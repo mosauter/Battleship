@@ -1,5 +1,8 @@
 // Player.java
-package de.htwg.battleship.model;
+package de.htwg.battleship.model.impl;
+
+import de.htwg.battleship.model.IBoard;
+import de.htwg.battleship.model.IPlayer;
 
 /**
  * Player.
@@ -7,12 +10,12 @@ package de.htwg.battleship.model;
  * @version 1.00
  * @since 2014-11-06
  */
-public class Player {
+public class Player implements IPlayer {
 
     /**
      * Saves the board of the specified Player.
      */
-    private final Board ownBoard;
+    private final IBoard ownBoard;
     /**
      * Name of the Player.
      */
@@ -26,30 +29,20 @@ public class Player {
         ownBoard = player1Board;
     }
 
-    /**
-     * Setter for the name.
-     * Only works one time.
-     * @param name String name of the player
-     */
+    @Override
     public final void setName(final String name) {
         if (this.name.isEmpty()) {
             this.name = name;
         }
     }
 
-    /**
-     * Getter for the Name of the Player.
-     * @return String
-     */
+    @Override
     public final String getName() {
         return this.name;
     }
 
-    /**
-     * Getter for the Board of the Player.
-     * @return Board
-     */
-    public final Board getOwnBoard() {
+    @Override
+    public final IBoard getOwnBoard() {
         return ownBoard;
     }
 }

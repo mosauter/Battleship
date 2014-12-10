@@ -2,7 +2,7 @@
 
 package de.htwg.battleship.controller;
 
-import de.htwg.battleship.model.Ship;
+import de.htwg.battleship.model.IShip;
 
 /**
  * ICollisionControler is an Utility-Interface.
@@ -18,7 +18,7 @@ public interface ICollisionController {
      * @param ship second ship
      * @return true if collides
      */
-    boolean isCollision(Ship shipIn, Ship ship);
+    boolean isCollision(IShip shipIn, IShip ship);
 
     /**
      * Checks if the implementation is responsible for the case.
@@ -26,5 +26,5 @@ public interface ICollisionController {
      * @param ship second ship
      * @return true if they collide
      */
-    boolean responsibility(Ship shipIn, Ship ship);
+    boolean responsibility(IShip shipIn, IShip ship);
 }

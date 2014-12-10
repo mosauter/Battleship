@@ -1,6 +1,8 @@
 // MenuViewer.java
 
-package de.htwg.battleship.aview;
+package de.htwg.battleship.aview.impl;
+
+import de.htwg.battleship.aview.Viewer;
 
 /**
  * MenuViewer
@@ -18,6 +20,4 @@ public class MenuViewer implements Viewer {
         sb.append("\t\t--->\t");
         return sb.toString();
     }
-
-    
 }
