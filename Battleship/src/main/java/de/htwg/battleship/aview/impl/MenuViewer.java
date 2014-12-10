@@ -12,6 +12,7 @@ import de.htwg.battleship.aview.Viewer;
  */
 public class MenuViewer implements Viewer {
 
+    @Override
     public String getString() {
         StringBuilder sb = new StringBuilder();
         sb.append("What you want to do next?\n");
