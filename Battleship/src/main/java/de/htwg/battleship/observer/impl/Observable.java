@@ -25,15 +25,6 @@ public class Observable implements IObservable {
         subscriber.add(observer);
     }
 
-    @Override
-    public final void removeObserver(final IObserver observer) {
-        subscriber.add(observer);
-    }
-
-    @Override
-    public final void removeAllObserver() {
-        subscriber.clear();
-    }
 
     @Override
     public final void notifyObserver() {
@@ -41,5 +32,4 @@ public class Observable implements IObservable {
             sub.update();
         }
     }
-
 }

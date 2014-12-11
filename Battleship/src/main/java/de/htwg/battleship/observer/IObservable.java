@@ -16,15 +16,6 @@ public interface IObservable {
      */
     void addObserver(IObserver observer);
     /**
-     * To remove a Observable from the subscriber list.
-     * @param observer object has to implement the IObserver
-     */
-    void removeObserver(IObserver observer);
-    /**
-     * To clear the List.
-     */
-    void removeAllObserver();
-    /**
      * To notify all the Observables which are subscribed in the List.
      */
     void notifyObserver();

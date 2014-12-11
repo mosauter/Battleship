@@ -2,7 +2,6 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.controller.ICollisionController;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.util.StatCollection;
 
@@ -13,7 +12,7 @@ import de.htwg.battleship.util.StatCollection;
  * @version 1.00
  * @since 2014-12-04
  */
-public abstract class CollisionController implements ICollisionController {
+public abstract class CollisionController {
 
     /**
      * Orientation of the first ship.
@@ -29,12 +28,10 @@ public abstract class CollisionController implements ICollisionController {
     /**
      * Next Controller implementation of the chain.
      */
-    ICollisionController next;
+    CollisionController next;
 
-    @Override
     public abstract boolean isCollision(IShip shipIn, IShip ship);
 
-    @Override
     public final boolean responsibility(final IShip shipIn, final IShip ship) {
         if ((shipIn.isOrientation() == firstShip)
                 && (ship.isOrientation() == secondShip)) {

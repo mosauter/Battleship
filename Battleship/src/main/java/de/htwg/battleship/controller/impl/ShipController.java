@@ -1,7 +1,6 @@
 // ShipController.java
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.controller.ICollisionController;
 import de.htwg.battleship.controller.IShipController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
@@ -29,7 +28,7 @@ public class ShipController extends Observable implements IShipController {
     /**
      * Controller with a chain of responsibility.
      */
-    private ICollisionController cc;
+    private CollisionController cc;
 
     /**
      * Public Constructor.
