@@ -12,5 +12,9 @@ import de.htwg.battleship.model.IPlayer;
  */
 public interface IWinLooseController {
 
+    /**
+     * Checs if someone has won.
+     * @return IPlayer who has won.
+     */
     IPlayer win();
 }
