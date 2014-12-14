@@ -2,7 +2,6 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.controller.ICollisionController;
 import de.htwg.battleship.model.impl.Ship;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
@@ -17,7 +16,7 @@ import org.junit.Test;
  */
 public class CollisionControllerTest {
 
-    ICollisionController cc;
+    CollisionController cc;
     Ship ship1;
     Ship ship2;
     Ship ship3;

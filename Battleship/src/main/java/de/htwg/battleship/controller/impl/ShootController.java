@@ -2,7 +2,6 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.aview.TUI;
 import de.htwg.battleship.controller.IShootController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
@@ -26,18 +25,15 @@ public class ShootController extends Observable implements IShootController {
      * Second Player.
      */
     private final IPlayer player2;
-    private final TUI tui;
 
     /**
      * Public Constructor.
      * @param player1 first Player
      * @param player2 second Player
      */
-    public ShootController(final IPlayer player1,
-            final IPlayer player2, TUI tui) {
+    public ShootController(final IPlayer player1, final IPlayer player2) {
         this.player1 = player1;
         this.player2 = player2;
-        this.tui = tui;
     }
 
     @Override

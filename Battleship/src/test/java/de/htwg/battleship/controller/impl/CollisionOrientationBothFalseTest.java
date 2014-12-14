@@ -2,7 +2,6 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.controller.ICollisionController;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Ship;
 import org.junit.After;
@@ -18,7 +17,7 @@ import org.junit.Test;
  */
 public class CollisionOrientationBothFalseTest {
 
-    ICollisionController cc;
+    CollisionController cc;
     IShip ship1;
     IShip ship2;
     IShip ship3;
