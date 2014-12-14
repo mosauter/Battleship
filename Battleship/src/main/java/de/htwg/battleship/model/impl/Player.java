@@ -23,6 +23,13 @@ public class Player implements IPlayer {
 
     /**
      * Public Constructor.
+     * creates a new Board
+     */
+    public Player() {
+        this(new Board());
+    }
+    /**
+     * Public Constructor.
      * @param player1Board Board of the Player.
      */
     public Player(final Board player1Board) {
