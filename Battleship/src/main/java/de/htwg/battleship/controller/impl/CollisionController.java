@@ -30,8 +30,22 @@ public abstract class CollisionController {
      */
     CollisionController next;
 
+    /**
+     * Method to test if the two ship collides.
+     * @param shipIn ship one
+     * @param ship ship two
+     * @return true if there is a collision
+     *         false if not
+     */
     public abstract boolean isCollision(IShip shipIn, IShip ship);
 
+    /**
+     * Method to search who is responsible for the case in the chain.
+     * @param shipIn first ship
+     * @param ship second ship
+     * @return true if there is a collision
+     *         false if not
+     */
     public final boolean responsibility(final IShip shipIn, final IShip ship) {
         if ((shipIn.isOrientation() == firstShip)
                 && (ship.isOrientation() == secondShip)) {
