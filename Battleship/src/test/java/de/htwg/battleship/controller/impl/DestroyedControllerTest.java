@@ -10,6 +10,7 @@ import de.htwg.battleship.model.impl.Board;
 import de.htwg.battleship.model.impl.Player;
 import de.htwg.battleship.model.impl.Ship;
 import org.junit.After;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,5 +50,13 @@ public class DestroyedControllerTest {
      */
     @Test
     public void testIsDestroyed() {
+        boolean expRes = false;
+        boolean result = dc.responsibility(ship, player);
+        assertEquals(expRes, result);
+        shoot.shoot(3, 3, false);
+        shoot.shoot(3, 4, false);
+        expRes = true;
+        result = dc.responsibility(ship, player);
+        assertEquals(expRes, result);
     }
 }
