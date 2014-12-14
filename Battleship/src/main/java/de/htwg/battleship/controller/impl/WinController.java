@@ -59,8 +59,8 @@ public class WinController extends Observable implements IWinLooseController {
      */
     private boolean playerDestroyed(final IPlayer player) {
         IShip[] shipList = player.getOwnBoard().getShipList();
-        for (IShip ship : shipList) {
-            if (!isDestroyed(ship, player)) {
+        for (int i = 0; i < player.getOwnBoard().getShips(); i++) {
+            if (!isDestroyed(shipList[i], player)) {
                 return false;
             }
         }
