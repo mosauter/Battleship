@@ -22,7 +22,7 @@ public class PlayerTest {
 
     @Before
     public void setUp() {
-        player = new Player(new Board());
+        player = new Player();
     }
 
     @After
