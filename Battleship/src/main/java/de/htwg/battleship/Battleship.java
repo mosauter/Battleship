@@ -75,8 +75,10 @@ public class Battleship {
                     - ASCII_LOW_CASE;
             int y = input.nextInt();
             boolean orientation = input.next().equals("true");
-            if (!shipController.placeShip(new Ship(player1.getOwnBoard().getShips()
-                    + 2, orientation, x, y), true)) {
+            if (!shipController.placeShip(
+                    new Ship(player1.getOwnBoard().getShips() + 2,
+                            orientation, x, y),
+                    true)) {
                 System.err.println("Falsche Eingabe oder Kollision!");
             }
             menu = new FieldViewer(player1, player2);
@@ -89,8 +91,10 @@ public class Battleship {
                     - ASCII_LOW_CASE;
             int y = input.nextInt();
             boolean orientation = input.next().equals("true");
-            if (!shipController.placeShip(new Ship(player2.getOwnBoard().getShips()
-                    + 2, orientation, x, y), false)) {
+            if (!shipController.placeShip(
+                    new Ship(player2.getOwnBoard().getShips() + 2,
+                            orientation, x, y),
+                    false)) {
                 System.err.println("Falsche Eingabe oder Kollision!");
             }
             menu = new FieldViewer(player1, player2);
