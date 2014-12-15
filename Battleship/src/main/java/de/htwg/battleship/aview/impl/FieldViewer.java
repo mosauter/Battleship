@@ -99,7 +99,7 @@ public class FieldViewer implements Viewer {
                 boolean ship = false;
                 for (Integer inte : mapPlayer2.get(i)) {
                     if (inte == j) {
-                        if (boardPlayer1.getField(i, j).isHit()) {
+                        if (boardPlayer2.getField(i, j).isHit()) {
                             sb.append(" D");
                         } else {
                             sb.append(" S");
