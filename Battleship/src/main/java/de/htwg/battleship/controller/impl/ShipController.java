@@ -31,6 +31,11 @@ public class ShipController extends Observable implements IShipController {
     private CollisionController cc;
 
     /**
+     * Controller with a chain of responsibility.
+     */
+    private BorderController bc;
+
+    /**
      * Public Constructor.
      *
      * @param player1 first player
@@ -40,16 +45,24 @@ public class ShipController extends Observable implements IShipController {
         this.player1 = player1;
         this.player2 = player2;
         this.cc = new CollisionOrientationBothTrue();
+        this.bc = new BorderTrueController();
     }
 
     @Override
     public final boolean placeShip(final IShip ship, final boolean player) {
         if (player) {
-            return playerShip(ship, player1);
+            return checkXY(ship, player1);
         }
-        return playerShip(ship, player2);
+        return checkXY(ship, player2);
     }
 
+    private boolean checkXY(final IShip ship, final IPlayer player) {
+        if (!bc.responsibility(ship)) {
+            return false;
+        }
+        return playerShip(ship, player);
+    }
+            
     /**
      * Utility-Method to set a ship for a specified player.
      *
