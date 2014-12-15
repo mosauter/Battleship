@@ -1,7 +1,8 @@
 // PlaceViewer.java
 
-package de.htwg.battleship.aview;
+package de.htwg.battleship.aview.impl;
 
+import de.htwg.battleship.aview.Viewer;
 import de.htwg.battleship.model.IPlayer;
 
 /**
@@ -21,7 +22,7 @@ public class PlaceViewer implements Viewer {
         StringBuilder sb = new StringBuilder();
         sb.append(player.getName()).append(" Schiff platzieren:").append("\n");
         sb.append("Geben sie den Startpunkt fuer ihr Schiff an "
-                + "(Format: x y):\n");
+                + "(Format: [a - j] [0 - 9] [true | false]):\n");
         sb.append("Laenge: ").append((player.getOwnBoard().getShips() + 2));
         sb.append("\n");
         sb.append("\t\t-->\t");

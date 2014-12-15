@@ -1,6 +1,8 @@
 // InputMask.java
 
-package de.htwg.battleship.aview;
+package de.htwg.battleship.aview.impl;
+
+import de.htwg.battleship.aview.Viewer;
 
 /**
  * InputMask
@@ -10,6 +12,7 @@ package de.htwg.battleship.aview;
  */
 public class InputMaskPlayer1 implements Viewer {
 
+    @Override
     public String getString() {
         return "\nName Player 1:\t";
     }
