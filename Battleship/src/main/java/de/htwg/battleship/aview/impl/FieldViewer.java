@@ -5,7 +5,12 @@ package de.htwg.battleship.aview.impl;
 import de.htwg.battleship.aview.Viewer;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.IShip;
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * FieldViewer to print the Field.
@@ -38,8 +43,24 @@ public class FieldViewer implements Viewer {
     public final String getString() {
         StringBuilder sb = new StringBuilder();
         sb.append(" ");
+        Map<Integer, Set<Integer>> mapPlayer1 =
+                new TreeMap<Integer, Set<Integer>>();
+        Map<Integer, Set<Integer>> mapPlayer2 =
+                new TreeMap<Integer, Set<Integer>>();
+        for (int i = 0; i < HEIGTH_LENGTH; i++) {
+            mapPlayer1.put(i, new TreeSet<Integer>());
+            mapPlayer2.put(i, new TreeSet<Integer>());
+        } 
         IBoard boardPlayer1 = player1.getOwnBoard();
         IBoard boardPlayer2 = player2.getOwnBoard();
+        IShip[] listPlayer1 = player1.getOwnBoard().getShipList();
+        IShip[] listPlayer2 = player2.getOwnBoard().getShipList();
+        for (int i = 0; i < player1.getOwnBoard().getShips(); i++) {
+            mapPlayer1 = this.getSet(listPlayer1[i], mapPlayer1);
+        }
+        for (int i = 0; i < player2.getOwnBoard().getShips(); i++) {
+            mapPlayer2 = this.getSet(listPlayer2[i], mapPlayer2);
+        }
         for (int i = 0; i < HEIGTH_LENGTH; i++) {
             char c = (char) ('a' + i);
             sb.append(" ").append(c);
@@ -53,7 +74,21 @@ public class FieldViewer implements Viewer {
         for (int i = 0; i < HEIGTH_LENGTH; i++) {
             sb.append(i);
             for (int j = 0; j < HEIGTH_LENGTH; j++) {
-                if (boardPlayer1.getField(j, i).isHit()) {
+                boolean ship = false;
+                for (Integer inte : mapPlayer1.get(i)) {
+                    if (inte == j) {
+                        if (boardPlayer1.getField(i, j).isHit()) {
+                            sb.append(" D");
+                        } else {
+                            sb.append(" S");
+                        }
+                        ship = true;
+                    }
+                }
+                if (ship) {
+                    continue;
+                }
+                if (boardPlayer1.getField(i, j).isHit()) {
                     sb.append(" X");
                 } else {
                     sb.append(" O");
@@ -61,7 +96,21 @@ public class FieldViewer implements Viewer {
             }
             sb.append("\t ").append(i);
             for (int j = 0; j < HEIGTH_LENGTH; j++) {
-                if (boardPlayer2.getField(j, i).isHit()) {
+                boolean ship = false;
+                for (Integer inte : mapPlayer2.get(i)) {
+                    if (inte == j) {
+                        if (boardPlayer1.getField(i, j).isHit()) {
+                            sb.append(" D");
+                        } else {
+                            sb.append(" S");
+                        }
+                        ship = true;
+                    }
+                }
+                if (ship) {
+                    continue;
+                }
+                if (boardPlayer2.getField(i, j).isHit()) {
                     sb.append(" X");
                 } else {
                     sb.append(" O");
@@ -70,5 +119,26 @@ public class FieldViewer implements Viewer {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    private Map<Integer, Set<Integer>> getSet(final IShip ship,
+            final Map<Integer, Set<Integer>> map) {
+        if (ship.isOrientation()) {
+            int xlow = ship.getX();
+            int xupp = xlow + ship.getSize();
+            Set<Integer> set = map.get(ship.getY());
+            for (int i = xlow; i < xupp; i++) {
+                set.add(i);
+            }
+            return map;
+        } else {
+            int ylow = ship.getY();
+            int yupp = ylow + ship.getSize();
+            int x = ship.getX();
+            for (int i = ylow; i < yupp; i++) {
+                map.get(i).add(x);
+            }
+            return map;
+        }
     }
 }
