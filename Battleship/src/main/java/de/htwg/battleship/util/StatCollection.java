@@ -18,6 +18,10 @@ public final class StatCollection {
      * The max number of ships that could be on the field.
      */
     public static final int SHIP_NUMBER_MAX = 5;
+    /**
+     * Constant for the conversion of the ASCII table.
+     */
+    public static final int ASCII_LOW_CASE = 97;
 
     /**
      * Utility-Method to check if a value is between.
