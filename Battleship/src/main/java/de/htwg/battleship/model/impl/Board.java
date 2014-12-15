@@ -6,6 +6,7 @@ import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IField;
 import de.htwg.battleship.model.IShip;
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
+import static de.htwg.battleship.util.StatCollection.SHIP_NUMBER_MAX;
 
 /**
  * The Board-Object where each player adds his own ships.
@@ -15,10 +16,6 @@ import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
  */
 public class Board implements IBoard {
 
-    /**
-     * The max number of ships that could be on the field.
-     */
-    private static final int SHIP_NUMBER_MAX = 5;
     /**
      * The Ships which were on the Board.
      */
