@@ -14,6 +14,10 @@ public final class StatCollection {
      * The heigth and the length of the field.
      */
     public static final int HEIGTH_LENGTH = 10;
+    /**
+     * The max number of ships that could be on the field.
+     */
+    public static final int SHIP_NUMBER_MAX = 5;
 
     /**
      * Utility-Method to check if a value is between.
