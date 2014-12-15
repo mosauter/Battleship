@@ -71,46 +71,46 @@ public class FieldViewer implements Viewer {
             sb.append(" ").append(c);
         }
         sb.append("\n");
-        for (int i = 0; i < HEIGTH_LENGTH; i++) {
-            sb.append(i);
-            for (int j = 0; j < HEIGTH_LENGTH; j++) {
-                boolean ship = false;
-                for (Integer inte : mapPlayer1.get(i)) {
-                    if (inte == j) {
-                        if (boardPlayer1.getField(i, j).isHit()) {
+        for (int y = 0; y < HEIGTH_LENGTH; y++) {
+            sb.append(y);
+            for (int x = 0; x < HEIGTH_LENGTH; x++) {
+                boolean isShip = false;
+                for (Integer value : mapPlayer1.get(y)) {
+                    if (value == x) {
+                        if (boardPlayer1.getField(x, y).isHit()) {
                             sb.append(" D");
                         } else {
                             sb.append(" S");
                         }
-                        ship = true;
+                        isShip = true;
                     }
                 }
-                if (ship) {
+                if (isShip) {
                     continue;
                 }
-                if (boardPlayer1.getField(i, j).isHit()) {
+                if (boardPlayer1.getField(x, y).isHit()) {
                     sb.append(" X");
                 } else {
                     sb.append(" O");
                 }
             }
-            sb.append("\t ").append(i);
-            for (int j = 0; j < HEIGTH_LENGTH; j++) {
-                boolean ship = false;
-                for (Integer inte : mapPlayer2.get(i)) {
-                    if (inte == j) {
-                        if (boardPlayer2.getField(i, j).isHit()) {
+            sb.append("\t ").append(y);
+            for (int x = 0; x < HEIGTH_LENGTH; x++) {
+                boolean isShip = false;
+                for (Integer value : mapPlayer2.get(y)) {
+                    if (value == x) {
+                        if (boardPlayer2.getField(x, y).isHit()) {
                             sb.append(" D");
                         } else {
                             sb.append(" S");
                         }
-                        ship = true;
+                        isShip = true;
                     }
                 }
-                if (ship) {
+                if (isShip) {
                     continue;
                 }
-                if (boardPlayer2.getField(i, j).isHit()) {
+                if (boardPlayer2.getField(x, y).isHit()) {
                     sb.append(" X");
                 } else {
                     sb.append(" O");
