@@ -6,7 +6,11 @@ import de.htwg.battleship.aview.Viewer;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
+import static de.htwg.battleship.util.StatCollection.FIELD_IS_HIT;
+import static de.htwg.battleship.util.StatCollection.FIELD_NON_HIT;
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
+import static de.htwg.battleship.util.StatCollection.SHIP_IS_HIT;
+import static de.htwg.battleship.util.StatCollection.SHIP_NON_HIT;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -78,9 +82,9 @@ public class FieldViewer implements Viewer {
                 for (Integer value : mapPlayer1.get(y)) {
                     if (value == x) {
                         if (boardPlayer1.getField(x, y).isHit()) {
-                            sb.append(" D");
+                            sb.append(SHIP_IS_HIT);
                         } else {
-                            sb.append(" S");
+                            sb.append(SHIP_NON_HIT);
                         }
                         isShip = true;
                     }
@@ -89,9 +93,9 @@ public class FieldViewer implements Viewer {
                     continue;
                 }
                 if (boardPlayer1.getField(x, y).isHit()) {
-                    sb.append(" X");
+                    sb.append(FIELD_IS_HIT);
                 } else {
-                    sb.append(" O");
+                    sb.append(FIELD_NON_HIT);
                 }
             }
             sb.append("\t ").append(y);
@@ -100,9 +104,9 @@ public class FieldViewer implements Viewer {
                 for (Integer value : mapPlayer2.get(y)) {
                     if (value == x) {
                         if (boardPlayer2.getField(x, y).isHit()) {
-                            sb.append(" D");
+                            sb.append(SHIP_IS_HIT);
                         } else {
-                            sb.append(" S");
+                            sb.append(SHIP_NON_HIT);
                         }
                         isShip = true;
                     }
@@ -111,16 +115,28 @@ public class FieldViewer implements Viewer {
                     continue;
                 }
                 if (boardPlayer2.getField(x, y).isHit()) {
-                    sb.append(" X");
+                    sb.append(FIELD_NON_HIT);
                 } else {
-                    sb.append(" O");
+                    sb.append(FIELD_IS_HIT);
                 }
             }
             sb.append("\n");
         }
+        sb.append("Legende:\n\t" + FIELD_NON_HIT + " -> Field is not hit!");
+        sb.append("\n\t" + FIELD_IS_HIT + "-> Field is hit and it was a Miss!");
+        sb.append("\n\t" + SHIP_NON_HIT + " -> A ship take place on "
+                + "the Field!");
+        sb.append("\n\t" + SHIP_IS_HIT + " -> A ship is on the Field "
+                + "and it is destroyed!");
         return sb.toString();
     }
 
+    /**
+     * Utility Method to create a Map where ships take place.
+     * @param ship specified ship
+     * @param map specified map
+     * @return the new Map
+     */
     private Map<Integer, Set<Integer>> getSet(final IShip ship,
             final Map<Integer, Set<Integer>> map) {
         if (ship.isOrientation()) {
