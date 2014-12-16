@@ -115,15 +115,15 @@ public class FieldViewer implements Viewer {
                     continue;
                 }
                 if (boardPlayer2.getField(x, y).isHit()) {
-                    sb.append(FIELD_NON_HIT);
-                } else {
                     sb.append(FIELD_IS_HIT);
+                } else {
+                    sb.append(FIELD_NON_HIT);
                 }
             }
             sb.append("\n");
         }
         sb.append("Legende:\n\t" + FIELD_NON_HIT + " -> Field is not hit!");
-        sb.append("\n\t" + FIELD_IS_HIT + "-> Field is hit and it was a Miss!");
+        sb.append("\n\t" + FIELD_IS_HIT + " -> Field is hit and it was a Miss!");
         sb.append("\n\t" + SHIP_NON_HIT + " -> A ship take place on "
                 + "the Field!");
         sb.append("\n\t" + SHIP_IS_HIT + " -> A ship is on the Field "
