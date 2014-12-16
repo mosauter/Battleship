@@ -5,6 +5,7 @@ import de.htwg.battleship.controller.IShipController;
 import de.htwg.battleship.controller.IShootController;
 import de.htwg.battleship.controller.IWinLooseController;
 import de.htwg.battleship.controller.impl.FieldViewer;
+import de.htwg.battleship.controller.impl.GuiController;
 import de.htwg.battleship.controller.impl.InputMaskPlayer1;
 import de.htwg.battleship.controller.impl.InputMaskPlayer2;
 import de.htwg.battleship.controller.impl.PlaceViewer;
@@ -22,7 +23,7 @@ import static de.htwg.battleship.util.StatCollection.ASCII_LOW_CASE;
 import static de.htwg.battleship.util.StatCollection.SHIP_NUMBER_MAX;
 import java.util.Scanner;
 import java.util.regex.Pattern;
-
+import de.htwg.battleship.aview.GUI;
 /**
  * Battleship
  *
@@ -39,6 +40,7 @@ public class Battleship {
     private static IShootController shootController;
 
     public static void main(final String[] args) {
+    	GUI gui = new GUI();
         input = new Scanner(System.in);
         menu = new StartMenu();
         System.out.print(menu.getString());
