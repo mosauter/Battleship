@@ -5,7 +5,7 @@ package de.htwg.battleship.controller.impl;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.observer.IObserver;
+import de.htwg.battleship.observer.impl.Observable;
 
 /**
  * MasterController
@@ -13,7 +13,7 @@ import de.htwg.battleship.observer.IObserver;
  * @version 1.00
  * @since 2014-12-16
  */
-public class MasterController implements IMasterController {
+public class MasterController extends Observable implements IMasterController {
 
     private final ShipController shipController;
     private final ShootController shootController;
@@ -28,28 +28,26 @@ public class MasterController implements IMasterController {
         this.view = new StartMenu();
     }
 
-    public boolean shoot(int x, int y, boolean player) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @Override
+    public void shoot(final int x, final int y, final boolean player) {
+        shootController.shoot(x, y, player);
+        notifyObserver();
     }
 
-    public boolean placeShip(IShip ship, boolean player) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @Override
+    public void placeShip(final IShip ship, final boolean player) {
+        shipController.placeShip(ship, player);
+        notifyObserver();
     }
 
-    public IPlayer win() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @Override
+    public void win() {
+        winController.win();
+        notifyObserver();
     }
 
+    @Override
     public String getString() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return view.getString();
     }
-
-    public void addObserver(IObserver observer) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void notifyObserver() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 }
