@@ -1,17 +1,18 @@
 // Battleship.java
 package de.htwg.battleship;
 
+import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.controller.IShipController;
 import de.htwg.battleship.controller.IShootController;
 import de.htwg.battleship.controller.IWinLooseController;
 import de.htwg.battleship.controller.impl.FieldViewer;
 import de.htwg.battleship.controller.impl.InputMaskPlayer1;
 import de.htwg.battleship.controller.impl.InputMaskPlayer2;
+import de.htwg.battleship.controller.impl.MasterController;
 import de.htwg.battleship.controller.impl.PlaceViewer;
 import de.htwg.battleship.controller.impl.ShipController;
 import de.htwg.battleship.controller.impl.ShootController;
 import de.htwg.battleship.controller.impl.ShootMenu;
-import de.htwg.battleship.controller.impl.StartMenu;
 import de.htwg.battleship.controller.impl.Viewer;
 import de.htwg.battleship.controller.impl.WinController;
 import de.htwg.battleship.controller.impl.WinPlayer;
@@ -19,6 +20,7 @@ import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.impl.Player;
 import de.htwg.battleship.model.impl.Ship;
 import static de.htwg.battleship.util.StatCollection.ASCII_LOW_CASE;
+import static de.htwg.battleship.util.StatCollection.HORIZONTAL;
 import static de.htwg.battleship.util.StatCollection.SHIP_NUMBER_MAX;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -33,15 +35,31 @@ import java.util.regex.Pattern;
 public class Battleship {
 
     private static Scanner input;
+//    private static IMasterController master;
+//    private static IPlayer player1;
+//    private static IPlayer player2;
+//    
+//    public static void main(final String[] args) {
+//        input = new Scanner(System.in);
+//        player1 = new Player();
+//        player2 = new Player();
+//        master = new MasterController(player1, player2);
+//        new TUI(master);
+//    }
     private static Viewer menu;
     private static IShipController shipController;
     private static IWinLooseController winLooseController;
     private static IShootController shootController;
+    private static IMasterController master;
+    private static IPlayer player1;
+    private static IPlayer player2;
 
     public static void main(final String[] args) {
         input = new Scanner(System.in);
-        menu = new StartMenu();
-        System.out.print(menu.getString());
+        player1 = new Player();
+        player2 = new Player();
+        master = new MasterController(player1, player2);
+        System.out.print(master.getString());
         boolean right = true;
         while (right) {
             int i = input.nextInt();
@@ -77,12 +95,13 @@ public class Battleship {
             int x = (int) input.next(Pattern.compile("[a-z]")).charAt(0)
                     - ASCII_LOW_CASE;
             int y = input.nextInt();
-            boolean orientation = input.next().equals("true");
+            boolean orientation = input.next().equals(HORIZONTAL);
             if (!shipController.placeShip(
                     new Ship(player1.getOwnBoard().getShips() + 2,
                             orientation, x, y),
                     true)) {
-                System.err.println("Falsche Eingabe oder Kollision!");
+                System.err.println("False input or a "
+                        + "collision between to ships!");
             }
         }
         while (player2.getOwnBoard().getShips() < SHIP_NUMBER_MAX) {
@@ -93,12 +112,13 @@ public class Battleship {
             int x = (int) input.next(Pattern.compile("[a-z]")).charAt(0)
                     - ASCII_LOW_CASE;
             int y = input.nextInt();
-            boolean orientation = input.next().equals("true");
+            boolean orientation = input.next().equals(HORIZONTAL);
             if (!shipController.placeShip(
                     new Ship(player2.getOwnBoard().getShips() + 2,
                             orientation, x, y),
                     false)) {
-                System.err.println("Falsche Eingabe oder Kollision!");
+                System.err.println("False input or a "
+                        + "collision between two ships!");
             }
         }
         shootController = new ShootController(player1, player2);
