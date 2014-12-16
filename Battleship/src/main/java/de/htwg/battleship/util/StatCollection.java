@@ -11,6 +11,10 @@ package de.htwg.battleship.util;
 public final class StatCollection {
 
     /**
+     * Private Constructor.
+     */
+    private StatCollection() { }
+    /**
      * The heigth and the length of the field.
      */
     public static final int HEIGTH_LENGTH = 5;
