@@ -8,6 +8,7 @@ import de.htwg.battleship.aview.impl.InputMaskPlayer2;
 import de.htwg.battleship.aview.impl.PlaceViewer;
 import de.htwg.battleship.aview.impl.ShootMenu;
 import de.htwg.battleship.aview.impl.StartMenu;
+import de.htwg.battleship.aview.impl.WinPlayer;
 import de.htwg.battleship.controller.IShipController;
 import de.htwg.battleship.controller.IShootController;
 import de.htwg.battleship.controller.IWinLooseController;
@@ -69,6 +70,8 @@ public class Battleship {
         player2.setName(name);
         shipController = new ShipController(player1, player2);
         while (player1.getOwnBoard().getShips() < SHIP_NUMBER_MAX) {
+            menu = new FieldViewer(player1, player2);
+            System.out.println(menu.getString());
             menu = new PlaceViewer(player1);
             System.out.print(menu.getString());
             int x = (int) input.next(Pattern.compile("[a-z]")).charAt(0)
@@ -81,10 +84,10 @@ public class Battleship {
                     true)) {
                 System.err.println("Falsche Eingabe oder Kollision!");
             }
-            menu = new FieldViewer(player1, player2);
-            System.out.println(menu.getString());
         }
         while (player2.getOwnBoard().getShips() < SHIP_NUMBER_MAX) {
+            menu = new FieldViewer(player1, player2);
+            System.out.println(menu.getString());
             menu = new PlaceViewer(player2);
             System.out.print(menu.getString());
             int x = (int) input.next(Pattern.compile("[a-z]")).charAt(0)
@@ -97,14 +100,14 @@ public class Battleship {
                     false)) {
                 System.err.println("Falsche Eingabe oder Kollision!");
             }
-            menu = new FieldViewer(player1, player2);
-            System.out.println(menu.getString());
         }
-
         shootController = new ShootController(player1, player2);
         winLooseController = new WinController(player1, player2);
         boolean player = true;
-        while (winLooseController.win() == null) {
+        IPlayer winner = null;
+        while ((winner = winLooseController.win()) == null) {
+            menu = new FieldViewer(player1, player2);
+            System.out.println(menu.getString());
             if (player) {
                 menu = new ShootMenu(player1);
             } else {
@@ -119,9 +122,12 @@ public class Battleship {
             } else {
                 System.out.println("You miss your target!");
             }
-            menu = new FieldViewer(player1, player2);
-            System.out.println(menu.getString());
             player = !player;
         }
+        menu = new FieldViewer(player1, player2);
+        System.out.println(menu.getString());
+
+        menu = new WinPlayer(winner);
+        System.out.println(menu.getString());
     }
 }
