@@ -42,6 +42,10 @@ public final class StatCollection {
      * Presentation of a Field with no ship on it and which is not hit.
      */
     public static final String FIELD_NON_HIT = " O";
+    /**
+     * The check string for the place a Ship input in the tui.
+     */
+    public static final String HORIZONTAL = "horizontal";
 
     /**
      * Utility-Method to check if a value is between.
