@@ -2,7 +2,6 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.controller.impl.Viewer;
 import de.htwg.battleship.model.IPlayer;
 
 /**
@@ -18,12 +17,15 @@ public class PlaceViewer implements Viewer {
     public PlaceViewer(IPlayer player) {
         this.player = player;
     }
-    public String getString() {
+
+    @Override
+    public final String getString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(player.getName()).append(" Schiff platzieren:").append("\n");
-        sb.append("Geben sie den Startpunkt fuer ihr Schiff an "
-                + "(Format: [a - j] [0 - 9] [true | false]):\n");
-        sb.append("Laenge: ").append((player.getOwnBoard().getShips() + 2));
+        sb.append(player.getName()).append(" Place Ship:").append("\n");
+        sb.append("Insert the start point of your ship and the orientation: "
+                + "(Format: [a - j] [0 - 9] [horicontal | vertical]):\n");
+        sb.append("Length of the ship: ");
+        sb.append((player.getOwnBoard().getShips() + 2));
         sb.append("\n");
         sb.append("\t\t-->\t");
         return sb.toString();
