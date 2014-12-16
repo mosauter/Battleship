@@ -2,13 +2,15 @@
 
 package de.htwg.battleship.controller;
 
+import de.htwg.battleship.observer.IObservable;
+
 /**
  * IShootController is an Utility-Interface.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-10
  */
-public interface IShootController {
+public interface IShootController extends IObservable {
 
     /**
      * Method to shoot on a board.

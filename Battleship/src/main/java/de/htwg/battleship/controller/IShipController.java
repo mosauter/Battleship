@@ -3,6 +3,7 @@
 package de.htwg.battleship.controller;
 
 import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.observer.IObservable;
 
 /**
  * IShipController is an Utility-Interface.
@@ -10,7 +11,7 @@ import de.htwg.battleship.model.IShip;
  * @version 1.00
  * @since 2014-12-10
  */
-public interface IShipController {
+public interface IShipController extends IObservable {
 
     /**
      * Method to place a Ship on the board.

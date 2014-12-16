@@ -3,6 +3,7 @@
 package de.htwg.battleship.controller;
 
 import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.observer.IObservable;
 
 /**
  * IWinLooseController is an Utility-Interface.
@@ -10,7 +11,7 @@ import de.htwg.battleship.model.IPlayer;
  * @version 1.00
  * @since 2014-12-11
  */
-public interface IWinLooseController {
+public interface IWinLooseController extends IObservable {
 
     /**
      * Checs if someone has won.
