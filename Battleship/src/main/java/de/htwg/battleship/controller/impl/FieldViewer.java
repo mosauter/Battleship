@@ -1,8 +1,7 @@
 // FieldViewer.java
 
-package de.htwg.battleship.aview.impl;
+package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.aview.Viewer;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
@@ -54,7 +53,7 @@ public class FieldViewer implements Viewer {
         for (int i = 0; i < HEIGTH_LENGTH; i++) {
             mapPlayer1.put(i, new TreeSet<Integer>());
             mapPlayer2.put(i, new TreeSet<Integer>());
-        } 
+        }
         IBoard boardPlayer1 = player1.getOwnBoard();
         IBoard boardPlayer2 = player2.getOwnBoard();
         IShip[] listPlayer1 = player1.getOwnBoard().getShipList();
@@ -123,7 +122,8 @@ public class FieldViewer implements Viewer {
             sb.append("\n");
         }
         sb.append("Legende:\n\t" + FIELD_NON_HIT + " -> Field is not hit!");
-        sb.append("\n\t" + FIELD_IS_HIT + " -> Field is hit and it was a Miss!");
+        sb.append("\n\t" + FIELD_IS_HIT + " -> Field "
+                + "is hit and it was a Miss!");
         sb.append("\n\t" + SHIP_NON_HIT + " -> A ship take place on "
                 + "the Field!");
         sb.append("\n\t" + SHIP_IS_HIT + " -> A ship is on the Field "

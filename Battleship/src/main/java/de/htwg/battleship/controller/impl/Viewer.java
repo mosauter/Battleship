@@ -1,6 +1,6 @@
 //Viewer.java
 
-package de.htwg.battleship.aview;
+package de.htwg.battleship.controller.impl;
 
 /**
  * Viewer is an Utility-Interface.

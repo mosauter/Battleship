@@ -15,15 +15,17 @@ import de.htwg.battleship.observer.IObserver;
  */
 public class MasterController implements IMasterController {
 
-    ShipController shipController;
-    ShootController shootController;
-    WinController winController;
+    private final ShipController shipController;
+    private final ShootController shootController;
+    private final WinController winController;
+    private Viewer view;
 
 
     public MasterController(IPlayer player1, IPlayer player2) {
         this.shipController = new ShipController(player1, player2);
         this.shootController = new ShootController(player1, player2);
         this.winController = new WinController(player1, player2);
+        this.view = new StartMenu();
     }
 
     public boolean shoot(int x, int y, boolean player) {
