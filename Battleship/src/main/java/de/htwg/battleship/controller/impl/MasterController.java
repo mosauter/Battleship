@@ -71,10 +71,10 @@ public class MasterController extends Observable implements IMasterController {
                 new Ship((player.getOwnBoard().getShips() + 2),
                 orientation, x, y), player)) {
             this.setViewer(new PlaceErrorViewer());
-            this.view = new PlaceViewer(player);
+            this.view = new PlaceViewer(player, this);
         }
         if (player.getOwnBoard().getShips() == StatCollection.SHIP_NUMBER_MAX) {
-            this.view = new PlaceFieldViewer(player);
+            this.view = new PlaceFieldViewer(player, this);
         }
         notifyObserver();
     }
@@ -85,7 +85,7 @@ public class MasterController extends Observable implements IMasterController {
         if (winner == null) {
             return;
         }
-        this.setViewer(new WinPlayer(winner));
+        this.setViewer(new WinPlayer(winner, this));
         System.exit(0);
     }
 

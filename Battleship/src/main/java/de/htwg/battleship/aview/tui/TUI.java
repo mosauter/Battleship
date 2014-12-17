@@ -53,7 +53,8 @@ public class TUI implements IObserver {
         this.master.getPlayer1().setName(input.next());
         this.master.setViewer(new InputMaskPlayer2());
         this.master.getPlayer2().setName(input.next());
-        this.master.setViewer(new PlaceViewer(this.master.getPlayer1()));
+        this.master.setViewer(new PlaceViewer(
+                this.master.getPlayer1(), master));
         while (this.master.getPlayer1().getOwnBoard().getShips()
                 < SHIP_NUMBER_MAX) {
             int x = (int) input.next(Pattern.compile("[a-z]")).charAt(0)
@@ -62,7 +63,8 @@ public class TUI implements IObserver {
             boolean orientation = input.next().equals(HORIZONTAL);
             this.master.placeShip(x, y, orientation, this.master.getPlayer1());
         }
-        this.master.setViewer(new PlaceViewer(this.master.getPlayer2()));
+        this.master.setViewer(new PlaceViewer(
+                this.master.getPlayer2(), master));
         while (this.master.getPlayer2().getOwnBoard().getShips()
                 < SHIP_NUMBER_MAX) {
             int x = (int) input.next(Pattern.compile("[a-z]")).charAt(0)
