@@ -5,6 +5,9 @@ package de.htwg.battleship.controller.impl;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.controller.Viewer;
 import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.util.State;
+import static de.htwg.battleship.util.State.SHOOT1;
+import static de.htwg.battleship.util.State.SHOOT2;
 
 /**
  * ShootMenu presents a interface where the player wants to shoot.
@@ -22,6 +25,11 @@ public class ShootMenu implements Viewer {
      * Viewer for a presentation of the Field.
      */
     private final ShootFieldViewer shootViewer;
+    /**
+     * True if the shooter is the first player,
+     * false if the shooter is the second player.
+     */
+    private final boolean firstPlayer;
 
     /**
      * Public Constructor.
@@ -31,6 +39,7 @@ public class ShootMenu implements Viewer {
     public ShootMenu(final IPlayer player, final IMasterController master) {
         this.player = player;
         this.shootViewer = new ShootFieldViewer(player, master);
+        this.firstPlayer = player.equals(master.getPlayer1());
     }
 
     @Override
@@ -41,5 +50,13 @@ public class ShootMenu implements Viewer {
         sb.append(", where to shoot? (Format: [a - j] [0 - 9])\n");
         sb.append("\t-->\t");
         return sb.toString();
+    }
+
+    @Override
+    public State getCurrentState() {
+        if (firstPlayer) {
+            return SHOOT1;
+        }
+        return SHOOT2;
     }
 }
