@@ -39,7 +39,7 @@ public class PlaceViewer implements Viewer {
      */
     public PlaceViewer(final IPlayer player, final IMasterController master) {
         this.player = player;
-        this.fieldViewer = new PlaceFieldViewer(player);
+        this.fieldViewer = new PlaceFieldViewer(player, master);
         this.firstPlayer = player.equals(master.getPlayer1());
     }
 
