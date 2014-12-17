@@ -2,9 +2,13 @@
 
 package de.htwg.battleship.controller.impl;
 
+import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.controller.Viewer;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.util.StatCollection;
+import de.htwg.battleship.util.State;
+import static de.htwg.battleship.util.State.PLACE1;
+import static de.htwg.battleship.util.State.PLACE2;
 
 /**
  * PlaceViewer presents the place-Menu with a presentation of the field.
@@ -22,14 +26,21 @@ public class PlaceViewer implements Viewer {
      * Internal Viewer for a presentation of the field.
      */
     private final PlaceFieldViewer fieldViewer;
+    /**
+     * True if player is the first player,
+     * false if the player is the second player.
+     */
+    private final boolean firstPlayer;
 
     /**
      * Public Constructor.
      * @param player which player is at the turn to place a ship
+     * @param master master controller
      */
-    public PlaceViewer(final IPlayer player) {
+    public PlaceViewer(final IPlayer player, final IMasterController master) {
         this.player = player;
         this.fieldViewer = new PlaceFieldViewer(player);
+        this.firstPlayer = player.equals(master.getPlayer1());
     }
 
     @Override
@@ -47,4 +58,11 @@ public class PlaceViewer implements Viewer {
         return sb.toString();
     }
 
+    @Override
+    public final State getCurrentState() {
+        if (firstPlayer) {
+            return PLACE1;
+        }
+        return PLACE2;
+    }
 }
