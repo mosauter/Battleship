@@ -32,7 +32,6 @@ public class ShootFieldViewer implements Viewer {
      * Saves Player two.
      */
     private final IPlayer player2;
-    private final boolean first;
 
     /**
      * Public - Constructor.
@@ -44,10 +43,8 @@ public class ShootFieldViewer implements Viewer {
         this.player1 = player;
         if (player.equals(master.getPlayer1())) {
             this.player2 = master.getPlayer2();
-            this.first = true;
         } else {
             this.player2 = master.getPlayer1();
-            this.first = false;
         }
     }
 
@@ -55,13 +52,11 @@ public class ShootFieldViewer implements Viewer {
     public final String getString() {
         StringBuilder sb = new StringBuilder();
         sb.append(" ");
-        Map<Integer, Set<Integer>> mapPlayer1
-                = new TreeMap<Integer, Set<Integer>>();
-        Map<Integer, Set<Integer>> mapPlayer2
-                = new TreeMap<Integer, Set<Integer>>();
+        Map<Integer, Set<Integer>> mapPlayer1 = new TreeMap<>();
+        Map<Integer, Set<Integer>> mapPlayer2 = new TreeMap<>();
         for (int i = 0; i < HEIGTH_LENGTH; i++) {
-            mapPlayer1.put(i, new TreeSet<Integer>());
-            mapPlayer2.put(i, new TreeSet<Integer>());
+            mapPlayer1.put(i, new TreeSet<>());
+            mapPlayer2.put(i, new TreeSet<>());
         }
         IBoard boardPlayer1 = player1.getOwnBoard();
         IBoard boardPlayer2 = player2.getOwnBoard();
