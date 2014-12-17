@@ -13,6 +13,9 @@ import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
 import static de.htwg.battleship.util.StatCollection.SHIP_IS_HIT;
 import static de.htwg.battleship.util.StatCollection.SHIP_NON_HIT;
 import static de.htwg.battleship.util.StatCollection.getSet;
+import de.htwg.battleship.util.State;
+import static de.htwg.battleship.util.State.SHOOT1;
+import static de.htwg.battleship.util.State.SHOOT2;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -28,12 +31,19 @@ public class ShootFieldViewer implements Viewer {
 
     /**
      * Saves Player one.
+     * Has not coersive necessary that it has to be the first player.
      */
     private final IPlayer player1;
     /**
      * Saves Player two.
+     * Has not coersive necessary that it has to be the second player.
      */
     private final IPlayer player2;
+    /**
+     * True if player1 is the first player,
+     * False if player2 is the second player.
+     */
+    private final boolean firstPlayer;
 
     /**
      * Public - Constructor.
@@ -44,8 +54,10 @@ public class ShootFieldViewer implements Viewer {
             final IMasterController master) {
         this.player1 = player;
         if (player.equals(master.getPlayer1())) {
+            this.firstPlayer = true;
             this.player2 = master.getPlayer2();
         } else {
+            this.firstPlayer = false;
             this.player2 = master.getPlayer1();
         }
     }
@@ -135,5 +147,13 @@ public class ShootFieldViewer implements Viewer {
         sb.append("\n\t" + SHIP_IS_HIT + " -> A ship is on the Field "
                 + "and it is destroyed!\n\n");
         return sb.toString();
+    }
+
+    @Override
+    public final State getCurrentState() {
+        if (firstPlayer) {
+            return SHOOT1;
+        }
+        return SHOOT2;
     }
 }
