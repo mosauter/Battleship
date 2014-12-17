@@ -71,8 +71,10 @@ public class MasterController extends Observable implements IMasterController {
     @Override
     public final void placeShip(final int x, final int y,
             final boolean orientation, final IPlayer player) {
-        shipController.placeShip(new Ship((player.getOwnBoard().getShips() + 2),
-                orientation, x, y), player);
+        if (!shipController.placeShip(new Ship((player.getOwnBoard().getShips() + 2), orientation, x, y), player)) {
+            this.setViewer(new PlaceErrorViewer());
+            this.view = new PlaceViewer(player);
+        }
         if (player.getOwnBoard().getShips() == StatCollection.SHIP_NUMBER_MAX) {
             this.view = new PlaceFieldViewer(player);
         }
