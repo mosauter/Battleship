@@ -38,7 +38,7 @@ public class WinControllerTest {
     public void setUp() {
         player1 = new Player(new Board());
         player2 = new Player(new Board());
-        ship1 = new Ship(2, true, 4, 4);
+        ship1 = new Ship(2, true, 3, 3);
         ship2 = new Ship(1, true, 1, 1);
         shipC = new ShipController();
         shipC.placeShip(ship1, player1);
@@ -78,8 +78,8 @@ public class WinControllerTest {
     @Test
     public void testPlayer2Win() {
         IPlayer expRes = player2;
-        shootC.shoot(4, 4, false);
-        shootC.shoot(5, 4, false);
+        shootC.shoot(3, 3, false);
+        shootC.shoot(4, 3, false);
         IPlayer result = wc.win();
         assertEquals(expRes, result);
     }

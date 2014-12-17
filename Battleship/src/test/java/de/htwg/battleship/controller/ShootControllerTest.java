@@ -30,8 +30,8 @@ public class ShootControllerTest {
     public void setUp() {
         player1 = new Player(new Board());
         player2 = new Player(new Board());
-        Ship ship1 = new Ship(5, true, 3, 2 );
-        Ship ship2 = new Ship(1, false, 6, 6);
+        Ship ship1 = new Ship(1, true, 3, 2 );
+        Ship ship2 = new Ship(1, false, 1, 1);
         player1.getOwnBoard().addShip(ship1);
         player2.getOwnBoard().addShip(ship2);
         sc = new ShootController(player1, player2);
@@ -64,33 +64,33 @@ public class ShootControllerTest {
     @Test
     public void shootTestTwoOriTrue() {
         boolean expResult = false;
-        boolean result = sc.shoot(3, 2, false); // first Time true, second time false
-        result = sc.shoot(3, 2, false);
+        boolean result = sc.shoot(3, 2, true); // first Time true, second time false
+        result = sc.shoot(3, 2, true);
         assertEquals(expResult, result);
-        result = sc.shoot(9, 2, false);
+        result = sc.shoot(4, 2, true);
         assertEquals(expResult, result);
-        result = sc.shoot(2, 2, false);
+        result = sc.shoot(2, 2, true);
         assertEquals(expResult, result);
     }
     
     @Test
     public void shootTestOneOriFalse() {
         boolean expResult = true;
-        boolean result = sc.shoot(6, 6, true);
+        boolean result = sc.shoot(1, 1, true);
         assertEquals(expResult, result);
         expResult = false;
-        result = sc.shoot(6, 6, true);
+        result = sc.shoot(1, 1, true);
         assertEquals(expResult, result);
     }
     
     @Test
     public void shootTestTwoOriFalse() {
         boolean expResult = false;
-        boolean result = sc.shoot(6, 5, true);
+        boolean result = sc.shoot(1, 0, false);
         assertEquals(expResult, result);
-        result = sc.shoot(6, 8, true);
+        result = sc.shoot(1, 2, false);
         assertEquals(expResult, result);
-        result = sc.shoot(5, 6, true);
+        result = sc.shoot(0, 1, false);
         assertEquals(expResult, result);
     }
 }

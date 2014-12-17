@@ -32,8 +32,8 @@ public class ShipControllerTest {
     public void setUp() {
         player1 = new Player(new Board());
         player2 = new Player(new Board());
-        ship1 = new Ship(2, true, 4, 4);
-        ship2 = new Ship(3, true, 3, 4);
+        ship1 = new Ship(2, true, 1, 1);
+        ship2 = new Ship(3, true, 1, 1);
         sc =  new ShipController();
     }
 
