@@ -23,9 +23,9 @@ import org.junit.Test;
  */
 public class WinControllerTest {
 
-    IWinLooseController wc;
-    IShipController shipC;
-    IShootController shootC;
+    WinController wc;
+    ShipController shipC;
+    ShootController shootC;
     IPlayer player1;
     IPlayer player2;
     IShip ship1;
@@ -40,9 +40,9 @@ public class WinControllerTest {
         player2 = new Player(new Board());
         ship1 = new Ship(2, true, 4, 4);
         ship2 = new Ship(1, true, 1, 1);
-        shipC = new ShipController(player1, player2);
-        shipC.placeShip(ship1, true);
-        shipC.placeShip(ship2, false);
+        shipC = new ShipController();
+        shipC.placeShip(ship1, player1);
+        shipC.placeShip(ship2, player2);
         shootC = new ShootController(player1, player2);
         wc = new WinController(player1, player2);
     }

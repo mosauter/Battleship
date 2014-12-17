@@ -2,8 +2,6 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.controller.IShipController;
-import de.htwg.battleship.controller.IShootController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Board;
@@ -25,8 +23,8 @@ public class DestroyedTrueControllerTest {
     DestroyedController dc;
     IShip ship;
     IPlayer player;
-    IShipController sc;
-    IShootController shoot;
+    ShipController sc;
+    ShootController shoot;
 
     public DestroyedTrueControllerTest() {
     }
@@ -36,9 +34,9 @@ public class DestroyedTrueControllerTest {
         player = new Player(new Board());
         ship = new Ship(2, true, 3, 3);
         shoot = new ShootController(player, new Player(new Board()));
-        sc = new ShipController(player, new Player(new Board()));
+        sc = new ShipController();
         dc = new DestroyedTrueController();
-        sc.placeShip(ship, true);
+        sc.placeShip(ship, player);
     }
 
     @After

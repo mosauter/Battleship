@@ -19,7 +19,7 @@ import org.junit.Test;
  */
 public class ShipControllerTest {
     
-    IShipController sc;
+    ShipController sc;
     Player player1;
     Player player2;
     Ship ship1;
@@ -34,7 +34,7 @@ public class ShipControllerTest {
         player2 = new Player(new Board());
         ship1 = new Ship(2, true, 4, 4);
         ship2 = new Ship(3, true, 3, 4);
-        sc =  new ShipController(player1, player2);
+        sc =  new ShipController();
     }
 
     @After
@@ -47,26 +47,26 @@ public class ShipControllerTest {
     @Test
     public void testPlayer1PlaceShip() {
         boolean expRes = true;
-        boolean result = sc.placeShip(ship1, true);
+        boolean result = sc.placeShip(ship1, player1);
         assertEquals(expRes, result);
         expRes = false;
-        result = sc.placeShip(ship1, true);
+        result = sc.placeShip(ship1, player1);
         assertEquals(expRes, result);
         expRes = false;
-        result = sc.placeShip(ship2, true);
+        result = sc.placeShip(ship2, player1);
         assertEquals(expRes, result);
     }
     
     @Test
     public void testPlayer2PlaceShip() {
         boolean expRes = true;
-        boolean result = sc.placeShip(ship1, false);
+        boolean result = sc.placeShip(ship1, player2);
         assertEquals(expRes, result);
         expRes = false;
-        result = sc.placeShip(ship1, false);
+        result = sc.placeShip(ship1, player2);
         assertEquals(expRes, result);
         expRes = false;
-        result = sc.placeShip(ship2, false);
+        result = sc.placeShip(ship2, player2);
         assertEquals(expRes, result);
     }
 
