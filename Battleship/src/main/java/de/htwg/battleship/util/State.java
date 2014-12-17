@@ -24,6 +24,14 @@ public enum State {
      */
     PLACE1,
     /**
+     * Place state that the first Player completed the placing of the ships.
+     */
+    FINALPLACE1,
+    /**
+     * Place state that the second Player completed the placing of the ships.
+     */
+    FINALPLACE2,
+    /**
      * Place state that the second Player is at the turn to place a ship.
      */
     PLACE2,
