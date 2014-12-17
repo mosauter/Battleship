@@ -2,6 +2,8 @@
 
 package de.htwg.battleship.controller.impl;
 
+import de.htwg.battleship.controller.Viewer;
+
 /**
  * HitMissViewer
  * @author Moritz Sauter (SauterMoritz@gmx.de)

@@ -1,6 +1,7 @@
 // FieldViewer.java
 package de.htwg.battleship.controller.impl;
 
+import de.htwg.battleship.controller.Viewer;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;

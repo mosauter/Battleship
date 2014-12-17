@@ -2,6 +2,7 @@
 
 package de.htwg.battleship.controller.impl;
 
+import de.htwg.battleship.controller.Viewer;
 import de.htwg.battleship.model.IPlayer;
 
 /**

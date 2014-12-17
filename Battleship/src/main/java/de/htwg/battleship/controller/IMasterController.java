@@ -1,7 +1,6 @@
 //IMasterController.java
 package de.htwg.battleship.controller;
 
-import de.htwg.battleship.controller.impl.Viewer;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.observer.IObservable;
 
