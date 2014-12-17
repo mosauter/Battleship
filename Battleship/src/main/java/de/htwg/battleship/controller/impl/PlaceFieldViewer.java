@@ -2,7 +2,6 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.controller.Viewer;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
@@ -18,12 +17,13 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
- * FieldViewer to print the Field.
+ * FieldViewer to represents the Field.
+ * Acts like a viewer without an own state.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-09
  */
-public class PlaceFieldViewer implements Viewer {
+public class PlaceFieldViewer {
 
     /**
      * Saves Player one.
@@ -38,7 +38,12 @@ public class PlaceFieldViewer implements Viewer {
         this.player1 = player;
     }
 
-    @Override
+    /**
+     * Method to get the Field presented as a String.
+     * Shows the own Ships on the field. The field which is owned by the
+     * Player at the turn is always at the left side.
+     * @return String presentation of the Field
+     */
     public final String getString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\n ");
