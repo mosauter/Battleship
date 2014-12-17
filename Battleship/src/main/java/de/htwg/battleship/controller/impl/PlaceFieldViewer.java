@@ -41,7 +41,7 @@ public class PlaceFieldViewer implements Viewer {
     @Override
     public final String getString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(" ");
+        sb.append("\n ");
         Map<Integer, Set<Integer>> mapPlayer1 = new TreeMap<>();
         for (int i = 0; i < HEIGTH_LENGTH; i++) {
             mapPlayer1.put(i, new TreeSet<Integer>());
@@ -96,7 +96,7 @@ public class PlaceFieldViewer implements Viewer {
         sb.append("\n\t" + SHIP_NON_HIT + " -> A ship take place on "
                 + "the Field!");
         sb.append("\n\t" + SHIP_IS_HIT + " -> A ship is on the Field "
-                + "and it is destroyed!\n");
+                + "and it is destroyed!\n\n");
         return sb.toString();
     }
 }

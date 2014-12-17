@@ -53,7 +53,7 @@ public class ShootFieldViewer implements Viewer {
     @Override
     public final String getString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(" ");
+        sb.append("\n ");
         Map<Integer, Set<Integer>> mapPlayer1 = new TreeMap<>();
         Map<Integer, Set<Integer>> mapPlayer2 = new TreeMap<>();
         for (int i = 0; i < HEIGTH_LENGTH; i++) {
@@ -133,7 +133,7 @@ public class ShootFieldViewer implements Viewer {
         sb.append("\n\t" + SHIP_NON_HIT + " -> A ship take place on "
                 + "the Field!");
         sb.append("\n\t" + SHIP_IS_HIT + " -> A ship is on the Field "
-                + "and it is destroyed!");
+                + "and it is destroyed!\n\n");
         return sb.toString();
     }
 }
