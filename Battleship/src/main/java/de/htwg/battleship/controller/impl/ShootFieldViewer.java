@@ -12,14 +12,14 @@ import static de.htwg.battleship.util.StatCollection.FIELD_NON_HIT;
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
 import static de.htwg.battleship.util.StatCollection.SHIP_IS_HIT;
 import static de.htwg.battleship.util.StatCollection.SHIP_NON_HIT;
-import static de.htwg.battleship.util.StatCollection.getSet;
+import static de.htwg.battleship.util.StatCollection.createBorder;
+import static de.htwg.battleship.util.StatCollection.createMap;
+import static de.htwg.battleship.util.StatCollection.fillMap;
 import de.htwg.battleship.util.State;
 import static de.htwg.battleship.util.State.SHOOT1;
 import static de.htwg.battleship.util.State.SHOOT2;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 /**
  * FieldViewer to print the Field.
@@ -66,31 +66,17 @@ public class ShootFieldViewer implements Viewer {
     public final String getString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\n ");
-        Map<Integer, Set<Integer>> mapPlayer1 = new TreeMap<>();
-        Map<Integer, Set<Integer>> mapPlayer2 = new TreeMap<>();
-        for (int i = 0; i < HEIGTH_LENGTH; i++) {
-            mapPlayer1.put(i, new TreeSet<Integer>());
-            mapPlayer2.put(i, new TreeSet<Integer>());
-        }
+        Map<Integer, Set<Integer>> mapPlayer1 = createMap();
+        Map<Integer, Set<Integer>> mapPlayer2 = createMap();
         IBoard boardPlayer1 = player1.getOwnBoard();
         IBoard boardPlayer2 = player2.getOwnBoard();
         IShip[] listPlayer1 = player1.getOwnBoard().getShipList();
         IShip[] listPlayer2 = player2.getOwnBoard().getShipList();
-        for (int i = 0; i < player1.getOwnBoard().getShips(); i++) {
-            mapPlayer1 = getSet(listPlayer1[i], mapPlayer1);
-        }
-        for (int i = 0; i < player2.getOwnBoard().getShips(); i++) {
-            mapPlayer2 = getSet(listPlayer2[i], mapPlayer2);
-        }
-        for (int i = 0; i < HEIGTH_LENGTH; i++) {
-            char c = (char) ('a' + i);
-            sb.append(" ").append(c);
-        }
+        fillMap(listPlayer1, mapPlayer1, player1.getOwnBoard().getShips());
+        fillMap(listPlayer2, mapPlayer2, player2.getOwnBoard().getShips());
+        createBorder(sb);
         sb.append("\t  ");
-        for (int i = 0; i < HEIGTH_LENGTH; i++) {
-            char c = (char) ('a' + i);
-            sb.append(" ").append(c);
-        }
+        createBorder(sb);
         sb.append("\n");
         for (int y = 0; y < HEIGTH_LENGTH; y++) {
             sb.append(y);
