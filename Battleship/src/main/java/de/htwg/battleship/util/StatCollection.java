@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
 
 /**
  * Set of static util Methods.
@@ -52,6 +53,10 @@ public final class StatCollection {
      * The check string for the place a Ship input in the tui.
      */
     public static final String HORIZONTAL = "horizontal";
+    /**
+     * To save a Pattern for the Scanner.
+     */
+    public static final Pattern AZ = Pattern.compile("[a-z]");
 
     /**
      * Utility-Method to check if a value is between.

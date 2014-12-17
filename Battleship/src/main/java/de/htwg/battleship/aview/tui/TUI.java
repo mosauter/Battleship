@@ -10,10 +10,10 @@ import de.htwg.battleship.controller.impl.ShootMenu;
 import de.htwg.battleship.controller.impl.StartMenu;
 import de.htwg.battleship.observer.IObserver;
 import static de.htwg.battleship.util.StatCollection.ASCII_LOW_CASE;
+import static de.htwg.battleship.util.StatCollection.AZ;
 import static de.htwg.battleship.util.StatCollection.HORIZONTAL;
 import static de.htwg.battleship.util.StatCollection.SHIP_NUMBER_MAX;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 /**
  * Textual User Interface.
@@ -57,7 +57,7 @@ public class TUI implements IObserver {
                 this.master.getPlayer1(), master));
         while (this.master.getPlayer1().getOwnBoard().getShips()
                 < SHIP_NUMBER_MAX) {
-            int x = (int) input.next(Pattern.compile("[a-z]")).charAt(0)
+            int x = (int) input.next(AZ).charAt(0)
                     - ASCII_LOW_CASE;
             int y = input.nextInt();
             boolean orientation = input.next().equals(HORIZONTAL);
@@ -67,7 +67,7 @@ public class TUI implements IObserver {
                 this.master.getPlayer2(), master));
         while (this.master.getPlayer2().getOwnBoard().getShips()
                 < SHIP_NUMBER_MAX) {
-            int x = (int) input.next(Pattern.compile("[a-z]")).charAt(0)
+            int x = (int) input.next(AZ).charAt(0)
                     - ASCII_LOW_CASE;
             int y = input.nextInt();
             boolean orientation = input.next().equals(HORIZONTAL);
@@ -93,12 +93,12 @@ public class TUI implements IObserver {
     public final void startGame() {
         while (true) {
             this.master.setViewer(new ShootMenu(master.getPlayer1(), master));
-            int x = (int) input.next(Pattern.compile("[a-z]")).charAt(0)
+            int x = (int) input.next(AZ).charAt(0)
                     - ASCII_LOW_CASE;
             int y = input.nextInt();
             this.master.shoot(x, y, master.getPlayer1());
             this.master.setViewer(new ShootMenu(master.getPlayer2(), master));
-            x = (int) input.next(Pattern.compile("[a-z]")).charAt(0)
+            x = (int) input.next(AZ).charAt(0)
                     - ASCII_LOW_CASE;
             y = input.nextInt();
             this.master.shoot(x, y, master.getPlayer2());
