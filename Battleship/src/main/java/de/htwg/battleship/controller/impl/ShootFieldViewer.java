@@ -57,8 +57,8 @@ public class ShootFieldViewer implements Viewer {
         Map<Integer, Set<Integer>> mapPlayer2 =
                 new TreeMap<Integer, Set<Integer>>();
         for (int i = 0; i < HEIGTH_LENGTH; i++) {
-            mapPlayer1.put(i, new TreeSet<>());
-            mapPlayer2.put(i, new TreeSet<>());
+            mapPlayer1.put(i, new TreeSet<Integer>());
+            mapPlayer2.put(i, new TreeSet<Integer>());
         }
         IBoard boardPlayer1 = player1.getOwnBoard();
         IBoard boardPlayer2 = player2.getOwnBoard();
