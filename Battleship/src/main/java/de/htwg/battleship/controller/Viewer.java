@@ -2,6 +2,8 @@
 
 package de.htwg.battleship.controller;
 
+import de.htwg.battleship.util.State;
+
 /**
  * Viewer is an Utility-Interface.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
@@ -16,4 +18,9 @@ public interface Viewer {
      * @return String
      */
     String getString();
+    /**
+     * To get the current state of the game.
+     * @return enum State
+     */
+    State getCurrentState();
 }
