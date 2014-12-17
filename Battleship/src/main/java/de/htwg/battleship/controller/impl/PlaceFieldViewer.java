@@ -45,7 +45,8 @@ public class PlaceFieldViewer implements Viewer {
      * @param player player one
      * @param master master controller
      */
-    public PlaceFieldViewer(final IPlayer player, IMasterController master) {
+    public PlaceFieldViewer(final IPlayer player,
+            final IMasterController master) {
         this.player1 = player;
         this.firstPlayer = player.equals(master.getPlayer1());
     }
