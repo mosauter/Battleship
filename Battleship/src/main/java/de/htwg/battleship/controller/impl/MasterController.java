@@ -59,11 +59,7 @@ public class MasterController extends Observable implements IMasterController {
     @Override
     public final void shoot(final int x, final int y, final IPlayer player) {
         boolean first;
-        if (player == this.player1) {
-            first = true;
-        } else {
-            first = false;
-        }
+        first = (player == this.player1);
         this.setViewer(new HitMissViewer(shootController.shoot(x, y, first)));
         this.win();
     }
@@ -71,7 +67,9 @@ public class MasterController extends Observable implements IMasterController {
     @Override
     public final void placeShip(final int x, final int y,
             final boolean orientation, final IPlayer player) {
-        if (!shipController.placeShip(new Ship((player.getOwnBoard().getShips() + 2), orientation, x, y), player)) {
+        if (!shipController.placeShip(
+                new Ship((player.getOwnBoard().getShips() + 2),
+                orientation, x, y), player)) {
             this.setViewer(new PlaceErrorViewer());
             this.view = new PlaceViewer(player);
         }
