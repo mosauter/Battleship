@@ -3,6 +3,8 @@
 package de.htwg.battleship.controller.impl;
 
 import de.htwg.battleship.controller.Viewer;
+import de.htwg.battleship.util.State;
+import static de.htwg.battleship.util.State.START;
 
 /**
  * StartMenu presents a start Menu for the game.
@@ -19,5 +21,10 @@ public class StartMenu implements Viewer {
         sb.append("2. Exit\n");
         sb.append("\t--->\t");
         return sb.toString();
+    }
+
+    @Override
+    public final State getCurrentState() {
+        return START;
     }
 }
