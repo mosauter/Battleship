@@ -2,7 +2,6 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.controller.IShootController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
@@ -15,7 +14,7 @@ import de.htwg.battleship.util.StatCollection;
  * @version 1.00
  * @since 2014-11-19
  */
-public class ShootController extends Observable implements IShootController {
+public class ShootController extends Observable {
 
     /**
      * First Player.
@@ -36,7 +35,6 @@ public class ShootController extends Observable implements IShootController {
         this.player2 = player2;
     }
 
-    @Override
     public final boolean shoot(final int x, final int y, final boolean player) {
         IBoard board = getBoard(player);
         if (board.getField(x, y).isHit()) {

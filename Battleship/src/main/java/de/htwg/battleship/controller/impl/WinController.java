@@ -2,7 +2,6 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.controller.IWinLooseController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.observer.impl.Observable;
@@ -13,7 +12,7 @@ import de.htwg.battleship.observer.impl.Observable;
  * @version 1.00
  * @since 2014-12-11
  */
-public class WinController extends Observable implements IWinLooseController {
+public class WinController extends Observable {
 
     /**
      * Saves first Player.
@@ -41,7 +40,6 @@ public class WinController extends Observable implements IWinLooseController {
         dc = new DestroyedTrueController();
     }
 
-    @Override
     public final IPlayer win() {
         if (playerDestroyed(player1)) {
             return player2;

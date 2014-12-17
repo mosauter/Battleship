@@ -1,7 +1,6 @@
 // ShipController.java
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.controller.IShipController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.observer.impl.Observable;
@@ -14,16 +13,7 @@ import de.htwg.battleship.observer.impl.Observable;
  * @version 1.00
  * @since 2014-11-27
  */
-public class ShipController extends Observable implements IShipController {
-
-    /**
-     * Player one.
-     */
-    private final IPlayer player1;
-    /**
-     * Player two.
-     */
-    private final IPlayer player2;
+public class ShipController extends Observable {
 
     /**
      * Controller with a chain of responsibility.
@@ -41,19 +31,13 @@ public class ShipController extends Observable implements IShipController {
      * @param player1 first player
      * @param player2 second player
      */
-    public ShipController(final IPlayer player1, final IPlayer player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+    public ShipController() {
         this.cc = new CollisionOrientationBothTrue();
         this.bc = new BorderTrueController();
     }
 
-    @Override
-    public final boolean placeShip(final IShip ship, final boolean player) {
-        if (player) {
-            return checkXY(ship, player1);
-        }
-        return checkXY(ship, player2);
+    public final boolean placeShip(final IShip ship, IPlayer player) {
+        return checkXY(ship, player);
     }
 
     private boolean checkXY(final IShip ship, final IPlayer player) {

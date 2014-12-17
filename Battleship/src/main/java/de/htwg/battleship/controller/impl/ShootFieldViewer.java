@@ -1,7 +1,7 @@
 // FieldViewer.java
-
 package de.htwg.battleship.controller.impl;
 
+import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
@@ -17,11 +17,12 @@ import java.util.TreeSet;
 
 /**
  * FieldViewer to print the Field.
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-09
  */
-public class FieldViewer implements Viewer {
+public class ShootFieldViewer implements Viewer {
 
     /**
      * Saves Player one.
@@ -31,25 +32,33 @@ public class FieldViewer implements Viewer {
      * Saves Player two.
      */
     private final IPlayer player2;
+    private final boolean first;
 
     /**
      * Public - Constructor.
-     * @param player1 player one
-     * @param player2 player two
+     *
+     * @param player player one
+     * @param master
      */
-    public FieldViewer(final IPlayer player1, final IPlayer player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+    public ShootFieldViewer(final IPlayer player, final IMasterController master) {
+        this.player1 = player;
+        if (player.equals(master.getPlayer1())) {
+            this.player2 = master.getPlayer2();
+            this.first = true;
+        } else {
+            this.player2 = master.getPlayer1();
+            this.first = false;
+        }
     }
 
     @Override
     public final String getString() {
         StringBuilder sb = new StringBuilder();
         sb.append(" ");
-        Map<Integer, Set<Integer>> mapPlayer1 =
-                new TreeMap<Integer, Set<Integer>>();
-        Map<Integer, Set<Integer>> mapPlayer2 =
-                new TreeMap<Integer, Set<Integer>>();
+        Map<Integer, Set<Integer>> mapPlayer1
+                = new TreeMap<Integer, Set<Integer>>();
+        Map<Integer, Set<Integer>> mapPlayer2
+                = new TreeMap<Integer, Set<Integer>>();
         for (int i = 0; i < HEIGTH_LENGTH; i++) {
             mapPlayer1.put(i, new TreeSet<Integer>());
             mapPlayer2.put(i, new TreeSet<Integer>());
@@ -83,7 +92,7 @@ public class FieldViewer implements Viewer {
                         if (boardPlayer1.getField(x, y).isHit()) {
                             sb.append(SHIP_IS_HIT);
                         } else {
-                            sb.append(SHIP_NON_HIT);
+                            sb.append(FIELD_NON_HIT);
                         }
                         isShip = true;
                     }
@@ -105,7 +114,7 @@ public class FieldViewer implements Viewer {
                         if (boardPlayer2.getField(x, y).isHit()) {
                             sb.append(SHIP_IS_HIT);
                         } else {
-                            sb.append(SHIP_NON_HIT);
+                            sb.append(FIELD_NON_HIT);
                         }
                         isShip = true;
                     }
@@ -133,6 +142,7 @@ public class FieldViewer implements Viewer {
 
     /**
      * Utility Method to create a Map where ships take place.
+     *
      * @param ship specified ship
      * @param map specified map
      * @return the new Map

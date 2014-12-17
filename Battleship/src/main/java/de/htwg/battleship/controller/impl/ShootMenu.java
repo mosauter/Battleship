@@ -2,7 +2,7 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.controller.impl.Viewer;
+import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
 
 /**
@@ -14,15 +14,18 @@ import de.htwg.battleship.model.IPlayer;
 public class ShootMenu implements Viewer {
 
     private IPlayer player;
-    public ShootMenu(IPlayer player) {
+    private Viewer shootViewer;
+    public ShootMenu(IPlayer player, IMasterController master) {
         this.player = player;
+        this.shootViewer = new ShootFieldViewer(player, master);
     }
 
     @Override
     public String getString() {
         StringBuilder sb = new StringBuilder();
+        sb.append(shootViewer.getString());
         sb.append(player.getName());
-        sb.append(", where to shoot? (Format: [a - z] [0 - 9])\n");
+        sb.append(", where to shoot? (Format: [a - j] [0 - 9])\n");
         sb.append("\t-->\t");
         return sb.toString();
     }

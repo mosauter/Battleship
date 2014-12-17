@@ -2,7 +2,6 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.controller.impl.Viewer;
 import de.htwg.battleship.model.IPlayer;
 
 /**
@@ -21,7 +20,7 @@ public class WinPlayer implements Viewer {
     public String getString() {
         StringBuilder sb = new StringBuilder();
         sb.append(player.getName());
-        sb.append(" has won!");
+        sb.append(" has won!\n\n");
         return sb.toString();
     }
 }
