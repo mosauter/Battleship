@@ -52,8 +52,10 @@ public class ShootFieldViewer implements Viewer {
     public final String getString() {
         StringBuilder sb = new StringBuilder();
         sb.append(" ");
-        Map<Integer, Set<Integer>> mapPlayer1 = new TreeMap<>();
-        Map<Integer, Set<Integer>> mapPlayer2 = new TreeMap<>();
+        Map<Integer, Set<Integer>> mapPlayer1 =
+                new TreeMap<Integer, Set<Integer>>();
+        Map<Integer, Set<Integer>> mapPlayer2 =
+                new TreeMap<Integer, Set<Integer>>();
         for (int i = 0; i < HEIGTH_LENGTH; i++) {
             mapPlayer1.put(i, new TreeSet<>());
             mapPlayer2.put(i, new TreeSet<>());
