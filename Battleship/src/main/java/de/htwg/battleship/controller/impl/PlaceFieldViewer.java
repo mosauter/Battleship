@@ -2,6 +2,8 @@
 
 package de.htwg.battleship.controller.impl;
 
+import de.htwg.battleship.controller.IMasterController;
+import de.htwg.battleship.controller.Viewer;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
@@ -11,6 +13,9 @@ import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
 import static de.htwg.battleship.util.StatCollection.SHIP_IS_HIT;
 import static de.htwg.battleship.util.StatCollection.SHIP_NON_HIT;
 import static de.htwg.battleship.util.StatCollection.getSet;
+import de.htwg.battleship.util.State;
+import static de.htwg.battleship.util.State.FINALPLACE1;
+import static de.htwg.battleship.util.State.FINALPLACE2;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -23,19 +28,26 @@ import java.util.TreeSet;
  * @version 1.00
  * @since 2014-12-09
  */
-public class PlaceFieldViewer {
+public class PlaceFieldViewer implements Viewer {
 
     /**
      * Saves Player one.
      */
     private final IPlayer player1;
+    /**
+     * True if player1 is the first player,
+     * False if player2 is the second player.
+     */
+    private final boolean firstPlayer;
 
     /**
      * Public - Constructor.
      * @param player player one
+     * @param master master controller
      */
-    public PlaceFieldViewer(final IPlayer player) {
+    public PlaceFieldViewer(final IPlayer player, IMasterController master) {
         this.player1 = player;
+        this.firstPlayer = player.equals(master.getPlayer1());
     }
 
     /**
@@ -44,6 +56,7 @@ public class PlaceFieldViewer {
      * Player at the turn is always at the left side.
      * @return String presentation of the Field
      */
+    @Override
     public final String getString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\n ");
@@ -103,5 +116,13 @@ public class PlaceFieldViewer {
         sb.append("\n\t" + SHIP_IS_HIT + " -> A ship is on the Field "
                 + "and it is destroyed!\n\n");
         return sb.toString();
+    }
+
+    @Override
+    public final State getCurrentState() {
+        if (firstPlayer) {
+            return FINALPLACE1;
+        }
+        return FINALPLACE2;
     }
 }
