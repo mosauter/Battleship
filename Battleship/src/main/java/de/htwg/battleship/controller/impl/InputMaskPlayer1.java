@@ -20,7 +20,7 @@ public class InputMaskPlayer1 implements Viewer {
     }
 
     @Override
-    public State getCurrentState() {
+    public final State getCurrentState() {
         return GETNAME1;
     }
 }
