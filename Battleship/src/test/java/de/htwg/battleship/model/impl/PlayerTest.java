@@ -3,6 +3,7 @@ package de.htwg.battleship.model.impl;
 // PlayerTest.java
 
 import de.htwg.battleship.model.IField;
+import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -31,15 +32,15 @@ public class PlayerTest {
 
     @Test
     public void getOwnBoard() {
-        IField[][] expResult = new Field[10][10];
-        for (int x = 0; x < 10; x++) {
-            for (int y = 0; y < 10; y++) {
+        IField[][] expResult = new Field[HEIGTH_LENGTH][HEIGTH_LENGTH];
+        for (int x = 0; x < HEIGTH_LENGTH; x++) {
+            for (int y = 0; y < HEIGTH_LENGTH; y++) {
                 expResult[x][y] = new Field(x, y);
             }
         }
         IField[][] result = player.getOwnBoard().getBoard();
-        for (int x = 0; x < 10; x++) {
-            for (int y = 0; y < 10; y++) {
+        for (int x = 0; x < HEIGTH_LENGTH; x++) {
+            for (int y = 0; y < HEIGTH_LENGTH; y++) {
                 int expX = expResult[x][y].getX();
                 int expY = expResult[x][y].getY();
                 int resX = result[x][y].getX();
