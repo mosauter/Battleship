@@ -18,38 +18,37 @@ public class ShipController extends Observable {
     /**
      * Controller with a chain of responsibility.
      */
-    private CollisionController cc;
+    private final CollisionController collisionController;
 
     /**
      * Controller with a chain of responsibility.
      */
-    private BorderController bc;
+    private final BorderController borderController;
 
     /**
      * Public Constructor.
-     *
-     * @param player1 first player
-     * @param player2 second player
      */
     public ShipController() {
-        this.cc = new CollisionOrientationBothTrue();
-        this.bc = new BorderTrueController();
+        this.collisionController = new CollisionOrientationBothTrue();
+        this.borderController = new BorderTrueController();
     }
 
-    public final boolean placeShip(final IShip ship, IPlayer player) {
-        return checkXY(ship, player);
-    }
-
-    private boolean checkXY(final IShip ship, final IPlayer player) {
-        if (!bc.responsibility(ship)) {
+    /**
+     * Method to place a Ship on a field.
+     * @param ship ship which should be placed
+     * @param player on which board the ship should be placed
+     * @return true if the ship was placed false if there was a
+     *         collision or the ship is out of the field
+     */
+    public final boolean placeShip(final IShip ship, final IPlayer player) {
+        if (!borderController.responsibility(ship)) {
             return false;
         }
         return playerShip(ship, player);
     }
-            
+
     /**
      * Utility-Method to set a ship for a specified player.
-     *
      * @param ship to place
      * @param player which player
      * @return true if it is set, false if not
@@ -68,12 +67,11 @@ public class ShipController extends Observable {
 
     /**
      * Tests if two ships collide.
-     *
      * @param ship on the board
      * @param shipIn to place
      * @return true if they collide
      */
     private boolean isCollision(final IShip ship, final IShip shipIn) {
-        return cc.responsibility(shipIn, ship);
+        return collisionController.responsibility(shipIn, ship);
     }
 }

@@ -5,7 +5,7 @@ package de.htwg.battleship.controller.impl;
 import de.htwg.battleship.controller.Viewer;
 
 /**
- * MenuViewer
+ * MenuViewer presents the menu to shoot.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-09
@@ -13,7 +13,7 @@ import de.htwg.battleship.controller.Viewer;
 public class MenuViewer implements Viewer {
 
     @Override
-    public String getString() {
+    public final String getString() {
         StringBuilder sb = new StringBuilder();
         sb.append("What you want to do next?\n");
         sb.append("\t1. Shoot\n");

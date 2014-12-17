@@ -2,6 +2,10 @@
 
 package de.htwg.battleship.util;
 
+import de.htwg.battleship.model.IShip;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Set of static util Methods.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
@@ -57,5 +61,32 @@ public final class StatCollection {
     public static boolean isBetween(final int xupp,
             final int xlow, final int x) {
         return (x >= xlow && x <= xupp);
+    }
+
+    /**
+     * Utility Method to create a Map where ships take place.
+     * @param ship specified ship
+     * @param map specified map
+     * @return the new Map
+     */
+    public static Map<Integer, Set<Integer>> getSet(final IShip ship,
+            final Map<Integer, Set<Integer>> map) {
+        if (ship.isOrientation()) {
+            int xlow = ship.getX();
+            int xupp = xlow + ship.getSize();
+            Set<Integer> set = map.get(ship.getY());
+            for (int i = xlow; i < xupp; i++) {
+                set.add(i);
+            }
+            return map;
+        } else {
+            int ylow = ship.getY();
+            int yupp = ylow + ship.getSize();
+            int x = ship.getX();
+            for (int i = ylow; i < yupp; i++) {
+                map.get(i).add(x);
+            }
+            return map;
+        }
     }
 }

@@ -40,6 +40,10 @@ public class WinController extends Observable {
         dc = new DestroyedTrueController();
     }
 
+    /**
+     * Method to check if a player wins and who wins.
+     * @return the winner
+     */
     public final IPlayer win() {
         if (playerDestroyed(player1)) {
             return player2;

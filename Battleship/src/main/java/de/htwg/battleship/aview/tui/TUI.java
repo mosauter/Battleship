@@ -16,36 +16,46 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
- * TUI
+ * Textual User Interface.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-10
  */
 public class TUI implements IObserver {
 
+    /**
+     * Saves the MasterController.
+     */
     private final IMasterController master;
+    /**
+     * Scanner.
+     */
     private final Scanner input = new Scanner(System.in);
 
-    public TUI(IMasterController master) {
-        this.master= master;
+    /**
+     * Public constructor.
+     * @param master master controller
+     */
+    public TUI(final IMasterController master) {
+        this.master = master;
         this.master.addObserver(this);
     }
 
-    public void initialize() {
+    /**
+     * TUI - Method to initialize the complete Game.
+     */
+    public final void initialize() {
         this.master.setViewer(new StartMenu());
-        int i;
-        if ((i = input.nextInt()) == 2) {
+        if ((input.nextInt()) == 2) {
             System.exit(0);
         }
-//        if (i != 1) {
-//            this.master.setViewer(new ErrorView());
-//        }
         this.master.setViewer(new InputMaskPlayer1());
         this.master.getPlayer1().setName(input.next());
         this.master.setViewer(new InputMaskPlayer2());
         this.master.getPlayer2().setName(input.next());
         this.master.setViewer(new PlaceViewer(this.master.getPlayer1()));
-        while (this.master.getPlayer1().getOwnBoard().getShips() < SHIP_NUMBER_MAX) {
+        while (this.master.getPlayer1().getOwnBoard().getShips()
+                < SHIP_NUMBER_MAX) {
             int x = (int) input.next(Pattern.compile("[a-z]")).charAt(0)
                     - ASCII_LOW_CASE;
             int y = input.nextInt();
@@ -53,7 +63,8 @@ public class TUI implements IObserver {
             this.master.placeShip(x, y, orientation, this.master.getPlayer1());
         }
         this.master.setViewer(new PlaceViewer(this.master.getPlayer2()));
-        while (this.master.getPlayer2().getOwnBoard().getShips() < SHIP_NUMBER_MAX) {
+        while (this.master.getPlayer2().getOwnBoard().getShips()
+                < SHIP_NUMBER_MAX) {
             int x = (int) input.next(Pattern.compile("[a-z]")).charAt(0)
                     - ASCII_LOW_CASE;
             int y = input.nextInt();
@@ -62,15 +73,22 @@ public class TUI implements IObserver {
         }
     }
 
-    public void printTUI() {
+    /**
+     * Method to print the current TUI.
+     */
+    public final void printTUI() {
         System.out.print(master.getString());
     }
 
-    public void update() {
+    @Override
+    public final void update() {
         printTUI();
     }
-    
-    public void startGame() {
+
+    /**
+     * TUI - Method to start a new Game.
+     */
+    public final void startGame() {
         while (true) {
             this.master.setViewer(new ShootMenu(master.getPlayer1(), master));
             int x = (int) input.next(Pattern.compile("[a-z]")).charAt(0)

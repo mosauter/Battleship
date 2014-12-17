@@ -2,30 +2,52 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.controller.Viewer;
 import de.htwg.battleship.controller.IMasterController;
+import de.htwg.battleship.controller.Viewer;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.observer.impl.Observable;
 import de.htwg.battleship.util.StatCollection;
 
 /**
- * MasterController
+ * MasterController is an implementation of the master controller.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-16
  */
 public class MasterController extends Observable implements IMasterController {
 
+    /**
+     * Internal Ship controller.
+     */
     private final ShipController shipController;
+    /**
+     * Internal shoot controller.
+     */
     private final ShootController shootController;
+    /**
+     * Internal win controller.
+     */
     private final WinController winController;
+    /**
+     * Saves the first Player.
+     */
     private final IPlayer player1;
+    /**
+     * Saves the second Player.
+     */
     private final IPlayer player2;
+    /**
+     * Presentation of the Game.
+     */
     private Viewer view;
 
-
-    public MasterController(IPlayer player1, IPlayer player2) {
+    /**
+     * Public Constructor.
+     * @param player1 player one
+     * @param player2 player two
+     */
+    public MasterController(final IPlayer player1, final IPlayer player2) {
         this.shipController = new ShipController();
         this.shootController = new ShootController(player1, player2);
         this.winController = new WinController(player1, player2);
@@ -35,7 +57,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public void shoot(final int x, final int y, final IPlayer player) {
+    public final void shoot(final int x, final int y, final IPlayer player) {
         boolean first;
         if (player == this.player1) {
             first = true;
@@ -47,7 +69,8 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public void placeShip(int x, int y, boolean orientation, IPlayer player) {
+    public final void placeShip(final int x, final int y,
+            final boolean orientation, final IPlayer player) {
         shipController.placeShip(new Ship((player.getOwnBoard().getShips() + 2),
                 orientation, x, y), player);
         if (player.getOwnBoard().getShips() == StatCollection.SHIP_NUMBER_MAX) {
@@ -57,7 +80,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public void win() {
+    public final void win() {
         IPlayer winner = winController.win();
         if (winner == null) {
             return;
@@ -67,22 +90,23 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public String getString() {
+    public final String getString() {
         return view.getString();
     }
 
     @Override
-    public void setViewer(final Viewer view) {
+    public final void setViewer(final Viewer view) {
         this.view = view;
         notifyObserver();
     }
-    
-    public IPlayer getPlayer1() {
+
+    @Override
+    public final IPlayer getPlayer1() {
         return player1;
     }
 
-    public IPlayer getPlayer2() {
+    @Override
+    public final IPlayer getPlayer2() {
         return player2;
     }
-    
 }

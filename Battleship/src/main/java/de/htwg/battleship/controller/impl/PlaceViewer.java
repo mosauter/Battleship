@@ -7,16 +7,27 @@ import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.util.StatCollection;
 
 /**
- * PlaceViewer
+ * PlaceViewer presents the place-Menu with a presentation of the field.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-15
  */
 public class PlaceViewer implements Viewer {
 
-    private IPlayer player;
-    private Viewer fieldViewer;
-    public PlaceViewer(IPlayer player) {
+    /**
+     * Saves th player.
+     */
+    private final IPlayer player;
+    /**
+     * Internal Viewer for a presentation of the field.
+     */
+    private final PlaceFieldViewer fieldViewer;
+
+    /**
+     * Public Constructor.
+     * @param player which player is at the turn to place a ship
+     */
+    public PlaceViewer(final IPlayer player) {
         this.player = player;
         this.fieldViewer = new PlaceFieldViewer(player);
     }

@@ -71,10 +71,7 @@ class BorderTrueController extends BorderController {
         if (!isBetween((HEIGTH_LENGTH - 1), 0, xupp)) {
             return false;
         }
-        if (!isBetween((HEIGTH_LENGTH - 1), 0, y)) {
-            return false;
-        }
-        return true;
+        return isBetween((HEIGTH_LENGTH - 1), 0, y);
     }
 }
 
@@ -103,9 +100,6 @@ class BorderFalseController extends BorderController {
         if (!isBetween((HEIGTH_LENGTH - 1), 0, yupp)) {
             return false;
         }
-        if (!isBetween((HEIGTH_LENGTH - 1), 0, x)) {
-            return false;
-        }
-        return true;
+        return isBetween((HEIGTH_LENGTH - 1), 0, x);
     }
 }

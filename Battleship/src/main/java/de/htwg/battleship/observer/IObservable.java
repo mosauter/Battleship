@@ -3,7 +3,7 @@
 package de.htwg.battleship.observer;
 
 /**
- * IObserver is an Utility-Interface.
+ * IObserver is an Utility-Interface for an observable element.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-10

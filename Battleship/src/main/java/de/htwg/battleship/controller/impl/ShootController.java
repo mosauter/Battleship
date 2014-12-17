@@ -9,7 +9,7 @@ import de.htwg.battleship.observer.impl.Observable;
 import de.htwg.battleship.util.StatCollection;
 
 /**
- * ShootController.
+ * ShootController which controlls the shoot method.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-11-19
@@ -35,6 +35,14 @@ public class ShootController extends Observable {
         this.player2 = player2;
     }
 
+    /**
+     * Method to shoot on the field of a specific player.
+     * @param x x-Coordinate where to shoot
+     * @param y y-Coordinate where to shoot
+     * @param player indicates which player shoots
+     * @return true if it was a hit
+     *         false if not
+     */
     public final boolean shoot(final int x, final int y, final boolean player) {
         IBoard board = getBoard(player);
         if (board.getField(x, y).isHit()) {

@@ -11,6 +11,7 @@ import static de.htwg.battleship.util.StatCollection.FIELD_NON_HIT;
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
 import static de.htwg.battleship.util.StatCollection.SHIP_IS_HIT;
 import static de.htwg.battleship.util.StatCollection.SHIP_NON_HIT;
+import static de.htwg.battleship.util.StatCollection.getSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -32,7 +33,6 @@ public class PlaceFieldViewer implements Viewer {
     /**
      * Public - Constructor.
      * @param player player one
-     * @param player2 player two
      */
     public PlaceFieldViewer(final IPlayer player) {
         this.player1 = player;
@@ -42,15 +42,14 @@ public class PlaceFieldViewer implements Viewer {
     public final String getString() {
         StringBuilder sb = new StringBuilder();
         sb.append(" ");
-        Map<Integer, Set<Integer>> mapPlayer1 =
-                new TreeMap<Integer, Set<Integer>>();
+        Map<Integer, Set<Integer>> mapPlayer1 = new TreeMap<>();
         for (int i = 0; i < HEIGTH_LENGTH; i++) {
             mapPlayer1.put(i, new TreeSet<Integer>());
         }
         IBoard boardPlayer1 = player1.getOwnBoard();
         IShip[] listPlayer1 = player1.getOwnBoard().getShipList();
         for (int i = 0; i < player1.getOwnBoard().getShips(); i++) {
-            mapPlayer1 = this.getSet(listPlayer1[i], mapPlayer1);
+            mapPlayer1 = getSet(listPlayer1[i], mapPlayer1);
         }
         for (int i = 0; i < HEIGTH_LENGTH; i++) {
             char c = (char) ('a' + i);
@@ -99,32 +98,5 @@ public class PlaceFieldViewer implements Viewer {
         sb.append("\n\t" + SHIP_IS_HIT + " -> A ship is on the Field "
                 + "and it is destroyed!\n");
         return sb.toString();
-    }
-
-    /**
-     * Utility Method to create a Map where ships take place.
-     * @param ship specified ship
-     * @param map specified map
-     * @return the new Map
-     */
-    private Map<Integer, Set<Integer>> getSet(final IShip ship,
-            final Map<Integer, Set<Integer>> map) {
-        if (ship.isOrientation()) {
-            int xlow = ship.getX();
-            int xupp = xlow + ship.getSize();
-            Set<Integer> set = map.get(ship.getY());
-            for (int i = xlow; i < xupp; i++) {
-                set.add(i);
-            }
-            return map;
-        } else {
-            int ylow = ship.getY();
-            int yupp = ylow + ship.getSize();
-            int x = ship.getX();
-            for (int i = ylow; i < yupp; i++) {
-                map.get(i).add(x);
-            }
-            return map;
-        }
     }
 }
