@@ -1,10 +1,10 @@
 package de.htwg.battleship.controller.impl;
 
+import de.htwg.battleship.aview.GUI;
+import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import de.htwg.battleship.aview.GUI;
 import javax.swing.JButton;
-import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
 
 
 public class GuiController implements ActionListener{
