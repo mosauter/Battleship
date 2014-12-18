@@ -92,12 +92,12 @@ public class MasterController extends Observable implements IMasterController {
         } else {
             this.setState(MISS);
         }
+        this.win();
         if (first) {
             this.setState(SHOOT2);
         } else {
             this.setState(SHOOT1);
         }
-        this.win();
     }
 
     @Override
