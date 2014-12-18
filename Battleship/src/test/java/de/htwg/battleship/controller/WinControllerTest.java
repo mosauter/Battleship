@@ -2,14 +2,12 @@
 
 package de.htwg.battleship.controller;
 
-import de.htwg.battleship.controller.impl.ShipController;
-import de.htwg.battleship.controller.impl.ShootController;
 import de.htwg.battleship.controller.impl.WinController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.model.impl.Board;
 import de.htwg.battleship.model.impl.Player;
 import de.htwg.battleship.model.impl.Ship;
+import de.htwg.battleship.util.StatCollection;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -23,28 +21,13 @@ import org.junit.Test;
  */
 public class WinControllerTest {
 
-    WinController wc;
-    ShipController shipC;
-    ShootController shootC;
-    IPlayer player1;
-    IPlayer player2;
-    IShip ship1;
-    IShip ship2;
-    
     public WinControllerTest() {
     }
 
     @Before
     public void setUp() {
-        player1 = new Player(new Board());
-        player2 = new Player(new Board());
-        ship1 = new Ship(2, true, 3, 3);
-        ship2 = new Ship(1, true, 1, 1);
-        shipC = new ShipController();
-        shipC.placeShip(ship1, player1);
-        shipC.placeShip(ship2, player2);
-        shootC = new ShootController(player1, player2);
-        wc = new WinController(player1, player2);
+        StatCollection.HEIGTH_LENGTH = 2;
+        StatCollection.SHIP_NUMBER_MAX = 1;
     }
 
     @After
@@ -56,6 +39,12 @@ public class WinControllerTest {
      */
     @Test
     public void testNullWin() {
+        IPlayer player1 = new Player();
+        IPlayer player2 = new Player();
+        IShip ship = new Ship(1, true, 0, 0);
+        player1.getOwnBoard().addShip(ship);
+        player2.getOwnBoard().addShip(ship);
+        WinController wc = new WinController(player1, player2);
         IPlayer expRes = null;
         IPlayer result = wc.win();
         assertEquals(expRes, result);
@@ -66,8 +55,12 @@ public class WinControllerTest {
      */
     @Test
     public void testPlayer1Win() {
+        IPlayer player1 = new Player();
+        IPlayer player2 = new Player();
+        IShip ship = new Ship(1, true, 0, 0);
+        player1.getOwnBoard().addShip(ship);
+        WinController wc = new WinController(player1, player2);
         IPlayer expRes = player1;
-        shootC.shoot(1, 1, true);
         IPlayer result = wc.win();
         assertEquals(expRes, result);
     }
@@ -77,9 +70,12 @@ public class WinControllerTest {
      */
     @Test
     public void testPlayer2Win() {
+        IPlayer player1 = new Player();
+        IPlayer player2 = new Player();
+        IShip ship = new Ship(1, true, 0, 0);
+        player2.getOwnBoard().addShip(ship);
+        WinController wc = new WinController(player1, player2);
         IPlayer expRes = player2;
-        shootC.shoot(3, 3, false);
-        shootC.shoot(4, 3, false);
         IPlayer result = wc.win();
         assertEquals(expRes, result);
     }

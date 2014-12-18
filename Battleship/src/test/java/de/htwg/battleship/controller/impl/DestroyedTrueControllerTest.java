@@ -7,6 +7,7 @@ import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Board;
 import de.htwg.battleship.model.impl.Player;
 import de.htwg.battleship.model.impl.Ship;
+import de.htwg.battleship.util.StatCollection;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -31,6 +32,8 @@ public class DestroyedTrueControllerTest {
 
     @Before
     public void setUp() {
+        StatCollection.HEIGTH_LENGTH = 10;
+        StatCollection.SHIP_NUMBER_MAX = 5;
         player = new Player(new Board());
         ship = new Ship(2, true, 3, 3);
         shoot = new ShootController(player, new Player(new Board()));

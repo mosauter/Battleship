@@ -3,6 +3,7 @@
 package de.htwg.battleship.controller.impl;
 
 import de.htwg.battleship.model.impl.Ship;
+import de.htwg.battleship.util.StatCollection;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -22,6 +23,8 @@ public class CollisionOrientationFirstFalseTest {
     Ship ship3;
 
     public CollisionOrientationFirstFalseTest() {
+        StatCollection.HEIGTH_LENGTH = 10;
+        StatCollection.SHIP_NUMBER_MAX = 5;
         cc = new CollisionOrientationFirstFalse();
         ship1 = new Ship(2, false, 4, 0);
         ship2 = new Ship(2, true, 2, 0);

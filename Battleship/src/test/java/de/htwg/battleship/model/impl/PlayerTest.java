@@ -3,6 +3,7 @@ package de.htwg.battleship.model.impl;
 // PlayerTest.java
 
 import de.htwg.battleship.model.IField;
+import de.htwg.battleship.util.StatCollection;
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
@@ -23,6 +24,8 @@ public class PlayerTest {
 
     @Before
     public void setUp() {
+        StatCollection.HEIGTH_LENGTH = 10;
+        StatCollection.SHIP_NUMBER_MAX = 5;
         player = new Player();
     }
 

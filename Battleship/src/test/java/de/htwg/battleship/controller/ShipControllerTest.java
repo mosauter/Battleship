@@ -6,6 +6,7 @@ import de.htwg.battleship.controller.impl.ShipController;
 import de.htwg.battleship.model.impl.Board;
 import de.htwg.battleship.model.impl.Player;
 import de.htwg.battleship.model.impl.Ship;
+import de.htwg.battleship.util.StatCollection;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -30,6 +31,8 @@ public class ShipControllerTest {
 
     @Before
     public void setUp() {
+        StatCollection.HEIGTH_LENGTH = 10;
+        StatCollection.SHIP_NUMBER_MAX = 5;
         player1 = new Player(new Board());
         player2 = new Player(new Board());
         ship1 = new Ship(2, true, 1, 1);

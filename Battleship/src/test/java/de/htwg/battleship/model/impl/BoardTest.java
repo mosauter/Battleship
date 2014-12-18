@@ -3,6 +3,7 @@ package de.htwg.battleship.model.impl;
 
 import de.htwg.battleship.model.IField;
 import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.util.StatCollection;
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
 import static de.htwg.battleship.util.StatCollection.SHIP_NUMBER_MAX;
 import org.junit.After;
@@ -26,6 +27,8 @@ public class BoardTest {
 
     @Before
     public void setUp() {
+        StatCollection.HEIGTH_LENGTH = 10;
+        StatCollection.SHIP_NUMBER_MAX = 5;
         board = new Board();
     }
 
