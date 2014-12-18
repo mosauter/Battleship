@@ -1,10 +1,8 @@
 // InputMask.java
 
-package de.htwg.battleship.controller.impl;
+package de.htwg.battleship.aview.tui.impl;
 
-import de.htwg.battleship.controller.Viewer;
-import de.htwg.battleship.util.State;
-import static de.htwg.battleship.util.State.GETNAME1;
+import de.htwg.battleship.aview.tui.Viewer;
 
 /**
  * InputMask presents the input mask for player one.
@@ -17,10 +15,5 @@ public class InputMaskPlayer1 implements Viewer {
     @Override
     public final String getString() {
         return "\nName Player 1:\t";
-    }
-
-    @Override
-    public final State getCurrentState() {
-        return GETNAME1;
     }
 }

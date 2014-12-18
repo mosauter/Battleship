@@ -1,14 +1,11 @@
 // PlaceViewer.java
 
-package de.htwg.battleship.controller.impl;
+package de.htwg.battleship.aview.tui.impl;
 
+import de.htwg.battleship.aview.tui.Viewer;
 import de.htwg.battleship.controller.IMasterController;
-import de.htwg.battleship.controller.Viewer;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.util.StatCollection;
-import de.htwg.battleship.util.State;
-import static de.htwg.battleship.util.State.PLACE1;
-import static de.htwg.battleship.util.State.PLACE2;
 
 /**
  * PlaceViewer presents the place-Menu with a presentation of the field.
@@ -23,7 +20,7 @@ public class PlaceViewer implements Viewer {
      */
     private final IPlayer player;
     /**
-     * Internal Viewer for a presentation of the field.
+     * Internal States for a presentation of the field.
      */
     private final PlaceFieldViewer fieldViewer;
     /**
@@ -56,13 +53,5 @@ public class PlaceViewer implements Viewer {
         sb.append("\n");
         sb.append("\t\t-->\t");
         return sb.toString();
-    }
-
-    @Override
-    public final State getCurrentState() {
-        if (firstPlayer) {
-            return PLACE1;
-        }
-        return PLACE2;
     }
 }

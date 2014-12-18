@@ -1,13 +1,10 @@
 // ShootMenu.java
 
-package de.htwg.battleship.controller.impl;
+package de.htwg.battleship.aview.tui.impl;
 
+import de.htwg.battleship.aview.tui.Viewer;
 import de.htwg.battleship.controller.IMasterController;
-import de.htwg.battleship.controller.Viewer;
 import de.htwg.battleship.model.IPlayer;
-import de.htwg.battleship.util.State;
-import static de.htwg.battleship.util.State.SHOOT1;
-import static de.htwg.battleship.util.State.SHOOT2;
 
 /**
  * ShootMenu presents a interface where the player wants to shoot.
@@ -22,7 +19,7 @@ public class ShootMenu implements Viewer {
      */
     private final IPlayer player;
     /**
-     * Viewer for a presentation of the Field.
+     * States for a presentation of the Field.
      */
     private final ShootFieldViewer shootViewer;
     /**
@@ -50,13 +47,5 @@ public class ShootMenu implements Viewer {
         sb.append(", where to shoot? (Format: [a - j] [0 - 9])\n");
         sb.append("\t-->\t");
         return sb.toString();
-    }
-
-    @Override
-    public State getCurrentState() {
-        if (firstPlayer) {
-            return SHOOT1;
-        }
-        return SHOOT2;
     }
 }

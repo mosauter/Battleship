@@ -1,13 +1,10 @@
 // WinPlayer1.java
 
-package de.htwg.battleship.controller.impl;
+package de.htwg.battleship.aview.tui.impl;
 
+import de.htwg.battleship.aview.tui.Viewer;
 import de.htwg.battleship.controller.IMasterController;
-import de.htwg.battleship.controller.Viewer;
 import de.htwg.battleship.model.IPlayer;
-import de.htwg.battleship.util.State;
-import static de.htwg.battleship.util.State.WIN1;
-import static de.htwg.battleship.util.State.WIN2;
 
 /**
  * WinPlayer1 presents a view which player has won.
@@ -43,13 +40,5 @@ public class WinPlayer implements Viewer {
         sb.append(player.getName());
         sb.append(" has won!\n\n");
         return sb.toString();
-    }
-
-    @Override
-    public final State getCurrentState() {
-        if (firstPlayer) {
-            return WIN1;
-        }
-        return WIN2;
     }
 }

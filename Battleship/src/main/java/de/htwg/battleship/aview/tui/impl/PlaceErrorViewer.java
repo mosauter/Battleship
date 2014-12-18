@@ -1,10 +1,8 @@
 // PlaceErrorViewer.java
 
-package de.htwg.battleship.controller.impl;
+package de.htwg.battleship.aview.tui.impl;
 
-import de.htwg.battleship.controller.Viewer;
-import de.htwg.battleship.util.State;
-import static de.htwg.battleship.util.State.PLACEERR;
+import de.htwg.battleship.aview.tui.Viewer;
 
 /**
  * PlaceErrorViewer presents a error-Message.
@@ -18,10 +16,5 @@ public class PlaceErrorViewer implements Viewer {
     public final String getString() {
         return "Cannot place the Ship because there was a collision "
                 + "or the ship ends out of the field. Try again!\n";
-    }
-
-    @Override
-    public final State getCurrentState() {
-        return PLACEERR;
     }
 }

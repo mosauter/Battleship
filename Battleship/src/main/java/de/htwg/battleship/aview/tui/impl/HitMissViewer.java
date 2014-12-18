@@ -1,11 +1,8 @@
 // HitMissViewer.java
 
-package de.htwg.battleship.controller.impl;
+package de.htwg.battleship.aview.tui.impl;
 
-import de.htwg.battleship.controller.Viewer;
-import de.htwg.battleship.util.State;
-import static de.htwg.battleship.util.State.HIT;
-import static de.htwg.battleship.util.State.MISS;
+import de.htwg.battleship.aview.tui.Viewer;
 
 /**
  * HitMissViewer presents if a shot was a hit or a miss.
@@ -35,13 +32,4 @@ public class HitMissViewer implements Viewer {
         }
         return "Your Shot was a Miss\n";
     }
-
-    @Override
-    public State getCurrentState() {
-        if (hit) {
-            return HIT;
-        }
-        return MISS;
-    }
-
 }
