@@ -3,7 +3,6 @@
 package de.htwg.battleship.aview.tui.impl;
 
 import de.htwg.battleship.aview.tui.Viewer;
-import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
 
 /**
@@ -18,20 +17,13 @@ public class WinPlayer implements Viewer {
      * Saves the winner.
      */
     private final IPlayer player;
-    /**
-     * True if the winner is the first player,
-     * false if the winner is the second player.
-     */
-    private final boolean firstPlayer;
 
     /**
      * Public Constructor.
      * @param player the winner
-     * @param master the master controller
      */
-    public WinPlayer(final IPlayer player, final IMasterController master) {
+    public WinPlayer(final IPlayer player) {
         this.player = player;
-        firstPlayer = this.player.equals(master.getPlayer1());
     }
 
     @Override

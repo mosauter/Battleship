@@ -73,16 +73,16 @@ public class TUI implements IObserver {
                 this.view = new InputMaskPlayer2();
                 break;
             case PLACE1:
-                this.view = new PlaceViewer(master.getPlayer1(), master);
+                this.view = new PlaceViewer(master.getPlayer1());
                 break;
             case PLACE2:
-                this.view = new PlaceViewer(master.getPlayer2(), master);
+                this.view = new PlaceViewer(master.getPlayer2());
                 break;
             case FINALPLACE1:
-                this.view = new PlaceFieldViewer(master.getPlayer1(), master);
+                this.view = new PlaceFieldViewer(master.getPlayer1());
                 break;
             case FINALPLACE2:
-                this.view = new PlaceFieldViewer(master.getPlayer2(), master);
+                this.view = new PlaceFieldViewer(master.getPlayer2());
                 break;
             case PLACEERR:
                 this.view = new PlaceErrorViewer();
@@ -100,10 +100,10 @@ public class TUI implements IObserver {
                 this.view = new HitMissViewer(false);
                 break;
             case WIN1:
-                this.view = new WinPlayer(master.getPlayer1(), master);
+                this.view = new WinPlayer(master.getPlayer1());
                 break;
             case WIN2:
-                this.view = new WinPlayer(master.getPlayer2(), master);
+                this.view = new WinPlayer(master.getPlayer2());
                 break;
             case WRONGINPUT:
                 this.view = new WrongInputViewer();

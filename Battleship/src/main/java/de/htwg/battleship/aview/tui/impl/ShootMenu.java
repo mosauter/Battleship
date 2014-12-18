@@ -22,11 +22,6 @@ public class ShootMenu implements Viewer {
      * States for a presentation of the Field.
      */
     private final ShootFieldViewer shootViewer;
-    /**
-     * True if the shooter is the first player,
-     * false if the shooter is the second player.
-     */
-    private final boolean firstPlayer;
 
     /**
      * Public Constructor.
@@ -36,7 +31,6 @@ public class ShootMenu implements Viewer {
     public ShootMenu(final IPlayer player, final IMasterController master) {
         this.player = player;
         this.shootViewer = new ShootFieldViewer(player, master);
-        this.firstPlayer = player.equals(master.getPlayer1());
     }
 
     @Override

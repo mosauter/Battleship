@@ -36,11 +36,6 @@ public class ShootFieldViewer implements Viewer {
      * Has not coersive necessary that it has to be the second player.
      */
     private final IPlayer player2;
-    /**
-     * True if player1 is the first player,
-     * False if player2 is the second player.
-     */
-    private final boolean firstPlayer;
 
     /**
      * Public - Constructor.
@@ -51,10 +46,8 @@ public class ShootFieldViewer implements Viewer {
             final IMasterController master) {
         this.player1 = player;
         if (player.equals(master.getPlayer1())) {
-            this.firstPlayer = true;
             this.player2 = master.getPlayer2();
         } else {
-            this.firstPlayer = false;
             this.player2 = master.getPlayer1();
         }
     }

@@ -3,7 +3,6 @@
 package de.htwg.battleship.aview.tui.impl;
 
 import de.htwg.battleship.aview.tui.Viewer;
-import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.util.StatCollection;
 
@@ -23,21 +22,14 @@ public class PlaceViewer implements Viewer {
      * Internal States for a presentation of the field.
      */
     private final PlaceFieldViewer fieldViewer;
-    /**
-     * True if player is the first player,
-     * false if the player is the second player.
-     */
-    private final boolean firstPlayer;
 
     /**
      * Public Constructor.
      * @param player which player is at the turn to place a ship
-     * @param master master controller
      */
-    public PlaceViewer(final IPlayer player, final IMasterController master) {
+    public PlaceViewer(final IPlayer player) {
         this.player = player;
-        this.fieldViewer = new PlaceFieldViewer(player, master);
-        this.firstPlayer = player.equals(master.getPlayer1());
+        this.fieldViewer = new PlaceFieldViewer(player);
     }
 
     @Override

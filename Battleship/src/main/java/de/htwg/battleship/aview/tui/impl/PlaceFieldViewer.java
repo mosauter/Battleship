@@ -3,7 +3,6 @@
 package de.htwg.battleship.aview.tui.impl;
 
 import de.htwg.battleship.aview.tui.Viewer;
-import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
@@ -31,21 +30,13 @@ public class PlaceFieldViewer implements Viewer {
      * Saves Player one.
      */
     private final IPlayer player1;
-    /**
-     * True if player1 is the first player,
-     * False if player2 is the second player.
-     */
-    private final boolean firstPlayer;
 
     /**
      * Public - Constructor.
      * @param player player one
-     * @param master master controller
      */
-    public PlaceFieldViewer(final IPlayer player,
-            final IMasterController master) {
+    public PlaceFieldViewer(final IPlayer player) {
         this.player1 = player;
-        this.firstPlayer = player.equals(master.getPlayer1());
     }
 
     /**
