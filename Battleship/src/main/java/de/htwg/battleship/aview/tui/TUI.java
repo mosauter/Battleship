@@ -15,6 +15,8 @@ import de.htwg.battleship.aview.tui.impl.WrongInputViewer;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.observer.IObserver;
 import static de.htwg.battleship.util.StatCollection.ASCII_LOW_CASE;
+import static de.htwg.battleship.util.States.GETNAME1;
+import static de.htwg.battleship.util.States.START;
 import static de.htwg.battleship.util.States.WRONGINPUT;
 
 /**
@@ -106,6 +108,17 @@ public class TUI implements IObserver {
 
     public final void processInputLine(final String line) {
         String[] field = line.split(" ");
+        if (master.getCurrentState() == START) {
+            if (field.length != 1) {
+                this.master.setState(WRONGINPUT);
+            }
+            if (field[0].equals("1")) {
+                master.setState(GETNAME1);
+            } else {
+                System.exit(0);
+            }
+            return;
+        }
         if (field.length == PLACE_STATEMENT_LENGTH) {
             if (!field[0].matches("[a-z]")) {
                 master.setState(WRONGINPUT);
