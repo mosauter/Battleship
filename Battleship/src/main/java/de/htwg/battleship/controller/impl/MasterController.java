@@ -181,7 +181,7 @@ public class MasterController extends Observable implements IMasterController {
     public final void setPlayerName(final String name) {
         if (this.state == GETNAME1) {
             player1.setName(name);
-            this.setState(GETNAME1);
+            this.setState(GETNAME2);
         } else if (this.state == GETNAME2) {
             player2.setName(name);
             this.setState(PLACE1);
