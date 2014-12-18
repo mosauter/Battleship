@@ -3,6 +3,7 @@ package de.htwg.battleship.controller;
 
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.observer.IObservable;
+import de.htwg.battleship.util.States;
 
 /**
  * IMasterController is an Utility-Interface.
@@ -18,19 +19,16 @@ public interface IMasterController extends IObservable {
      *
      * @param x x-Coordinate where to shoot.
      * @param y y-Coordinate where to shoot.
-     * @param player true if the first Player shoots on the second Player false
-     * if the other way round
      */
-    void shoot(int x, int y, IPlayer player);
+    void shoot(int x, int y);
 
     /**
      * Method to place a Ship on the board.
      * @param x x-Coordinate for the start point
      * @param y y-Coordinate for the start point
      * @param orientation of the ship, true for horizontal, false for vertical
-     * @param player true for the first, false for the second player
      */
-    void placeShip(int x, int y, boolean orientation, IPlayer player);
+    void placeShip(int x, int y, boolean orientation);
 
     /**
      * Checs if someone has won.
@@ -38,17 +36,17 @@ public interface IMasterController extends IObservable {
     void win();
 
     /**
-     * To get a String - Representation of something the Viewer has to
-     * implement.
-     * @return String
+     * To get the current State of the game.
+     * uses the different states in the util Package
+     * @return current state
      */
-    String getString();
+    States getCurrentState();
 
     /**
      * Setter for a specified Viewer to change the presentation.
-     * @param view new Viewer
+     * @param state new Viewer
      */
-    void setViewer(Viewer view);
+    void setState(States state);
 
     /**
      * Getter for the first Player.
@@ -61,4 +59,11 @@ public interface IMasterController extends IObservable {
      * @return second Player
      */
     IPlayer getPlayer2();
+
+    /**
+     * Method to set the players name.
+     * Which players name is set is addicted to the current state of the game
+     * @param name name of the Player
+     */
+    void setPlayerName(String name);
 }
