@@ -18,7 +18,7 @@ public class Observable implements IObservable {
     /**
      * List to save the Observables.
      */
-    private final List<IObserver> subscriber = new LinkedList<IObserver>();
+    private final List<IObserver> subscriber = new LinkedList<>();
 
     @Override
     public final void addObserver(final IObserver observer) {
