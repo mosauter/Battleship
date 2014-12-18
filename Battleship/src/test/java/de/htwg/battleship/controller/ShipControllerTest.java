@@ -3,6 +3,7 @@
 package de.htwg.battleship.controller;
 
 import de.htwg.battleship.controller.impl.ShipController;
+import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.impl.Board;
 import de.htwg.battleship.model.impl.Player;
 import de.htwg.battleship.model.impl.Ship;
@@ -73,4 +74,11 @@ public class ShipControllerTest {
         assertEquals(expRes, result);
     }
 
+    @Test
+    public void testBorderPlaceShip() {
+        boolean expRes = false;
+        StatCollection.HEIGTH_LENGTH = 2;
+        IPlayer pl = new Player();
+        boolean result = sc.placeShip(ship2, pl);
+    }
 }
