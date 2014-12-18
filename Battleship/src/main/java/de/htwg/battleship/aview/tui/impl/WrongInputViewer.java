@@ -15,6 +15,6 @@ public class WrongInputViewer implements Viewer {
     @Override
     public String getString() {
         return "Your Input is not recognized and was false"
-                + " at the current state of the Game!!";
+                + " at the current state of the Game!!\n";
     }
 }
