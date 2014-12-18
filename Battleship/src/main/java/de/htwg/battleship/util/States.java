@@ -9,8 +9,6 @@ package de.htwg.battleship.util;
 public enum States {
     /**
      * Start state.
-     *//**
-     * Start state.
      */
     START,
     /**
