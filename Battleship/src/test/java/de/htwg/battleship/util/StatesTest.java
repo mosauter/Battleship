@@ -2,7 +2,7 @@
 
 package de.htwg.battleship.util;
 
-import static de.htwg.battleship.util.States.HIT;
+import static de.htwg.battleship.util.State.HIT;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,7 +16,7 @@ import org.junit.Test;
  */
 public class StatesTest {
 
-    States state;
+    State state;
     public StatesTest() {
     }
 
@@ -30,11 +30,11 @@ public class StatesTest {
     }
 
     /**
-     * Test of values method, of class States.
+     * Test of values method, of class State.
      */
     @Test
     public void testValues() {
-        state = States.valueOf("HIT");
+        state = State.valueOf("HIT");
         Assert.assertEquals(state, HIT);
     }
 }

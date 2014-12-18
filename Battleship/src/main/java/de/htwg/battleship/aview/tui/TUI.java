@@ -15,9 +15,9 @@ import de.htwg.battleship.aview.tui.impl.WrongInputViewer;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.observer.IObserver;
 import static de.htwg.battleship.util.StatCollection.ASCII_LOW_CASE;
-import static de.htwg.battleship.util.States.GETNAME1;
-import static de.htwg.battleship.util.States.START;
-import static de.htwg.battleship.util.States.WRONGINPUT;
+import static de.htwg.battleship.util.State.GETNAME1;
+import static de.htwg.battleship.util.State.START;
+import static de.htwg.battleship.util.State.WRONGINPUT;
 
 /**
  * Textual User Interface.

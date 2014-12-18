@@ -3,7 +3,7 @@ package de.htwg.battleship.controller;
 
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.observer.IObservable;
-import de.htwg.battleship.util.States;
+import de.htwg.battleship.util.State;
 
 /**
  * IMasterController is an Utility-Interface.
@@ -40,13 +40,13 @@ public interface IMasterController extends IObservable {
      * uses the different states in the util Package
      * @return current state
      */
-    States getCurrentState();
+    State getCurrentState();
 
     /**
      * Setter for a specified Viewer to change the presentation.
      * @param state new Viewer
      */
-    void setState(States state);
+    void setState(State state);
 
     /**
      * Getter for the first Player.
