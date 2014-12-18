@@ -3,11 +3,26 @@
 package de.htwg.battleship.controller.impl;
 
 import de.htwg.battleship.controller.IMasterController;
-import de.htwg.battleship.controller.Viewer;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.observer.impl.Observable;
 import de.htwg.battleship.util.StatCollection;
+import de.htwg.battleship.util.States;
+import static de.htwg.battleship.util.States.FINALPLACE1;
+import static de.htwg.battleship.util.States.FINALPLACE2;
+import static de.htwg.battleship.util.States.GETNAME1;
+import static de.htwg.battleship.util.States.GETNAME2;
+import static de.htwg.battleship.util.States.HIT;
+import static de.htwg.battleship.util.States.MISS;
+import static de.htwg.battleship.util.States.PLACE1;
+import static de.htwg.battleship.util.States.PLACE2;
+import static de.htwg.battleship.util.States.PLACEERR;
+import static de.htwg.battleship.util.States.SHOOT1;
+import static de.htwg.battleship.util.States.SHOOT2;
+import static de.htwg.battleship.util.States.START;
+import static de.htwg.battleship.util.States.WIN1;
+import static de.htwg.battleship.util.States.WIN2;
+import static de.htwg.battleship.util.States.WRONGINPUT;
 
 /**
  * MasterController is an implementation of the master controller.
@@ -40,7 +55,7 @@ public class MasterController extends Observable implements IMasterController {
     /**
      * Presentation of the Game.
      */
-    private Viewer view;
+    private States state;
 
     /**
      * Public Constructor.
@@ -53,28 +68,76 @@ public class MasterController extends Observable implements IMasterController {
         this.winController = new WinController(player1, player2);
         this.player1 = player1;
         this.player2 = player2;
-        this.view = null;
+        this.state = START;
     }
 
     @Override
-    public final void shoot(final int x, final int y, final IPlayer player) {
+    public final void shoot(final int x, final int y) {
+        IPlayer player;
+        States tmp = this.state;
         boolean first;
-        first = (player == this.player1);
-        this.setViewer(new HitMissViewer(shootController.shoot(x, y, first)));
+        if (this.state == SHOOT1) {
+            player = this.player1;
+            first = true;
+        } else if (this.state == SHOOT2) {
+            player = this.player2;
+            first = false;
+        } else {
+            this.setState(WRONGINPUT);
+            this.setState(tmp);
+            return;
+        }
+        if (shootController.shoot(x, y, first)) {
+            this.setState(HIT);
+        } else {
+            this.setState(MISS);
+        }
+        if (first) {
+            this.setState(SHOOT2);
+        } else {
+            this.setState(SHOOT1);
+        }
         this.win();
     }
 
     @Override
     public final void placeShip(final int x, final int y,
-            final boolean orientation, final IPlayer player) {
+            final boolean orientation) {
+        IPlayer player;
+        boolean firstPlayer;
+
+        if (this.state == PLACE1) {
+            player = player1;
+            firstPlayer = true;
+        } else if (this.state == PLACE2) {
+            player = player2;
+            firstPlayer = false;
+        } else {
+            States tmp = this.state;
+            this.setState(WRONGINPUT);
+            this.setState(tmp);
+            return;
+        }
+
         if (!shipController.placeShip(
                 new Ship((player.getOwnBoard().getShips() + 2),
                 orientation, x, y), player)) {
-            this.setViewer(new PlaceErrorViewer());
-            this.view = new PlaceViewer(player, this);
+            this.setState(PLACEERR);
+            if (firstPlayer) {
+                this.state = PLACE1;
+            } else {
+                this.state = PLACE2;
+            }
         }
+
         if (player.getOwnBoard().getShips() == StatCollection.SHIP_NUMBER_MAX) {
-            this.view = new PlaceFieldViewer(player, this);
+            if (firstPlayer) {
+                this.setState(FINALPLACE1);
+                this.state = PLACE2;
+            } else {
+                this.setState(FINALPLACE2);
+                this.state = SHOOT1;
+            }
         }
         notifyObserver();
     }
@@ -85,18 +148,22 @@ public class MasterController extends Observable implements IMasterController {
         if (winner == null) {
             return;
         }
-        this.setViewer(new WinPlayer(winner, this));
+        if (winner.equals(player1)) {
+            this.setState(WIN1);
+        } else {
+            this.setState(WIN2);
+        }
         System.exit(0);
     }
 
     @Override
-    public final String getString() {
-        return view.getString();
+    public final States getCurrentState() {
+        return this.state;
     }
 
     @Override
-    public final void setViewer(final Viewer view) {
-        this.view = view;
+    public final void setState(final States state) {
+        this.state = state;
         notifyObserver();
     }
 
@@ -108,5 +175,20 @@ public class MasterController extends Observable implements IMasterController {
     @Override
     public final IPlayer getPlayer2() {
         return player2;
+    }
+
+    @Override
+    public final void setPlayerName(final String name) {
+        if (this.state == GETNAME1) {
+            player1.setName(name);
+            this.setState(GETNAME1);
+        } else if (this.state == GETNAME2) {
+            player2.setName(name);
+            this.setState(PLACE1);
+        } else {
+            States tmp = this.state;
+            this.setState(WRONGINPUT);
+            this.setState(tmp);
+        }
     }
 }
