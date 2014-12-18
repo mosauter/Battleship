@@ -24,11 +24,11 @@ public final class StatCollection {
     /**
      * The heigth and the length of the field.
      */
-    public static final int HEIGTH_LENGTH = 5;
+    public static int HEIGTH_LENGTH = 5;
     /**
      * The max number of ships that could be on the field.
      */
-    public static final int SHIP_NUMBER_MAX = 1;
+    public static int SHIP_NUMBER_MAX = 1;
     /**
      * Constant for the conversion of the ASCII table.
      */
