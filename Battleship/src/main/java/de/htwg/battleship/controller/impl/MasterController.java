@@ -7,22 +7,22 @@ import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.observer.impl.Observable;
 import de.htwg.battleship.util.StatCollection;
-import de.htwg.battleship.util.States;
-import static de.htwg.battleship.util.States.FINALPLACE1;
-import static de.htwg.battleship.util.States.FINALPLACE2;
-import static de.htwg.battleship.util.States.GETNAME1;
-import static de.htwg.battleship.util.States.GETNAME2;
-import static de.htwg.battleship.util.States.HIT;
-import static de.htwg.battleship.util.States.MISS;
-import static de.htwg.battleship.util.States.PLACE1;
-import static de.htwg.battleship.util.States.PLACE2;
-import static de.htwg.battleship.util.States.PLACEERR;
-import static de.htwg.battleship.util.States.SHOOT1;
-import static de.htwg.battleship.util.States.SHOOT2;
-import static de.htwg.battleship.util.States.START;
-import static de.htwg.battleship.util.States.WIN1;
-import static de.htwg.battleship.util.States.WIN2;
-import static de.htwg.battleship.util.States.WRONGINPUT;
+import de.htwg.battleship.util.State;
+import static de.htwg.battleship.util.State.FINALPLACE1;
+import static de.htwg.battleship.util.State.FINALPLACE2;
+import static de.htwg.battleship.util.State.GETNAME1;
+import static de.htwg.battleship.util.State.GETNAME2;
+import static de.htwg.battleship.util.State.HIT;
+import static de.htwg.battleship.util.State.MISS;
+import static de.htwg.battleship.util.State.PLACE1;
+import static de.htwg.battleship.util.State.PLACE2;
+import static de.htwg.battleship.util.State.PLACEERR;
+import static de.htwg.battleship.util.State.SHOOT1;
+import static de.htwg.battleship.util.State.SHOOT2;
+import static de.htwg.battleship.util.State.START;
+import static de.htwg.battleship.util.State.WIN1;
+import static de.htwg.battleship.util.State.WIN2;
+import static de.htwg.battleship.util.State.WRONGINPUT;
 
 /**
  * MasterController is an implementation of the master controller.
@@ -55,7 +55,7 @@ public class MasterController extends Observable implements IMasterController {
     /**
      * Presentation of the Game.
      */
-    private States state;
+    private State state;
 
     /**
      * Public Constructor.
@@ -74,7 +74,6 @@ public class MasterController extends Observable implements IMasterController {
     @Override
     public final void shoot(final int x, final int y) {
         IPlayer player;
-        States tmp = this.state;
         boolean first;
         if (this.state == SHOOT1) {
             player = this.player1;
@@ -84,7 +83,6 @@ public class MasterController extends Observable implements IMasterController {
             first = false;
         } else {
             this.setState(WRONGINPUT);
-            this.setState(tmp);
             return;
         }
         if (shootController.shoot(x, y, first)) {
@@ -113,9 +111,7 @@ public class MasterController extends Observable implements IMasterController {
             player = player2;
             firstPlayer = false;
         } else {
-            States tmp = this.state;
             this.setState(WRONGINPUT);
-            this.setState(tmp);
             return;
         }
 
@@ -123,11 +119,7 @@ public class MasterController extends Observable implements IMasterController {
                 new Ship((player.getOwnBoard().getShips() + 2),
                 orientation, x, y), player)) {
             this.setState(PLACEERR);
-            if (firstPlayer) {
-                this.state = PLACE1;
-            } else {
-                this.state = PLACE2;
-            }
+            return;
         }
 
         if (player.getOwnBoard().getShips() == StatCollection.SHIP_NUMBER_MAX) {
@@ -157,13 +149,19 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final States getCurrentState() {
+    public final State getCurrentState() {
         return this.state;
     }
 
     @Override
-    public final void setState(final States state) {
-        this.state = state;
+    public final void setState(final State state) {
+        State tmp = state;
+        if (state == WRONGINPUT || state == PLACEERR) {
+            tmp = this.state;
+            this.state = state;
+            notifyObserver();
+        }
+        this.state = tmp;
         notifyObserver();
     }
 
@@ -186,9 +184,7 @@ public class MasterController extends Observable implements IMasterController {
             player2.setName(name);
             this.setState(PLACE1);
         } else {
-            States tmp = this.state;
             this.setState(WRONGINPUT);
-            this.setState(tmp);
         }
     }
 }
