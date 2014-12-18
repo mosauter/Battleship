@@ -28,17 +28,13 @@ public enum State {
      */
     FINALPLACE1,
     /**
-     * Place state that the second Player completed the placing of the ships.
-     */
-    FINALPLACE2,
-    /**
      * Place state that the second Player is at the turn to place a ship.
      */
     PLACE2,
     /**
-     * Place state that there was an Error while placing a Ship.
+     * Place state that the second Player completed the placing of the ships.
      */
-    PLACEERR,
+    FINALPLACE2,
     /**
      * State that the first player shoots.
      */
@@ -62,5 +58,16 @@ public enum State {
     /**
      * State that the second player has won.
      */
-    WIN2;
+    WIN2,
+    //  -----------------   Error States    ------------------------
+    /**
+     * Place state that there was an Error while placing a Ship.
+     * Error State
+     */
+    PLACEERR,
+    /**
+     * State that there was a wrong Input.
+     * Error State
+     */
+    WRONGINPUT;
 }
