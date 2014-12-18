@@ -2,18 +2,20 @@
 
 package de.htwg.battleship.aview.tui;
 
+import de.htwg.battleship.aview.tui.impl.HitMissViewer;
+import de.htwg.battleship.aview.tui.impl.InputMaskPlayer1;
+import de.htwg.battleship.aview.tui.impl.InputMaskPlayer2;
+import de.htwg.battleship.aview.tui.impl.PlaceErrorViewer;
+import de.htwg.battleship.aview.tui.impl.PlaceFieldViewer;
+import de.htwg.battleship.aview.tui.impl.PlaceViewer;
+import de.htwg.battleship.aview.tui.impl.ShootMenu;
+import de.htwg.battleship.aview.tui.impl.StartMenu;
+import de.htwg.battleship.aview.tui.impl.WinPlayer;
+import de.htwg.battleship.aview.tui.impl.WrongInputViewer;
 import de.htwg.battleship.controller.IMasterController;
-import de.htwg.battleship.controller.impl.InputMaskPlayer1;
-import de.htwg.battleship.controller.impl.InputMaskPlayer2;
-import de.htwg.battleship.controller.impl.PlaceViewer;
-import de.htwg.battleship.controller.impl.ShootMenu;
-import de.htwg.battleship.controller.impl.StartMenu;
 import de.htwg.battleship.observer.IObserver;
 import static de.htwg.battleship.util.StatCollection.ASCII_LOW_CASE;
-import static de.htwg.battleship.util.StatCollection.AZ;
-import static de.htwg.battleship.util.StatCollection.HORIZONTAL;
-import static de.htwg.battleship.util.StatCollection.SHIP_NUMBER_MAX;
-import java.util.Scanner;
+import static de.htwg.battleship.util.States.WRONGINPUT;
 
 /**
  * Textual User Interface.
@@ -23,15 +25,14 @@ import java.util.Scanner;
  */
 public class TUI implements IObserver {
 
+    private static final int SET_NAME_STATEMENT_LENGTH = 1;
+    private static final int PLACE_STATEMENT_LENGTH = 3;
+    private static final int SHOOT_STATEMENT_LENGTH = 2;
     /**
      * Saves the MasterController.
      */
     private final IMasterController master;
-    /**
-     * Scanner.
-     */
-    private final Scanner input = new Scanner(System.in);
-
+    private Viewer view;
     /**
      * Public constructor.
      * @param master master controller
@@ -39,47 +40,63 @@ public class TUI implements IObserver {
     public TUI(final IMasterController master) {
         this.master = master;
         this.master.addObserver(this);
-    }
-
-    /**
-     * TUI - Method to initialize the complete Game.
-     */
-    public final void initialize() {
-        this.master.setViewer(new StartMenu());
-        if ((input.nextInt()) == 2) {
-            System.exit(0);
-        }
-        this.master.setViewer(new InputMaskPlayer1());
-        this.master.getPlayer1().setName(input.next());
-        this.master.setViewer(new InputMaskPlayer2());
-        this.master.getPlayer2().setName(input.next());
-        this.master.setViewer(new PlaceViewer(
-                this.master.getPlayer1(), master));
-        while (this.master.getPlayer1().getOwnBoard().getShips()
-                < SHIP_NUMBER_MAX) {
-            int x = (int) input.next(AZ).charAt(0)
-                    - ASCII_LOW_CASE;
-            int y = input.nextInt();
-            boolean orientation = input.next().equals(HORIZONTAL);
-            this.master.placeShip(x, y, orientation, this.master.getPlayer1());
-        }
-        this.master.setViewer(new PlaceViewer(
-                this.master.getPlayer2(), master));
-        while (this.master.getPlayer2().getOwnBoard().getShips()
-                < SHIP_NUMBER_MAX) {
-            int x = (int) input.next(AZ).charAt(0)
-                    - ASCII_LOW_CASE;
-            int y = input.nextInt();
-            boolean orientation = input.next().equals(HORIZONTAL);
-            this.master.placeShip(x, y, orientation, this.master.getPlayer2());
-        }
+        this.printTUI();
     }
 
     /**
      * Method to print the current TUI.
      */
     public final void printTUI() {
-        System.out.print(master.getString());
+        switch (master.getCurrentState()) {
+            case START:
+                this.view = new StartMenu();
+                break;
+            case GETNAME1:
+                this.view = new InputMaskPlayer1();
+                break;
+            case GETNAME2:
+                this.view = new InputMaskPlayer2();
+                break;
+            case PLACE1:
+                this.view = new PlaceViewer(master.getPlayer1(), master);
+                break;
+            case PLACE2:
+                this.view = new PlaceViewer(master.getPlayer2(), master);
+                break;
+            case FINALPLACE1:
+                this.view = new PlaceFieldViewer(master.getPlayer1(), master);
+                break;
+            case FINALPLACE2:
+                this.view = new PlaceFieldViewer(master.getPlayer2(), master);
+                break;
+            case PLACEERR:
+                this.view = new PlaceErrorViewer();
+                break;
+            case SHOOT1:
+                this.view = new ShootMenu(master.getPlayer1(), master);
+                break;
+            case SHOOT2:
+                this.view = new ShootMenu(master.getPlayer2(), master);
+                break;
+            case HIT:
+                this.view = new HitMissViewer(true);
+                break;
+            case MISS:
+                this.view = new HitMissViewer(false);
+                break;
+            case WIN1:
+                this.view = new WinPlayer(master.getPlayer1(), master);
+                break;
+            case WIN2:
+                this.view = new WinPlayer(master.getPlayer2(), master);
+                break;
+            case WRONGINPUT:
+                this.view = new WrongInputViewer();
+                break;
+            default:
+                break;
+        }
+        System.out.print(this.view.getString());
     }
 
     @Override
@@ -87,21 +104,45 @@ public class TUI implements IObserver {
         printTUI();
     }
 
-    /**
-     * TUI - Method to start a new Game.
-     */
-    public final void startGame() {
-        while (true) {
-            this.master.setViewer(new ShootMenu(master.getPlayer1(), master));
-            int x = (int) input.next(AZ).charAt(0)
-                    - ASCII_LOW_CASE;
-            int y = input.nextInt();
-            this.master.shoot(x, y, master.getPlayer1());
-            this.master.setViewer(new ShootMenu(master.getPlayer2(), master));
-            x = (int) input.next(AZ).charAt(0)
-                    - ASCII_LOW_CASE;
-            y = input.nextInt();
-            this.master.shoot(x, y, master.getPlayer2());
+    public final void processInputLine(final String line) {
+        String[] field = line.split(" ");
+        if (field.length == PLACE_STATEMENT_LENGTH) {
+            if (!field[0].matches("[a-z]")) {
+                master.setState(WRONGINPUT);
+                return;
+            }
+            if (!field[1].matches("[0-9]")) {
+                master.setState(WRONGINPUT);
+                return;
+            }
+            int x = (int) field[0].charAt(0) - ASCII_LOW_CASE;
+            int y = Integer.parseInt(field[1]);
+            if (field[2].equals("horizontal")) {
+                master.placeShip(x, y, true);
+            } else {
+                master.placeShip(x, y, false);
+            }
+            return;
+        }
+        if (field.length == SHOOT_STATEMENT_LENGTH) {
+            if (!field[0].matches("[a-z]")) {
+                master.setState(WRONGINPUT);
+                return;
+            }
+            if (!field[1].matches("[0-9]")) {
+                master.setState(WRONGINPUT);
+                return;
+            }
+            int x = (int) field[0].charAt(0) - ASCII_LOW_CASE;
+            int y = Integer.parseInt(field[1]);
+            master.shoot(x, y);
+            return;
+        }
+        if (field.length == SET_NAME_STATEMENT_LENGTH) {
+            if (field[0].equals("Exit") || field[0].equals("exit")) {
+                System.exit(0);
+            }
+            master.setPlayerName(field[0]);
         }
     }
 }
