@@ -27,13 +27,25 @@ import static de.htwg.battleship.util.States.WRONGINPUT;
  */
 public class TUI implements IObserver {
 
+    /**
+     * Constant for the length of a set name statement.
+     */
     private static final int SET_NAME_STATEMENT_LENGTH = 1;
+    /**
+     * Constant for the length of a place statement.
+     */
     private static final int PLACE_STATEMENT_LENGTH = 3;
+    /**
+     * Constant for the length of a shoot statement.
+     */
     private static final int SHOOT_STATEMENT_LENGTH = 2;
     /**
      * Saves the MasterController.
      */
     private final IMasterController master;
+    /**
+     * Viewer which provides the current state of the game as a String.
+     */
     private Viewer view;
     /**
      * Public constructor.
@@ -47,6 +59,7 @@ public class TUI implements IObserver {
 
     /**
      * Method to print the current TUI.
+     * detects what to do at the current state of the game
      */
     public final void printTUI() {
         switch (master.getCurrentState()) {
@@ -106,6 +119,11 @@ public class TUI implements IObserver {
         printTUI();
     }
 
+    /**
+     * Method to detect what statement is in the line.
+     * is a transmitter between the user and the master controller
+     * @param line input of stdin
+     */
     public final void processInputLine(final String line) {
         String[] field = line.split(" ");
         if (master.getCurrentState() == START) {
