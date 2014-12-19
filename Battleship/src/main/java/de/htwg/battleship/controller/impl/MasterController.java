@@ -2,6 +2,7 @@
 
 package de.htwg.battleship.controller.impl;
 
+import com.google.inject.Inject;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.impl.Ship;
@@ -62,6 +63,7 @@ public class MasterController extends Observable implements IMasterController {
      * @param player1 player one
      * @param player2 player two
      */
+    @Inject
     public MasterController(final IPlayer player1, final IPlayer player2) {
         this.shipController = new ShipController();
         this.shootController = new ShootController(player1, player2);

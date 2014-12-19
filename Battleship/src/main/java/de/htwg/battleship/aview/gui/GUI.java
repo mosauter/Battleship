@@ -1,5 +1,7 @@
 package de.htwg.battleship.aview.gui;
 
+import com.google.inject.Inject;
+import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.controller.impl.GuiController;
 import de.htwg.battleship.controller.impl.GuiController.ButtonListener;
 import de.htwg.battleship.controller.impl.GuiController.PlayerListener;
@@ -27,7 +29,8 @@ public class GUI extends JFrame {
     JTextField player2;
     Container c;
 
-    public GUI() {
+    @Inject
+    public GUI(IMasterController master) {
         this.setTitle("Battleship");
         this.setLayout(new GridLayout(2, 1));
         c = getContentPane();
