@@ -5,6 +5,7 @@ package de.htwg.battleship.controller.impl;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.impl.Player;
+import de.htwg.battleship.observer.IObserver;
 import de.htwg.battleship.util.State;
 import static de.htwg.battleship.util.State.START;
 import org.junit.After;
@@ -23,6 +24,7 @@ public class MasterControllerTest {
     IMasterController master;
     IPlayer player1;
     IPlayer player2;
+    UtilObserver utilOb;
 
     public MasterControllerTest() {
     }
@@ -32,6 +34,7 @@ public class MasterControllerTest {
         player1 = new Player();
         player2 = new Player();
         master = new MasterController(player1, player2);
+        utilOb = new UtilObserver();
     }
 
     @After
@@ -70,6 +73,10 @@ public class MasterControllerTest {
         st = State.HIT;
         master.setState(st);
         assertEquals(master.getCurrentState(), st);
+        master.setState(State.WRONGINPUT);
+        assertEquals(master.getCurrentState(), st);
+        master.setState(State.PLACEERR);
+        assertEquals(master.getCurrentState(), st);
     }
 
     /**
@@ -99,6 +106,23 @@ public class MasterControllerTest {
         assert (name.equals(master.getPlayer1().getName()));
         master.setPlayerName(name);
         assert (name.equals(master.getPlayer2().getName()));
+        master.addObserver(utilOb);
+        master.setPlayerName(name);
+        assertEquals(utilOb.util, 5);
     }
 
+    class UtilObserver implements IObserver {
+
+        private int util = 0;
+        @Override
+        public void update() {
+            if (master.getCurrentState() == State.WRONGINPUT) {
+                util = 5;
+            }
+            if (util == 5) {
+                return;
+            }
+            util = 1;
+        }
+    }
 }
