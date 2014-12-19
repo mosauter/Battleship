@@ -28,21 +28,16 @@ public interface IBoard {
      */
     IShip[] getShipList();
     /**
-     * Getter for the Field-Matrix.
-     * @return Field[][]
-     */
-    IField[][] getBoard();
-    /**
-     * Getter for one Field in the Board.
-     * @param x x-Coordinate of the Field
-     * @param y y-Coordinate of the Field
-     * @return Field
-     */
-    IField getField(int x, int y);
-    /**
      * Method to shoot on one Field.
      * @param x x-Coordinate of the Field
      * @param y y-Coordinate of the Field
      */
     void shoot(int x, int y);
+    /**
+     * Getter if the Field is now hit.
+     * @param x x-Coordinate of the Field
+     * @param y y-Coordinate of the Field
+     * @return boolean if the Field is hit
+     */
+    boolean isHit(int x, int y);
 }

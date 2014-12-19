@@ -63,7 +63,7 @@ public class PlaceFieldViewer implements Viewer {
                 boolean isShip = false;
                 for (Integer value : mapPlayer1.get(y)) {
                     if (value == x) {
-                        if (boardPlayer1.getField(x, y).isHit()) {
+                        if (boardPlayer1.isHit(x, y)) {
                             sb.append(SHIP_IS_HIT);
                         } else {
                             sb.append(SHIP_NON_HIT);
@@ -74,7 +74,7 @@ public class PlaceFieldViewer implements Viewer {
                 if (isShip) {
                     continue;
                 }
-                if (boardPlayer1.getField(x, y).isHit()) {
+                if (boardPlayer1.isHit(x, y)) {
                     sb.append(FIELD_IS_HIT);
                 } else {
                     sb.append(FIELD_NON_HIT);

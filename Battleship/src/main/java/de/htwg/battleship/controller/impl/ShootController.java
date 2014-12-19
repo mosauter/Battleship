@@ -45,10 +45,10 @@ public class ShootController extends Observable {
      */
     public final boolean shoot(final int x, final int y, final boolean player) {
         IBoard board = getBoard(player);
-        if (board.getField(x, y).isHit()) {
+        if (board.isHit(x, y)) {
             return false;
         } else {
-            board.getField(x, y).setHit(true);
+            board.shoot(x, y);
         }
         IShip[] shipList = board.getShipList();
         boolean ret = hitShipList(shipList, x, y, board.getShips());

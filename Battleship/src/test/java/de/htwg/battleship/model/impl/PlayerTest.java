@@ -2,7 +2,7 @@ package de.htwg.battleship.model.impl;
 
 // PlayerTest.java
 
-import de.htwg.battleship.model.IField;
+import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.util.StatCollection;
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
 import org.junit.After;
@@ -35,22 +35,16 @@ public class PlayerTest {
 
     @Test
     public void getOwnBoard() {
-        IField[][] expResult = new Field[HEIGTH_LENGTH][HEIGTH_LENGTH];
+        Field[][] expResult = new Field[HEIGTH_LENGTH][HEIGTH_LENGTH];
         for (int x = 0; x < HEIGTH_LENGTH; x++) {
             for (int y = 0; y < HEIGTH_LENGTH; y++) {
                 expResult[x][y] = new Field(x, y);
             }
         }
-        IField[][] result = player.getOwnBoard().getBoard();
+        IBoard result = player.getOwnBoard();
         for (int x = 0; x < HEIGTH_LENGTH; x++) {
             for (int y = 0; y < HEIGTH_LENGTH; y++) {
-                int expX = expResult[x][y].getX();
-                int expY = expResult[x][y].getY();
-                int resX = result[x][y].getX();
-                int resY = result[x][y].getY();
-                assertEquals(expX, resX);
-                assertEquals(expY, resY);
-                assertEquals(expResult[x][y].isHit(), result[x][y].isHit());
+                assertEquals(expResult[x][y].isHit(), result.isHit(x, y));
             }
         }
     }

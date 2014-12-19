@@ -73,7 +73,7 @@ class DestroyedTrueController extends DestroyedController {
         int y = ship.getY();
         IBoard board = player.getOwnBoard();
         for (int i = xlow; i < xupp; i++) {
-            if (!board.getField(i, y).isHit()) {
+            if (!board.isHit(i, y)) {
                 return false;
             }
         }
@@ -103,7 +103,7 @@ class DestroyedFalseController extends DestroyedController {
         int x = ship.getX();
         IBoard board = player.getOwnBoard();
         for (int i = ylow; i < yupp; i++) {
-            if (!board.getField(x, i).isHit()) {
+            if (!board.isHit(x, i)) {
                 return false;
             }
         }

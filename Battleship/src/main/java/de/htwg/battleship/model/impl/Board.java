@@ -3,7 +3,6 @@
 package de.htwg.battleship.model.impl;
 
 import de.htwg.battleship.model.IBoard;
-import de.htwg.battleship.model.IField;
 import de.htwg.battleship.model.IShip;
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
 import static de.htwg.battleship.util.StatCollection.SHIP_NUMBER_MAX;
@@ -63,17 +62,12 @@ public class Board implements IBoard {
     }
 
     @Override
-    public final IField[][] getBoard() {
-        return field;
-    }
-
-    @Override
-    public final IField getField(final int x, final int y) {
-        return field[x][y];
-    }
-
-    @Override
     public final void shoot(final int x, final int y) {
         field[x][y].setHit(true);
+    }
+
+    @Override
+    public final boolean isHit(final int x, final int y) {
+        return field[x][y].isHit();
     }
 }
