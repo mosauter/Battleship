@@ -5,9 +5,13 @@ package de.htwg.battleship.controller.impl;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.impl.Player;
+import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.observer.IObserver;
 import de.htwg.battleship.util.State;
 import static de.htwg.battleship.util.State.START;
+import static de.htwg.battleship.util.State.WIN1;
+import static de.htwg.battleship.util.State.WIN2;
+import static de.htwg.battleship.util.State.WRONGINPUT;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -59,9 +63,29 @@ public class MasterControllerTest {
      * Test of win method, of class MasterController.
      */
     @Test
-    public void testWin() {
+    public void testWinPlayer1() {
+        master.getPlayer1().getOwnBoard().addShip(new Ship(1, true, 1, 1));
+        master.addObserver(utilOb);
+        master.win();
+        assertEquals(utilOb.util, 2);
     }
 
+    @Test
+    public void testWinPlayer2() {
+        master.getPlayer2().getOwnBoard().addShip(new Ship(1, true, 1, 1));
+        master.addObserver(utilOb);
+        master.win();
+        assertEquals(utilOb.util, 3);
+    }
+
+    @Test
+    public void testWinNull() {
+        master.getPlayer1().getOwnBoard().addShip(new Ship(1, true, 1, 1));
+        master.getPlayer2().getOwnBoard().addShip(new Ship(1, true, 1, 1));
+        master.addObserver(utilOb);
+        master.win();
+        assertEquals(master.getCurrentState(), START);
+    }
 
     /**
      * Test of setState method, of class MasterController.
@@ -116,13 +140,21 @@ public class MasterControllerTest {
         private int util = 0;
         @Override
         public void update() {
-            if (master.getCurrentState() == State.WRONGINPUT) {
-                util = 5;
-            }
-            if (util == 5) {
+            if (master.getCurrentState() == WRONGINPUT) {
+                util = 1;
                 return;
             }
-            util = 1;
+            if (master.getCurrentState() == WIN1) {
+                util = 2;
+                return;
+            }
+            if (master.getCurrentState() == WIN2) {
+                util = 3;
+                return;
+            }
+            if (util != 0) {
+                return;
+            }
         }
     }
 }
