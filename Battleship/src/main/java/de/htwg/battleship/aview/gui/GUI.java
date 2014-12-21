@@ -39,6 +39,7 @@ public class GUI extends JFrame implements IObserver {
     @Inject
     public GUI(final IMasterController master) {
         this.master = master;
+        master.addObserver(this);
         this.setTitle("Battleship");
         this.setLayout(new GridLayout(2, 1));
         c = getContentPane();
