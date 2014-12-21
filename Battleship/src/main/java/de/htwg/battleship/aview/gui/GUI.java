@@ -5,10 +5,14 @@ import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.controller.impl.GuiController;
 import de.htwg.battleship.controller.impl.GuiController.ButtonListener;
 import de.htwg.battleship.controller.impl.GuiController.PlayerListener;
+import de.htwg.battleship.observer.IObserver;
+import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,7 +22,7 @@ import javax.swing.JTextField;
 /**
  * Graphical User Interface.
  */
-public class GUI extends JFrame {
+public class GUI extends JFrame implements IObserver {
 
     GuiController gc = new GuiController(this);
     JButton start = new JButton("Start Game");
@@ -28,9 +32,13 @@ public class GUI extends JFrame {
     JTextField player1;
     JTextField player2;
     Container c;
+    private final JButton[][] buttonField =
+            new JButton[HEIGTH_LENGTH][HEIGTH_LENGTH];
+    private final IMasterController master;
 
     @Inject
-    public GUI(IMasterController master) {
+    public GUI(final IMasterController master) {
+        this.master = master;
         this.setTitle("Battleship");
         this.setLayout(new GridLayout(2, 1));
         c = getContentPane();
@@ -85,10 +93,11 @@ public class GUI extends JFrame {
             beschriftung2.add(x);
             for (int j = 0; j < boardsize; j++) {
                 String name = i + " " + j;
+                buttonField[i][j] = new JButton();
                 JButton b = new JButton();
-                b.setName(name);
-                b.addActionListener(bl);
-                main.add(b);
+                buttonField[i][j].setName(name);
+                buttonField[i][j].addActionListener(bl);
+                main.add(buttonField[i][j]);
             }
         }
 
@@ -124,5 +133,99 @@ public class GUI extends JFrame {
 //		ausgabe.setEditable(true);
 //		ausgabe.setText("Insert name of player" + number + " : ");
 //		ausgabe.setEditable(false);
+    }
+
+    @Override
+    public final void update() {
+        switch (master.getCurrentState()) {
+            case START:
+                break;
+            case GETNAME1:
+                break;
+            case GETNAME2:
+                break;
+            case PLACE1:
+                activateListener(new PlaceListener());
+                break;
+            case PLACE2:
+                activateListener(new PlaceListener());
+                break;
+            case FINALPLACE1:
+                break;
+            case FINALPLACE2:
+                break;
+            case PLACEERR:
+                break;
+            case SHOOT1:
+                activateListener(new ShootListener());
+                break;
+            case SHOOT2:
+                activateListener(new ShootListener());
+                break;
+            case HIT:
+                break;
+            case MISS:
+                break;
+            case WIN1:
+                break;
+            case WIN2:
+                break;
+            case WRONGINPUT:
+                
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Method to activate a new Action Listener to the JButton[][]-Matrix.
+     * uses the removeListener-Method
+     * @param newListener the new Listener of the button matrix
+     */
+    private void activateListener(final ActionListener newListener) {
+        for (JButton[] buttonArray : buttonField) {
+            for (JButton button : buttonArray) {
+                removeListener(button);
+                button.addActionListener(newListener);
+            }
+        }
+    }
+
+    /**
+     * Method which removes all Listener from a button.
+     * @param button specified button
+     */
+    private void removeListener(final JButton button) {
+        ActionListener[] actionList = button.getActionListeners();
+        for (ActionListener acLst : actionList) {
+            button.removeActionListener(acLst);
+        }
+    }
+
+    /**
+     * ActionListener for the State of the Game in which the Player has to
+     * set his Ships on the field.
+     * PLACE1 / PLACE2 / FINALPLACE1 / FINALPLACE2
+     */
+    private class PlaceListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    }
+
+    /**
+     * ActionListener for the State of the Game in which the Player has to
+     * shoot on the other Players board.
+     * SHOOT1 / SHOOT2
+     */
+    private class ShootListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 }
