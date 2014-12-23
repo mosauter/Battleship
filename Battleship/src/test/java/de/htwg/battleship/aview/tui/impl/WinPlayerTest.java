@@ -3,6 +3,7 @@
 package de.htwg.battleship.aview.tui.impl;
 
 import de.htwg.battleship.aview.tui.Viewer;
+import de.htwg.battleship.controller.impl.MasterController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.impl.Player;
 import org.junit.After;
@@ -26,7 +27,7 @@ public class WinPlayerTest {
     public void setUp() {
         pl = new Player();
         pl.setName("Moritz");
-        view = new WinPlayer(pl);
+        view = new WinPlayer(pl, new MasterController(pl, new Player()));
     }
 
     @After
