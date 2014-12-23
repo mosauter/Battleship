@@ -102,10 +102,10 @@ public class TUI implements IObserver {
                 this.view = new HitMissViewer(false);
                 break;
             case WIN1:
-                this.view = new WinPlayer(master.getPlayer1());
+                this.view = new WinPlayer(master.getPlayer1(), master);
                 break;
             case WIN2:
-                this.view = new WinPlayer(master.getPlayer2());
+                this.view = new WinPlayer(master.getPlayer2(), master);
                 break;
             case WRONGINPUT:
                 this.view = new WrongInputViewer();

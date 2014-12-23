@@ -3,6 +3,7 @@
 package de.htwg.battleship.aview.tui.impl;
 
 import de.htwg.battleship.aview.tui.Viewer;
+import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
 
 /**
@@ -17,18 +18,24 @@ public class WinPlayer implements Viewer {
      * Saves the winner.
      */
     private final IPlayer player;
+    /**
+     * Private utility viewer to show a last time the field.
+     */
+    private final Viewer view;
 
     /**
      * Public Constructor.
      * @param player the winner
+     * @param master saves the MasterController
      */
-    public WinPlayer(final IPlayer player) {
+    public WinPlayer(final IPlayer player, final IMasterController master) {
         this.player = player;
+        this.view = new WinFieldViewer(master);
     }
 
     @Override
     public final String getString() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(view.getString());
         sb.append(player.getName());
         sb.append(" has won!\n\n");
         return sb.toString();
