@@ -1,19 +1,21 @@
 package de.htwg.battleship.aview.gui;
 
 import com.google.inject.Inject;
+
 import de.htwg.battleship.controller.IMasterController;
-import de.htwg.battleship.controller.impl.GuiController;
-import de.htwg.battleship.controller.impl.GuiController.ButtonListener;
-import de.htwg.battleship.controller.impl.GuiController.PlayerListener;
+import de.htwg.battleship.util.State;
 import de.htwg.battleship.observer.IObserver;
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
+
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,19 +24,22 @@ import javax.swing.JTextField;
 /**
  * Graphical User Interface.
  */
+@SuppressWarnings("serial")
 public class GUI extends JFrame implements IObserver {
 
-    GuiController gc = new GuiController(this);
-    JButton start = new JButton("Start Game");
-    JButton options = new JButton("Options");
-    JButton exit = new JButton("Exit");
-    JTextField ausgabe;
-    JTextField player1;
-    JTextField player2;
-    Container c;
+	private final PlaceListener place = new PlaceListener();
+	
+    private final JButton start = new JButton("Start Game");
+    private final JButton options = new JButton("Options");
+    private final JButton exit = new JButton("Exit");
     private final JButton[][] buttonField =
             new JButton[HEIGTH_LENGTH][HEIGTH_LENGTH];
     private final IMasterController master;
+    
+    private JFrame playerframe;
+    private JTextField player;
+    private JTextField ausgabe;
+    private Container c;
 
     @Inject
     public GUI(final IMasterController master) {
@@ -45,8 +50,9 @@ public class GUI extends JFrame implements IObserver {
         c = getContentPane();
         this.start.setSize(80, 50);
         this.exit.setSize(80, 50);
-        this.start.addActionListener(gc);
-        this.exit.addActionListener(gc);
+        MenuListener menu = new MenuListener();
+        this.start.addActionListener(menu);
+        this.exit.addActionListener(menu);
         c.add(start);
         c.add(exit);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -86,18 +92,15 @@ public class GUI extends JFrame implements IObserver {
         //center
         GridLayout gl = new GridLayout(boardsize, boardsize);
         main.setLayout(gl);
-        ButtonListener bl = gc.new ButtonListener();
         for (int i = 0; i < boardsize; i++) {
             JLabel x = new JLabel("" + i);
-//			x.setHorizontalAlignment(JLabel.CENTER);
             beschriftung1.add(x);
             beschriftung2.add(x);
             for (int j = 0; j < boardsize; j++) {
                 String name = i + " " + j;
                 buttonField[i][j] = new JButton();
-                JButton b = new JButton();
                 buttonField[i][j].setName(name);
-                buttonField[i][j].addActionListener(bl);
+                buttonField[i][j].addActionListener(place);
                 main.add(buttonField[i][j]);
             }
         }
@@ -110,40 +113,44 @@ public class GUI extends JFrame implements IObserver {
         ausgabe.setEditable(false);
         bottom.add(ausgabe);
         this.setVisible(true);
+        
+        master.setState(State.GETNAME1);
     }
 
-    public void setPlayer() {
-        PlayerListener pl = gc.new PlayerListener();
-        JFrame frame = new JFrame();
-        frame.setSize(300, 150);
-        frame.setLayout(new GridLayout(4, 1));
-        frame.add(new JLabel("please insert both player names"));
-        this.player1 = new JTextField();
-        player1.addActionListener(pl);
-        this.player2 = new JTextField();
-        player2.addActionListener(pl);
+    public void getPlayername(int playernumber) {
+        PlayerListener pl = new PlayerListener();
+        player = new JTextField();
         JButton submit = new JButton("OK");
         submit.addActionListener(pl);
-        frame.add(player1);
-        frame.add(player2);
-        frame.add(submit);
-        frame.setLocationRelativeTo(getParent());
-        frame.setVisible(true);
-//		TextListener tl = gc.new TextListener();
-//		ausgabe.addActionListener(tl);
-//		ausgabe.setEditable(true);
-//		ausgabe.setText("Insert name of player" + number + " : ");
-//		ausgabe.setEditable(false);
+        playerframe = new JFrame();
+        playerframe.setSize(300, 150);
+        playerframe.setLayout(new GridLayout(3, 1));
+        playerframe.add(new JLabel("please insert playername " + playernumber));
+        playerframe.add(player);
+        playerframe.add(submit);
+        playerframe.setResizable(false);
+        playerframe.setLocationRelativeTo(getParent());
+        playerframe.setVisible(true);
+    }
+    
+    public void placeShip() {
+    	JComboBox<String> orientation = new JComboBox<String>();
+    	orientation.addItem("horizontal");
+    	orientation.addItem("vertical");
+    	c.add(orientation, BorderLayout.EAST);
     }
 
     @Override
     public final void update() {
         switch (master.getCurrentState()) {
             case START:
+            	newGame(HEIGTH_LENGTH);
                 break;
             case GETNAME1:
+            	getPlayername(1);
                 break;
             case GETNAME2:
+            	getPlayername(2);
                 break;
             case PLACE1:
                 activateListener(new PlaceListener());
@@ -178,6 +185,13 @@ public class GUI extends JFrame implements IObserver {
                 break;
         }
     }
+    
+    /**
+     * Method to end the GUI
+     */
+    public void exit() {
+		System.exit(0);
+	}
 
     /**
      * Method to activate a new Action Listener to the JButton[][]-Matrix.
@@ -213,7 +227,14 @@ public class GUI extends JFrame implements IObserver {
 
         @Override
         public void actionPerformed(final ActionEvent e) {
-            throw new UnsupportedOperationException("Not supported yet.");
+//          throw new UnsupportedOperationException("Not supported yet.");
+        	JButton button = (JButton) e.getSource();
+        	String name = button.getName();
+        	String[] parts = name.split(" ");
+        	Integer x_cor = new Integer(parts[0]);
+        	Integer y_cor = new Integer(parts[1]);
+        	System.out.println("Button: " + x_cor.toString() + " " + y_cor.toString());
+//        	master.placeShip(x_cor.intValue(), y_cor.intValue(), orientation);
         }
     }
 
@@ -229,4 +250,33 @@ public class GUI extends JFrame implements IObserver {
             throw new UnsupportedOperationException("Not supported yet.");
         }
     }
+    
+    private class MenuListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JButton target = (JButton) e.getSource();
+			switch(target.getText()) {
+				case "Start Game":
+					update();
+					break;
+				case "Exit": 
+					exit();
+					break;
+				default:
+					break;
+			}
+		}
+    	
+    }
+    
+    private class PlayerListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			master.setPlayerName(player.getText());
+			playerframe.dispose();
+		}
+		
+	}
 }
