@@ -8,6 +8,7 @@ import de.htwg.battleship.observer.IObserver;
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -16,6 +17,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,7 +29,7 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class GUI extends JFrame implements IObserver {
 
-	private final PlaceListener place = new PlaceListener();
+	private final PlaceListener placeLst = new PlaceListener();
 	
     private final JButton start = new JButton("Start Game");
     private final JButton options = new JButton("Options");
@@ -35,8 +37,10 @@ public class GUI extends JFrame implements IObserver {
     private final JButton[][] buttonField =
             new JButton[HEIGTH_LENGTH][HEIGTH_LENGTH];
     private final IMasterController master;
+    private final JComboBox<String> orientation = new JComboBox<String>();
     
-    private JFrame playerframe;
+    private JDialog playerframe;
+    private JButton shipPlacePosition;
     private JTextField player;
     private JTextField ausgabe;
     private Container c;
@@ -100,7 +104,7 @@ public class GUI extends JFrame implements IObserver {
                 String name = i + " " + j;
                 buttonField[i][j] = new JButton();
                 buttonField[i][j].setName(name);
-                buttonField[i][j].addActionListener(place);
+                buttonField[i][j].addActionListener(placeLst);
                 main.add(buttonField[i][j]);
             }
         }
@@ -122,22 +126,32 @@ public class GUI extends JFrame implements IObserver {
         player = new JTextField();
         JButton submit = new JButton("OK");
         submit.addActionListener(pl);
-        playerframe = new JFrame();
+        playerframe = new JDialog();
+        playerframe.setModal(true);
         playerframe.setSize(300, 150);
         playerframe.setLayout(new GridLayout(3, 1));
         playerframe.add(new JLabel("please insert playername " + playernumber));
         playerframe.add(player);
         playerframe.add(submit);
         playerframe.setResizable(false);
+        playerframe.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         playerframe.setLocationRelativeTo(getParent());
         playerframe.setVisible(true);
     }
     
     public void placeShip() {
-    	JComboBox<String> orientation = new JComboBox<String>();
+    	this.setVisible(false);
+    	JButton place = new JButton("place");
+    	place.addActionListener(placeLst);
+    	JPanel east = new JPanel();
+    	east.setLayout(new GridLayout(3,1));
+    	c.add(east, BorderLayout.EAST);
     	orientation.addItem("horizontal");
     	orientation.addItem("vertical");
-    	c.add(orientation, BorderLayout.EAST);
+    	orientation.setPreferredSize(new Dimension(90, 15));
+    	east.add(orientation);
+    	east.add(place);
+    	this.setVisible(true);
     }
 
     @Override
@@ -154,6 +168,7 @@ public class GUI extends JFrame implements IObserver {
                 break;
             case PLACE1:
                 activateListener(new PlaceListener());
+                placeShip();
                 break;
             case PLACE2:
                 activateListener(new PlaceListener());
@@ -224,17 +239,41 @@ public class GUI extends JFrame implements IObserver {
      * PLACE1 / PLACE2 / FINALPLACE1 / FINALPLACE2
      */
     private class PlaceListener implements ActionListener {
-
+    	
         @Override
         public void actionPerformed(final ActionEvent e) {
-//          throw new UnsupportedOperationException("Not supported yet.");
         	JButton button = (JButton) e.getSource();
-        	String name = button.getName();
-        	String[] parts = name.split(" ");
-        	Integer x_cor = new Integer(parts[0]);
-        	Integer y_cor = new Integer(parts[1]);
-        	System.out.println("Button: " + x_cor.toString() + " " + y_cor.toString());
-//        	master.placeShip(x_cor.intValue(), y_cor.intValue(), orientation);
+        	if(button.getText() == "place") {
+        		if(shipPlacePosition != null) {
+	        		String[] parts = shipPlacePosition.getName().split(" ");
+	        		if(orientation.getSelectedItem() == "horizontal") {
+	        			master.placeShip(new Integer(parts[0]), new Integer(parts[1]), true);
+	        		} else {
+	        			master.placeShip(new Integer(parts[0]), new Integer(parts[1]), false);
+	        		}
+        		} else {
+        			throw new UnsupportedOperationException("Not supported yet.");
+        		}
+        	} else {        	
+        		if(shipPlacePosition != null && shipPlacePosition != button) {
+        			switchColor(shipPlacePosition);
+        		}
+        		String[] parts = button.getName().split(" ");
+        		JButton select = buttonField[new Integer(parts[0])][new Integer(parts[1])];
+        		switchColor(select);
+        		
+        	}
+        }
+        
+        private void switchColor(JButton select) {
+        	JButton defaultColor = new JButton();
+        	if(select.getBackground() == defaultColor.getBackground()) {
+        		select.setBackground(Color.BLUE);
+        		shipPlacePosition = select;
+        	} else {
+        		select.setBackground(defaultColor.getBackground());
+        		shipPlacePosition = null;
+        	}
         }
     }
 
@@ -274,6 +313,7 @@ public class GUI extends JFrame implements IObserver {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			playerframe.setVisible(false);
 			master.setPlayerName(player.getText());
 			playerframe.dispose();
 		}
