@@ -1,11 +1,11 @@
 // Battleship.java
 package de.htwg.battleship;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import de.htwg.battleship.aview.gui.GUI;
 import de.htwg.battleship.aview.tui.TUI;
 import de.htwg.battleship.controller.IMasterController;
-import de.htwg.battleship.controller.impl.MasterController;
-import de.htwg.battleship.model.IPlayer;
-import de.htwg.battleship.model.impl.Player;
 import java.util.Scanner;
 /**
  * Battleship start file.
@@ -24,13 +24,13 @@ public final class Battleship {
      */
     private static IMasterController master;
     /**
-     * Saves Player One.
+     * Saves TUI.
      */
-    private static IPlayer player1;
+    private static TUI tui;
     /**
-     * Saves Player Two.
+     * Saves GUI.
      */
-    private static IPlayer player2;
+    private static GUI gui;
     /**
      * Scanner to read from stdin.
      */
@@ -41,11 +41,10 @@ public final class Battleship {
      * @param args not used
      */
     public static void main(final String[] args) {
-        player1 = new Player();
-        player2 = new Player();
-        master = new MasterController(player1, player2);
-        TUI tui = new TUI(master);
-//        GUI gui = new GUI(master);
+        Injector injector = Guice.createInjector(new BattleshipModule());
+        master = injector.getInstance(IMasterController.class);
+        tui = new TUI(master);
+        gui = new GUI(master);
         scanner = new Scanner(System.in);
         while (true) {
             tui.processInputLine(scanner.nextLine());

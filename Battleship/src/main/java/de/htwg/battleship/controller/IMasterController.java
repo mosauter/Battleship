@@ -46,7 +46,7 @@ public interface IMasterController extends IObservable {
      * Setter for a specified Viewer to change the presentation.
      * @param state new Viewer
      */
-    void setState(State state);
+    void setCurrentState(State state);
 
     /**
      * Getter for the first Player.

@@ -56,7 +56,7 @@ public class MasterController extends Observable implements IMasterController {
     /**
      * Presentation of the Game.
      */
-    private State state;
+    private State currentState;
 
     /**
      * Public Constructor.
@@ -70,33 +70,33 @@ public class MasterController extends Observable implements IMasterController {
         this.winController = new WinController(player1, player2);
         this.player1 = player1;
         this.player2 = player2;
-        this.state = START;
+        this.currentState = START;
     }
 
     @Override
     public final void shoot(final int x, final int y) {
         IPlayer player;
         boolean first;
-        if (this.state == SHOOT1) {
+        if (this.currentState == SHOOT1) {
             player = this.player1;
             first = true;
-        } else if (this.state == SHOOT2) {
+        } else if (this.currentState == SHOOT2) {
             player = this.player2;
             first = false;
         } else {
-            this.setState(WRONGINPUT);
+            this.setCurrentState(WRONGINPUT);
             return;
         }
         if (shootController.shoot(x, y, first)) {
-            this.setState(HIT);
+            this.setCurrentState(HIT);
         } else {
-            this.setState(MISS);
+            this.setCurrentState(MISS);
         }
         this.win();
         if (first) {
-            this.setState(SHOOT2);
+            this.setCurrentState(SHOOT2);
         } else {
-            this.setState(SHOOT1);
+            this.setCurrentState(SHOOT1);
         }
     }
 
@@ -106,31 +106,31 @@ public class MasterController extends Observable implements IMasterController {
         IPlayer player;
         boolean firstPlayer;
 
-        if (this.state == PLACE1) {
+        if (this.currentState == PLACE1) {
             player = player1;
             firstPlayer = true;
-        } else if (this.state == PLACE2) {
+        } else if (this.currentState == PLACE2) {
             player = player2;
             firstPlayer = false;
         } else {
-            this.setState(WRONGINPUT);
+            this.setCurrentState(WRONGINPUT);
             return;
         }
 
         if (!shipController.placeShip(
                 new Ship((player.getOwnBoard().getShips() + 2),
                 orientation, x, y), player)) {
-            this.setState(PLACEERR);
+            this.setCurrentState(PLACEERR);
             return;
         }
 
         if (player.getOwnBoard().getShips() == StatCollection.SHIP_NUMBER_MAX) {
             if (firstPlayer) {
-                this.setState(FINALPLACE1);
-                this.state = PLACE2;
+                this.setCurrentState(FINALPLACE1);
+                this.currentState = PLACE2;
             } else {
-                this.setState(FINALPLACE2);
-                this.state = SHOOT1;
+                this.setCurrentState(FINALPLACE2);
+                this.currentState = SHOOT1;
             }
         }
         notifyObserver();
@@ -143,27 +143,27 @@ public class MasterController extends Observable implements IMasterController {
             return;
         }
         if (winner.equals(player1)) {
-            this.setState(WIN1);
+            this.setCurrentState(WIN1);
         } else {
-            this.setState(WIN2);
+            this.setCurrentState(WIN2);
         }
         System.exit(0);
     }
 
     @Override
     public final State getCurrentState() {
-        return this.state;
+        return this.currentState;
     }
 
     @Override
-    public final void setState(final State state) {
-        State tmp = state;
-        if (state == WRONGINPUT || state == PLACEERR) {
-            tmp = this.state;
-            this.state = state;
+    public final void setCurrentState(final State currentState) {
+        State tmp = currentState;
+        if (currentState == WRONGINPUT || currentState == PLACEERR) {
+            tmp = this.currentState;
+            this.currentState = currentState;
             notifyObserver();
         }
-        this.state = tmp;
+        this.currentState = tmp;
         notifyObserver();
     }
 
@@ -179,14 +179,14 @@ public class MasterController extends Observable implements IMasterController {
 
     @Override
     public final void setPlayerName(final String name) {
-        if (this.state == GETNAME1) {
+        if (this.currentState == GETNAME1) {
             player1.setName(name);
-            this.setState(GETNAME2);
-        } else if (this.state == GETNAME2) {
+            this.setCurrentState(GETNAME2);
+        } else if (this.currentState == GETNAME2) {
             player2.setName(name);
-            this.setState(PLACE1);
+            this.setCurrentState(PLACE1);
         } else {
-            this.setState(WRONGINPUT);
+            this.setCurrentState(WRONGINPUT);
         }
     }
 }

@@ -130,10 +130,10 @@ public class TUI implements IObserver {
         String[] field = line.split(" ");
         if (master.getCurrentState() == START) {
             if (field.length != 1) {
-                this.master.setState(WRONGINPUT);
+                this.master.setCurrentState(WRONGINPUT);
             }
             if (field[0].equals("1")) {
-                master.setState(GETNAME1);
+                master.setCurrentState(GETNAME1);
             } else {
                 System.exit(0);
             }
@@ -141,11 +141,11 @@ public class TUI implements IObserver {
         }
         if (field.length == PLACE_STATEMENT_LENGTH) {
             if (!field[0].matches("[a-z]")) {
-                master.setState(WRONGINPUT);
+                master.setCurrentState(WRONGINPUT);
                 return;
             }
             if (!field[1].matches("[0-9]")) {
-                master.setState(WRONGINPUT);
+                master.setCurrentState(WRONGINPUT);
                 return;
             }
             int x = (int) field[0].charAt(0) - ASCII_LOW_CASE;
@@ -159,11 +159,11 @@ public class TUI implements IObserver {
         }
         if (field.length == SHOOT_STATEMENT_LENGTH) {
             if (!field[0].matches("[a-z]")) {
-                master.setState(WRONGINPUT);
+                master.setCurrentState(WRONGINPUT);
                 return;
             }
             if (!field[1].matches("[0-9]")) {
-                master.setState(WRONGINPUT);
+                master.setCurrentState(WRONGINPUT);
                 return;
             }
             int x = (int) field[0].charAt(0) - ASCII_LOW_CASE;

@@ -95,11 +95,11 @@ public class MasterControllerTest {
         State st = START;
         assertEquals(master.getCurrentState(), st);
         st = State.HIT;
-        master.setState(st);
+        master.setCurrentState(st);
         assertEquals(master.getCurrentState(), st);
-        master.setState(State.WRONGINPUT);
+        master.setCurrentState(State.WRONGINPUT);
         assertEquals(master.getCurrentState(), st);
-        master.setState(State.PLACEERR);
+        master.setCurrentState(State.PLACEERR);
         assertEquals(master.getCurrentState(), st);
     }
 
@@ -125,7 +125,7 @@ public class MasterControllerTest {
     @Test
     public void testSetPlayerName() {
         String name = "Moritz";
-        master.setState(State.GETNAME1);
+        master.setCurrentState(State.GETNAME1);
         master.setPlayerName(name);
         assert (name.equals(master.getPlayer1().getName()));
         master.setPlayerName(name);
