@@ -2,7 +2,6 @@
 
 package de.htwg.battleship.aview.tui;
 
-import com.google.inject.Inject;
 import de.htwg.battleship.aview.tui.impl.HitMissViewer;
 import de.htwg.battleship.aview.tui.impl.InputMaskPlayer1;
 import de.htwg.battleship.aview.tui.impl.InputMaskPlayer2;
@@ -52,7 +51,6 @@ public class TUI implements IObserver {
      * Public constructor.
      * @param master master controller
      */
-    @Inject
     public TUI(final IMasterController master) {
         this.master = master;
         this.master.addObserver(this);
