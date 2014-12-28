@@ -59,6 +59,13 @@ public enum State {
      * State that the second player has won.
      */
     WIN2,
+
+    //  -----------------   Error States    ------------------------
+
+    /*
+     * Error States are set and also reset by the controller!
+     */
+
     //  -----------------   Error States    ------------------------
     /**
      * Place state that there was an Error while placing a Ship.
@@ -66,7 +73,8 @@ public enum State {
      */
     PLACEERR,
     /**
-     * State that there was a wrong Input.
+     * Interim state that there was a method call which
+     * was wrong in the current state.
      * Error State
      */
     WRONGINPUT;
