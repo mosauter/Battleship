@@ -1,6 +1,5 @@
 package de.htwg.battleship.aview.gui;
 
-import com.google.inject.Inject;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.observer.IObserver;
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
@@ -12,8 +11,6 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -31,6 +28,7 @@ public class GUI extends JFrame implements IObserver {
     private final JButton start = new JButton("Start Game");
     private final JButton options = new JButton("Options");
     private final JButton exit = new JButton("Exit");
+    private final long displaytime = 2000L;
     /**
      * JButton[][] for the Field.
      * Button named with: 'x + " " + y'
@@ -47,9 +45,9 @@ public class GUI extends JFrame implements IObserver {
     private JDialog notifyframe;
     private JTextField player;
     private JTextField ausgabe;
+    private JPopupDialog jpd = null;
     private final Container c;
 
-    @Inject
     public GUI(final IMasterController master) {
         this.master = master;
         master.addObserver(this);
@@ -100,15 +98,15 @@ public class GUI extends JFrame implements IObserver {
         //center
         GridLayout gl = new GridLayout(boardsize, boardsize);
         main.setLayout(gl);
-        for (int i = 0; i < boardsize; i++) {
-            JLabel x = new JLabel("" + i);
-            beschriftung1.add(x);
-            beschriftung2.add(x);
-            for (int j = 0; j < boardsize; j++) {
-                String name = i + " " + j;
-                buttonField[i][j] = new JButton();
-                buttonField[i][j].setName(name);
-                main.add(buttonField[i][j]);
+        for (int y = 0; y < boardsize; y++) {
+            JLabel xLabel = new JLabel("" + y);
+            beschriftung1.add(xLabel);
+            beschriftung2.add(xLabel);
+            for (int x = 0; x < boardsize; x++) {
+                String name = x + " " + y;
+                buttonField[x][y] = new JButton();
+                buttonField[x][y].setName(name);
+                main.add(buttonField[x][y]);
             }
         }
 
@@ -174,17 +172,25 @@ public class GUI extends JFrame implements IObserver {
                 break;
             case PLACE1:
                 notifyframe.dispose();
+                resetPlaceButton();
                 activateListener(new PlaceListener());
                 placeShip();
                 break;
             case PLACE2:
+                resetPlaceButton();
                 activateListener(new PlaceListener());
                 break;
             case FINALPLACE1:
+                resetPlaceButton();
                 break;
             case FINALPLACE2:
+                resetPlaceButton();
                 break;
             case PLACEERR:
+                jpd = new JPopupDialog(this, "Placement error",
+                        "Cannot place a ship there due to a collision or "
+                                + "the ship is out of the field!",
+                        displaytime, false);
                 break;
             case SHOOT1:
                 activateListener(new ShootListener());
@@ -193,25 +199,26 @@ public class GUI extends JFrame implements IObserver {
                 activateListener(new ShootListener());
                 break;
             case HIT:
-                try {
-                    this.showMessage("Your shot was a Hit!");
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                jpd = new JPopupDialog(this, "Shot Result",
+                        "Your shot was a Hit!!", displaytime, false);
                 break;
             case MISS:
-                try {
-                    this.showMessage("Your shot was a Miss!!");
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                jpd = new JPopupDialog(this, "Shot Result",
+                        "Your shot was a Miss!!", displaytime, false);
                 break;
             case WIN1:
+                String msg = master.getPlayer1().getName() + " has won!!";
+                jpd = new JPopupDialog(this, "Winner!", msg,
+                        displaytime, false);
                 break;
             case WIN2:
+                msg = master.getPlayer2().getName() + " has won!!";
+                jpd = new JPopupDialog(this, "Winner!", msg,
+                        displaytime, false);
                 break;
             case WRONGINPUT:
-
+//                sisn't needed in the GUI, help-state for a UI where you
+//                can give input at the false states
                 break;
             default:
                 break;
@@ -219,15 +226,15 @@ public class GUI extends JFrame implements IObserver {
     }
 
     /**
-     * Method to end the GUI.
+     * Method to end the GUI and the TUI as well.
      */
     public final void exit() {
         System.exit(0);
     }
 
     /**
-     * Method to activate a new Action Listener to the JButton[][]-Matrix. uses
-     * the removeListener-Method
+     * Method to activate a new Action Listener to the JButton[][]-Matrix.
+     * uses the removeListener-Method
      * @param newListener the new Listener of the button matrix
      */
     private void activateListener(final ActionListener newListener) {
@@ -291,15 +298,15 @@ public class GUI extends JFrame implements IObserver {
          * Method to switch the colour of a button.
          * @param select specified Button
          */
-        private void switchColor(final JButton select) {
-            JButton defaultColor = new JButton();
-            if (select.getBackground() == defaultColor.getBackground()) {
-                select.setBackground(Color.BLUE);
-                shipPlacePosition = select;
-            } else {
-                select.setBackground(defaultColor.getBackground());
-                shipPlacePosition = null;
-            }
+       private void switchColor(final JButton select) {
+           JButton defaultColor = new JButton();
+           if (select.getBackground() == defaultColor.getBackground()) {
+               select.setBackground(Color.BLUE);
+               shipPlacePosition = select;
+           } else {
+               select.setBackground(defaultColor.getBackground());
+               shipPlacePosition = null;
+           }
         }
     }
 
@@ -315,7 +322,7 @@ public class GUI extends JFrame implements IObserver {
             String[] name = button.getName().split(" ");
             int x = Integer.parseInt(name[0]);
             int y = Integer.parseInt(name[1]);
-            master.shoot(y, x);
+            master.shoot(x, y);
         }
     }
 
@@ -348,17 +355,10 @@ public class GUI extends JFrame implements IObserver {
         }
     }
 
-    private void showMessage(String message) throws InterruptedException {
-        notifyframe = new JDialog();
-        notifyframe.setModal(true);
-        notifyframe.setSize(300, 150);
-        notifyframe.setLayout(new GridLayout(3, 1));
-        notifyframe.add(new JLabel(message));
-        notifyframe.setResizable(false);
-        notifyframe.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        notifyframe.setLocationRelativeTo(getParent());
-        notifyframe.setVisible(true);
-        Thread.sleep(1000);
-        notifyframe.dispose();
+    private void resetPlaceButton() {
+        if (shipPlacePosition != null) {
+            shipPlacePosition.setBackground((new JButton()).getBackground());
+            shipPlacePosition = null;
+        }
     }
 }
