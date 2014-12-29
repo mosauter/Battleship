@@ -9,6 +9,7 @@ import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.observer.impl.Observable;
 import de.htwg.battleship.util.StatCollection;
 import de.htwg.battleship.util.State;
+import static de.htwg.battleship.util.State.END;
 import static de.htwg.battleship.util.State.FINALPLACE1;
 import static de.htwg.battleship.util.State.FINALPLACE2;
 import static de.htwg.battleship.util.State.GETNAME1;
@@ -147,7 +148,8 @@ public class MasterController extends Observable implements IMasterController {
         } else {
             this.setCurrentState(WIN2);
         }
-        System.exit(0);
+        this.resetBoards();
+        this.setCurrentState(END);
     }
 
     @Override
@@ -188,5 +190,13 @@ public class MasterController extends Observable implements IMasterController {
         } else {
             this.setCurrentState(WRONGINPUT);
         }
+    }
+
+    /**
+     * Private utility-method to reset the boards of both players.
+     */
+    private void resetBoards() {
+        player1.resetBoard();
+        player2.resetBoard();
     }
 }
