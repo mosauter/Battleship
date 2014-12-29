@@ -15,7 +15,7 @@ public class Player implements IPlayer {
     /**
      * Saves the board of the specified Player.
      */
-    private final IBoard ownBoard;
+    private IBoard ownBoard;
     /**
      * Name of the Player.
      */
@@ -51,5 +51,10 @@ public class Player implements IPlayer {
     @Override
     public final IBoard getOwnBoard() {
         return ownBoard;
+    }
+
+    @Override
+    public final void resetBoard() {
+        this.ownBoard = new Board();
     }
 }
