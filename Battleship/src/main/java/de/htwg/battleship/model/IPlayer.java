@@ -26,4 +26,8 @@ public interface IPlayer {
      * @return Board
      */
     IBoard getOwnBoard();
+    /**
+     * Method resets the board of the player.
+     */
+    void resetBoard();
 }
