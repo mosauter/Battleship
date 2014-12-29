@@ -59,6 +59,11 @@ public enum State {
      * State that the second player has won.
      */
     WIN2,
+    /**
+     * State that the game has ended, there you can go back to the
+     * start state again.
+     */
+    END,
 
     //  -----------------   Error States    ------------------------
 
