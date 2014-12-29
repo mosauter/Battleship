@@ -2,6 +2,7 @@
 
 package de.htwg.battleship.aview.tui;
 
+import de.htwg.battleship.aview.tui.impl.EndMenuViewer;
 import de.htwg.battleship.aview.tui.impl.HitMissViewer;
 import de.htwg.battleship.aview.tui.impl.InputMaskPlayer1;
 import de.htwg.battleship.aview.tui.impl.InputMaskPlayer2;
@@ -15,7 +16,9 @@ import de.htwg.battleship.aview.tui.impl.WrongInputViewer;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.observer.IObserver;
 import static de.htwg.battleship.util.StatCollection.ASCII_LOW_CASE;
+import static de.htwg.battleship.util.State.END;
 import static de.htwg.battleship.util.State.GETNAME1;
+import static de.htwg.battleship.util.State.PLACE1;
 import static de.htwg.battleship.util.State.START;
 import static de.htwg.battleship.util.State.WRONGINPUT;
 
@@ -108,6 +111,9 @@ public class TUI implements IObserver {
             case WRONGINPUT:
                 this.view = new WrongInputViewer();
                 break;
+            case END:
+                this.view = new EndMenuViewer();
+                break;
             default:
                 break;
         }
@@ -126,9 +132,11 @@ public class TUI implements IObserver {
      */
     public final void processInputLine(final String line) {
         String[] field = line.split(" ");
+//        Start Menu
         if (master.getCurrentState() == START) {
             if (field.length != 1) {
                 this.master.setCurrentState(WRONGINPUT);
+                return;
             }
             if (field[0].equals("1")) {
                 master.setCurrentState(GETNAME1);
@@ -137,6 +145,19 @@ public class TUI implements IObserver {
             }
             return;
         }
+//        End Menu
+        if (master.getCurrentState() == END) {
+            if (field.length != 1) {
+                this.master.setCurrentState(WRONGINPUT);
+                return;
+            }
+            if (field[0].equals("1")) {
+                master.setCurrentState(PLACE1);
+            } else {
+                System.exit(0);
+            }
+        }
+//        Place Menu
         if (field.length == PLACE_STATEMENT_LENGTH) {
             if (!field[0].matches("[a-z]")) {
                 master.setCurrentState(WRONGINPUT);
@@ -155,6 +176,7 @@ public class TUI implements IObserver {
             }
             return;
         }
+//        Shoot Menu
         if (field.length == SHOOT_STATEMENT_LENGTH) {
             if (!field[0].matches("[a-z]")) {
                 master.setCurrentState(WRONGINPUT);
@@ -169,6 +191,7 @@ public class TUI implements IObserver {
             master.shoot(x, y);
             return;
         }
+//        Exit Statement
         if (field.length == SET_NAME_STATEMENT_LENGTH) {
             if (field[0].equals("Exit") || field[0].equals("exit")) {
                 System.exit(0);
