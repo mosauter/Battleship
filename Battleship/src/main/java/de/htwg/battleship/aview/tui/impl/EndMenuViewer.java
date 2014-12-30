@@ -17,7 +17,7 @@ public class EndMenuViewer implements Viewer {
         StringBuilder sb = new StringBuilder();
         sb.append("1. Start a new Game\n");
         sb.append("2. End Game\n");
-        sb.append("\t-->\t");
+        sb.append("\t--->\t");
         return sb.toString();
     }
 }
