@@ -37,6 +37,7 @@ public class GUI extends JFrame implements IObserver {
             = new JButton[HEIGTH_LENGTH][HEIGTH_LENGTH];
     private final IMasterController master;
     private final JComboBox<String> orientation = new JComboBox<>();
+    private JPanel east;
 
     /**
      * JButton where the Ship should be placed.
@@ -145,7 +146,7 @@ public class GUI extends JFrame implements IObserver {
         this.setVisible(false);
         JButton place = new JButton("place");
         place.addActionListener(new PlaceListener());
-        JPanel east = new JPanel();
+        east = new JPanel();
         east.setLayout(new GridLayout(3, 1));
         c.add(east, BorderLayout.EAST);
         orientation.addItem("horizontal");
@@ -193,6 +194,9 @@ public class GUI extends JFrame implements IObserver {
                         displaytime, false);
                 break;
             case SHOOT1:
+                this.setVisible(false);
+                c.remove(east);
+                this.setVisible(true);
                 activateListener(new ShootListener());
                 break;
             case SHOOT2:
@@ -219,6 +223,8 @@ public class GUI extends JFrame implements IObserver {
             case WRONGINPUT:
 //                sisn't needed in the GUI, help-state for a UI where you
 //                can give input at the false states
+                break;
+            case END:
                 break;
             default:
                 break;
