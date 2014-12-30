@@ -3,7 +3,7 @@ package de.htwg.battleship.aview.gui;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.observer.IObserver;
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
-import de.htwg.battleship.util.State;
+import static de.htwg.battleship.util.State.GETNAME1;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -47,44 +47,48 @@ public class GUI extends JFrame implements IObserver {
     private JTextField player;
     private JTextField ausgabe;
     private JPopupDialog jpd = null;
-    private final Container c;
+    private final Container container;
+    private JFrame menuFrame;
+    private final Container startContainer;
 
     public GUI(final IMasterController master) {
         this.master = master;
         master.addObserver(this);
-        this.setTitle("Battleship");
-        this.setLayout(new GridLayout(2, 1));
-        c = getContentPane();
+        container = this.getContentPane();
+        this.menuFrame = new JFrame("Battleship");
+        this.menuFrame.setLayout(new GridLayout(2, 1));
+        startContainer = this.menuFrame.getContentPane();
         this.start.setSize(80, 50);
         this.exit.setSize(80, 50);
         MenuListener menu = new MenuListener();
         this.start.addActionListener(menu);
         this.exit.addActionListener(menu);
-        c.add(start);
-        c.add(exit);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setSize(800, 500);
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
+        startContainer.add(start);
+        startContainer.add(exit);
+        this.menuFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.menuFrame.setSize(800, 500);
+        this.menuFrame.setResizable(false);
+        this.menuFrame.setLocationRelativeTo(null);
+        this.menuFrame.setVisible(true);
+        this.newGame(HEIGTH_LENGTH);
     }
 
     public void newGame(int boardsize) {
         this.setVisible(false);
         //remove old components
-        c.remove(start);
-        c.remove(exit);
+        container.remove(start);
+        container.remove(exit);
 
         //new Layout
         this.setLayout(new BorderLayout());
         JPanel main = new JPanel();
-        c.add(main, BorderLayout.CENTER);
+        container.add(main, BorderLayout.CENTER);
 
         //panel for the left description
         JPanel beschriftung1 = new JPanel();
         beschriftung1.setLayout(new GridLayout(boardsize, 1));
         beschriftung1.setPreferredSize(new Dimension(30, 30));
-        c.add(beschriftung1, BorderLayout.WEST);
+        container.add(beschriftung1, BorderLayout.WEST);
 
         //panel for top description
         JPanel beschriftung2 = new JPanel();
@@ -94,7 +98,7 @@ public class GUI extends JFrame implements IObserver {
         JPanel left_higher_corner = new JPanel();
         left_higher_corner.setSize(5, 5);
         beschriftung2.add(left_higher_corner);
-        c.add(beschriftung2, BorderLayout.NORTH);
+        container.add(beschriftung2, BorderLayout.NORTH);
 
         //center
         GridLayout gl = new GridLayout(boardsize, boardsize);
@@ -114,13 +118,10 @@ public class GUI extends JFrame implements IObserver {
         //bottom
         JPanel bottom = new JPanel();
         bottom.setLayout(new GridLayout(1, 3));
-        c.add(bottom, BorderLayout.SOUTH);
+        container.add(bottom, BorderLayout.SOUTH);
         ausgabe = new JTextField();
         ausgabe.setEditable(false);
         bottom.add(ausgabe);
-        this.setVisible(true);
-
-        master.setCurrentState(State.GETNAME1);
     }
 
     public void getPlayername(int playernumber) {
@@ -142,13 +143,12 @@ public class GUI extends JFrame implements IObserver {
     }
 
     public void placeShip() {
-        this.notifyframe.dispose();
         this.setVisible(false);
         JButton place = new JButton("place");
         place.addActionListener(new PlaceListener());
         east = new JPanel();
         east.setLayout(new GridLayout(3, 1));
-        c.add(east, BorderLayout.EAST);
+        container.add(east, BorderLayout.EAST);
         orientation.addItem("horizontal");
         orientation.addItem("vertical");
         orientation.setPreferredSize(new Dimension(90, 15));
@@ -161,10 +161,12 @@ public class GUI extends JFrame implements IObserver {
     public final void update() {
         switch (master.getCurrentState()) {
             case START:
-                newGame(HEIGTH_LENGTH);
+                this.menuFrame.dispose();
+                this.setVisible(true);
+                master.setCurrentState(GETNAME1);
                 break;
             case GETNAME1:
-                this.dispose();
+                this.menuFrame.dispose();
                 getPlayername(1);
                 break;
             case GETNAME2:
@@ -195,7 +197,7 @@ public class GUI extends JFrame implements IObserver {
                 break;
             case SHOOT1:
                 this.setVisible(false);
-                c.remove(east);
+                container.remove(east);
                 this.setVisible(true);
                 activateListener(new ShootListener());
                 break;
