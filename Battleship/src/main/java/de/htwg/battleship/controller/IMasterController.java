@@ -32,8 +32,11 @@ public interface IMasterController extends IObservable {
 
     /**
      * Checs if someone has won.
+     * @return true if someone has won false if not, sets the win-states
+     *         and after that the end-state
+     * returns true not until the win- and the end-states are setted
      */
-    void win();
+    boolean win();
 
     /**
      * To get the current State of the game.
