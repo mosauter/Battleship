@@ -93,11 +93,12 @@ public class MasterController extends Observable implements IMasterController {
         } else {
             this.setCurrentState(MISS);
         }
-        this.win();
-        if (first) {
-            this.setCurrentState(SHOOT2);
-        } else {
-            this.setCurrentState(SHOOT1);
+        if (!this.win()) {
+            if (first) {
+                this.setCurrentState(SHOOT2);
+            } else {
+                this.setCurrentState(SHOOT1);
+            }
         }
     }
 
@@ -138,10 +139,10 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final void win() {
+    public final boolean win() {
         IPlayer winner = winController.win();
         if (winner == null) {
-            return;
+            return false;
         }
         if (winner.equals(player1)) {
             this.setCurrentState(WIN1);
@@ -150,6 +151,7 @@ public class MasterController extends Observable implements IMasterController {
         }
         this.resetBoards();
         this.setCurrentState(END);
+        return true;
     }
 
     @Override
