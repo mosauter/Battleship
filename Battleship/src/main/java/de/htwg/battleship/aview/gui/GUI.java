@@ -4,6 +4,7 @@ import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.observer.IObserver;
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
 import static de.htwg.battleship.util.State.GETNAME1;
+import static de.htwg.battleship.util.State.PLACE1;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -23,12 +24,12 @@ import javax.swing.JTextField;
  * Graphical User Interface.
  */
 @SuppressWarnings("serial")
-public class GUI extends JFrame implements IObserver {
+public final class GUI extends JFrame implements IObserver {
 
+    private static final long displaytime = 2000L;
     private final JButton start = new JButton("Start Game");
     private final JButton options = new JButton("Options");
     private final JButton exit = new JButton("Exit");
-    private final long displaytime = 2000L;
     /**
      * JButton[][] for the Field.
      * Button named with: 'x + " " + y'
@@ -42,43 +43,52 @@ public class GUI extends JFrame implements IObserver {
     /**
      * JButton where the Ship should be placed.
      */
-    private static JButton shipPlacePosition;
+    private JButton shipPlacePosition;
     private JDialog notifyframe;
     private JTextField player;
     private JTextField ausgabe;
     private JPopupDialog jpd = null;
     private final Container container;
-    private JFrame menuFrame;
+    private final JFrame menuFrame;
     private final Container startContainer;
 
     public GUI(final IMasterController master) {
-        this.master = master;
         master.addObserver(this);
-        container = this.getContentPane();
+        this.master = master;
+//        initialize menu
         this.menuFrame = new JFrame("Battleship");
+//        close operations
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.menuFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+//        get the contentpanes of both frames
+        this.container = this.getContentPane();
+        this.startContainer = this.menuFrame.getContentPane();
         this.menuFrame.setLayout(new GridLayout(2, 1));
-        startContainer = this.menuFrame.getContentPane();
+//        set buttonsizes
         this.start.setSize(80, 50);
         this.exit.setSize(80, 50);
-        MenuListener menu = new MenuListener();
-        this.start.addActionListener(menu);
-        this.exit.addActionListener(menu);
-        startContainer.add(start);
-        startContainer.add(exit);
-        this.menuFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+//        add actionlisteners
+        this.start.addActionListener(new MenuListener());
+        this.exit.addActionListener(new MenuListener());
+//        add buttons to container
+        this.startContainer.add(start);
+        this.startContainer.add(exit);
+//        set frame size
         this.menuFrame.setSize(800, 500);
+//        set options
         this.menuFrame.setResizable(false);
         this.menuFrame.setLocationRelativeTo(null);
+//        show
         this.menuFrame.setVisible(true);
+//        initialize field
         this.newGame(HEIGTH_LENGTH);
     }
 
-    public void newGame(int boardsize) {
-        this.setVisible(false);
-        //remove old components
-        container.remove(start);
-        container.remove(exit);
-
+    /**
+     * Method to initialize the GUI for the fields.
+     * @param boardsize usually StatCollection.HEIGTH_LENGTH
+     */
+    public void newGame(final int boardsize) {
         //new Layout
         this.setLayout(new BorderLayout());
         JPanel main = new JPanel();
@@ -122,6 +132,8 @@ public class GUI extends JFrame implements IObserver {
         ausgabe = new JTextField();
         ausgabe.setEditable(false);
         bottom.add(ausgabe);
+        this.setSize(800, 500);
+        this.setLocationRelativeTo(null);
     }
 
     public void getPlayername(int playernumber) {
@@ -158,15 +170,11 @@ public class GUI extends JFrame implements IObserver {
     }
 
     @Override
-    public final void update() {
+    public void update() {
         switch (master.getCurrentState()) {
             case START:
-                this.menuFrame.dispose();
-                this.setVisible(true);
-                master.setCurrentState(GETNAME1);
                 break;
             case GETNAME1:
-                this.menuFrame.dispose();
                 getPlayername(1);
                 break;
             case GETNAME2:
@@ -222,11 +230,14 @@ public class GUI extends JFrame implements IObserver {
                 jpd = new JPopupDialog(this, "Winner!", msg,
                         displaytime, false);
                 break;
-            case WRONGINPUT:
-//                sisn't needed in the GUI, help-state for a UI where you
-//                can give input at the false states
-                break;
             case END:
+                this.setVisible(false);
+                this.start.setText("Start a new Game");
+                this.menuFrame.setVisible(true);
+                break;
+            case WRONGINPUT:
+//                isn't needed in the GUI, help-state for a UI where you
+//                can give input at the false states
                 break;
             default:
                 break;
@@ -337,14 +348,20 @@ public class GUI extends JFrame implements IObserver {
     private class MenuListener implements ActionListener {
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(final ActionEvent e) {
+            menuFrame.setVisible(false);
             JButton target = (JButton) e.getSource();
             switch (target.getText()) {
                 case "Start Game":
-                    update();
+                    master.setCurrentState(GETNAME1);
+                    setVisible(true);
                     break;
                 case "Exit":
                     exit();
+                    break;
+                case "Start a new Game":
+                    setVisible(true);
+                    master.setCurrentState(PLACE1);
                     break;
                 default:
                     break;
