@@ -76,29 +76,43 @@ public class MasterController extends Observable implements IMasterController {
 
     @Override
     public final void shoot(final int x, final int y) {
-        IPlayer player;
         boolean first;
+        State before = currentState;
         if (this.currentState == SHOOT1) {
-            player = this.player1;
             first = true;
         } else if (this.currentState == SHOOT2) {
-            player = this.player2;
             first = false;
         } else {
             this.setCurrentState(WRONGINPUT);
             return;
         }
-        if (shootController.shoot(x, y, first)) {
+        hitMiss(shootController.shoot(x, y, first));
+        if (!this.win()) {
+            this.nextShootState(before);
+        }
+    }
+
+    /**
+     * Utility-Method to wrap the Hit/Miss differentiation.
+     * @param shootResult true if there was a hit false if not
+     */
+    private void hitMiss(final boolean shootResult) {
+        if (shootResult) {
             this.setCurrentState(HIT);
         } else {
             this.setCurrentState(MISS);
         }
-        if (!this.win()) {
-            if (first) {
-                this.setCurrentState(SHOOT2);
-            } else {
-                this.setCurrentState(SHOOT1);
-            }
+    }
+
+    /**
+     * Utility-Method to set the next state for shooting.
+     * @param before state before the shoot method changes it to hit or miss
+     */
+    private void nextShootState(final State before) {
+        if (before.equals(SHOOT1)) {
+            this.setCurrentState(SHOOT2);
+        } else {
+            this.setCurrentState(SHOOT1);
         }
     }
 
@@ -144,14 +158,30 @@ public class MasterController extends Observable implements IMasterController {
         if (winner == null) {
             return false;
         }
-        if (winner.equals(player1)) {
+        winner(winner.equals(this.player1));
+        this.resetBoards();
+        this.setCurrentState(END);
+        return true;
+    }
+
+    /**
+     * Utility-Method to wrap the win-state differentiation.
+     * @param first true if the winner is the player1 false if not
+     */
+    private void winner(final boolean first) {
+        if (first) {
             this.setCurrentState(WIN1);
         } else {
             this.setCurrentState(WIN2);
         }
-        this.resetBoards();
-        this.setCurrentState(END);
-        return true;
+    }
+
+    /**
+     * Private utility-method to reset the boards of both players.
+     */
+    private void resetBoards() {
+        player1.resetBoard();
+        player2.resetBoard();
     }
 
     @Override
@@ -192,13 +222,5 @@ public class MasterController extends Observable implements IMasterController {
         } else {
             this.setCurrentState(WRONGINPUT);
         }
-    }
-
-    /**
-     * Private utility-method to reset the boards of both players.
-     */
-    private void resetBoards() {
-        player1.resetBoard();
-        player2.resetBoard();
     }
 }
