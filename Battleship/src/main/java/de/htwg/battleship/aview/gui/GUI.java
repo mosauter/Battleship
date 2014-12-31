@@ -175,6 +175,7 @@ public final class GUI extends JFrame implements IObserver {
             case START:
                 break;
             case GETNAME1:
+                menuFrame.dispose();
                 getPlayername(1);
                 break;
             case GETNAME2:
