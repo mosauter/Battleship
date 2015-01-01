@@ -26,9 +26,23 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public final class GUI extends JFrame implements IObserver {
 
+    /**
+     * Constant that indicates how long the JPopupDialogs should be shown
+     * before they close automatically.
+     */
     private static final long displaytime = 2000L;
+    /**
+     * JButton to start or later to restart the Game.
+     */
     private final JButton start = new JButton("Start Game");
-    private final JButton options = new JButton("Options");
+//    /**
+//     * JButton to configure the options of the game.
+//     * Currently not in use
+//     */
+//    private final JButton options = new JButton("Options");
+    /**
+     * JButton to exit the whole game right at the beginning or at the end.
+     */
     private final JButton exit = new JButton("Exit");
     /**
      * JButton[][] for the Field.
@@ -36,22 +50,46 @@ public final class GUI extends JFrame implements IObserver {
      */
     private final JButton[][] buttonField
             = new JButton[HEIGTH_LENGTH][HEIGTH_LENGTH];
+    /**
+     * To save the MasterController for all of the several UIs.
+     */
     private final IMasterController master;
+    /**
+     * ComboBox to indicate which orientation the ship that now
+     * should be placed.
+     */
     private final JComboBox<String> orientation = new JComboBox<>();
+    /**
+     * JPanel.
+     */
     private JPanel east;
 
     /**
      * JButton where the Ship should be placed.
      */
     private JButton shipPlacePosition;
+    /**
+     * JDialog which has to be saved that the program can dispose them
+     * after its not in use anymore.
+     */
     private JDialog notifyframe;
+    /**
+     * JTextField where the player should input his name.
+     */
     private JTextField player;
+    /**
+     * JTextField where
+     */
     private JTextField ausgabe;
     private JPopupDialog jpd = null;
     private final Container container;
     private final JFrame menuFrame;
     private final Container startContainer;
 
+    /**
+     * Public Contructor to create a GUI.
+     * @param master MasterController which is the same for all UI
+     */
     public GUI(final IMasterController master) {
         master.addObserver(this);
         this.master = master;
@@ -136,7 +174,11 @@ public final class GUI extends JFrame implements IObserver {
         this.setLocationRelativeTo(null);
     }
 
-    public void getPlayername(int playernumber) {
+    /**
+     * Utility-Method to create a JDialog where the user should insert his name.
+     * @param playernumber HEIGHT_LENGTH
+     */
+    private void getPlayername(final int playernumber) {
         PlayerListener pl = new PlayerListener();
         player = new JTextField();
         JButton submit = new JButton("OK");
@@ -154,7 +196,11 @@ public final class GUI extends JFrame implements IObserver {
         notifyframe.setVisible(true);
     }
 
-    public void placeShip() {
+    /**
+     * Utility-Method to add the 'place'-Button and a
+     * ComboBox to the main frame.
+     */
+    private void placeShip() {
         this.setVisible(false);
         JButton place = new JButton("place");
         place.addActionListener(new PlaceListener());
@@ -187,10 +233,16 @@ public final class GUI extends JFrame implements IObserver {
                 resetPlaceButton();
                 activateListener(new PlaceListener());
                 placeShip();
+                ausgabe.setText(master.getPlayer1().getName()
+                        + " now place the ship with the length of "
+                        + (master.getPlayer1().getOwnBoard().getShips() + 2));
                 break;
             case PLACE2:
                 resetPlaceButton();
                 activateListener(new PlaceListener());
+                ausgabe.setText(master.getPlayer2().getName()
+                        + "now place the ship with the length of "
+                        + (master.getPlayer2().getOwnBoard().getShips() + 2));
                 break;
             case FINALPLACE1:
                 resetPlaceButton();
@@ -209,9 +261,13 @@ public final class GUI extends JFrame implements IObserver {
                 container.remove(east);
                 this.setVisible(true);
                 activateListener(new ShootListener());
+                ausgabe.setText(master.getPlayer1().getName()
+                        + " is now at the turn to shoot");
                 break;
             case SHOOT2:
                 activateListener(new ShootListener());
+                ausgabe.setText(master.getPlayer2().getName()
+                        + " is now at the turn to shoot");
                 break;
             case HIT:
                 jpd = new JPopupDialog(this, "Shot Result",
@@ -235,6 +291,7 @@ public final class GUI extends JFrame implements IObserver {
                 this.setVisible(false);
                 this.start.setText("Start a new Game");
                 this.menuFrame.setVisible(true);
+                this.menuFrame.toBack();
                 break;
             case WRONGINPUT:
 //                isn't needed in the GUI, help-state for a UI where you
@@ -243,13 +300,6 @@ public final class GUI extends JFrame implements IObserver {
             default:
                 break;
         }
-    }
-
-    /**
-     * Method to end the GUI and the TUI as well.
-     */
-    public final void exit() {
-        System.exit(0);
     }
 
     /**
@@ -318,15 +368,15 @@ public final class GUI extends JFrame implements IObserver {
          * Method to switch the colour of a button.
          * @param select specified Button
          */
-       private void switchColor(final JButton select) {
-           JButton defaultColor = new JButton();
-           if (select.getBackground() == defaultColor.getBackground()) {
-               select.setBackground(Color.BLUE);
-               shipPlacePosition = select;
-           } else {
-               select.setBackground(defaultColor.getBackground());
-               shipPlacePosition = null;
-           }
+        private void switchColor(final JButton select) {
+            JButton defaultColor = new JButton();
+            if (select.getBackground() == defaultColor.getBackground()) {
+                select.setBackground(Color.BLUE);
+                shipPlacePosition = select;
+            } else {
+                select.setBackground(defaultColor.getBackground());
+                shipPlacePosition = null;
+            }
         }
     }
 
@@ -346,6 +396,11 @@ public final class GUI extends JFrame implements IObserver {
         }
     }
 
+    /**
+     * ActionListener for the State of the game where the game is
+     * over and the game starts.
+     * START / END
+     */
     private class MenuListener implements ActionListener {
 
         @Override
@@ -358,7 +413,7 @@ public final class GUI extends JFrame implements IObserver {
                     setVisible(true);
                     break;
                 case "Exit":
-                    exit();
+                    System.exit(0);
                     break;
                 case "Start a new Game":
                     setVisible(true);
@@ -371,16 +426,22 @@ public final class GUI extends JFrame implements IObserver {
 
     }
 
+    /**
+     * ActionListener for the GETNAME 1 / 2 - States.
+     */
     private class PlayerListener implements ActionListener {
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(final ActionEvent e) {
             notifyframe.setVisible(false);
             master.setPlayerName(player.getText());
             notifyframe.dispose();
         }
     }
 
+    /**
+     * Utility-Method to reset the selected button in the place states.
+     */
     private void resetPlaceButton() {
         if (shipPlacePosition != null) {
             shipPlacePosition.setBackground((new JButton()).getBackground());
