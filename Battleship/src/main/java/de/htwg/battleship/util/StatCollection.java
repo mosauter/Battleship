@@ -116,6 +116,7 @@ public final class StatCollection {
      * @return the sb mentioned above with a legend
      */
     public static StringBuilder createBorder(final StringBuilder sb) {
+        sb.append(" ");
         for (int i = 0; i < HEIGTH_LENGTH; i++) {
             char c = (char) ('a' + i);
             sb.append(" ").append(c);
