@@ -5,41 +5,38 @@ import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.util.StatCollection;
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
 import static de.htwg.battleship.util.StatCollection.SHIP_NUMBER_MAX;
-import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * BoardTest
- *
+ * BoardTest tests a board implementation.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-11-05
  */
 public class BoardTest {
 
-    Board board;
+    /**
+     * Saves a Board.
+     */
+    private Board board;
 
-    public BoardTest() {
-    }
-
+    /**
+     * Set-Up.
+     */
     @Before
-    public void setUp() {
+    public final void setUp() {
         StatCollection.HEIGTH_LENGTH = 10;
         StatCollection.SHIP_NUMBER_MAX = 5;
         board = new Board();
-    }
-
-    @After
-    public void tearDown() {
     }
 
     /**
      * Test of addShip method, of class Board.
      */
     @Test
-    public void testAddShip() {
+    public final void testAddShip() {
         IShip[] expRes = {new Ship(2, true, 3, 4),
             new Ship(3, false, 5, 8),
             new Ship(6, true, 1, 1),
@@ -64,8 +61,11 @@ public class BoardTest {
 
     }
 
+    /**
+     * Test for the getShips method.
+     */
     @Test
-    public void testGetShips() {
+    public final void testGetShips() {
         int expRes = 0;
         int result = board.getShips();
         assertEquals(expRes, result);
@@ -85,8 +85,11 @@ public class BoardTest {
         assertEquals(expRes, result);
     }
 
+    /**
+     * Test for the getBoard method.
+     */
     @Test
-    public void testGetBoard() {
+    public final void testGetBoard() {
         Field[][] expResult = new Field[HEIGTH_LENGTH][HEIGTH_LENGTH];
         for (int x = 0; x < HEIGTH_LENGTH; x++) {
             for (int y = 0; y < HEIGTH_LENGTH; y++) {
@@ -100,8 +103,11 @@ public class BoardTest {
         }
     }
 
+    /**
+     * Test for the shoot method.
+     */
     @Test
-    public void testShoot() {
+    public final void testShoot() {
         int x = 2;
         int y = 3;
         boolean expRes = false;
