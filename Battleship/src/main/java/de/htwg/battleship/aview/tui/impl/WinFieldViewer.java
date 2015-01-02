@@ -18,15 +18,24 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * WinFieldViewer
+ * WinFieldViewer presents a view of the entire field that means it
+ * shows the ships of both players.
+ * implements viewer
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-23
  */
 public class WinFieldViewer implements Viewer {
 
+    /**
+     * Saves the MasterController.
+     */
     private final IMasterController master;
-    private Object player1;
+
+    /**
+     * Public Constructor.
+     * @param master the MasterController for the entire game
+     */
     public WinFieldViewer(final IMasterController master) {
         this.master = master;
     }
@@ -40,7 +49,7 @@ public class WinFieldViewer implements Viewer {
     @Override
     public final String getString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\n ");
+        sb.append("\n  ");
         Map<Integer, Set<Integer>> mapPlayer1 = createMap();
         Map<Integer, Set<Integer>> mapPlayer2 = createMap();
         IBoard boardPlayer1 = master.getPlayer1().getOwnBoard();
@@ -54,7 +63,7 @@ public class WinFieldViewer implements Viewer {
         sb.append(master.getPlayer1().getName()).append("\t\t");
         sb.append(master.getPlayer2().getName()).append("\n");
         createBorder(sb);
-        sb.append("\t  ");
+        sb.append("\t ");
         createBorder(sb);
         sb.append("\n");
         for (int y = 0; y < HEIGTH_LENGTH; y++) {
