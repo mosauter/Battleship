@@ -4,15 +4,16 @@ package de.htwg.battleship.controller.impl;
 
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Player;
 import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.observer.IObserver;
 import de.htwg.battleship.util.State;
+import static de.htwg.battleship.util.State.PLACE1;
 import static de.htwg.battleship.util.State.START;
 import static de.htwg.battleship.util.State.WIN1;
 import static de.htwg.battleship.util.State.WIN2;
 import static de.htwg.battleship.util.State.WRONGINPUT;
-import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,9 +31,6 @@ public class MasterControllerTest {
     IPlayer player2;
     UtilObserver utilOb;
 
-    public MasterControllerTest() {
-    }
-
     @Before
     public void setUp() {
         player1 = new Player();
@@ -41,22 +39,46 @@ public class MasterControllerTest {
         utilOb = new UtilObserver();
     }
 
-    @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of shoot method, of class MasterController.
-     */
-    @Test
-    public void testShoot() {
-    }
-
     /**
      * Test of placeShip method, of class MasterController.
      */
     @Test
     public void testPlaceShip() {
+        master.setCurrentState(PLACE1);
+        master.placeShip(1, 1, true);
+        IShip[] ships = master.getPlayer1().getOwnBoard().getShipList();
+        boolean x = false;
+        boolean y = false;
+        boolean orientation = false;
+        boolean size = false;
+        int shipCount = 0;
+        for (IShip ship : ships) {
+            if (ship == null) {
+                continue;
+            } else {
+                shipCount++;
+            }
+            IShip ship1;
+            if (ship.getX() == 1) {
+                x = true;
+                ship1 = ship;
+            } else {
+                continue;
+            }
+            if (ship1.getY() == 1) {
+                y = true;
+            }
+            if (ship1.getSize()
+                    == master.getPlayer1().getOwnBoard().getShips() + 1) {
+                size = true;
+            }
+            orientation = ship.isOrientation();
+        }
+        assertEquals(orientation, true);
+        assertEquals(size, true);
+        assertEquals(x, true);
+        assertEquals(y, true);
+        assertEquals(shipCount, 1);
     }
 
     /**
@@ -132,7 +154,8 @@ public class MasterControllerTest {
         assert (name.equals(master.getPlayer2().getName()));
         master.addObserver(utilOb);
         master.setPlayerName(name);
-        assertEquals(utilOb.util, 5);
+        // Last was a false input
+        assertEquals(utilOb.util, 1);
     }
 
     class UtilObserver implements IObserver {
