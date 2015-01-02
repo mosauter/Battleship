@@ -5,29 +5,40 @@ package de.htwg.battleship.controller.impl;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.util.StatCollection;
-import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * CollisionOrientationBothFalseTest
+ * CollisionOrientationBothFalseTest tests a implementation of the chain.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-04
  */
 public class CollisionOrientationBothFalseTest {
 
-    CollisionController cc;
-    IShip ship1;
-    IShip ship2;
-    IShip ship3;
+    /**
+     * Saves the implementation.
+     */
+    private CollisionController cc;
+    /**
+     * Saves first ship.
+     */
+    private IShip ship1;
+    /**
+     * Saves second ship.
+     */
+    private IShip ship2;
+    /**
+     * Saves third ship.
+     */
+    private IShip ship3;
 
-    public CollisionOrientationBothFalseTest() {
-    }
-
+    /**
+     * Set-Up.
+     */
     @Before
-    public void setUp() {
+    public final void setUp() {
         StatCollection.HEIGTH_LENGTH = 10;
         StatCollection.SHIP_NUMBER_MAX = 5;
         cc = new CollisionOrientationBothFalse();
@@ -36,15 +47,11 @@ public class CollisionOrientationBothFalseTest {
         ship3 = new Ship(3, false, 1, 1);
     }
 
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of isCollision method, of class CollisionOrientationBothFalse.
      */
     @Test
-    public void testIsCollision() {
+    public final void testIsCollision() {
         boolean expRes = false;
         boolean result = cc.isCollision(ship1, ship2);
         assertEquals(expRes, result);
@@ -52,5 +59,4 @@ public class CollisionOrientationBothFalseTest {
         result = cc.isCollision(ship1, ship3);
         assertEquals(expRes, result);
     }
-
 }
