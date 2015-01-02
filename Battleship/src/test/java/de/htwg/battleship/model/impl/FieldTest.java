@@ -1,10 +1,7 @@
 package de.htwg.battleship.model.impl;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -12,31 +9,25 @@ import org.junit.Test;
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  */
 public class FieldTest {
-    
-    Field field;
-    
-    public FieldTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+
+    /**
+     * Saves field.
+     */
+    private Field field;
+
+    /**
+     * Set-Up.
+     */
     @Before
-    public void setUp() {
+    public final void setUp() {
         field = new Field(0, 0);
     }
-    
-    @After
-    public void tearDown() {
-    }
 
+    /**
+     * Test for getXY method.
+     */
     @Test
-    public void testGetXY() {
+    public final void testGetXY() {
         this.field = new Field(5, 9);
         assertEquals(5, field.getX());
         assertEquals(9, field.getY());
@@ -44,12 +35,12 @@ public class FieldTest {
         assertEquals(2, field.getX());
         assertEquals(3, field.getY());
     }
-    
+
     /**
      * Test of isHit method, of class Field.
      */
     @Test
-    public void testIsHit() {
+    public final void testIsHit() {
         this.field = new Field(0, 0);
         boolean expResult = false;
         boolean result = field.isHit();
@@ -63,7 +54,7 @@ public class FieldTest {
      * Test of setHit method, of class Field.
      */
     @Test
-    public void testSetHit() {
+    public final void testSetHit() {
         field.setHit(true);
         assertEquals(field.isHit(), true);
         field.setHit(false);                // Doesn't make sense.
@@ -75,5 +66,4 @@ public class FieldTest {
         field.setHit(false);
         assertEquals(field.isHit(), false);
     }
-    
 }
