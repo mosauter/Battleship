@@ -19,20 +19,35 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * MasterControllerTest
+ * MasterControllerTest tests the MasterController.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-18
  */
 public class MasterControllerTest {
 
-    IMasterController master;
-    IPlayer player1;
-    IPlayer player2;
-    UtilObserver utilOb;
+    /**
+     * Saves the MasterController.
+     */
+    private IMasterController master;
+    /**
+     * Saves the first player.
+     */
+    private IPlayer player1;
+    /**
+     * Saves the second player.
+     */
+    private IPlayer player2;
+    /**
+     * Saves an util observer object for testing.
+     */
+    private UtilObserver utilOb;
 
+    /**
+     * Set-Up.
+     */
     @Before
-    public void setUp() {
+    public final void setUp() {
         player1 = new Player();
         player2 = new Player();
         master = new MasterController(player1, player2);
@@ -43,7 +58,7 @@ public class MasterControllerTest {
      * Test of placeShip method, of class MasterController.
      */
     @Test
-    public void testPlaceShip() {
+    public final void testPlaceShip() {
         master.setCurrentState(PLACE1);
         master.placeShip(1, 1, true);
         IShip[] ships = master.getPlayer1().getOwnBoard().getShipList();
@@ -85,23 +100,29 @@ public class MasterControllerTest {
      * Test of win method, of class MasterController.
      */
     @Test
-    public void testWinPlayer1() {
+    public final void testWinPlayer1() {
         master.getPlayer1().getOwnBoard().addShip(new Ship(1, true, 1, 1));
         master.addObserver(utilOb);
         master.win();
         assertEquals(utilOb.util, 2);
     }
 
+    /**
+     * Second test of win method, of class MasterController.
+     */
     @Test
-    public void testWinPlayer2() {
+    public final void testWinPlayer2() {
         master.getPlayer2().getOwnBoard().addShip(new Ship(1, true, 1, 1));
         master.addObserver(utilOb);
         master.win();
         assertEquals(utilOb.util, 3);
     }
 
+    /**
+     * Third test of win method.
+     */
     @Test
-    public void testWinNull() {
+    public final void testWinNull() {
         master.getPlayer1().getOwnBoard().addShip(new Ship(1, true, 1, 1));
         master.getPlayer2().getOwnBoard().addShip(new Ship(1, true, 1, 1));
         master.addObserver(utilOb);
@@ -113,7 +134,7 @@ public class MasterControllerTest {
      * Test of setState method, of class MasterController.
      */
     @Test
-    public void testState() {
+    public final void testState() {
         State st = START;
         assertEquals(master.getCurrentState(), st);
         st = State.HIT;
@@ -129,7 +150,7 @@ public class MasterControllerTest {
      * Test of getPlayer1 method, of class MasterController.
      */
     @Test
-    public void testGetPlayer1() {
+    public final void testGetPlayer1() {
         assertEquals(master.getPlayer1(), player1);
     }
 
@@ -137,7 +158,7 @@ public class MasterControllerTest {
      * Test of getPlayer2 method, of class MasterController.
      */
     @Test
-    public void testGetPlayer2() {
+    public final void testGetPlayer2() {
         assertEquals(master.getPlayer2(), player2);
     }
 
@@ -145,7 +166,7 @@ public class MasterControllerTest {
      * Test of setPlayerName method, of class MasterController.
      */
     @Test
-    public void testSetPlayerName() {
+    public final void testSetPlayerName() {
         String name = "Moritz";
         master.setCurrentState(State.GETNAME1);
         master.setPlayerName(name);
@@ -158,9 +179,17 @@ public class MasterControllerTest {
         assertEquals(utilOb.util, 1);
     }
 
+    /**
+     * Utility observer object for test purposes.
+     * implements IObserver
+     */
     class UtilObserver implements IObserver {
 
+        /**
+         * Utility integer for test purposes.
+         */
         private int util = 0;
+
         @Override
         public void update() {
             if (master.getCurrentState() == WRONGINPUT) {
