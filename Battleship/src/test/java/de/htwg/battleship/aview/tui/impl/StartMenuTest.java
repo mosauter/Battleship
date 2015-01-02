@@ -34,6 +34,7 @@ public class StartMenuTest {
         StringBuilder sb = new StringBuilder();
         sb.append("1. Start Game\n");
         sb.append("2. Exit\n");
+        sb.append("Type 'Exit' or 'exit' at any time to close the game.\n");
         sb.append("\t--->\t");
         Viewer v = new StartMenu();
         assert (v.getString().equals(sb.toString()));
