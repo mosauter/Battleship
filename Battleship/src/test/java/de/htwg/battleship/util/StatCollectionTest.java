@@ -2,35 +2,22 @@
 
 package de.htwg.battleship.util;
 
-import org.junit.After;
 import static org.junit.Assert.assertEquals;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
- * StatCollectionTest
+ * StatCollectionTest tests the utility collection of some methods.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-04
  */
 public class StatCollectionTest {
 
-    public StatCollectionTest() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of isBetween method, of class StatCollection.
      */
     @Test
-    public void testIsBetween() {
+    public final void testIsBetween() {
         boolean expResult = false;
         int xlow = 3;
         int xupp = 5;
@@ -49,5 +36,4 @@ public class StatCollectionTest {
         result = StatCollection.isBetween(xupp, xlow, x);
         assertEquals(expResult, result);
     }
-    
 }
