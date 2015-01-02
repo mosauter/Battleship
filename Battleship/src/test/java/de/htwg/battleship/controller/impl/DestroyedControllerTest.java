@@ -8,30 +8,44 @@ import de.htwg.battleship.model.impl.Board;
 import de.htwg.battleship.model.impl.Player;
 import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.util.StatCollection;
-import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * DestroyedControllerTest
+ * DestroyedControllerTest tests the entire chain.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-14
  */
 public class DestroyedControllerTest {
 
-    DestroyedController dc;
-    IShip ship;
-    IPlayer player;
-    ShipController sc;
-    ShootController shoot;
+    /**
+     * Saves the entire chain.
+     */
+    private DestroyedController dc;
+    /**
+     * Saves a ship.
+     */
+    private IShip ship;
+    /**
+     * Saves a player.
+     */
+    private IPlayer player;
+    /**
+     * Saves the shipController.
+     */
+    private ShipController sc;
+    /**
+     * Saves the shoot controller.
+     */
+    private ShootController shoot;
 
-    public DestroyedControllerTest() {
-    }
-
+    /**
+     * Set-Up.
+     */
     @Before
-    public void setUp() {
+    public final void setUp() {
         StatCollection.HEIGTH_LENGTH = 10;
         StatCollection.SHIP_NUMBER_MAX = 5;
         player = new Player(new Board());
@@ -42,15 +56,11 @@ public class DestroyedControllerTest {
         sc.placeShip(ship, player);
     }
 
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of isDestroyed method, of class DestroyedController.
      */
     @Test
-    public void testIsDestroyed() {
+    public final void testIsDestroyed() {
         boolean expRes = false;
         boolean result = dc.responsibility(ship, player);
         assertEquals(expRes, result);
