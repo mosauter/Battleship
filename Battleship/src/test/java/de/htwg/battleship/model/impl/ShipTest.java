@@ -1,34 +1,36 @@
 package de.htwg.battleship.model.impl;
 
-import org.junit.After;
+import de.htwg.battleship.model.IShip;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- *
+ * ShipTest tests implementation of ships.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  */
 public class ShipTest {
-    
-    Ship ship;
-    
+
+    /**
+     * Saves a ship.
+     */
+    private IShip ship;
+
+    /**
+     * Set-Up.
+     */
     @Before
-    public void setUp() {
+    public final void setUp() {
         int x = 2;
         int y = 3;
         ship = new Ship(5, true, x, y);
-    }
-    
-    @After
-    public void tearDown() {
     }
 
     /**
      * Test of isOrientation method, of class Ship.
      */
     @Test
-    public void testIsOrientation() {
+    public final void testIsOrientation() {
         boolean expResult = true;
         boolean result = ship.isOrientation();
         assertEquals(expResult, result);
@@ -42,7 +44,7 @@ public class ShipTest {
      * Test of setPositionStart method, of class Ship.
      */
     @Test
-    public void testNormalSetPositionStart() {
+    public final void testNormalSetPositionStart() {
         int expResX = 2;
         int expResY = 3;
         int resultX = ship.getX();
@@ -63,7 +65,7 @@ public class ShipTest {
      * Test of getSize method, of class Ship.
      */
     @Test
-    public void testValidGetSize() {
+    public final void testValidGetSize() {
         int expRes = 5;
         int result = ship.getSize();
         assertEquals(expRes, result);
@@ -77,7 +79,7 @@ public class ShipTest {
      * Test of setSize method, of class Ship.
      */
     @Test
-    public void testSetSize() {
+    public final void testSetSize() {
         int expRes = 5;
         int falseEnter = -4;
         ship.setSize(falseEnter);
