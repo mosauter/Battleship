@@ -8,37 +8,32 @@ import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Player;
 import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.util.StatCollection;
-import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * WinControllerTest
+ * WinControllerTest tests the entire win controller.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-14
  */
 public class WinControllerTest {
 
-    public WinControllerTest() {
-    }
-
+    /**
+     * Set-Up method.
+     */
     @Before
-    public void setUp() {
+    public final void setUp() {
         StatCollection.HEIGTH_LENGTH = 2;
         StatCollection.SHIP_NUMBER_MAX = 1;
-    }
-
-    @After
-    public void tearDown() {
     }
 
     /**
      * Test of win method, of class WinController.
      */
     @Test
-    public void testNullWin() {
+    public final void testNullWin() {
         IPlayer player1 = new Player();
         IPlayer player2 = new Player();
         IShip ship = new Ship(1, true, 0, 0);
@@ -54,7 +49,7 @@ public class WinControllerTest {
      * Test of win method, result player1.
      */
     @Test
-    public void testPlayer1Win() {
+    public final void testPlayer1Win() {
         IPlayer player1 = new Player();
         IPlayer player2 = new Player();
         IShip ship = new Ship(1, true, 0, 0);
@@ -64,12 +59,12 @@ public class WinControllerTest {
         IPlayer result = wc.win();
         assertEquals(expRes, result);
     }
-    
+
     /**
      * Test of win method, result player2.
      */
     @Test
-    public void testPlayer2Win() {
+    public final void testPlayer2Win() {
         IPlayer player1 = new Player();
         IPlayer player2 = new Player();
         IShip ship = new Ship(1, true, 0, 0);
