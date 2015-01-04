@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,9 +20,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 /**
- * Graphical User Interface.
+ * Graphical User Interface for the Game
+ * @version 1.00
+ * @since 2014-12-20
  */
 @SuppressWarnings("serial")
 public final class GUI extends JFrame implements IObserver {
@@ -30,16 +34,19 @@ public final class GUI extends JFrame implements IObserver {
      * Constant that indicates how long the JPopupDialogs should be shown
      * before they close automatically.
      */
-    private static final long displaytime = 2000L;
+    private static final long displaytime = 1500L;
+    
     /**
      * JButton to start or later to restart the Game.
      */
     private final JButton start = new JButton("Start Game");
+    
 //    /**
 //     * JButton to configure the options of the game.
 //     * Currently not in use
 //     */
 //    private final JButton options = new JButton("Options");
+    
     /**
      * JButton to exit the whole game right at the beginning or at the end.
      */
@@ -50,17 +57,20 @@ public final class GUI extends JFrame implements IObserver {
      */
     private final JButton[][] buttonField
             = new JButton[HEIGTH_LENGTH][HEIGTH_LENGTH];
+    
     /**
      * To save the MasterController for all of the several UIs.
      */
     private final IMasterController master;
+    
     /**
      * ComboBox to indicate which orientation the ship that now
      * should be placed.
      */
     private final JComboBox<String> orientation = new JComboBox<>();
+    
     /**
-     * JPanel.
+     * JPanel for the east side of the mainframe.
      */
     private JPanel east;
 
@@ -68,22 +78,42 @@ public final class GUI extends JFrame implements IObserver {
      * JButton where the Ship should be placed.
      */
     private JButton shipPlacePosition;
+    
     /**
      * JDialog which has to be saved that the program can dispose them
      * after its not in use anymore.
      */
     private JDialog notifyframe;
+    
     /**
      * JTextField where the player should input his name.
      */
     private JTextField player;
+    
     /**
-     * JTextField where
+     * JPopupDialog to notify the players
      */
-    private JTextField ausgabe;
-    private JPopupDialog jpd = null;
+    @SuppressWarnings("unused")
+	private JPopupDialog jpd = null;
+    
+    /**
+     * JLabel to send out instructions
+     */
+    private JLabel ausgabe;
+    
+    /**
+     * Container which contains all object of the mainframe
+     */
     private final Container container;
+    
+    /**
+     * JFrame 
+     */
     private final JFrame menuFrame;
+    
+    /**
+     * 
+     */
     private final Container startContainer;
 
     /**
@@ -167,8 +197,10 @@ public final class GUI extends JFrame implements IObserver {
         JPanel bottom = new JPanel();
         bottom.setLayout(new GridLayout(1, 3));
         container.add(bottom, BorderLayout.SOUTH);
-        ausgabe = new JTextField();
-        ausgabe.setEditable(false);
+        ausgabe = new JLabel();
+        ausgabe.setPreferredSize(new Dimension(30, 50));
+        ausgabe.setHorizontalAlignment(SwingConstants.CENTER);
+        ausgabe.setFont(new Font("Courier New", Font.BOLD, 12));
         bottom.add(ausgabe);
         this.setSize(800, 500);
         this.setLocationRelativeTo(null);
@@ -207,12 +239,30 @@ public final class GUI extends JFrame implements IObserver {
         east = new JPanel();
         east.setLayout(new GridLayout(3, 1));
         container.add(east, BorderLayout.EAST);
+        JPanel east_one = new JPanel();
+        east_one.setLayout(new GridLayout(3, 1));
         orientation.addItem("horizontal");
         orientation.addItem("vertical");
         orientation.setPreferredSize(new Dimension(90, 15));
-        east.add(orientation);
-        east.add(place);
+        east_one.add(orientation);
+        east_one.add(new JPanel());
+        east_one.add(place);
+        east.add(east_one);
         this.setVisible(true);
+    }
+    
+    /**
+     * Utility-Method to reset the selected button in the place states.
+     */
+    private void resetPlaceButton() {
+        if (shipPlacePosition != null) {
+            shipPlacePosition.setBackground((new JButton()).getBackground());
+            shipPlacePosition = null;
+        }
+    }
+    
+    private void updateGameField() {
+    	
     }
 
     @Override
@@ -439,13 +489,4 @@ public final class GUI extends JFrame implements IObserver {
         }
     }
 
-    /**
-     * Utility-Method to reset the selected button in the place states.
-     */
-    private void resetPlaceButton() {
-        if (shipPlacePosition != null) {
-            shipPlacePosition.setBackground((new JButton()).getBackground());
-            shipPlacePosition = null;
-        }
-    }
 }
