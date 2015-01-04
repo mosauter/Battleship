@@ -1,6 +1,8 @@
 package de.htwg.battleship.aview.gui;
 
 import de.htwg.battleship.controller.IMasterController;
+import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.observer.IObserver;
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
 import static de.htwg.battleship.util.State.GETNAME1;
@@ -13,6 +15,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -57,6 +61,15 @@ public final class GUI extends JFrame implements IObserver {
      */
     private final JButton[][] buttonField
             = new JButton[HEIGTH_LENGTH][HEIGTH_LENGTH];
+    /**
+     * ImageIcon for non-selected fields
+     */
+    ImageIcon wave = new ImageIcon(getClass().getResource("wave.jpg"));
+    
+    /**
+     * Image icon for selected fields
+     */
+    ImageIcon wave_selected = new ImageIcon(getClass().getResource("wave_selected.jpg"));
     
     /**
      * To save the MasterController for all of the several UIs.
@@ -208,7 +221,7 @@ public final class GUI extends JFrame implements IObserver {
 
     /**
      * Utility-Method to create a JDialog where the user should insert his name.
-     * @param playernumber HEIGHT_LENGTH
+     * @param playernumber
      */
     private void getPlayername(final int playernumber) {
         PlayerListener pl = new PlayerListener();
@@ -256,13 +269,23 @@ public final class GUI extends JFrame implements IObserver {
      */
     private void resetPlaceButton() {
         if (shipPlacePosition != null) {
-            shipPlacePosition.setBackground((new JButton()).getBackground());
+            shipPlacePosition.setIcon(wave);
             shipPlacePosition = null;
         }
     }
     
-    private void updateGameField() {
-    	
+    /**
+     * Utility-Method to update the image-icons of the gamefield buttons
+     * @param player 
+     */
+    private void updateGameField(IPlayer player) {
+//    	IShip[] shipList = player.getOwnBoard().getShipList();
+    	for (int i = 0; i < HEIGTH_LENGTH; i++) {
+    		for (int j = 0; j < HEIGTH_LENGTH; j++) {
+    			this.buttonField[i][j].setIcon(wave);
+    			this.buttonField[i][j].setSelectedIcon(wave_selected);
+    		}
+    	}
     }
 
     @Override
@@ -282,6 +305,7 @@ public final class GUI extends JFrame implements IObserver {
                 notifyframe.dispose();
                 resetPlaceButton();
                 activateListener(new PlaceListener());
+                updateGameField(master.getPlayer1());
                 placeShip();
                 ausgabe.setText(master.getPlayer1().getName()
                         + " now place the ship with the length of "
@@ -419,12 +443,11 @@ public final class GUI extends JFrame implements IObserver {
          * @param select specified Button
          */
         private void switchColor(final JButton select) {
-            JButton defaultColor = new JButton();
-            if (select.getBackground() == defaultColor.getBackground()) {
-                select.setBackground(Color.BLUE);
+            if (select.getIcon().equals(wave)) {
+                select.setIcon(wave_selected);
                 shipPlacePosition = select;
             } else {
-                select.setBackground(defaultColor.getBackground());
+                select.setIcon(wave);
                 shipPlacePosition = null;
             }
         }
