@@ -6,6 +6,8 @@ import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.observer.IObserver;
 
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
+import static de.htwg.battleship.util.StatCollection.createMap;
+import static de.htwg.battleship.util.StatCollection.fillMap;
 import static de.htwg.battleship.util.State.GETNAME1;
 import static de.htwg.battleship.util.State.PLACE1;
 
@@ -17,6 +19,9 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -78,6 +83,11 @@ public final class GUI extends JFrame implements IObserver {
      * ImageIcon for ship placed fields
      */
     private final ImageIcon ship = new ImageIcon(getClass().getResource("ship.jpg"));
+    
+    /**
+     * ImageIcon for hitted fields with ship
+     */
+    private final ImageIcon ship_hit = new ImageIcon(getClass().getResource("ship_hit.jpg"));
     
     /**
      * Border for selected Field
@@ -213,8 +223,9 @@ public final class GUI extends JFrame implements IObserver {
             beschriftung2.add(xLabel);
             for (int x = 0; x < boardsize; x++) {
                 String name = x + " " + y;
-                buttonField[x][y] = new JButton();
-                buttonField[x][y].setName(name);
+                this.buttonField[x][y] = new JButton();
+                this.buttonField[x][y].setName(name);
+                this.buttonField[x][y].setIcon(wave);
                 main.add(buttonField[x][y]);
             }
         }
@@ -292,11 +303,35 @@ public final class GUI extends JFrame implements IObserver {
      * @param player 
      */
     private void updateGameField(IPlayer player, boolean hideShips) {
-//    	IShip[] shipList = player.getOwnBoard().getShipList();
-    	for (int i = 0; i < HEIGTH_LENGTH; i++) {
-    		for (int j = 0; j < HEIGTH_LENGTH; j++) {
-    			this.buttonField[i][j].setIcon(wave);
-    			this.buttonField[i][j].setBorder(new JButton().getBorder());
+    	IShip[] shipList = player.getOwnBoard().getShipList();
+    	Map<Integer, Set<Integer>> map = createMap();
+    	fillMap(shipList, map, player.getOwnBoard().getShips());
+    	for (int y = 0; y < HEIGTH_LENGTH; y++) {
+    		for (int x = 0; x < HEIGTH_LENGTH; x++) {
+    			boolean isShip = false;
+    			this.buttonField[y][x].setBorder(new JButton().getBorder());
+    			for (Integer value : map.get(y)) {
+                    if (value == x) {
+                        if (player.getOwnBoard().isHit(y, x)) {
+                        	this.buttonField[y][x].setIcon(ship_hit);
+                        } else {
+                        	if(hideShips) {
+                        		this.buttonField[y][x].setIcon(wave);
+                        	} else {
+                        		this.buttonField[y][x].setIcon(ship);
+                        	}
+                        }
+                        isShip = true;
+                    }
+    			 }
+    			
+                if (!isShip) {
+                	if (player.getOwnBoard().isHit(y, x)) {
+                		this.buttonField[y][x].setIcon(miss);
+                	} else {
+                		this.buttonField[y][x].setIcon(wave);
+                	}
+                }
     		}
     	}
     }
@@ -351,13 +386,13 @@ public final class GUI extends JFrame implements IObserver {
                 container.remove(east);
                 this.setVisible(true);
                 activateListener(new ShootListener());
-                updateGameField(master.getPlayer1(), true);
+                updateGameField(master.getPlayer2(), true);
                 ausgabe.setText(master.getPlayer1().getName()
                         + " is now at the turn to shoot");
                 break;
             case SHOOT2:
                 activateListener(new ShootListener());
-                updateGameField(master.getPlayer2(), true);
+                updateGameField(master.getPlayer1(), true);
                 ausgabe.setText(master.getPlayer2().getName()
                         + " is now at the turn to shoot");
                 break;
@@ -461,7 +496,7 @@ public final class GUI extends JFrame implements IObserver {
          * @param select specified Button
          */
         private void switchColor(final JButton select) {
-            if (select.getBorder().equals(new JButton().getBorder())) {
+            if (!select.getBorder().equals(selected)) {
             	select.setBorder(selected);
                 shipPlacePosition = select;
             } else {
