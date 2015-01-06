@@ -151,20 +151,12 @@ public final class GUI extends JFrame implements IObserver {
     private final Container container;
 
     /**
-<<<<<<< HEAD
      * JFrame for the menu
-=======
-     * JFrame
->>>>>>> 7030cb8e8fc94a75bb9ed6480a4a215c02397aea
      */
     private final JFrame menuFrame;
 
     /**
-<<<<<<< HEAD
      * Container which includes the menu components
-=======
-     *
->>>>>>> 7030cb8e8fc94a75bb9ed6480a4a215c02397aea
      */
     private final Container startContainer;
 
@@ -304,7 +296,7 @@ public final class GUI extends JFrame implements IObserver {
      */
     private void placeShip() {
         this.setVisible(false);
-<<<<<<< HEAD
+
         if(east == null) {
 	        JButton place = new JButton("place");
 	        place.addActionListener(new PlaceListener());
@@ -321,23 +313,6 @@ public final class GUI extends JFrame implements IObserver {
 	        east_one.add(new JLabel(background));
 	        east_one.add(place);
 	        east.add(east_one);
-=======
-        if (east == null) {
-            JButton place = new JButton("place");
-            place.addActionListener(new PlaceListener());
-            east = new JPanel();
-            east.setLayout(new GridLayout(3, 1));
-            container.add(east, BorderLayout.EAST);
-            JPanel east_one = new JPanel();
-            east_one.setLayout(new GridLayout(3, 1));
-            orientation.addItem("horizontal");
-            orientation.addItem("vertical");
-            orientation.setPreferredSize(new Dimension(90, 15));
-            east_one.add(orientation);
-            east_one.add(new JPanel());
-            east_one.add(place);
-            east.add(east_one);
->>>>>>> 7030cb8e8fc94a75bb9ed6480a4a215c02397aea
         }
         this.setVisible(true);
     }
