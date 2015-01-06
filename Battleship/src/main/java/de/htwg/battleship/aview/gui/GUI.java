@@ -17,6 +17,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -69,6 +70,17 @@ public final class GUI extends JFrame implements IObserver {
      */
     private final JButton[][] buttonField
             = new JButton[HEIGTH_LENGTH][HEIGTH_LENGTH];
+    
+    /**
+     * default Background for mainframe
+     */
+    private final ImageIcon background = new ImageIcon(getClass().getResource("background.jpg"));
+    
+    /**
+     * default background for the menuframe
+     */
+    private final ImageIcon background_menu = new ImageIcon(getClass().getResource("background_menu.jpg"));
+    
     /**
      * default ImageIcon for non-hitted fields
      */
@@ -166,17 +178,19 @@ public final class GUI extends JFrame implements IObserver {
         this.menuFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 //        get the contentpanes of both frames
         this.container = this.getContentPane();
-        this.startContainer = this.menuFrame.getContentPane();
-        this.menuFrame.setLayout(new GridLayout(2, 1));
-//        set buttonsizes
-        this.start.setSize(80, 50);
-        this.exit.setSize(80, 50);
+//        add background + layout manager for menuframe
+        this.startContainer = new JLabel(background_menu);
+        this.startContainer.setLayout(null);
+//        set bounds for the menubuttons
+        this.start.setBounds(new Rectangle(300, 240, 200, 50));
+        this.exit.setBounds(new Rectangle(300, 310, 200, 50));
 //        add actionlisteners
         this.start.addActionListener(new MenuListener());
         this.exit.addActionListener(new MenuListener());
 //        add buttons to container
         this.startContainer.add(start);
         this.startContainer.add(exit);
+        this.menuFrame.add(startContainer);
 //        set frame size
         this.menuFrame.setSize(800, 500);
 //        set options
