@@ -336,7 +336,6 @@ public final class GUI extends JFrame implements IObserver {
         IShip[] shipList = player.getOwnBoard().getShipList();
         Map<Integer, Set<Integer>> map = createMap();
         fillMap(shipList, map, player.getOwnBoard().getShips());
-        System.out.println(map);
         for (int y = 0; y < HEIGTH_LENGTH; y++) {
             for (int x = 0; x < HEIGTH_LENGTH; x++) {
                 boolean isShip = false;
@@ -520,7 +519,6 @@ public final class GUI extends JFrame implements IObserver {
                 String[] parts = button.getName().split(" ");
                 JButton select = buttonField[new Integer(parts[0])][new Integer(parts[1])];
                 switchColor(select);
-                System.out.println(parts[0] + ", " + parts[1]);
             }
         }
 
