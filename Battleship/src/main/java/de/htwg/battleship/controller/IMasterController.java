@@ -19,6 +19,7 @@ public interface IMasterController extends IObservable {
      *
      * @param x x-Coordinate where to shoot.
      * @param y y-Coordinate where to shoot.
+     * checks the winner automatically after each shot
      */
     void shoot(int x, int y);
 
@@ -29,14 +30,6 @@ public interface IMasterController extends IObservable {
      * @param orientation of the ship, true for horizontal, false for vertical
      */
     void placeShip(int x, int y, boolean orientation);
-
-    /**
-     * Checs if someone has won.
-     * @return true if someone has won false if not, sets the win-states
-     *         and after that the end-state
-     * returns true not until the win- and the end-states are setted
-     */
-    boolean win();
 
     /**
      * To get the current State of the game.

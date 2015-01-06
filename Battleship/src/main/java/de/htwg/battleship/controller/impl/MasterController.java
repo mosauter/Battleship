@@ -152,7 +152,12 @@ public class MasterController extends Observable implements IMasterController {
         notifyObserver();
     }
 
-    @Override
+    /**
+     * Checs if someone has won.
+     * @return true if someone has won false if not, sets the win-states
+     *         and after that the end-state
+     * returns true not until the win- and the end-states are setted
+     */
     public final boolean win() {
         IPlayer winner = winController.win();
         if (winner == null) {

@@ -2,7 +2,6 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Player;
@@ -29,7 +28,7 @@ public class MasterControllerTest {
     /**
      * Saves the MasterController.
      */
-    private IMasterController master;
+    private MasterController master;
     /**
      * Saves the first player.
      */
