@@ -15,7 +15,6 @@ import de.htwg.battleship.aview.tui.impl.WinPlayer;
 import de.htwg.battleship.aview.tui.impl.WrongInputViewer;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.observer.IObserver;
-import static de.htwg.battleship.util.StatCollection.ASCII_LOW_CASE;
 import static de.htwg.battleship.util.State.END;
 import static de.htwg.battleship.util.State.GETNAME1;
 import static de.htwg.battleship.util.State.PLACE1;
@@ -30,6 +29,10 @@ import static de.htwg.battleship.util.State.WRONGINPUT;
  */
 public class TUI implements IObserver {
 
+    /**
+     * Constant for the conversion of the ASCII table.
+     */
+    public static final int ASCII_LOW_CASE = 97;
     /**
      * Constant for the length of a set name statement.
      */
@@ -132,30 +135,19 @@ public class TUI implements IObserver {
      */
     public final void processInputLine(final String line) {
         String[] field = line.split(" ");
-//        Start Menu
-        if (master.getCurrentState() == START) {
+//        Start End Menu
+        if (master.getCurrentState() == START
+                || master.getCurrentState() == END) {
             if (field.length != 1) {
                 this.master.setCurrentState(WRONGINPUT);
                 return;
             }
             if (field[0].equals("1")) {
-                master.setCurrentState(GETNAME1);
+                this.master.startGame();
             } else {
                 System.exit(0);
             }
             return;
-        }
-//        End Menu
-        if (master.getCurrentState() == END) {
-            if (field.length != 1) {
-                this.master.setCurrentState(WRONGINPUT);
-                return;
-            }
-            if (field[0].equals("1")) {
-                master.setCurrentState(PLACE1);
-            } else {
-                System.exit(0);
-            }
         }
 //        Place Menu
         if (field.length == PLACE_STATEMENT_LENGTH) {

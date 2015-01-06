@@ -69,4 +69,10 @@ public interface IMasterController extends IObservable {
      * @param name name of the Player
      */
     void setPlayerName(String name);
+
+    /**
+     * Method to start a game or if the game is in the END-state to
+     * restart the game.
+     */
+    void startGame();
 }

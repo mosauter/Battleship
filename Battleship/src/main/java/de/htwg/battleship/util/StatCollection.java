@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.regex.Pattern;
 
 /**
  * Set of static util Methods.
@@ -29,34 +28,6 @@ public final class StatCollection {
      * The max number of ships that could be on the field.
      */
     public static int SHIP_NUMBER_MAX = 2;
-    /**
-     * Constant for the conversion of the ASCII table.
-     */
-    public static final int ASCII_LOW_CASE = 97;
-    /**
-     * Presentation of a ship which is Hit.
-     */
-    public static final String SHIP_IS_HIT = " X";
-    /**
-     * Presentation of a ship which is not hit.
-     */
-    public static final String SHIP_NON_HIT = " S";
-    /**
-     * Presentation of a Field with no ship on it but which is hit.
-     */
-    public static final String FIELD_IS_HIT = " M";
-    /**
-     * Presentation of a Field with no ship on it and which is not hit.
-     */
-    public static final String FIELD_NON_HIT = " O";
-    /**
-     * The check string for the place a Ship input in the tui.
-     */
-    public static final String HORIZONTAL = "horizontal";
-    /**
-     * To save a Pattern for the Scanner.
-     */
-    public static final Pattern AZ = Pattern.compile("[a-z]");
 
     /**
      * Utility-Method to check if a value is between.
