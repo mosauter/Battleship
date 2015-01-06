@@ -11,8 +11,25 @@ package de.htwg.battleship.aview.tui;
 public interface Viewer {
 
     /**
+     * Presentation of a ship which is Hit.
+     */
+    String SHIP_IS_HIT = " X";
+    /**
+     * Presentation of a ship which is not hit.
+     */
+    String SHIP_NON_HIT = " S";
+    /**
+     * Presentation of a Field with no ship on it but which is hit.
+     */
+    String FIELD_IS_HIT = " M";
+    /**
+     * Presentation of a Field with no ship on it and which is not hit.
+     */
+    String FIELD_NON_HIT = " O";
+
+    /**
      * To get a String - Representation of something the
- States has to implement.
+     * States has to implement.
      * @return String
      */
     String getString();
