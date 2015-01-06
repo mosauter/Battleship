@@ -159,7 +159,6 @@ public class MasterController extends Observable implements IMasterController {
             return false;
         }
         winner(winner.equals(this.player1));
-        this.resetBoards();
         this.setCurrentState(END);
         return true;
     }
@@ -221,6 +220,16 @@ public class MasterController extends Observable implements IMasterController {
             this.setCurrentState(PLACE1);
         } else {
             this.setCurrentState(WRONGINPUT);
+        }
+    }
+
+    @Override
+    public void startGame() {
+        if (this.currentState == START) {
+            this.setCurrentState(GETNAME1);
+        } else if (this.currentState == END) {
+            this.resetBoards();
+            this.setCurrentState(PLACE1);
         }
     }
 }
