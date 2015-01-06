@@ -28,7 +28,7 @@ public final class StatCollection {
     /**
      * The max number of ships that could be on the field.
      */
-    public static int SHIP_NUMBER_MAX = 1;
+    public static int SHIP_NUMBER_MAX = 2;
     /**
      * Constant for the conversion of the ASCII table.
      */

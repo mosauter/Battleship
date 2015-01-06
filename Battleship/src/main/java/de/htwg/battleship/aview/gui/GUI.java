@@ -271,20 +271,22 @@ public final class GUI extends JFrame implements IObserver {
      */
     private void placeShip() {
         this.setVisible(false);
-        JButton place = new JButton("place");
-        place.addActionListener(new PlaceListener());
-        east = new JPanel();
-        east.setLayout(new GridLayout(3, 1));
-        container.add(east, BorderLayout.EAST);
-        JPanel east_one = new JPanel();
-        east_one.setLayout(new GridLayout(3, 1));
-        orientation.addItem("horizontal");
-        orientation.addItem("vertical");
-        orientation.setPreferredSize(new Dimension(90, 15));
-        east_one.add(orientation);
-        east_one.add(new JPanel());
-        east_one.add(place);
-        east.add(east_one);
+        if(east == null) {
+	        JButton place = new JButton("place");
+	        place.addActionListener(new PlaceListener());
+	        east = new JPanel();
+	        east.setLayout(new GridLayout(3, 1));
+	        container.add(east, BorderLayout.EAST);
+	        JPanel east_one = new JPanel();
+	        east_one.setLayout(new GridLayout(3, 1));
+	        orientation.addItem("horizontal");
+	        orientation.addItem("vertical");
+	        orientation.setPreferredSize(new Dimension(90, 15));
+	        east_one.add(orientation);
+	        east_one.add(new JPanel());
+	        east_one.add(place);
+	        east.add(east_one);
+        }
         this.setVisible(true);
     }
     
@@ -306,19 +308,20 @@ public final class GUI extends JFrame implements IObserver {
     	IShip[] shipList = player.getOwnBoard().getShipList();
     	Map<Integer, Set<Integer>> map = createMap();
     	fillMap(shipList, map, player.getOwnBoard().getShips());
+    	System.out.println(map);
     	for (int y = 0; y < HEIGTH_LENGTH; y++) {
     		for (int x = 0; x < HEIGTH_LENGTH; x++) {
     			boolean isShip = false;
-    			this.buttonField[y][x].setBorder(new JButton().getBorder());
+    			this.buttonField[x][y].setBorder(new JButton().getBorder());
     			for (Integer value : map.get(y)) {
                     if (value == x) {
-                        if (player.getOwnBoard().isHit(y, x)) {
-                        	this.buttonField[y][x].setIcon(ship_hit);
+                        if (player.getOwnBoard().isHit(x, y)) {
+                        	this.buttonField[x][y].setIcon(ship_hit);
                         } else {
                         	if(hideShips) {
-                        		this.buttonField[y][x].setIcon(wave);
+                        		this.buttonField[x][y].setIcon(wave);
                         	} else {
-                        		this.buttonField[y][x].setIcon(ship);
+                        		this.buttonField[x][y].setIcon(ship);
                         	}
                         }
                         isShip = true;
@@ -326,10 +329,10 @@ public final class GUI extends JFrame implements IObserver {
     			 }
     			
                 if (!isShip) {
-                	if (player.getOwnBoard().isHit(y, x)) {
-                		this.buttonField[y][x].setIcon(miss);
+                	if (player.getOwnBoard().isHit(x, y)) {
+                		this.buttonField[x][y].setIcon(miss);
                 	} else {
-                		this.buttonField[y][x].setIcon(wave);
+                		this.buttonField[x][y].setIcon(wave);
                 	}
                 }
     		}
@@ -364,7 +367,7 @@ public final class GUI extends JFrame implements IObserver {
                 activateListener(new PlaceListener());
                 updateGameField(master.getPlayer2(), false);
                 ausgabe.setText(master.getPlayer2().getName()
-                        + "now place the ship with the length of "
+                        + " now place the ship with the length of "
                         + (master.getPlayer2().getOwnBoard().getShips() + 2));
                 break;
             case FINALPLACE1:
@@ -488,6 +491,7 @@ public final class GUI extends JFrame implements IObserver {
                 JButton select = buttonField[new Integer(parts[0])]
                         [new Integer(parts[1])];
                 switchColor(select);
+                System.out.println(parts[0] + ", " + parts[1]);
             }
         }
 
