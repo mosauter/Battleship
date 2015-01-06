@@ -15,7 +15,6 @@ import de.htwg.battleship.aview.tui.impl.WinPlayer;
 import de.htwg.battleship.aview.tui.impl.WrongInputViewer;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.observer.IObserver;
-import static de.htwg.battleship.util.StatCollection.ASCII_LOW_CASE;
 import static de.htwg.battleship.util.State.END;
 import static de.htwg.battleship.util.State.GETNAME1;
 import static de.htwg.battleship.util.State.PLACE1;
@@ -30,6 +29,10 @@ import static de.htwg.battleship.util.State.WRONGINPUT;
  */
 public class TUI implements IObserver {
 
+    /**
+     * Constant for the conversion of the ASCII table.
+     */
+    public static final int ASCII_LOW_CASE = 97;
     /**
      * Constant for the length of a set name statement.
      */
