@@ -15,6 +15,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
@@ -155,12 +156,12 @@ public final class GUI extends JFrame implements IObserver {
     private final Container container;
     
     /**
-     * JFrame 
+     * JFrame for the menu
      */
     private final JFrame menuFrame;
     
     /**
-     * 
+     * Container which includes the menu components
      */
     private final Container startContainer;
 
@@ -173,11 +174,13 @@ public final class GUI extends JFrame implements IObserver {
         this.master = master;
 //        initialize menu
         this.menuFrame = new JFrame("Battleship");
+        this.setResizable(false);
 //        close operations
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.menuFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-//        get the contentpanes of both frames
-        this.container = this.getContentPane();
+//        inizialize main container + set background
+        this.container = new JLabel(background);
+        this.add(container);
 //        add background + layout manager for menuframe
         this.startContainer = new JLabel(background_menu);
         this.startContainer.setLayout(null);
@@ -190,6 +193,7 @@ public final class GUI extends JFrame implements IObserver {
 //        add buttons to container
         this.startContainer.add(start);
         this.startContainer.add(exit);
+//        add container to frame
         this.menuFrame.add(startContainer);
 //        set frame size
         this.menuFrame.setSize(800, 500);
@@ -208,7 +212,7 @@ public final class GUI extends JFrame implements IObserver {
      */
     public void newGame(final int boardsize) {
         //new Layout
-        this.setLayout(new BorderLayout());
+        container.setLayout(new BorderLayout());
         JPanel main = new JPanel();
         container.add(main, BorderLayout.CENTER);
 
@@ -216,6 +220,8 @@ public final class GUI extends JFrame implements IObserver {
         JPanel beschriftung1 = new JPanel();
         beschriftung1.setLayout(new GridLayout(boardsize, 1));
         beschriftung1.setPreferredSize(new Dimension(30, 30));
+        JLabel upperCorner = new JLabel(background);
+        beschriftung1.add(upperCorner);
         container.add(beschriftung1, BorderLayout.WEST);
 
         //panel for top description
@@ -223,8 +229,8 @@ public final class GUI extends JFrame implements IObserver {
         beschriftung2.setLayout(new GridLayout(1, boardsize));
         beschriftung2.setPreferredSize(new Dimension(30, 30));
         //panel for the place in the higher left corner
-        JPanel left_higher_corner = new JPanel();
-        left_higher_corner.setSize(5, 5);
+        JLabel left_higher_corner = new JLabel(background);
+        left_higher_corner.setPreferredSize(new Dimension(30,30));
         beschriftung2.add(left_higher_corner);
         container.add(beschriftung2, BorderLayout.NORTH);
 
@@ -232,7 +238,11 @@ public final class GUI extends JFrame implements IObserver {
         GridLayout gl = new GridLayout(boardsize, boardsize);
         main.setLayout(gl);
         for (int y = 0; y < boardsize; y++) {
-            JLabel xLabel = new JLabel("" + y);
+            JLabel xLabel = new JLabel(background);
+            xLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+            xLabel.setVerticalAlignment(SwingConstants.CENTER);
+            xLabel.setForeground(Color.WHITE);
+            xLabel.setText("" + y);
             beschriftung1.add(xLabel);
             beschriftung2.add(xLabel);
             for (int x = 0; x < boardsize; x++) {
@@ -248,10 +258,13 @@ public final class GUI extends JFrame implements IObserver {
         JPanel bottom = new JPanel();
         bottom.setLayout(new GridLayout(1, 3));
         container.add(bottom, BorderLayout.SOUTH);
-        ausgabe = new JLabel();
+        ausgabe = new JLabel(background);
+        ausgabe.setHorizontalTextPosition(SwingConstants.CENTER);
+        ausgabe.setVerticalTextPosition(SwingConstants.CENTER);
         ausgabe.setPreferredSize(new Dimension(30, 50));
         ausgabe.setHorizontalAlignment(SwingConstants.CENTER);
-        ausgabe.setFont(new Font("Courier New", Font.BOLD, 12));
+        ausgabe.setFont(new Font("Helvetica", Font.BOLD, 12));
+        ausgabe.setForeground(Color.WHITE);
         bottom.add(ausgabe);
         this.setSize(800, 500);
         this.setLocationRelativeTo(null);
@@ -289,15 +302,16 @@ public final class GUI extends JFrame implements IObserver {
 	        JButton place = new JButton("place");
 	        place.addActionListener(new PlaceListener());
 	        east = new JPanel();
+	        east.setPreferredSize(new Dimension(90, 30));
 	        east.setLayout(new GridLayout(3, 1));
 	        container.add(east, BorderLayout.EAST);
-	        JPanel east_one = new JPanel();
+	        JLabel east_one = new JLabel(background);
 	        east_one.setLayout(new GridLayout(3, 1));
 	        orientation.addItem("horizontal");
 	        orientation.addItem("vertical");
 	        orientation.setPreferredSize(new Dimension(90, 15));
 	        east_one.add(orientation);
-	        east_one.add(new JPanel());
+	        east_one.add(new JLabel(background));
 	        east_one.add(place);
 	        east.add(east_one);
         }
