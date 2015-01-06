@@ -132,30 +132,19 @@ public class TUI implements IObserver {
      */
     public final void processInputLine(final String line) {
         String[] field = line.split(" ");
-//        Start Menu
-        if (master.getCurrentState() == START) {
+//        Start End Menu
+        if (master.getCurrentState() == START
+                || master.getCurrentState() == END) {
             if (field.length != 1) {
                 this.master.setCurrentState(WRONGINPUT);
                 return;
             }
             if (field[0].equals("1")) {
-                master.setCurrentState(GETNAME1);
+                this.master.startGame();
             } else {
                 System.exit(0);
             }
             return;
-        }
-//        End Menu
-        if (master.getCurrentState() == END) {
-            if (field.length != 1) {
-                this.master.setCurrentState(WRONGINPUT);
-                return;
-            }
-            if (field[0].equals("1")) {
-                master.setCurrentState(PLACE1);
-            } else {
-                System.exit(0);
-            }
         }
 //        Place Menu
         if (field.length == PLACE_STATEMENT_LENGTH) {
