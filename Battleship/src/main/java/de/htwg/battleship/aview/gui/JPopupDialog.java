@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -22,6 +21,18 @@ import javax.swing.SwingConstants;
  */
 public class JPopupDialog extends JDialog implements Runnable {
 
+    /**
+     * Constant for the font size of the text.
+     */
+    private static final int FONT_SIZE = 16;
+    /**
+     * Constant for the width of the dialog.
+     */
+    private static final int FRAME_WIDTH = 500;
+    /**
+     * Constant for the height of the dialog.
+     */
+    private static final int FRAME_HEIGHT = 200;
     /**
      * Saves the time how long the message should be shown to the user before
      * dispose.
@@ -74,14 +85,15 @@ public class JPopupDialog extends JDialog implements Runnable {
         super(owner, title, modal);
         this.displaytime = milliseconds;
         JLabel text = new JLabel(message);
-        text.setFont(new Font("Helvetica", Font.BOLD, 16));
+        text.setFont(new Font("Helvetica", Font.BOLD, FONT_SIZE));
         text.setForeground(Color.WHITE);
-        text.setIcon(new ImageIcon(getClass().getResource("background_dialog.jpg")));
+        text.setIcon(
+                new ImageIcon(getClass().getResource("background_dialog.jpg")));
         text.setHorizontalTextPosition(SwingConstants.CENTER);
-        text.setPreferredSize(new Dimension(500, 200));
+        text.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         this.setContentPane(text);
         this.setLocationRelativeTo(owner);
-        this.setSize(500, 200);
+        this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setVisible(true);
         Thread t = new Thread(this, "Popup-Disposer");
         t.start();
