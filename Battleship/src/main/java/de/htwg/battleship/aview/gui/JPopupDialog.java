@@ -1,11 +1,17 @@
 // JPopupDialog.java
 package de.htwg.battleship.aview.gui;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 /**
  * JPopupDialog modifies JDialog that the dialog shows only a specified time and
@@ -67,7 +73,13 @@ public class JPopupDialog extends JDialog implements Runnable {
             final boolean modal) {
         super(owner, title, modal);
         this.displaytime = milliseconds;
-        this.setContentPane(new JLabel(message, JLabel.CENTER));
+        JLabel text = new JLabel(message);
+        text.setFont(new Font("Helvetica", Font.BOLD, 16));
+        text.setForeground(Color.WHITE);
+        text.setIcon(new ImageIcon(getClass().getResource("background_dialog.jpg")));
+        text.setHorizontalTextPosition(SwingConstants.CENTER);
+        text.setPreferredSize(new Dimension(500, 200));
+        this.setContentPane(text);
         this.setLocationRelativeTo(owner);
         this.setSize(500, 200);
         setVisible(true);

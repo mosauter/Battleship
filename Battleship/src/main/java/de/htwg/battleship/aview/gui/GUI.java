@@ -7,33 +7,27 @@ import de.htwg.battleship.observer.IObserver;
 import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
 import static de.htwg.battleship.util.StatCollection.createMap;
 import static de.htwg.battleship.util.StatCollection.fillMap;
-import static de.htwg.battleship.util.State.GETNAME1;
-import static de.htwg.battleship.util.State.PLACE1;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 import java.util.Set;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 /**
@@ -49,7 +43,7 @@ public final class GUI extends JFrame implements IObserver {
      * Constant that indicates how long the JPopupDialogs should be shown before
      * they close automatically.
      */
-    private static final long displaytime = 1500L;
+    private static final long displaytime = 1000L;
 
     /**
      * JButton to start or later to restart the Game.
@@ -100,6 +94,12 @@ public final class GUI extends JFrame implements IObserver {
      * ImageIcon for hitted fields with ship
      */
     private final ImageIcon ship_hit = new ImageIcon(getClass().getResource("ship_hit.jpg"));
+    
+    /**
+     * ImageIcon for JLabels with invisible background
+     */
+    
+    private final ImageIcon invisible = new ImageIcon(getClass().getResource("invisible.png"));
 
     /**
      * Border for selected Field
@@ -110,17 +110,21 @@ public final class GUI extends JFrame implements IObserver {
      * To save the MasterController for all of the several UIs.
      */
     private final IMasterController master;
-
+    
     /**
-     * ComboBox to indicate which orientation the ship that now should be
-     * placed.
+     * Button to place a ship in horizontal direction
      */
-    private final JComboBox<String> orientation = new JComboBox<>();
+    private final JButton hor = new JButton("horizontal");
+    
+    /**
+     * Button to place a ship in vertical direction
+     */
+    private final JButton ver = new JButton("vertical");
 
     /**
      * JPanel for the east side of the mainframe.
      */
-    private JPanel east;
+    private JLabel east;
 
     /**
      * JButton where the Ship should be placed.
@@ -172,6 +176,8 @@ public final class GUI extends JFrame implements IObserver {
     public GUI(final IMasterController master) {
         master.addObserver(this);
         this.master = master;
+        this.setTitle("Battleship");
+        this.setIconImage(new ImageIcon(getClass().getResource("frame_icon.jpg")).getImage());
 //        initialize menu
         this.menuFrame = new JFrame("Battleship");
         this.setResizable(false);
@@ -208,6 +214,7 @@ public final class GUI extends JFrame implements IObserver {
 //        set options
         this.menuFrame.setResizable(false);
         this.menuFrame.setLocationRelativeTo(null);
+        this.menuFrame.setIconImage(new ImageIcon(getClass().getResource("frame_icon.jpg")).getImage());
 //        show
         this.menuFrame.setVisible(true);
 //        initialize field
@@ -221,38 +228,48 @@ public final class GUI extends JFrame implements IObserver {
      */
     public void newGame(final int boardsize) {
         //new Layout
-        container.setLayout(new BorderLayout());
+        container.setLayout(new BorderLayout(0, 0));
         JPanel main = new JPanel();
         container.add(main, BorderLayout.CENTER);
 
         //panel for the left description
-        JPanel beschriftung1 = new JPanel();
+        JLabel left = new JLabel();
+        left.setPreferredSize(new Dimension(40, 520));
+        left.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        JLabel beschriftung1 = new JLabel();
+        beschriftung1.setPreferredSize(new Dimension(40, 493));
         beschriftung1.setLayout(new GridLayout(boardsize, 1));
-        beschriftung1.setPreferredSize(new Dimension(30, 30));
-        JLabel upperCorner = new JLabel(background);
-        beschriftung1.add(upperCorner);
-        container.add(beschriftung1, BorderLayout.WEST);
+        beschriftung1.setVerticalTextPosition(JLabel.CENTER);
+        
 
         //panel for top description
-        JPanel beschriftung2 = new JPanel();
+        JLabel top = new JLabel();
+        top.setPreferredSize(new Dimension(1000, 40));
+        top.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        JLabel beschriftung2 = new JLabel();
         beschriftung2.setLayout(new GridLayout(1, boardsize));
-        beschriftung2.setPreferredSize(new Dimension(30, 30));
+        beschriftung2.setPreferredSize(new Dimension(860, 40));
         //panel for the place in the higher left corner
-        JLabel left_higher_corner = new JLabel(background);
-        left_higher_corner.setPreferredSize(new Dimension(30,30));
-        beschriftung2.add(left_higher_corner);
-        container.add(beschriftung2, BorderLayout.NORTH);
-
+        JLabel left_higher_corner = new JLabel();
+        left_higher_corner.setPreferredSize(new Dimension(40,40));
+        top.add(left_higher_corner);
+        top.add(beschriftung2);
+        
         //center
         GridLayout gl = new GridLayout(boardsize, boardsize);
         main.setLayout(gl);
         for (int y = 0; y < boardsize; y++) {
-            JLabel xLabel = new JLabel(background);
+            JLabel xLabel = new JLabel();
+            JLabel yLabel = new JLabel();
             xLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-            xLabel.setVerticalAlignment(SwingConstants.CENTER);
+            xLabel.setVerticalTextPosition(SwingConstants.CENTER);
+            yLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+            yLabel.setVerticalTextPosition(SwingConstants.CENTER);
             xLabel.setForeground(Color.WHITE);
-            xLabel.setText("" + y);
-            beschriftung1.add(xLabel);
+            yLabel.setForeground(Color.WHITE);
+            xLabel.setText("" + (y + 1));
+            yLabel.setText("" + (char)('A' + y));
+            beschriftung1.add(yLabel);
             beschriftung2.add(xLabel);
             for (int x = 0; x < boardsize; x++) {
                 String name = x + " " + y;
@@ -262,21 +279,33 @@ public final class GUI extends JFrame implements IObserver {
                 main.add(buttonField[x][y]);
             }
         }
+        
+        left.add(beschriftung1);
+        container.add(left, BorderLayout.WEST);
+        container.add(top, BorderLayout.NORTH);
 
         //bottom
-        JPanel bottom = new JPanel();
+        JLabel bottom = new JLabel();
+        bottom.setPreferredSize(new Dimension(1000, 50));
         bottom.setLayout(new GridLayout(1, 3));
         container.add(bottom, BorderLayout.SOUTH);
-        ausgabe = new JLabel(background);
+        ausgabe = new JLabel();
         ausgabe.setHorizontalTextPosition(SwingConstants.CENTER);
         ausgabe.setVerticalTextPosition(SwingConstants.CENTER);
-        ausgabe.setPreferredSize(new Dimension(30, 50));
+        ausgabe.setPreferredSize(new Dimension(1000, 50));
         ausgabe.setHorizontalAlignment(SwingConstants.CENTER);
         ausgabe.setFont(new Font("Helvetica", Font.BOLD, 12));
         ausgabe.setForeground(Color.WHITE);
+        ausgabe.setIcon(new ImageIcon(getClass().getResource("invisible_ausgabe.png")));
         bottom.add(ausgabe);
-        this.setSize(800, 500);
+        this.setSize(1000, 610);
         this.setLocationRelativeTo(null);
+        
+        //right
+        east = new JLabel();
+        east.setPreferredSize(new Dimension(100, 30));
+        east.setLayout(new FlowLayout(FlowLayout.LEFT));
+        container.add(east, BorderLayout.EAST);
     }
 
     /**
@@ -288,7 +317,7 @@ public final class GUI extends JFrame implements IObserver {
         PlayerListener pl = new PlayerListener();
         JLabel icon = new JLabel(background);
         icon.setBounds(new Rectangle(0, 0, 300, 150));
-        JLabel text = new JLabel(new ImageIcon(getClass().getResource("invisible.png")));
+        JLabel text = new JLabel(invisible);
         text.setHorizontalTextPosition(SwingConstants.CENTER);
         text.setForeground(Color.WHITE);
         text.setText("please insert playername " + playernumber);
@@ -324,24 +353,21 @@ public final class GUI extends JFrame implements IObserver {
      */
     private void placeShip() {
         this.setVisible(false);
-
-        if(east == null) {
-	        JButton place = new JButton("place");
-	        place.addActionListener(new PlaceListener());
-	        east = new JPanel();
-	        east.setPreferredSize(new Dimension(90, 30));
-	        east.setLayout(new GridLayout(3, 1));
-	        container.add(east, BorderLayout.EAST);
-	        JLabel east_one = new JLabel(background);
-	        east_one.setLayout(new GridLayout(3, 1));
-	        orientation.addItem("horizontal");
-	        orientation.addItem("vertical");
-	        orientation.setPreferredSize(new Dimension(90, 15));
-	        east_one.add(orientation);
-	        east_one.add(new JLabel(background));
-	        east_one.add(place);
-	        east.add(east_one);
-        }
+        east.remove(hor);
+        east.remove(ver);
+	    hor.addActionListener(new PlaceListener());
+	    ver.addActionListener(new PlaceListener());
+	    resetPlaceButton();
+	    this.ver.setPreferredSize(new Dimension(90, 30));
+	    this.ver.setIcon(new ImageIcon(getClass().getResource("vertical.jpg")));
+	    this.ver.setRolloverIcon(new ImageIcon(getClass().getResource("vertical_mouseover.jpg")));
+	    this.ver.setBorder(null);
+	    this.hor.setPreferredSize(new Dimension(90, 30));
+	    this.hor.setIcon(new ImageIcon(getClass().getResource("horizontal.jpg")));
+	    this.hor.setRolloverIcon(new ImageIcon(getClass().getResource("horizontal_mouseover.jpg")));
+	    this.hor.setBorder(null);
+	    east.add(hor);
+	    east.add(ver);
         this.setVisible(true);
     }
 
@@ -350,7 +376,7 @@ public final class GUI extends JFrame implements IObserver {
      */
     private void resetPlaceButton() {
         if (shipPlacePosition != null) {
-            shipPlacePosition.setIcon(wave);
+            shipPlacePosition.setBorder(new JButton().getBorder());
             shipPlacePosition = null;
         }
     }
@@ -421,6 +447,7 @@ public final class GUI extends JFrame implements IObserver {
                 resetPlaceButton();
                 activateListener(new PlaceListener());
                 updateGameField(master.getPlayer2(), false);
+                placeShip();
                 ausgabe.setText(master.getPlayer2().getName()
                         + " now place the ship with the length of "
                         + (master.getPlayer2().getOwnBoard().getShips() + 2));
@@ -441,7 +468,8 @@ public final class GUI extends JFrame implements IObserver {
                 break;
             case SHOOT1:
                 this.setVisible(false);
-                container.remove(east);
+                east.remove(hor);
+                east.remove(ver);
                 this.setVisible(true);
                 activateListener(new ShootListener());
                 updateGameField(master.getPlayer2(), true);
@@ -526,10 +554,11 @@ public final class GUI extends JFrame implements IObserver {
         @Override
         public void actionPerformed(final ActionEvent e) {
             JButton button = (JButton) e.getSource();
-            if ("place".equals(button.getText())) {
+            if (button == hor || button == ver) {
+            	System.out.println(shipPlacePosition);
                 if (shipPlacePosition != null) {
                     String[] parts = shipPlacePosition.getName().split(" ");
-                    if (orientation.getSelectedItem() == "horizontal") {
+                    if (button == hor) {
                         master.placeShip(new Integer(parts[0]),
                                 new Integer(parts[1]), true);
                     } else {
@@ -541,6 +570,7 @@ public final class GUI extends JFrame implements IObserver {
                             + "supported yet.");
                 }
             } else {
+            	System.out.println(shipPlacePosition);
                 if (shipPlacePosition != null && shipPlacePosition != button) {
                     switchColor(shipPlacePosition);
                 }

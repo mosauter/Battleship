@@ -23,11 +23,11 @@ public final class StatCollection {
     /**
      * The heigth and the length of the field.
      */
-    public static int HEIGTH_LENGTH = 5;
+    public static int HEIGTH_LENGTH = 10;
     /**
      * The max number of ships that could be on the field.
      */
-    public static int SHIP_NUMBER_MAX = 2;
+    public static int SHIP_NUMBER_MAX = 3;
 
     /**
      * Utility-Method to check if a value is between.
