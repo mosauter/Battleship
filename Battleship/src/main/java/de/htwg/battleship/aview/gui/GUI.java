@@ -298,6 +298,9 @@ public final class GUI extends JFrame implements IObserver {
         player.setFont(new Font("Helvetica", Font.BOLD, 12));
         player.setBounds(new Rectangle(25, 40, 250, 30));
         JButton submit = new JButton("OK");
+        submit.setIcon(new ImageIcon(getClass().getResource("playername_button.jpg")));
+        submit.setRolloverIcon(new ImageIcon(getClass().getResource("playername_button_mouseover.jpg")));
+        submit.setBorder(null);
         submit.setBounds(new Rectangle(75, 80, 150, 30));
         submit.addActionListener(pl);
         notifyframe = new JDialog();
@@ -311,6 +314,7 @@ public final class GUI extends JFrame implements IObserver {
         notifyframe.setResizable(false);
         notifyframe.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         notifyframe.setLocationRelativeTo(getParent());
+        notifyframe.getRootPane().setDefaultButton(submit);
         notifyframe.setVisible(true);
     }
 
