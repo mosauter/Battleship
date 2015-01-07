@@ -2,17 +2,6 @@
 
 package de.htwg.battleship.aview.tui;
 
-import de.htwg.battleship.aview.tui.impl.EndMenuViewer;
-import de.htwg.battleship.aview.tui.impl.HitMissViewer;
-import de.htwg.battleship.aview.tui.impl.InputMaskPlayer1;
-import de.htwg.battleship.aview.tui.impl.InputMaskPlayer2;
-import de.htwg.battleship.aview.tui.impl.PlaceErrorViewer;
-import de.htwg.battleship.aview.tui.impl.PlaceFieldViewer;
-import de.htwg.battleship.aview.tui.impl.PlaceViewer;
-import de.htwg.battleship.aview.tui.impl.ShootMenu;
-import de.htwg.battleship.aview.tui.impl.StartMenu;
-import de.htwg.battleship.aview.tui.impl.WinPlayer;
-import de.htwg.battleship.aview.tui.impl.WrongInputViewer;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.observer.IObserver;
 import static de.htwg.battleship.util.State.END;

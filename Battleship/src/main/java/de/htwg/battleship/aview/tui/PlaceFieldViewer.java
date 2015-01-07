@@ -1,10 +1,10 @@
-// WinFieldViewer.java
+// FieldViewer.java
 
-package de.htwg.battleship.aview.tui.impl;
+package de.htwg.battleship.aview.tui;
 
 import de.htwg.battleship.aview.tui.Viewer;
-import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IBoard;
+import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import static de.htwg.battleship.util.StatCollection.heightLenght;
 import static de.htwg.battleship.util.StatCollection.createBorder;
@@ -14,26 +14,25 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * WinFieldViewer presents a view of the entire field that means it
- * shows the ships of both players.
- * implements viewer
+ * FieldViewer to represents the Field.
+ * Acts like a viewer without an own state.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
- * @since 2014-12-23
+ * @since 2014-12-09
  */
-public class WinFieldViewer implements Viewer {
+public class PlaceFieldViewer implements Viewer {
 
     /**
-     * Saves the MasterController.
+     * Saves Player one.
      */
-    private final IMasterController master;
+    private final IPlayer player1;
 
     /**
-     * Public Constructor.
-     * @param master the MasterController for the entire game
+     * Public - Constructor.
+     * @param player player one
      */
-    public WinFieldViewer(final IMasterController master) {
-        this.master = master;
+    public PlaceFieldViewer(final IPlayer player) {
+        this.player1 = player;
     }
 
     /**
@@ -45,21 +44,13 @@ public class WinFieldViewer implements Viewer {
     @Override
     public final String getString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\n  ");
+        sb.append("\n ");
         Map<Integer, Set<Integer>> mapPlayer1 = createMap();
-        Map<Integer, Set<Integer>> mapPlayer2 = createMap();
-        IBoard boardPlayer1 = master.getPlayer1().getOwnBoard();
-        IShip[] listPlayer1 = master.getPlayer1().getOwnBoard().getShipList();
-        fillMap(listPlayer1, mapPlayer1,
-                master.getPlayer1().getOwnBoard().getShips());
-        IBoard boardPlayer2 = master.getPlayer2().getOwnBoard();
-        IShip[] listPlayer2 = master.getPlayer2().getOwnBoard().getShipList();
-        fillMap(listPlayer2, mapPlayer2,
-                master.getPlayer2().getOwnBoard().getShips());
-        sb.append(master.getPlayer1().getName()).append("\t\t");
-        sb.append(master.getPlayer2().getName()).append("\n");
+        IBoard boardPlayer1 = player1.getOwnBoard();
+        IShip[] listPlayer1 = player1.getOwnBoard().getShipList();
+        fillMap(listPlayer1, mapPlayer1, player1.getOwnBoard().getShips());
         createBorder(sb);
-        sb.append("\t ");
+        sb.append("\t  ");
         createBorder(sb);
         sb.append("\n");
         for (int y = 0; y < heightLenght; y++) {
@@ -87,25 +78,7 @@ public class WinFieldViewer implements Viewer {
             }
             sb.append("\t ").append(y);
             for (int x = 0; x < heightLenght; x++) {
-                boolean isShip = false;
-                for (Integer value : mapPlayer2.get(y)) {
-                    if (value == x) {
-                        if (boardPlayer2.isHit(x, y)) {
-                            sb.append(SHIP_IS_HIT);
-                        } else {
-                            sb.append(SHIP_NON_HIT);
-                        }
-                        isShip = true;
-                    }
-                }
-                if (isShip) {
-                    continue;
-                }
-                if (boardPlayer2.isHit(x, y)) {
-                    sb.append(FIELD_IS_HIT);
-                } else {
-                    sb.append(FIELD_NON_HIT);
-                }
+                sb.append(FIELD_NON_HIT);
             }
             sb.append("\n");
         }
