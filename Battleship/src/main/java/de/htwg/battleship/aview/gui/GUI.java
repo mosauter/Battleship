@@ -11,11 +11,14 @@ import static de.htwg.battleship.util.State.GETNAME1;
 import static de.htwg.battleship.util.State.PLACE1;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +33,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 /**
@@ -183,6 +187,14 @@ public final class GUI extends JFrame implements IObserver {
 //        set bounds for the menubuttons
         this.start.setBounds(new Rectangle(300, 240, 200, 50));
         this.exit.setBounds(new Rectangle(300, 310, 200, 50));
+//        adding button icons and remove border
+        this.start.setIcon(new ImageIcon(getClass().getResource("menubutton_1.jpg")));
+        this.start.setRolloverIcon(new ImageIcon(getClass().getResource("menubutton_1_mouseover.jpg")));
+        this.start.setBorder(null);
+        
+        this.exit.setIcon(new ImageIcon(getClass().getResource("menubutton_2.jpg")));
+        this.exit.setRolloverIcon(new ImageIcon(getClass().getResource("menubutton_2_mouseover.jpg")));
+        this.exit.setBorder(null);
 //        add actionlisteners
         this.start.addActionListener(new MenuListener());
         this.exit.addActionListener(new MenuListener());
@@ -274,16 +286,28 @@ public final class GUI extends JFrame implements IObserver {
      */
     private void getPlayername(final int playernumber) {
         PlayerListener pl = new PlayerListener();
+        JLabel icon = new JLabel(background);
+        icon.setBounds(new Rectangle(0, 0, 300, 150));
+        JLabel text = new JLabel(new ImageIcon(getClass().getResource("invisible.png")));
+        text.setHorizontalTextPosition(SwingConstants.CENTER);
+        text.setForeground(Color.WHITE);
+        text.setText("please insert playername " + playernumber);
+        text.setBounds(new Rectangle(25, 5, 250, 30));
         player = new JTextField();
+        player.setBorder(new LineBorder(Color.BLACK, 1));
+        player.setFont(new Font("Helvetica", Font.BOLD, 12));
+        player.setBounds(new Rectangle(25, 40, 250, 30));
         JButton submit = new JButton("OK");
+        submit.setBounds(new Rectangle(75, 80, 150, 30));
         submit.addActionListener(pl);
         notifyframe = new JDialog();
+        notifyframe.add(icon);
         notifyframe.setModal(true);
         notifyframe.setSize(300, 150);
-        notifyframe.setLayout(new GridLayout(3, 1));
-        notifyframe.add(new JLabel("please insert playername " + playernumber));
-        notifyframe.add(player);
-        notifyframe.add(submit);
+        icon.setLayout(null);
+        icon.add(text);
+        icon.add(player);
+        icon.add(submit);
         notifyframe.setResizable(false);
         notifyframe.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         notifyframe.setLocationRelativeTo(getParent());
