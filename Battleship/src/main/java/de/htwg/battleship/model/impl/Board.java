@@ -35,9 +35,17 @@ public class Board implements IBoard {
         this.shipList = new Ship[shipNumberMax];
         this.ships = 0;
         for (int x = 0; x < heightLenght; x++) {
-            for (int y = 0; y < heightLenght; y++) {
-                field[x][y] = new Field(x, y);
-            }
+            initFieldMatrix(x);
+        }
+    }
+
+    /**
+     * Utility method to initialize the field matrix.
+     * @param x the specified row which has to be initialized
+     */
+    private void initFieldMatrix(final int x) {
+        for (int y = 0; y < heightLenght; y++) {
+            field[x][y] = new Field(x, y);
         }
     }
 
