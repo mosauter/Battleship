@@ -23,11 +23,11 @@ public final class StatCollection {
     /**
      * The heigth and the length of the field.
      */
-    public static int HEIGTH_LENGTH = 10;
+    public static int heightLenght = 10;
     /**
      * The max number of ships that could be on the field.
      */
-    public static int SHIP_NUMBER_MAX = 3;
+    public static int shipNumberMax = 3;
 
     /**
      * Utility-Method to check if a value is between.
@@ -39,6 +39,48 @@ public final class StatCollection {
     public static boolean isBetween(final int xupp,
             final int xlow, final int x) {
         return (x >= xlow && x <= xupp);
+    }
+
+    /**
+     * Method to create the legend of both fields.
+     * @param sb StringBuilder on which the method has to add a legend
+     * @return the sb mentioned above with a legend
+     */
+    public static StringBuilder createBorder(final StringBuilder sb) {
+        sb.append(" ");
+        for (int i = 0; i < heightLenght; i++) {
+            char c = (char) ('a' + i);
+            sb.append(" ").append(c);
+        }
+        return sb;
+    }
+
+    /**
+     * Method to initialize the map for all the ships.
+     * @return Map<Integer, Set<Integer>> empty with
+     *         HEIGHT_LENGTH of empty sets
+     */
+    public static Map<Integer, Set<Integer>> createMap() {
+        TreeMap<Integer, Set<Integer>> map = new TreeMap<>();
+        for (int i = 0; i < heightLenght; i++) {
+            map.put(i, new TreeSet<Integer>());
+        }
+        return map;
+    }
+
+    /**
+     * Method to fill a Map with ship coordinates.
+     * @param shipList specified ships
+     * @param map Map where to save the ships
+     * @param ships how much ships are in the list
+     * @return the new Map
+     */
+    public static Map<Integer, Set<Integer>> fillMap(final IShip[] shipList,
+            final Map<Integer, Set<Integer>> map, final int ships) {
+        for (int i = 0; i < ships; i++) {
+            getSet(shipList[i], map);
+        }
+        return map;
     }
 
     /**
@@ -66,47 +108,5 @@ public final class StatCollection {
             }
             return map;
         }
-    }
-
-    /**
-     * Method to initialize the map for all the ships.
-     * @return Map<Integer, Set<Integer>> empty with
-     *         HEIGHT_LENGTH of empty sets
-     */
-    public static Map<Integer, Set<Integer>> createMap() {
-        TreeMap<Integer, Set<Integer>> map = new TreeMap<>();
-        for (int i = 0; i < HEIGTH_LENGTH; i++) {
-            map.put(i, new TreeSet<Integer>());
-        }
-        return map;
-    }
-
-    /**
-     * Method to create the legend of both fields.
-     * @param sb StringBuilder on which the method has to add a legend
-     * @return the sb mentioned above with a legend
-     */
-    public static StringBuilder createBorder(final StringBuilder sb) {
-        sb.append(" ");
-        for (int i = 0; i < HEIGTH_LENGTH; i++) {
-            char c = (char) ('a' + i);
-            sb.append(" ").append(c);
-        }
-        return sb;
-    }
-
-    /**
-     * Method to fill a Map with ships.
-     * @param shipList specified ships
-     * @param map Map where to save the ships
-     * @param ships how much ships are in the list
-     * @return the new Map
-     */
-    public static Map<Integer, Set<Integer>> fillMap(final IShip[] shipList,
-            final Map<Integer, Set<Integer>> map, final int ships) {
-        for (int i = 0; i < ships; i++) {
-            getSet(shipList[i], map);
-        }
-        return map;
     }
 }
