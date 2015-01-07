@@ -4,7 +4,7 @@ import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.observer.IObserver;
-import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
+import static de.htwg.battleship.util.StatCollection.heightLenght;
 import static de.htwg.battleship.util.StatCollection.createMap;
 import static de.htwg.battleship.util.StatCollection.fillMap;
 import java.awt.BorderLayout;
@@ -63,7 +63,7 @@ public final class GUI extends JFrame implements IObserver {
      * JButton[][] for the Field. Button named with: 'x + " " + y'
      */
     private final JButton[][] buttonField
-            = new JButton[HEIGTH_LENGTH][HEIGTH_LENGTH];
+            = new JButton[heightLenght][heightLenght];
 
     /**
      * default Background for mainframe
@@ -218,13 +218,13 @@ public final class GUI extends JFrame implements IObserver {
 //        show
         this.menuFrame.setVisible(true);
 //        initialize field
-        this.newGame(HEIGTH_LENGTH);
+        this.newGame(heightLenght);
     }
 
     /**
      * Method to initialize the GUI for the fields.
      *
-     * @param boardsize usually StatCollection.HEIGTH_LENGTH
+     * @param boardsize usually StatCollection.heightLenght
      */
     public void newGame(final int boardsize) {
         //new Layout
@@ -390,8 +390,8 @@ public final class GUI extends JFrame implements IObserver {
         IShip[] shipList = player.getOwnBoard().getShipList();
         Map<Integer, Set<Integer>> map = createMap();
         fillMap(shipList, map, player.getOwnBoard().getShips());
-        for (int y = 0; y < HEIGTH_LENGTH; y++) {
-            for (int x = 0; x < HEIGTH_LENGTH; x++) {
+        for (int y = 0; y < heightLenght; y++) {
+            for (int x = 0; x < heightLenght; x++) {
                 boolean isShip = false;
                 this.buttonField[x][y].setBorder(new JButton().getBorder());
                 for (Integer value : map.get(y)) {

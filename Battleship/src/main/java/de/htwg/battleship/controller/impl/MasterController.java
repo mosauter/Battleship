@@ -140,7 +140,7 @@ public class MasterController extends Observable implements IMasterController {
             return;
         }
 
-        if (player.getOwnBoard().getShips() == StatCollection.SHIP_NUMBER_MAX) {
+        if (player.getOwnBoard().getShips() == StatCollection.shipNumberMax) {
             if (firstPlayer) {
                 this.setCurrentState(FINALPLACE1);
                 this.currentState = PLACE2;

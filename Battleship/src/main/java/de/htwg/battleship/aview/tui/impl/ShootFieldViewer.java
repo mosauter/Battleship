@@ -7,7 +7,7 @@ import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
-import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
+import static de.htwg.battleship.util.StatCollection.heightLenght;
 import static de.htwg.battleship.util.StatCollection.createBorder;
 import static de.htwg.battleship.util.StatCollection.createMap;
 import static de.htwg.battleship.util.StatCollection.fillMap;
@@ -64,9 +64,9 @@ public class ShootFieldViewer implements Viewer {
         sb.append("\t  ");
         createBorder(sb);
         sb.append("\n");
-        for (int y = 0; y < HEIGTH_LENGTH; y++) {
+        for (int y = 0; y < heightLenght; y++) {
             sb.append(y);
-            for (int x = 0; x < HEIGTH_LENGTH; x++) {
+            for (int x = 0; x < heightLenght; x++) {
                 boolean isShip = false;
                 for (Integer value : mapPlayer1.get(y)) {
                     if (value == x) {
@@ -88,7 +88,7 @@ public class ShootFieldViewer implements Viewer {
                 }
             }
             sb.append("\t ").append(y);
-            for (int x = 0; x < HEIGTH_LENGTH; x++) {
+            for (int x = 0; x < heightLenght; x++) {
                 boolean isShip = false;
                 for (Integer value : mapPlayer2.get(y)) {
                     if (value == x) {

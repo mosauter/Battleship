@@ -39,8 +39,8 @@ public class CollisionOrientationBothFalseTest {
      */
     @Before
     public final void setUp() {
-        StatCollection.HEIGTH_LENGTH = 10;
-        StatCollection.SHIP_NUMBER_MAX = 5;
+        StatCollection.heightLenght = 10;
+        StatCollection.shipNumberMax = 5;
         cc = new CollisionOrientationBothFalse();
         ship1 = new Ship(3, false, 1, 1);
         ship2 = new Ship(5, false, 3, 5);

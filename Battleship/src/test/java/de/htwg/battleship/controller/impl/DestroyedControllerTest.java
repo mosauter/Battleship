@@ -46,8 +46,8 @@ public class DestroyedControllerTest {
      */
     @Before
     public final void setUp() {
-        StatCollection.HEIGTH_LENGTH = 10;
-        StatCollection.SHIP_NUMBER_MAX = 5;
+        StatCollection.heightLenght = 10;
+        StatCollection.shipNumberMax = 5;
         player = new Player(new Board());
         ship = new Ship(2, false, 3, 3);
         shoot = new ShootController(player, new Player(new Board()));

@@ -3,8 +3,8 @@ package de.htwg.battleship.model.impl;
 
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.util.StatCollection;
-import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
-import static de.htwg.battleship.util.StatCollection.SHIP_NUMBER_MAX;
+import static de.htwg.battleship.util.StatCollection.heightLenght;
+import static de.htwg.battleship.util.StatCollection.shipNumberMax;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,8 +27,8 @@ public class BoardTest {
      */
     @Before
     public final void setUp() {
-        StatCollection.HEIGTH_LENGTH = 10;
-        StatCollection.SHIP_NUMBER_MAX = 5;
+        StatCollection.heightLenght = 10;
+        StatCollection.shipNumberMax = 5;
         board = new Board();
     }
 
@@ -46,16 +46,16 @@ public class BoardTest {
 
         IShip[] result = board.getShipList();
         assertEquals(expRes[0], result[0]);
-        for (int i = 1; i < SHIP_NUMBER_MAX; i++) {
+        for (int i = 1; i < shipNumberMax; i++) {
             board.addShip(expRes[i]);
         }
         result = board.getShipList();
-        for (int i = 0; i < SHIP_NUMBER_MAX; i++) {
+        for (int i = 0; i < shipNumberMax; i++) {
             assertEquals(expRes[i], result[i]);
         }
         board.addShip(expRes[3]);
         result = board.getShipList();
-        for (int i = 0; i < SHIP_NUMBER_MAX; i++) {
+        for (int i = 0; i < shipNumberMax; i++) {
             assertEquals(expRes[i], result[i]);
         }
 
@@ -74,7 +74,7 @@ public class BoardTest {
             new Ship(6, true, 1, 1),
             new Ship(1, true, 10, 10),
             new Ship(4, false, 1, 10)};
-        for (int i = 0; i < SHIP_NUMBER_MAX; i++) {
+        for (int i = 0; i < shipNumberMax; i++) {
             board.addShip(shipList[i]);
             expRes++;
             result = board.getShips();
@@ -90,14 +90,14 @@ public class BoardTest {
      */
     @Test
     public final void testGetBoard() {
-        Field[][] expResult = new Field[HEIGTH_LENGTH][HEIGTH_LENGTH];
-        for (int x = 0; x < HEIGTH_LENGTH; x++) {
-            for (int y = 0; y < HEIGTH_LENGTH; y++) {
+        Field[][] expResult = new Field[heightLenght][heightLenght];
+        for (int x = 0; x < heightLenght; x++) {
+            for (int y = 0; y < heightLenght; y++) {
                 expResult[x][y] = new Field(x, y);
             }
         }
-        for (int x = 0; x < HEIGTH_LENGTH; x++) {
-            for (int y = 0; y < HEIGTH_LENGTH; y++) {
+        for (int x = 0; x < heightLenght; x++) {
+            for (int y = 0; y < heightLenght; y++) {
                 assertEquals(expResult[x][y].isHit(), board.isHit(x, y));
             }
         }

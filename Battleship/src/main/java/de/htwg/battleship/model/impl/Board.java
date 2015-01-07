@@ -4,8 +4,8 @@ package de.htwg.battleship.model.impl;
 
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IShip;
-import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
-import static de.htwg.battleship.util.StatCollection.SHIP_NUMBER_MAX;
+import static de.htwg.battleship.util.StatCollection.heightLenght;
+import static de.htwg.battleship.util.StatCollection.shipNumberMax;
 
 /**
  * The Board-Object where each player adds his own ships.
@@ -26,16 +26,16 @@ public class Board implements IBoard {
     /**
      * The field with the saved fields.
      */
-    private final Field[][] field = new Field[HEIGTH_LENGTH][HEIGTH_LENGTH];
+    private final Field[][] field = new Field[heightLenght][heightLenght];
 
     /**
      * Public-Constructor which initialize the Field-Matrix.
      */
     public Board() {
-        this.shipList = new Ship[SHIP_NUMBER_MAX];
+        this.shipList = new Ship[shipNumberMax];
         this.ships = 0;
-        for (int x = 0; x < HEIGTH_LENGTH; x++) {
-            for (int y = 0; y < HEIGTH_LENGTH; y++) {
+        for (int x = 0; x < heightLenght; x++) {
+            for (int y = 0; y < heightLenght; y++) {
                 field[x][y] = new Field(x, y);
             }
         }
@@ -43,12 +43,12 @@ public class Board implements IBoard {
 
     @Override
     public final int addShip(final IShip ship) {
-        if (this.ships == SHIP_NUMBER_MAX) {
+        if (this.ships == shipNumberMax) {
             return -1;
         }
         this.shipList[ships] = ship;
         this.ships++;
-        return SHIP_NUMBER_MAX - this.ships;
+        return shipNumberMax - this.ships;
     }
 
     @Override

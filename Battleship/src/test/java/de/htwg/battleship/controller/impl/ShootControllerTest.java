@@ -37,8 +37,8 @@ public class ShootControllerTest {
      */
     @Before
     public final void setUp() {
-        StatCollection.HEIGTH_LENGTH = 10;
-        StatCollection.SHIP_NUMBER_MAX = 5;
+        StatCollection.heightLenght = 10;
+        StatCollection.shipNumberMax = 5;
         player1 = new Player(new Board());
         player2 = new Player(new Board());
         Ship ship1 = new Ship(1, true, 3, 2 );

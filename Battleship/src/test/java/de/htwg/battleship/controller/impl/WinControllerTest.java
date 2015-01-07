@@ -25,8 +25,8 @@ public class WinControllerTest {
      */
     @Before
     public final void setUp() {
-        StatCollection.HEIGTH_LENGTH = 2;
-        StatCollection.SHIP_NUMBER_MAX = 1;
+        StatCollection.heightLenght = 2;
+        StatCollection.shipNumberMax = 1;
     }
 
     /**
