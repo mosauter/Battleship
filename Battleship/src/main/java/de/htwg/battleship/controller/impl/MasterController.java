@@ -183,7 +183,7 @@ public class MasterController extends Observable implements IMasterController {
     /**
      * Private utility-method to reset the boards of both players.
      */
-    private void resetBoards() {
+    public void resetBoards() {
         player1.resetBoard();
         player2.resetBoard();
     }
