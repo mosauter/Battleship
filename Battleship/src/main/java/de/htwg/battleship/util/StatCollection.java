@@ -29,7 +29,7 @@ public final class StatCollection {
     /**
      * The max number of ships that could be on the field.
      */
-    public static int SHIP_NUMBER_MAX = 4;
+    public static int shipNumberMax = 4;
 
 
     /**
