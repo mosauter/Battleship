@@ -52,10 +52,45 @@ public final class GUI extends JFrame implements IObserver {
     private final int descriptionWidthHeight = 40;
     
     /**
+     * height of the bottom label
+     */
+    private final int bottomHeight = 50;
+    
+    /**
+     * width of the east label
+     */
+    private final int eastWidth = 100;
+    
+    /**
      * width of the mainframe
      */
     private final int frameWidth = 1000;
+    
+    /**
+     * height of the mainframe
+     */
+    private final int frameHeight = 610;
+    
+    /**
+     * Dimension for Buttons in the JLabel east
+     */
+    private final Dimension eastButtons = new Dimension(90, 30);
+    
+    /**
+     * Dimension for playername frame
+     */
+    private final Dimension playerframe = new Dimension(300, 150);
+    
+    /**
+     * default Font
+     */
+    private final Font font = new Font("Helvetica", Font.BOLD, 12);
 
+    /**
+     * Border for selected Field
+     */
+    private final LineBorder selected = new LineBorder(Color.RED, 4);
+    
     /**
      * JButton to start or later to restart the Game.
      */
@@ -127,21 +162,6 @@ public final class GUI extends JFrame implements IObserver {
      */
     
     private final ImageIcon invisible = new ImageIcon(getClass().getResource("invisible.png"));
-    
-    /**
-     * Dimension for Buttons in the JLabel east
-     */
-    private final Dimension eastButtons = new Dimension(90, 30);
-    
-    /**
-     * default Font
-     */
-    private final Font font = new Font("Helvetica", Font.BOLD, 12);
-
-    /**
-     * Border for selected Field
-     */
-    private final LineBorder selected = new LineBorder(Color.RED, 4);
 
     /**
      * To save the MasterController for all of the several UIs.
@@ -296,24 +316,24 @@ public final class GUI extends JFrame implements IObserver {
 
         //bottom
         JLabel bottom = new JLabel();
-        bottom.setPreferredSize(new Dimension(frameWidth, 50));
+        bottom.setPreferredSize(new Dimension(frameWidth, bottomHeight));
         bottom.setLayout(new GridLayout(1, 3));
         ausgabe = new JLabel();
         ausgabe.setHorizontalTextPosition(SwingConstants.CENTER);
         ausgabe.setVerticalTextPosition(SwingConstants.CENTER);
-        ausgabe.setPreferredSize(new Dimension(frameWidth, 50));
+        ausgabe.setPreferredSize(new Dimension(frameWidth, bottomHeight));
         ausgabe.setHorizontalAlignment(SwingConstants.CENTER);
         ausgabe.setFont(this.font);
         ausgabe.setForeground(Color.WHITE);
         ausgabe.setIcon(new ImageIcon(getClass().getResource("invisible_ausgabe.png")));
         bottom.add(ausgabe);
-        this.setSize(frameWidth, 610);
+        this.setSize(frameWidth, frameHeight);
         this.setLocationRelativeTo(null);
         container.add(bottom, BorderLayout.SOUTH);
         
         //right
         east = new JLabel();
-        east.setPreferredSize(new Dimension(100, 1));
+        east.setPreferredSize(new Dimension(eastWidth, 1));
         east.setLayout(new FlowLayout(FlowLayout.LEFT));
         container.add(east, BorderLayout.EAST);
     }
@@ -374,7 +394,7 @@ public final class GUI extends JFrame implements IObserver {
         notifyframe = new JDialog();
         notifyframe.add(icon);
         notifyframe.setModal(true);
-        notifyframe.setSize(300, 150);
+        notifyframe.setSize(playerframe);
         icon.setLayout(null);
         icon.add(text);
         icon.add(player);
