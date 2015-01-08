@@ -821,6 +821,7 @@ public final class GUI extends JFrame implements IObserver {
                 east.removeAll();
                 menuFrame.setVisible(true);
                 menuFrame.toBack();
+                menuFrame.toFront();
             }
 
         }
