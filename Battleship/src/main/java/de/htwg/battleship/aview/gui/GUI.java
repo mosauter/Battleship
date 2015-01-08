@@ -1,12 +1,9 @@
 package de.htwg.battleship.aview.gui;
 
-import de.htwg.battleship.controller.IMasterController;
-import de.htwg.battleship.model.IPlayer;
-import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.observer.IObserver;
 import static de.htwg.battleship.util.StatCollection.heightLenght;
 import static de.htwg.battleship.util.StatCollection.createMap;
 import static de.htwg.battleship.util.StatCollection.fillMap;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -28,6 +25,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+
+import de.htwg.battleship.controller.IMasterController;
+import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.observer.IObserver;
 
 /**
  * Graphical User Interface for the Game
@@ -176,12 +178,6 @@ public final class GUI extends JFrame implements IObserver {
      * not in use anymore.
      */
     private JDialog notifyframe;
-    
-    /**
-     * JPopupDialog to notify the players
-     */
-    @SuppressWarnings("unused")
-    private JPopupDialog jpd = null;
 
     /**
      * JTextField where the player should input his name.
@@ -547,7 +543,7 @@ public final class GUI extends JFrame implements IObserver {
                 resetPlaceButton();
                 break;
             case PLACEERR:
-                jpd = new JPopupDialog(this, "Placement error",
+                new JPopupDialog(this, "Placement error",
                         "Cannot place a ship there due to a collision or "
                         + "the ship is out of the field!",
                         displaytime, false);
@@ -569,25 +565,25 @@ public final class GUI extends JFrame implements IObserver {
                         + " is now at the turn to shoot");
                 break;
             case HIT:
-                jpd = new JPopupDialog(this, "Shot Result",
+                new JPopupDialog(this, "Shot Result",
                         "Your shot was a Hit!!", displaytime, false);
                 break;
             case MISS:
-                jpd = new JPopupDialog(this, "Shot Result",
+                new JPopupDialog(this, "Shot Result",
                         "Your shot was a Miss!!", displaytime, false);
                 break;
             case WIN1:
             	updateGameField(master.getPlayer2(), false);
                 String msg = master.getPlayer1().getName() + " has won!!";
                 ausgabe.setText(msg);
-                jpd = new JPopupDialog(this, "Winner!", msg,
+                new JPopupDialog(this, "Winner!", msg,
                         displaytime, false);
                 break;
             case WIN2:
             	updateGameField(master.getPlayer1(), false);
                 msg = master.getPlayer2().getName() + " has won!!";
                 ausgabe.setText(msg);
-                jpd = new JPopupDialog(this, "Winner!", msg,
+                new JPopupDialog(this, "Winner!", msg,
                         displaytime, false);
                 break;
             case END:
@@ -652,8 +648,8 @@ public final class GUI extends JFrame implements IObserver {
                                 Integer.valueOf(parts[1]), false);
                     }
                 } else {
-                	jpd = new JPopupDialog(null, "Placement error",
-                            "Please choose a field to place the ship",
+                	new JPopupDialog(null, "Placement error",
+                			"Please choose a field to place the ship",
                             displaytime, false);
                 }
             } else {
