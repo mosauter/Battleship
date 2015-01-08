@@ -82,6 +82,21 @@ public final class GUI extends JFrame implements IObserver {
     private final Dimension playerframe = new Dimension(300, 150);
     
     /**
+     * set Bound for playerframe button
+     */
+    private final Rectangle playerframeButton = new Rectangle(75, 80, 150, 30);
+    
+    /**
+     * set Bounds for playerframe label
+     */
+    private final Rectangle playerframeLabel = new Rectangle(25, 5, 250, 30);
+    
+    /**
+     * set Bounds for playerframe textfield
+     */
+    private final Rectangle playerframeText = new Rectangle(25, 40, 250, 30);
+    
+    /**
      * default Font
      */
     private final Font font = new Font("Helvetica", Font.BOLD, 12);
@@ -375,21 +390,21 @@ public final class GUI extends JFrame implements IObserver {
     private void getPlayername(final int playernumber) {
         PlayerListener pl = new PlayerListener();
         JLabel icon = new JLabel(background);
-        icon.setBounds(new Rectangle(0, 0, 300, 150));
+        icon.setPreferredSize(playerframe);
         JLabel text = new JLabel(invisible);
         text.setHorizontalTextPosition(SwingConstants.CENTER);
         text.setForeground(Color.WHITE);
         text.setText("please insert playername " + playernumber);
-        text.setBounds(new Rectangle(25, 5, 250, 30));
+        text.setBounds(playerframeLabel);
         player = new JTextField();
         player.setBorder(new LineBorder(Color.BLACK, 1));
         player.setFont(this.font);
-        player.setBounds(new Rectangle(25, 40, 250, 30));
+        player.setBounds(playerframeText);
         JButton submit = new JButton("OK");
         submit.setIcon(new ImageIcon(getClass().getResource("playername_button.jpg")));
         submit.setRolloverIcon(new ImageIcon(getClass().getResource("playername_button_mouseover.jpg")));
         submit.setBorder(null);
-        submit.setBounds(new Rectangle(75, 80, 150, 30));
+        submit.setBounds(playerframeButton);
         submit.addActionListener(pl);
         notifyframe = new JDialog();
         notifyframe.add(icon);
