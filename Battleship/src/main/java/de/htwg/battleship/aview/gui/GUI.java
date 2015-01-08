@@ -50,11 +50,6 @@ public final class GUI extends JFrame implements IObserver {
      */
     private final JButton start = new JButton("Start Game");
 
-//    /**
-//     * JButton to configure the options of the game.
-//     * Currently not in use
-//     */
-//    private final JButton options = new JButton("Options");
     /**
      * JButton to exit the whole game right at the beginning or at the end.
      */
@@ -73,7 +68,7 @@ public final class GUI extends JFrame implements IObserver {
     /**
      * default background for the menuframe
      */
-    private final ImageIcon background_menu = new ImageIcon(getClass().getResource("background_menu.jpg"));
+    private final ImageIcon backgroundMenu = new ImageIcon(getClass().getResource("background_menu.jpg"));
 
     /**
      * default ImageIcon for non-hitted fields
@@ -93,7 +88,7 @@ public final class GUI extends JFrame implements IObserver {
     /**
      * ImageIcon for hitted fields with ship
      */
-    private final ImageIcon ship_hit = new ImageIcon(getClass().getResource("ship_hit.jpg"));
+    private final ImageIcon hit = new ImageIcon(getClass().getResource("ship_hit.jpg"));
     
     /**
      * ImageIcon for JLabels with invisible background
@@ -188,7 +183,7 @@ public final class GUI extends JFrame implements IObserver {
         this.container = new JLabel(background);
         this.add(container);
 //        add background + layout manager for menuframe
-        this.startContainer = new JLabel(background_menu);
+        this.startContainer = new JLabel(backgroundMenu);
         this.startContainer.setLayout(null);
 //        set bounds for the menubuttons
         this.start.setBounds(new Rectangle(300, 240, 200, 50));
@@ -250,9 +245,9 @@ public final class GUI extends JFrame implements IObserver {
         beschriftung2.setLayout(new GridLayout(1, boardsize));
         beschriftung2.setPreferredSize(new Dimension(860, 40));
         //panel for the place in the higher left corner
-        JLabel left_higher_corner = new JLabel();
-        left_higher_corner.setPreferredSize(new Dimension(40,40));
-        top.add(left_higher_corner);
+        JLabel leftHigherCorner = new JLabel();
+        leftHigherCorner.setPreferredSize(new Dimension(40,40));
+        top.add(leftHigherCorner);
         top.add(beschriftung2);
         
         //center
@@ -397,7 +392,7 @@ public final class GUI extends JFrame implements IObserver {
                 for (Integer value : map.get(y)) {
                     if (value == x) {
                         if (player.getOwnBoard().isHit(x, y)) {
-                            this.buttonField[x][y].setIcon(ship_hit);
+                            this.buttonField[x][y].setIcon(hit);
                         } else {
                             if (hideShips) {
                                 this.buttonField[x][y].setIcon(wave);
@@ -554,28 +549,27 @@ public final class GUI extends JFrame implements IObserver {
         @Override
         public void actionPerformed(final ActionEvent e) {
             JButton button = (JButton) e.getSource();
-            if (button == hor || button == ver) {
-            	System.out.println(shipPlacePosition);
+            if (button.equals(hor) || button.equals(ver)) {
                 if (shipPlacePosition != null) {
                     String[] parts = shipPlacePosition.getName().split(" ");
-                    if (button == hor) {
-                        master.placeShip(new Integer(parts[0]),
-                                new Integer(parts[1]), true);
+                    if (button.equals(hor)) {
+                        master.placeShip(Integer.valueOf(parts[0]),
+                                Integer.valueOf(parts[1]), true);
                     } else {
-                        master.placeShip(new Integer(parts[0]),
-                                new Integer(parts[1]), false);
+                        master.placeShip(Integer.valueOf(parts[0]),
+                                Integer.valueOf(parts[1]), false);
                     }
                 } else {
                     throw new UnsupportedOperationException("Not "
                             + "supported yet.");
                 }
             } else {
-            	System.out.println(shipPlacePosition);
-                if (shipPlacePosition != null && shipPlacePosition != button) {
+                if (shipPlacePosition.equals(null) && shipPlacePosition.equals(button)) {
                     switchColor(shipPlacePosition);
                 }
                 String[] parts = button.getName().split(" ");
-                JButton select = buttonField[new Integer(parts[0])][new Integer(parts[1])];
+                JButton select = buttonField[Integer.valueOf(parts[0])]
+                					[Integer.valueOf(parts[1])];
                 switchColor(select);
             }
         }

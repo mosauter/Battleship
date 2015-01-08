@@ -27,7 +27,7 @@ public final class StatCollection {
     /**
      * The max number of ships that could be on the field.
      */
-    public static int SHIP_NUMBER_MAX = 3;
+    public static int SHIP_NUMBER_MAX = 4;
 
     /**
      * Utility-Method to check if a value is between.
