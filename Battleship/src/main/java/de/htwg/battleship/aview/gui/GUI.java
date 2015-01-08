@@ -1,12 +1,14 @@
 package de.htwg.battleship.aview.gui;
 
+import static de.htwg.battleship.util.StatCollection.createMap;
+import static de.htwg.battleship.util.StatCollection.fillMap;
+import static de.htwg.battleship.util.StatCollection.heightLenght;
+
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.observer.IObserver;
-import static de.htwg.battleship.util.StatCollection.createMap;
-import static de.htwg.battleship.util.StatCollection.fillMap;
-import static de.htwg.battleship.util.StatCollection.heightLenght;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -17,6 +19,7 @@ import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.util.Map;
 import java.util.Set;
 import javax.swing.ImageIcon;
