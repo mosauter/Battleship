@@ -229,7 +229,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public void startGame() {
+    public final void startGame() {
         if (this.currentState == START) {
             this.setCurrentState(GETNAME1);
         } else if (this.currentState == END) {
