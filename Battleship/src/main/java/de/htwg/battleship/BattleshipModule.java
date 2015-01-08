@@ -8,10 +8,8 @@ import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.controller.impl.MasterController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
-import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Board;
 import de.htwg.battleship.model.impl.Player;
-import de.htwg.battleship.model.impl.Ship;
 
 /**
  * BattleshipModule
@@ -27,6 +25,5 @@ public class BattleshipModule extends AbstractModule {
                 MasterController.class).in(Singleton.class);
         bind(IBoard.class).to(Board.class);
         bind(IPlayer.class).to(Player.class);
-        bind(IShip.class).to(Ship.class);
     }
 }
