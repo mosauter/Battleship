@@ -52,6 +52,16 @@ public final class GUI extends JFrame implements IObserver {
     private final int descriptionWidthHeight = 40;
     
     /**
+     * space for yAxis
+     */
+    private final int yAxisGap = 30;
+    
+    /**
+     * space for xAxis
+     */
+    private final int xAxisGap = 10;
+    
+    /**
      * height of the bottom label
      */
     private final int bottomHeight = 50;
@@ -82,6 +92,11 @@ public final class GUI extends JFrame implements IObserver {
     private final Dimension playerframe = new Dimension(300, 150);
     
     /**
+     * Dimension for the menuFrame
+     */
+    private final Dimension menuFrameSize = new Dimension(800, 500);
+    
+    /**
      * set Bound for playerframe button
      */
     private final Rectangle playerframeButton = new Rectangle(75, 80, 150, 30);
@@ -95,6 +110,16 @@ public final class GUI extends JFrame implements IObserver {
      * set Bounds for playerframe textfield
      */
     private final Rectangle playerframeText = new Rectangle(25, 40, 250, 30);
+    
+    /**
+     * set Bounds for menuframe startbutton
+     */
+    private final Rectangle menuFrameStartbutton = new Rectangle(300, 240, 200, 50);
+    
+    /**
+     * set Bounds for menuframe exitbutton
+     */
+    private final Rectangle menuFrameExitbutton = new Rectangle(300, 310, 200, 50);
     
     /**
      * default Font
@@ -267,8 +292,8 @@ public final class GUI extends JFrame implements IObserver {
     	this.menuFrame = new JFrame("Battleship");
     	this.menuFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         //build Buttons
-        this.start.setBounds(new Rectangle(300, 240, 200, 50));
-        this.exit.setBounds(new Rectangle(300, 310, 200, 50));
+        this.start.setBounds(menuFrameStartbutton);
+        this.exit.setBounds(menuFrameExitbutton);
         this.start.setIcon(new ImageIcon(getClass().getResource("menubutton_1.jpg")));
         this.start.setRolloverIcon(new ImageIcon(getClass().getResource("menubutton_1_mouseover.jpg")));
         this.start.setBorder(null);
@@ -284,7 +309,7 @@ public final class GUI extends JFrame implements IObserver {
         this.startContainer.add(exit);
         //Frame setup
         this.menuFrame.add(startContainer);
-        this.menuFrame.setSize(800, 500);
+        this.menuFrame.setSize(menuFrameSize);
         this.menuFrame.setResizable(false);
         this.menuFrame.setLocationRelativeTo(null);
         this.menuFrame.setIconImage(new ImageIcon(getClass().getResource("frame_icon.jpg")).getImage());
@@ -300,10 +325,12 @@ public final class GUI extends JFrame implements IObserver {
 
         //panel for the left description
         JLabel left = new JLabel();
-        left.setPreferredSize(new Dimension(descriptionWidthHeight, 520));
+        left.setPreferredSize(new Dimension(descriptionWidthHeight, 
+        		frameHeight - bottomHeight - descriptionWidthHeight));
         left.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         yAxis = new JLabel();
-        yAxis.setPreferredSize(new Dimension(descriptionWidthHeight, 493));
+        yAxis.setPreferredSize(new Dimension(descriptionWidthHeight,
+        		frameHeight - bottomHeight - descriptionWidthHeight - yAxisGap));
         yAxis.setLayout(new GridLayout(heightLenght, 1));
         yAxis.setVerticalTextPosition(SwingConstants.CENTER);
         left.add(yAxis);
@@ -315,7 +342,9 @@ public final class GUI extends JFrame implements IObserver {
         top.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         xAxis = new JLabel();
         xAxis.setLayout(new GridLayout(1, heightLenght));
-        xAxis.setPreferredSize(new Dimension(860, descriptionWidthHeight));
+        xAxis.setPreferredSize(new Dimension(
+        		frameWidth - descriptionWidthHeight - eastWidth - xAxisGap,
+        		descriptionWidthHeight));
         //panel for the place in the higher left corner
         JLabel leftHigherCorner = new JLabel();
         leftHigherCorner.setPreferredSize(new Dimension(descriptionWidthHeight,descriptionWidthHeight));
@@ -332,7 +361,7 @@ public final class GUI extends JFrame implements IObserver {
         //bottom
         JLabel bottom = new JLabel();
         bottom.setPreferredSize(new Dimension(frameWidth, bottomHeight));
-        bottom.setLayout(new GridLayout(1, 3));
+        bottom.setLayout(new FlowLayout());
         ausgabe = new JLabel();
         ausgabe.setHorizontalTextPosition(SwingConstants.CENTER);
         ausgabe.setVerticalTextPosition(SwingConstants.CENTER);
