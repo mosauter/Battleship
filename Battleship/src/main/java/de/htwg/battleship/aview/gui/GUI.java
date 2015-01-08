@@ -120,6 +120,11 @@ public final class GUI extends JFrame implements IObserver {
      * Dimension for Buttons in the JLabel east
      */
     private final Dimension eastButtons = new Dimension(90, 30);
+    
+    /**
+     * default Font
+     */
+    private final Font font = new Font("Helvetica", Font.BOLD, 12);
 
     /**
      * Border for selected Field
@@ -292,7 +297,7 @@ public final class GUI extends JFrame implements IObserver {
         ausgabe.setVerticalTextPosition(SwingConstants.CENTER);
         ausgabe.setPreferredSize(new Dimension(1000, 50));
         ausgabe.setHorizontalAlignment(SwingConstants.CENTER);
-        ausgabe.setFont(new Font("Helvetica", Font.BOLD, 12));
+        ausgabe.setFont(this.font);
         ausgabe.setForeground(Color.WHITE);
         ausgabe.setIcon(new ImageIcon(getClass().getResource("invisible_ausgabe.png")));
         bottom.add(ausgabe);
@@ -352,7 +357,7 @@ public final class GUI extends JFrame implements IObserver {
         text.setBounds(new Rectangle(25, 5, 250, 30));
         player = new JTextField();
         player.setBorder(new LineBorder(Color.BLACK, 1));
-        player.setFont(new Font("Helvetica", Font.BOLD, 12));
+        player.setFont(this.font);
         player.setBounds(new Rectangle(25, 40, 250, 30));
         JButton submit = new JButton("OK");
         submit.setIcon(new ImageIcon(getClass().getResource("playername_button.jpg")));
@@ -474,8 +479,8 @@ public final class GUI extends JFrame implements IObserver {
     	this.endPlayer2.setHorizontalTextPosition(SwingConstants.CENTER);
     	this.endPlayer1.setText(master.getPlayer1().getName());
     	this.endPlayer2.setText(master.getPlayer2().getName());
-    	this.endPlayer1.setFont((new Font("Helvetica", Font.BOLD, 12)));
-    	this.endPlayer2.setFont((new Font("Helvetica", Font.BOLD, 12)));
+    	this.endPlayer1.setFont(this.font);
+    	this.endPlayer2.setFont(this.font);
     	this.endPlayer1.setForeground(Color.WHITE);
     	this.endPlayer2.setForeground(Color.WHITE);
     	this.endPlayer1.addActionListener(new WinListener());
@@ -647,8 +652,9 @@ public final class GUI extends JFrame implements IObserver {
                                 Integer.valueOf(parts[1]), false);
                     }
                 } else {
-                    throw new UnsupportedOperationException("Not "
-                            + "supported yet.");
+                	jpd = new JPopupDialog(null, "Placement error",
+                            "Please choose a field to place the ship",
+                            displaytime, false);
                 }
             } else {
                 if (shipPlacePosition != null && !shipPlacePosition.equals(button)) {
