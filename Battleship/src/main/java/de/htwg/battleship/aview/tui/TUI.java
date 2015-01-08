@@ -39,10 +39,6 @@ public class TUI implements IObserver {
      */
     private final IMasterController master;
     /**
-     * Viewer which provides the current state of the game as a String.
-     */
-    private Viewer view;
-    /**
      * Public constructor.
      * @param master master controller
      */
@@ -57,59 +53,59 @@ public class TUI implements IObserver {
      * detects what to do at the current state of the game
      */
     public final void printTUI() {
+        Viewer view = new WrongInputViewer();
         switch (master.getCurrentState()) {
             case START:
-                this.view = new StartMenu();
+                view = new StartMenu();
                 break;
             case GETNAME1:
-                this.view = new InputMaskPlayer1();
+                view = new InputMaskPlayer1();
                 break;
             case GETNAME2:
-                this.view = new InputMaskPlayer2();
+                view = new InputMaskPlayer2();
                 break;
             case PLACE1:
-                this.view = new PlaceViewer(master.getPlayer1());
+                view = new PlaceViewer(master.getPlayer1());
                 break;
             case PLACE2:
-                this.view = new PlaceViewer(master.getPlayer2());
+                view = new PlaceViewer(master.getPlayer2());
                 break;
             case FINALPLACE1:
-                this.view = new PlaceFieldViewer(master.getPlayer1());
+                view = new PlaceFieldViewer(master.getPlayer1());
                 break;
             case FINALPLACE2:
-                this.view = new PlaceFieldViewer(master.getPlayer2());
+                view = new PlaceFieldViewer(master.getPlayer2());
                 break;
             case PLACEERR:
-                this.view = new PlaceErrorViewer();
+                view = new PlaceErrorViewer();
                 break;
             case SHOOT1:
-                this.view = new ShootMenu(master.getPlayer1(), master);
+                view = new ShootMenu(master.getPlayer1(), master);
                 break;
             case SHOOT2:
-                this.view = new ShootMenu(master.getPlayer2(), master);
+                view = new ShootMenu(master.getPlayer2(), master);
                 break;
             case HIT:
-                this.view = new HitMissViewer(true);
+                view = new HitMissViewer(true);
                 break;
             case MISS:
-                this.view = new HitMissViewer(false);
+                view = new HitMissViewer(false);
                 break;
             case WIN1:
-                this.view = new WinPlayer(master.getPlayer1(), master);
+                view = new WinPlayer(master.getPlayer1(), master);
                 break;
             case WIN2:
-                this.view = new WinPlayer(master.getPlayer2(), master);
+                view = new WinPlayer(master.getPlayer2(), master);
                 break;
             case WRONGINPUT:
-                this.view = new WrongInputViewer();
                 break;
             case END:
-                this.view = new EndMenuViewer();
+                view = new EndMenuViewer();
                 break;
             default:
                 break;
         }
-        System.out.print(this.view.getString());
+        System.out.print(view.getString());
     }
 
     @Override
@@ -127,57 +123,90 @@ public class TUI implements IObserver {
 //        Start End Menu
         if (master.getCurrentState() == START
                 || master.getCurrentState() == END) {
-            if (field.length != 1) {
-                this.master.setCurrentState(WRONGINPUT);
-                return;
-            }
-            if (field[0].equals("1")) {
-                this.master.startGame();
-            } else {
-                System.exit(0);
-            }
+            processStartEndMenu(field);
             return;
         }
 //        Place Menu
         if (field.length == PLACE_STATEMENT_LENGTH) {
-            if (!field[0].matches("[a-z]")) {
-                master.setCurrentState(WRONGINPUT);
-                return;
-            }
-            if (!field[1].matches("[0-9]")) {
-                master.setCurrentState(WRONGINPUT);
-                return;
-            }
-            int x = (int) field[0].charAt(0) - ASCII_LOW_CASE;
-            int y = Integer.parseInt(field[1]);
-            if (field[2].equals("horizontal")) {
-                master.placeShip(x, y, true);
-            } else {
-                master.placeShip(x, y, false);
-            }
+            processPlaceMenu(field);
             return;
         }
 //        Shoot Menu
         if (field.length == SHOOT_STATEMENT_LENGTH) {
-            if (!field[0].matches("[a-z]")) {
-                master.setCurrentState(WRONGINPUT);
-                return;
-            }
-            if (!field[1].matches("[0-9]")) {
-                master.setCurrentState(WRONGINPUT);
-                return;
-            }
-            int x = (int) field[0].charAt(0) - ASCII_LOW_CASE;
-            int y = Integer.parseInt(field[1]);
-            master.shoot(x, y);
+            processShootMenu(field);
             return;
         }
 //        Exit Statement
         if (field.length == SET_NAME_STATEMENT_LENGTH) {
-            if (field[0].equals("Exit") || field[0].equals("exit")) {
-                System.exit(0);
-            }
-            master.setPlayerName(field[0]);
+            processExitPlayerNameMenu(field);
         }
+    }
+
+    /**
+     * Utility method to process the input line in the start end menu.
+     * @param line the input line as array
+     */
+    private void processStartEndMenu(final String[] line) {
+        if (line.length != 1) {
+            this.master.setCurrentState(WRONGINPUT);
+            return;
+        }
+        if (line[0].equals("1")) {
+            this.master.startGame();
+        } else {
+            System.exit(0);
+        }
+    }
+
+    /**
+     * Utility method to process the input line in the place menu.
+     * @param line the input line as array
+     */
+    private void processPlaceMenu(final String[] line) {
+        if (!line[0].matches("[a-z]")) {
+            master.setCurrentState(WRONGINPUT);
+            return;
+        }
+        if (!line[1].matches("[0-9]")) {
+            master.setCurrentState(WRONGINPUT);
+            return;
+        }
+        int x = (int) line[0].charAt(0) - ASCII_LOW_CASE;
+        int y = Integer.parseInt(line[1]);
+        if (line[2].equals("horizontal")) {
+            master.placeShip(x, y, true);
+        } else {
+            master.placeShip(x, y, false);
+        }
+    }
+
+    /**
+     * Utility method to process the input line in the shoot menu.
+     * @param line the input line as array
+     */
+    private void processShootMenu(final String[] line) {
+        if (!line[0].matches("[a-z]")) {
+            master.setCurrentState(WRONGINPUT);
+            return;
+        }
+        if (!line[1].matches("[0-9]")) {
+            master.setCurrentState(WRONGINPUT);
+            return;
+        }
+        int x = (int) line[0].charAt(0) - ASCII_LOW_CASE;
+        int y = Integer.parseInt(line[1]);
+        master.shoot(x, y);
+    }
+
+    /**
+     * Utility method to process the input line in the exit menu
+     * and the setPlayerName menu.
+     * @param line the input line as array
+     */
+    private void processExitPlayerNameMenu(final String[] line) {
+        if (line[0].equals("Exit") || line[0].equals("exit")) {
+            System.exit(0);
+        }
+        master.setPlayerName(line[0]);
     }
 }
