@@ -17,15 +17,10 @@ import java.util.TreeSet;
 public final class StatCollection {
 
     /**
-     * Private Constructor.
-     */
-    private StatCollection() { }
-    
-    /**
      * The heigth and the length of the field.
      */
     public static int heightLenght = 10;
-    
+
     /**
      * The max number of ships that could be on the field.
      */
