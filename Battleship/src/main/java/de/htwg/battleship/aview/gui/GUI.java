@@ -44,7 +44,7 @@ public final class GUI extends JFrame implements IObserver {
      * Constant that indicates how long the JPopupDialogs should be shown before
      * they close automatically.
      */
-    private static final long displayTime = 1000L;
+    private static final long DISPLAYTIME = 1000L;
 
     /**
      * width/height for the description labels
@@ -616,7 +616,7 @@ public final class GUI extends JFrame implements IObserver {
                 new JPopupDialog(this, "Placement error",
                         "Cannot place a ship there due to a collision or "
                         + "the ship is out of the field!",
-                        displayTime, false);
+                        DISPLAYTIME, false);
                 break;
             case SHOOT1:
                 this.setVisible(false);
@@ -636,25 +636,25 @@ public final class GUI extends JFrame implements IObserver {
                 break;
             case HIT:
                 new JPopupDialog(this, "Shot Result",
-                        "Your shot was a Hit!!", displayTime, false);
+                        "Your shot was a Hit!!", DISPLAYTIME, false);
                 break;
             case MISS:
                 new JPopupDialog(this, "Shot Result",
-                        "Your shot was a Miss!!", displayTime, false);
+                        "Your shot was a Miss!!", DISPLAYTIME, false);
                 break;
             case WIN1:
                 updateGameField(master.getPlayer2(), false);
                 String msg = master.getPlayer1().getName() + " has won!!";
                 ausgabe.setText(msg);
                 new JPopupDialog(this, "Winner!", msg,
-                        displayTime, false);
+                        DISPLAYTIME, false);
                 break;
             case WIN2:
                 updateGameField(master.getPlayer1(), false);
                 msg = master.getPlayer2().getName() + " has won!!";
                 ausgabe.setText(msg);
                 new JPopupDialog(this, "Winner!", msg,
-                        displayTime, false);
+                        DISPLAYTIME, false);
                 break;
             case END:
                 endGame();
@@ -720,7 +720,7 @@ public final class GUI extends JFrame implements IObserver {
                 } else {
                     new JPopupDialog(null, "Placement error",
                             "Please choose a field to place the ship",
-                            displayTime, false);
+                            DISPLAYTIME, false);
                 }
             } else {
                 if (shipPlacePosition != null && !shipPlacePosition.equals(button)) {
