@@ -20,7 +20,7 @@ import de.htwg.battleship.model.impl.Player;
 public class BattleshipModule extends AbstractModule {
 
     @Override
-    protected void configure() {
+    protected final void configure() {
         bind(IMasterController.class).to(
                 MasterController.class).in(Singleton.class);
         bind(IBoard.class).to(Board.class);

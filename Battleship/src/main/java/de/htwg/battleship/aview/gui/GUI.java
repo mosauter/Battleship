@@ -1,9 +1,12 @@
 package de.htwg.battleship.aview.gui;
 
-import static de.htwg.battleship.util.StatCollection.heightLenght;
+import de.htwg.battleship.controller.IMasterController;
+import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.observer.IObserver;
 import static de.htwg.battleship.util.StatCollection.createMap;
 import static de.htwg.battleship.util.StatCollection.fillMap;
-
+import static de.htwg.battleship.util.StatCollection.heightLenght;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -16,7 +19,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 import java.util.Set;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -25,11 +27,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
-
-import de.htwg.battleship.controller.IMasterController;
-import de.htwg.battleship.model.IPlayer;
-import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.observer.IObserver;
 
 /**
  * Graphical User Interface for the Game
@@ -45,12 +42,12 @@ public final class GUI extends JFrame implements IObserver {
      * they close automatically.
      */
     private static final long displayTime = 1000L;
-    
+
     /**
      * width/height for the description labels
      */
     private final int descriptionWidthHeight = 40;
-    
+
     /**
      * space for yAxis
      */
@@ -65,32 +62,32 @@ public final class GUI extends JFrame implements IObserver {
      * height of the bottom label
      */
     private final int bottomHeight = 50;
-    
+
     /**
      * width of the east label
      */
     private final int eastWidth = 100;
-    
+
     /**
      * width of the mainframe
      */
     private final int frameWidth = 1000;
-    
+
     /**
      * height of the mainframe
      */
     private final int frameHeight = 610;
-    
+
     /**
      * Dimension for Buttons in the JLabel east
      */
     private final Dimension eastButtons = new Dimension(90, 30);
-    
+
     /**
      * Dimension for playername frame
      */
     private final Dimension playerframe = new Dimension(300, 150);
-    
+
     /**
      * Dimension for the menuFrame
      */
@@ -100,17 +97,17 @@ public final class GUI extends JFrame implements IObserver {
      * set Bound for playerframe button
      */
     private final Rectangle playerframeButton = new Rectangle(75, 80, 150, 30);
-    
+
     /**
      * set Bounds for playerframe label
      */
     private final Rectangle playerframeLabel = new Rectangle(25, 5, 250, 30);
-    
+
     /**
      * set Bounds for playerframe textfield
      */
     private final Rectangle playerframeText = new Rectangle(25, 40, 250, 30);
-    
+
     /**
      * set Bounds for menuframe startbutton
      */
@@ -130,7 +127,7 @@ public final class GUI extends JFrame implements IObserver {
      * Border for selected Field
      */
     private final LineBorder selected = new LineBorder(Color.RED, 4);
-    
+
     /**
      * JButton to start or later to restart the Game.
      */
@@ -140,27 +137,27 @@ public final class GUI extends JFrame implements IObserver {
      * JButton to exit the whole game right at the beginning or at the end.
      */
     private final JButton exit = new JButton("Exit");
-    
+
     /**
      * JButton to show the Gamefield of player1 after the Game
      */
     private final JButton endPlayer1 = new JButton();
-    
+
     /**
      * JButton to show the Gamefield of player2 after the Game
      */
-    private final JButton endPlayer2 = new JButton(); 
-    
+    private final JButton endPlayer2 = new JButton();
+
     /**
      * Button to place a ship in horizontal direction
      */
     private final JButton hor = new JButton("horizontal");
-    
+
     /**
      * Button to place a ship in vertical direction
      */
     private final JButton ver = new JButton("vertical");
-    
+
     /**
      * JButton[][] for the Field. Button named with: 'x + " " + y'
      */
@@ -196,23 +193,22 @@ public final class GUI extends JFrame implements IObserver {
      * ImageIcon for hitted fields with ship
      */
     private final ImageIcon hit = new ImageIcon(getClass().getResource("ship_hit.jpg"));
-    
+
     /**
      * ImageIcon for JLabels with invisible background
      */
-    
     private final ImageIcon invisible = new ImageIcon(getClass().getResource("invisible.png"));
 
     /**
      * To save the MasterController for all of the several UIs.
      */
     private final IMasterController master;
-    
+
     /**
      * Container which contains all object of the mainframe
      */
     private final Container container;
-    
+
     /**
      * JLabel for the center of the mainframe
      */
@@ -222,17 +218,17 @@ public final class GUI extends JFrame implements IObserver {
      * JLabel for the east side of the mainframe.
      */
     private JLabel east;
-    
+
     /**
      * JLabel for the x-Axis description
      */
     private JLabel xAxis;
-    
+
     /**
      * JLabel for the y-Axis description
      */
     private JLabel yAxis;
-    
+
     /**
      * JLabel to send out instructions
      */
@@ -274,7 +270,7 @@ public final class GUI extends JFrame implements IObserver {
         this.master = master;
         //Initialize mainFrame
         this.setTitle("Battleship");
-        this.setIconImage(new ImageIcon(getClass().getResource("frame_icon.jpg")).getImage()); 
+        this.setIconImage(new ImageIcon(getClass().getResource("frame_icon.jpg")).getImage());
         this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.container = new JLabel(background);
@@ -284,13 +280,13 @@ public final class GUI extends JFrame implements IObserver {
         //start Game
         this.newGame();
     }
-    
+
     /**
      * Method build the menuframe
      */
     private void menuFrame() {
-    	this.menuFrame = new JFrame("Battleship");
-    	this.menuFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.menuFrame = new JFrame("Battleship");
+        this.menuFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         //build Buttons
         this.start.setBounds(menuFrameStartbutton);
         this.exit.setBounds(menuFrameExitbutton);
@@ -347,13 +343,13 @@ public final class GUI extends JFrame implements IObserver {
         		descriptionWidthHeight));
         //panel for the place in the higher left corner
         JLabel leftHigherCorner = new JLabel();
-        leftHigherCorner.setPreferredSize(new Dimension(descriptionWidthHeight,descriptionWidthHeight));
+        leftHigherCorner.setPreferredSize(new Dimension(descriptionWidthHeight, descriptionWidthHeight));
         // adding components
         top.add(leftHigherCorner);
         top.add(xAxis);
         container.add(top, BorderLayout.NORTH);
-        
-      //build gameField
+
+        //build gameField
         center = new JLabel();
         buildGameField();
         container.add(center, BorderLayout.CENTER);
@@ -374,20 +370,20 @@ public final class GUI extends JFrame implements IObserver {
         this.setSize(frameWidth, frameHeight);
         this.setLocationRelativeTo(null);
         container.add(bottom, BorderLayout.SOUTH);
-        
+
         //right
         east = new JLabel();
         east.setPreferredSize(new Dimension(eastWidth, 1));
         east.setLayout(new FlowLayout(FlowLayout.LEFT));
         container.add(east, BorderLayout.EAST);
     }
-    
+
     /**
      * Utility-Method to Build the main Gamefield
      */
     private void buildGameField() {
-    	GridLayout gl = new GridLayout(heightLenght, heightLenght);
-    	center.setLayout(gl);
+        GridLayout gl = new GridLayout(heightLenght, heightLenght);
+        center.setLayout(gl);
         for (int y = 0; y < heightLenght; y++) {
             JLabel xLabel = new JLabel();
             JLabel yLabel = new JLabel();
@@ -398,7 +394,7 @@ public final class GUI extends JFrame implements IObserver {
             xLabel.setForeground(Color.WHITE);
             yLabel.setForeground(Color.WHITE);
             xLabel.setText("" + (y + 1));
-            yLabel.setText("" + (char)('A' + y));
+            yLabel.setText("" + (char) ('A' + y));
             yAxis.add(yLabel);
             xAxis.add(xLabel);
             for (int x = 0; x < heightLenght; x++) {
@@ -458,22 +454,21 @@ public final class GUI extends JFrame implements IObserver {
         this.setVisible(false);
         east.remove(hor);
         east.remove(ver);
-	    hor.addActionListener(new PlaceListener());
-	    ver.addActionListener(new PlaceListener());
-	    resetPlaceButton();
-	    this.ver.setPreferredSize(eastButtons);
-	    this.ver.setIcon(new ImageIcon(getClass().getResource("vertical.jpg")));
-	    this.ver.setRolloverIcon(new ImageIcon(getClass().getResource("vertical_mouseover.jpg")));
-	    this.ver.setBorder(null);
-	    this.hor.setPreferredSize(eastButtons);
-	    this.hor.setIcon(new ImageIcon(getClass().getResource("horizontal.jpg")));
-	    this.hor.setRolloverIcon(new ImageIcon(getClass().getResource("horizontal_mouseover.jpg")));
-	    this.hor.setBorder(null);
-	    east.add(hor);
-	    east.add(ver);
+        hor.addActionListener(new PlaceListener());
+        ver.addActionListener(new PlaceListener());
+        resetPlaceButton();
+        this.ver.setPreferredSize(eastButtons);
+        this.ver.setIcon(new ImageIcon(getClass().getResource("vertical.jpg")));
+        this.ver.setRolloverIcon(new ImageIcon(getClass().getResource("vertical_mouseover.jpg")));
+        this.ver.setBorder(null);
+        this.hor.setPreferredSize(eastButtons);
+        this.hor.setIcon(new ImageIcon(getClass().getResource("horizontal.jpg")));
+        this.hor.setRolloverIcon(new ImageIcon(getClass().getResource("horizontal_mouseover.jpg")));
+        this.hor.setBorder(null);
+        east.add(hor);
+        east.add(ver);
         this.setVisible(true);
     }
-
 
     /**
      * Utility-Method to update the image-icons of the gamefield buttons
@@ -514,7 +509,7 @@ public final class GUI extends JFrame implements IObserver {
             }
         }
     }
-    
+
     /**
      * Utility-Method to reset the selected button in the place states.
      */
@@ -524,57 +519,55 @@ public final class GUI extends JFrame implements IObserver {
             shipPlacePosition = null;
         }
     }
-    
+
     /**
      * Utility-Method to show the Gamefield after the Game
      */
     private void endGame() {
-    	this.setVisible(false);
-    	for (JButton[] buttonArray : buttonField) {
+        this.setVisible(false);
+        for (JButton[] buttonArray : buttonField) {
             for (JButton button : buttonArray) {
                 removeListener(button);
             }
         }
-    	this.endPlayer1.setPreferredSize(eastButtons);
-    	this.endPlayer2.setPreferredSize(eastButtons);
-    	this.endPlayer1.setBorder(null);
-    	this.endPlayer2.setBorder(null);
-    	this.endPlayer1.setIcon(new ImageIcon(getClass().getResource("end_playername.jpg")));
-    	this.endPlayer2.setIcon(new ImageIcon(getClass().getResource("end_playername.jpg")));
-    	this.endPlayer1.setRolloverIcon(new ImageIcon(getClass().getResource("end_playername_mouseover.jpg")));
-    	this.endPlayer2.setRolloverIcon(new ImageIcon(getClass().getResource("end_playername_mouseover.jpg")));
-    	this.endPlayer1.setVerticalTextPosition(SwingConstants.CENTER);
-    	this.endPlayer2.setVerticalTextPosition(SwingConstants.CENTER);
-    	this.endPlayer1.setHorizontalTextPosition(SwingConstants.CENTER);
-    	this.endPlayer2.setHorizontalTextPosition(SwingConstants.CENTER);
-    	this.endPlayer1.setText(master.getPlayer1().getName());
-    	this.endPlayer2.setText(master.getPlayer2().getName());
-    	this.endPlayer1.setFont(this.font);
-    	this.endPlayer2.setFont(this.font);
-    	this.endPlayer1.setForeground(Color.WHITE);
-    	this.endPlayer2.setForeground(Color.WHITE);
-    	this.endPlayer1.addActionListener(new WinListener());
-    	this.endPlayer2.addActionListener(new WinListener());
-    	JButton finish = new JButton();
-    	finish.setBorder(null);
-    	finish.setPreferredSize(eastButtons);
-    	finish.setIcon(new ImageIcon(getClass().getResource("finish.jpg")));
-    	finish.setRolloverIcon(new ImageIcon(getClass().getResource("finish_mouseover.jpg")));
-    	finish.addActionListener(new WinListener());
-    	east.add(this.endPlayer1);
-    	east.add(this.endPlayer2);
-    	east.add(finish);
-    	this.setVisible(true);
+        this.endPlayer1.setPreferredSize(eastButtons);
+        this.endPlayer2.setPreferredSize(eastButtons);
+        this.endPlayer1.setBorder(null);
+        this.endPlayer2.setBorder(null);
+        this.endPlayer1.setIcon(new ImageIcon(getClass().getResource("end_playername.jpg")));
+        this.endPlayer2.setIcon(new ImageIcon(getClass().getResource("end_playername.jpg")));
+        this.endPlayer1.setRolloverIcon(new ImageIcon(getClass().getResource("end_playername_mouseover.jpg")));
+        this.endPlayer2.setRolloverIcon(new ImageIcon(getClass().getResource("end_playername_mouseover.jpg")));
+        this.endPlayer1.setVerticalTextPosition(SwingConstants.CENTER);
+        this.endPlayer2.setVerticalTextPosition(SwingConstants.CENTER);
+        this.endPlayer1.setHorizontalTextPosition(SwingConstants.CENTER);
+        this.endPlayer2.setHorizontalTextPosition(SwingConstants.CENTER);
+        this.endPlayer1.setText(master.getPlayer1().getName());
+        this.endPlayer2.setText(master.getPlayer2().getName());
+        this.endPlayer1.setFont(this.font);
+        this.endPlayer2.setFont(this.font);
+        this.endPlayer1.setForeground(Color.WHITE);
+        this.endPlayer2.setForeground(Color.WHITE);
+        this.endPlayer1.addActionListener(new WinListener());
+        this.endPlayer2.addActionListener(new WinListener());
+        JButton finish = new JButton();
+        finish.setBorder(null);
+        finish.setPreferredSize(eastButtons);
+        finish.setIcon(new ImageIcon(getClass().getResource("finish.jpg")));
+        finish.setRolloverIcon(new ImageIcon(getClass().getResource("finish_mouseover.jpg")));
+        finish.addActionListener(new WinListener());
+        east.add(this.endPlayer1);
+        east.add(this.endPlayer2);
+        east.add(finish);
+        this.setVisible(true);
     }
-    
+
     /**
      * Utility-Method to set the mainframe invisible
      */
     private void setInvisible() {
-    	this.setVisible(false);
+        this.setVisible(false);
     }
-    
-    
 
     @Override
     public void update() {
@@ -647,21 +640,21 @@ public final class GUI extends JFrame implements IObserver {
                         "Your shot was a Miss!!", displayTime, false);
                 break;
             case WIN1:
-            	updateGameField(master.getPlayer2(), false);
+                updateGameField(master.getPlayer2(), false);
                 String msg = master.getPlayer1().getName() + " has won!!";
                 ausgabe.setText(msg);
                 new JPopupDialog(this, "Winner!", msg,
                         displayTime, false);
                 break;
             case WIN2:
-            	updateGameField(master.getPlayer1(), false);
+                updateGameField(master.getPlayer1(), false);
                 msg = master.getPlayer2().getName() + " has won!!";
                 ausgabe.setText(msg);
                 new JPopupDialog(this, "Winner!", msg,
                         displayTime, false);
                 break;
             case END:
-            	endGame();
+                endGame();
                 break;
             case WRONGINPUT:
 //                isn't needed in the GUI, help-state for a UI where you
@@ -722,8 +715,8 @@ public final class GUI extends JFrame implements IObserver {
                                 Integer.valueOf(parts[1]), false);
                     }
                 } else {
-                	new JPopupDialog(null, "Placement error",
-                			"Please choose a field to place the ship",
+                    new JPopupDialog(null, "Placement error",
+                            "Please choose a field to place the ship",
                             displayTime, false);
                 }
             } else {
@@ -731,8 +724,7 @@ public final class GUI extends JFrame implements IObserver {
                     switchColor(shipPlacePosition);
                 }
                 String[] parts = button.getName().split(" ");
-                JButton select = buttonField[Integer.valueOf(parts[0])]
-                					[Integer.valueOf(parts[1])];
+                JButton select = buttonField[Integer.valueOf(parts[0])][Integer.valueOf(parts[1])];
                 switchColor(select);
             }
         }
@@ -810,26 +802,26 @@ public final class GUI extends JFrame implements IObserver {
             notifyframe.dispose();
         }
     }
-    
+
     private class WinListener implements ActionListener {
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JButton button = (JButton)e.getSource();
-			
-			if (button.equals(endPlayer1)) {
-				updateGameField(master.getPlayer2(), false);
-			} else if(button.equals(endPlayer2)) {
-				updateGameField(master.getPlayer1(), false);
-			} else {
-				setInvisible();
-				east.removeAll();
-				menuFrame.setVisible(true);
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton button = (JButton) e.getSource();
+
+            if (button.equals(endPlayer1)) {
+                updateGameField(master.getPlayer2(), false);
+            } else if (button.equals(endPlayer2)) {
+                updateGameField(master.getPlayer1(), false);
+            } else {
+                setInvisible();
+                east.removeAll();
+                menuFrame.setVisible(true);
                 menuFrame.toBack();
-			}
-			
-		}
-    	
+            }
+
+        }
+
     }
 
 }

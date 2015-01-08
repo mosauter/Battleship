@@ -10,15 +10,20 @@ import de.htwg.battleship.util.StatCollection;
 import de.htwg.battleship.util.State;
 import static de.htwg.battleship.util.State.END;
 import static de.htwg.battleship.util.State.GETNAME1;
+import static de.htwg.battleship.util.State.HIT;
+import static de.htwg.battleship.util.State.MISS;
 import static de.htwg.battleship.util.State.PLACE1;
 import static de.htwg.battleship.util.State.PLACE2;
 import static de.htwg.battleship.util.State.PLACEERR;
+import static de.htwg.battleship.util.State.SHOOT1;
+import static de.htwg.battleship.util.State.SHOOT2;
 import static de.htwg.battleship.util.State.START;
 import static de.htwg.battleship.util.State.WIN1;
 import static de.htwg.battleship.util.State.WIN2;
 import static de.htwg.battleship.util.State.WRONGINPUT;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -231,6 +236,20 @@ public class MasterControllerTest {
         Assert.assertTrue(utilOb.wrong);
     }
 
+    @Test
+    public final void testShootPl1() {
+        master.setCurrentState(SHOOT1);
+        master.getPlayer1().getOwnBoard().addShip(new Ship(2, true, 0, 0));
+        master.getPlayer2().getOwnBoard().addShip(new Ship(2, true, 0, 0));
+        master.addObserver(utilOb);
+        master.shoot(2, 2);
+        assertTrue(utilOb.miss);
+//        test that SHOOT2 state is now set
+        assertEquals(7, utilOb.util);
+        master.shoot(0, 0);
+        assertTrue(utilOb.hit);
+    }
+
     /**
      * Utility observer object for test purposes. implements IObserver
      */
@@ -242,7 +261,9 @@ public class MasterControllerTest {
         private int util = 0;
         private boolean wrong = false;
         private boolean plerr = false;
-
+        private boolean hit = false;
+        private boolean miss = false;
+        
         @Override
         public void update() {
             if (util == 0) {
@@ -270,6 +291,20 @@ public class MasterControllerTest {
             }
             if (master.getCurrentState() == PLACEERR) {
                 plerr = true;
+            }
+            if (master.getCurrentState() == HIT) {
+                hit = true;
+            }
+            if (master.getCurrentState() == MISS) {
+                miss = true;
+            }
+            if (master.getCurrentState() == SHOOT1) {
+                util = 6;
+                return;
+            }
+            if (master.getCurrentState() == SHOOT2) {
+                util = 7;
+                return;
             }
             if (util == 4) {
                 if (master.getCurrentState() == PLACE1) {
