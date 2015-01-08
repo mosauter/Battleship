@@ -6,6 +6,7 @@ import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.util.StatCollection;
 import static de.htwg.battleship.util.StatCollection.heightLenght;
+import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +32,10 @@ public class PlayerTest {
         StatCollection.heightLenght = 10;
         StatCollection.shipNumberMax = 5;
         player = new Player();
+    }
+
+    @After
+    public void tearDown() throws Exception {
     }
 
     /**
@@ -67,5 +72,16 @@ public class PlayerTest {
         player.setName("Hans");
         result = player.getName();
         assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of resetBoard method, of class Player.
+     */
+    @Test
+    public final void testResetBoard() {
+        player.getOwnBoard().addShip(
+                new Ship(heightLenght, true, heightLenght, heightLenght));
+        player.resetBoard();
+        assertEquals(player.getOwnBoard().getShips(), 0);
     }
 }
