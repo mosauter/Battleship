@@ -2,8 +2,6 @@
 
 package de.htwg.battleship.aview.tui;
 
-import de.htwg.battleship.aview.tui.Viewer;
-
 /**
  * InputMaskPlayer2 presents a input mask for player two.
  * @author Moritz Sauter (SauterMoritz@gmx.de)

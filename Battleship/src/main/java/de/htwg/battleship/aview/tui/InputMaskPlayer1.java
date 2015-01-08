@@ -2,8 +2,6 @@
 
 package de.htwg.battleship.aview.tui;
 
-import de.htwg.battleship.aview.tui.Viewer;
-
 /**
  * InputMask presents the input mask for player one.
  * @author Moritz Sauter (SauterMoritz@gmx.de)

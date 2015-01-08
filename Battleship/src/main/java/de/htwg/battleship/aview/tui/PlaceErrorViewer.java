@@ -2,8 +2,6 @@
 
 package de.htwg.battleship.aview.tui;
 
-import de.htwg.battleship.aview.tui.Viewer;
-
 /**
  * PlaceErrorViewer presents a error-Message.
  * @author Moritz Sauter (SauterMoritz@gmx.de)

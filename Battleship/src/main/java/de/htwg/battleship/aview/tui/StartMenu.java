@@ -2,8 +2,6 @@
 
 package de.htwg.battleship.aview.tui;
 
-import de.htwg.battleship.aview.tui.Viewer;
-
 /**
  * StartMenu presents a start Menu for the game.
  * @author Moritz Sauter (SauterMoritz@gmx.de)

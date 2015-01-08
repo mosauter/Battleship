@@ -2,8 +2,6 @@
 
 package de.htwg.battleship.aview.tui;
 
-import de.htwg.battleship.aview.tui.Viewer;
-
 /**
  * EndMenuViewer provides a menu after a game has won by a player.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
