@@ -1,12 +1,13 @@
-// WinFieldViewer.java
+// FieldViewer.java
 
-package de.htwg.battleship.aview.tui.impl;
+package de.htwg.battleship.aview.tui;
 
 import de.htwg.battleship.aview.tui.Viewer;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IBoard;
+import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
-import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
+import static de.htwg.battleship.util.StatCollection.heightLenght;
 import static de.htwg.battleship.util.StatCollection.createBorder;
 import static de.htwg.battleship.util.StatCollection.createMap;
 import static de.htwg.battleship.util.StatCollection.fillMap;
@@ -14,64 +15,65 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * WinFieldViewer presents a view of the entire field that means it
- * shows the ships of both players.
- * implements viewer
+ * FieldViewer to print the Field.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
- * @since 2014-12-23
+ * @since 2014-12-09
  */
-public class WinFieldViewer implements Viewer {
+public class ShootFieldViewer implements Viewer {
 
     /**
-     * Saves the MasterController.
+     * Saves Player one.
+     * Has not coersive necessary that it has to be the first player.
      */
-    private final IMasterController master;
+    private final IPlayer player1;
+    /**
+     * Saves Player two.
+     * Has not coersive necessary that it has to be the second player.
+     */
+    private final IPlayer player2;
 
     /**
-     * Public Constructor.
-     * @param master the MasterController for the entire game
+     * Public - Constructor.
+     * @param player player one
+     * @param master master controller
      */
-    public WinFieldViewer(final IMasterController master) {
-        this.master = master;
+    public ShootFieldViewer(final IPlayer player,
+            final IMasterController master) {
+        this.player1 = player;
+        if (player.equals(master.getPlayer1())) {
+            this.player2 = master.getPlayer2();
+        } else {
+            this.player2 = master.getPlayer1();
+        }
     }
 
-    /**
-     * Method to get the Field presented as a String.
-     * Shows the own Ships on the field. The field which is owned by the
-     * Player at the turn is always at the left side.
-     * @return String presentation of the Field
-     */
     @Override
     public final String getString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\n  ");
+        sb.append("\n ");
         Map<Integer, Set<Integer>> mapPlayer1 = createMap();
         Map<Integer, Set<Integer>> mapPlayer2 = createMap();
-        IBoard boardPlayer1 = master.getPlayer1().getOwnBoard();
-        IShip[] listPlayer1 = master.getPlayer1().getOwnBoard().getShipList();
-        fillMap(listPlayer1, mapPlayer1,
-                master.getPlayer1().getOwnBoard().getShips());
-        IBoard boardPlayer2 = master.getPlayer2().getOwnBoard();
-        IShip[] listPlayer2 = master.getPlayer2().getOwnBoard().getShipList();
-        fillMap(listPlayer2, mapPlayer2,
-                master.getPlayer2().getOwnBoard().getShips());
-        sb.append(master.getPlayer1().getName()).append("\t\t");
-        sb.append(master.getPlayer2().getName()).append("\n");
+        IBoard boardPlayer1 = player1.getOwnBoard();
+        IBoard boardPlayer2 = player2.getOwnBoard();
+        IShip[] listPlayer1 = player1.getOwnBoard().getShipList();
+        IShip[] listPlayer2 = player2.getOwnBoard().getShipList();
+        fillMap(listPlayer1, mapPlayer1, player1.getOwnBoard().getShips());
+        fillMap(listPlayer2, mapPlayer2, player2.getOwnBoard().getShips());
         createBorder(sb);
-        sb.append("\t ");
+        sb.append("\t  ");
         createBorder(sb);
         sb.append("\n");
-        for (int y = 0; y < HEIGTH_LENGTH; y++) {
+        for (int y = 0; y < heightLenght; y++) {
             sb.append(y);
-            for (int x = 0; x < HEIGTH_LENGTH; x++) {
+            for (int x = 0; x < heightLenght; x++) {
                 boolean isShip = false;
                 for (Integer value : mapPlayer1.get(y)) {
                     if (value == x) {
                         if (boardPlayer1.isHit(x, y)) {
                             sb.append(SHIP_IS_HIT);
                         } else {
-                            sb.append(SHIP_NON_HIT);
+                            sb.append(FIELD_NON_HIT);
                         }
                         isShip = true;
                     }
@@ -86,14 +88,14 @@ public class WinFieldViewer implements Viewer {
                 }
             }
             sb.append("\t ").append(y);
-            for (int x = 0; x < HEIGTH_LENGTH; x++) {
+            for (int x = 0; x < heightLenght; x++) {
                 boolean isShip = false;
                 for (Integer value : mapPlayer2.get(y)) {
                     if (value == x) {
                         if (boardPlayer2.isHit(x, y)) {
                             sb.append(SHIP_IS_HIT);
                         } else {
-                            sb.append(SHIP_NON_HIT);
+                            sb.append(FIELD_NON_HIT);
                         }
                         isShip = true;
                     }

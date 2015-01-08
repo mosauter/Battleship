@@ -5,7 +5,8 @@ package de.htwg.battleship.model.impl;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.util.StatCollection;
-import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
+import static de.htwg.battleship.util.StatCollection.heightLenght;
+import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,9 +29,13 @@ public class PlayerTest {
      */
     @Before
     public final void testSetUp() {
-        StatCollection.HEIGTH_LENGTH = 10;
-        StatCollection.SHIP_NUMBER_MAX = 5;
+        StatCollection.heightLenght = 10;
+        StatCollection.shipNumberMax = 5;
         player = new Player();
+    }
+
+    @After
+    public void tearDown() throws Exception {
     }
 
     /**
@@ -38,15 +43,15 @@ public class PlayerTest {
      */
     @Test
     public final void testGetOwnBoard() {
-        Field[][] expResult = new Field[HEIGTH_LENGTH][HEIGTH_LENGTH];
-        for (int x = 0; x < HEIGTH_LENGTH; x++) {
-            for (int y = 0; y < HEIGTH_LENGTH; y++) {
+        Field[][] expResult = new Field[heightLenght][heightLenght];
+        for (int x = 0; x < heightLenght; x++) {
+            for (int y = 0; y < heightLenght; y++) {
                 expResult[x][y] = new Field(x, y);
             }
         }
         IBoard result = player.getOwnBoard();
-        for (int x = 0; x < HEIGTH_LENGTH; x++) {
-            for (int y = 0; y < HEIGTH_LENGTH; y++) {
+        for (int x = 0; x < heightLenght; x++) {
+            for (int y = 0; y < heightLenght; y++) {
                 assertEquals(expResult[x][y].isHit(), result.isHit(x, y));
             }
         }
@@ -67,5 +72,16 @@ public class PlayerTest {
         player.setName("Hans");
         result = player.getName();
         assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of resetBoard method, of class Player.
+     */
+    @Test
+    public final void testResetBoard() {
+        player.getOwnBoard().addShip(
+                new Ship(heightLenght, true, heightLenght, heightLenght));
+        player.resetBoard();
+        assertEquals(player.getOwnBoard().getShips(), 0);
     }
 }

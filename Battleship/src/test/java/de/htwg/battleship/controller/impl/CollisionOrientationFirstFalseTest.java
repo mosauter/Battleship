@@ -37,8 +37,8 @@ public class CollisionOrientationFirstFalseTest {
      * Public Constructor.
      */
     public CollisionOrientationFirstFalseTest() {
-        StatCollection.HEIGTH_LENGTH = 10;
-        StatCollection.SHIP_NUMBER_MAX = 5;
+        StatCollection.heightLenght = 10;
+        StatCollection.shipNumberMax = 5;
         cc = new CollisionOrientationFirstFalse();
         ship1 = new Ship(2, false, 4, 0);
         ship2 = new Ship(2, true, 2, 0);

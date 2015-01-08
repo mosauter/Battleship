@@ -25,10 +25,10 @@ public class BorderTrueControllerTest {
      */
     @Test
     public final void testIsIn() {
-        StatCollection.HEIGTH_LENGTH = 2;
+        StatCollection.heightLenght = 2;
         IShip ship = new Ship(4, true, 0, 0);
         assert (!bc.isIn(ship));
-        StatCollection.HEIGTH_LENGTH = 2;
+        StatCollection.heightLenght = 2;
         ship = new Ship(4, true, -1, 0);
         assert (!bc.isIn(ship));
     }

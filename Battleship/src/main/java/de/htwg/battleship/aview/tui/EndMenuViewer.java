@@ -1,6 +1,6 @@
 // EndMenuViewer.java
 
-package de.htwg.battleship.aview.tui.impl;
+package de.htwg.battleship.aview.tui;
 
 import de.htwg.battleship.aview.tui.Viewer;
 

@@ -3,7 +3,7 @@
 package de.htwg.battleship.controller.impl;
 
 import de.htwg.battleship.model.IShip;
-import static de.htwg.battleship.util.StatCollection.HEIGTH_LENGTH;
+import static de.htwg.battleship.util.StatCollection.heightLenght;
 import static de.htwg.battleship.util.StatCollection.isBetween;
 
 /**
@@ -65,13 +65,13 @@ class BorderTrueController extends BorderController {
         int xlow = ship.getX();
         int xupp = xlow + ship.getSize() - 1;
         int y = ship.getY();
-        if (!isBetween((HEIGTH_LENGTH - 1), 0, xlow)) {
+        if (!isBetween((heightLenght - 1), 0, xlow)) {
             return false;
         }
-        if (!isBetween((HEIGTH_LENGTH - 1), 0, xupp)) {
+        if (!isBetween((heightLenght - 1), 0, xupp)) {
             return false;
         }
-        return isBetween((HEIGTH_LENGTH - 1), 0, y);
+        return isBetween((heightLenght - 1), 0, y);
     }
 }
 
@@ -94,12 +94,12 @@ class BorderFalseController extends BorderController {
         int ylow = ship.getY();
         int yupp = ylow + ship.getSize() - 1;
         int x = ship.getX();
-        if (!isBetween((HEIGTH_LENGTH - 1), 0, ylow)) {
+        if (!isBetween((heightLenght - 1), 0, ylow)) {
             return false;
         }
-        if (!isBetween((HEIGTH_LENGTH - 1), 0, yupp)) {
+        if (!isBetween((heightLenght - 1), 0, yupp)) {
             return false;
         }
-        return isBetween((HEIGTH_LENGTH - 1), 0, x);
+        return isBetween((heightLenght - 1), 0, x);
     }
 }

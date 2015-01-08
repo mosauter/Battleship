@@ -1,6 +1,6 @@
 // PlaceViewer.java
 
-package de.htwg.battleship.aview.tui.impl;
+package de.htwg.battleship.aview.tui;
 
 import de.htwg.battleship.aview.tui.Viewer;
 import de.htwg.battleship.model.IPlayer;

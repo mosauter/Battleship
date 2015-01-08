@@ -1,7 +1,8 @@
 // WrongInputViewerTest.java
 
-package de.htwg.battleship.aview.tui.impl;
+package de.htwg.battleship.aview.tui;
 
+import de.htwg.battleship.aview.tui.WrongInputViewer;
 import de.htwg.battleship.aview.tui.Viewer;
 import org.junit.Test;
 

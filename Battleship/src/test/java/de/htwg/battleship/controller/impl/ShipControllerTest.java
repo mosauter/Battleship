@@ -46,8 +46,8 @@ public class ShipControllerTest {
      */
     @Before
     public final void setUp() {
-        StatCollection.HEIGTH_LENGTH = 10;
-        StatCollection.SHIP_NUMBER_MAX = 5;
+        StatCollection.heightLenght = 10;
+        StatCollection.shipNumberMax = 5;
         player1 = new Player(new Board());
         player2 = new Player(new Board());
         ship1 = new Ship(2, true, 1, 1);
@@ -95,7 +95,7 @@ public class ShipControllerTest {
     @Test
     public final void testBorderPlaceShip() {
         boolean expRes = false;
-        StatCollection.HEIGTH_LENGTH = 2;
+        StatCollection.heightLenght = 2;
         IPlayer pl = new Player();
         boolean result = sc.placeShip(ship2, pl);
     }

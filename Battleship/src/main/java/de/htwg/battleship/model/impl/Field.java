@@ -64,7 +64,7 @@ public class Field {
      * @param hit had to be true. False would be nonsensical.
      */
     public final void setHit(final boolean hit) {
-        if (this.hit || !hit) {
+        if (this.hit) {
             return;
         }
         this.hit = hit;
