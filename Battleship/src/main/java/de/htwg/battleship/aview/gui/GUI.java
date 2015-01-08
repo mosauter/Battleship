@@ -25,7 +25,6 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -54,6 +53,27 @@ public final class GUI extends JFrame implements IObserver {
      * JButton to exit the whole game right at the beginning or at the end.
      */
     private final JButton exit = new JButton("Exit");
+    
+    /**
+     * JButton to show the Gamefield of player1 after the Game
+     */
+    private final JButton endPlayer1 = new JButton();
+    
+    /**
+     * JButton to show the Gamefield of player2 after the Game
+     */
+    private final JButton endPlayer2 = new JButton(); 
+    
+    /**
+     * Button to place a ship in horizontal direction
+     */
+    private final JButton hor = new JButton("horizontal");
+    
+    /**
+     * Button to place a ship in vertical direction
+     */
+    private final JButton ver = new JButton("vertical");
+    
     /**
      * JButton[][] for the Field. Button named with: 'x + " " + y'
      */
@@ -95,6 +115,11 @@ public final class GUI extends JFrame implements IObserver {
      */
     
     private final ImageIcon invisible = new ImageIcon(getClass().getResource("invisible.png"));
+    
+    /**
+     * Dimension for Buttons in the JLabel east
+     */
+    private final Dimension eastButtons = new Dimension(90, 30);
 
     /**
      * Border for selected Field
@@ -107,19 +132,34 @@ public final class GUI extends JFrame implements IObserver {
     private final IMasterController master;
     
     /**
-     * Button to place a ship in horizontal direction
+     * Container which contains all object of the mainframe
      */
-    private final JButton hor = new JButton("horizontal");
+    private final Container container;
     
     /**
-     * Button to place a ship in vertical direction
+     * JLabel for the center of the mainframe
      */
-    private final JButton ver = new JButton("vertical");
+    private JLabel center;
 
     /**
-     * JPanel for the east side of the mainframe.
+     * JLabel for the east side of the mainframe.
      */
     private JLabel east;
+    
+    /**
+     * JLabel for the x-Axis description
+     */
+    private JLabel xAxis;
+    
+    /**
+     * JLabel for the y-Axis description
+     */
+    private JLabel yAxis;
+    
+    /**
+     * JLabel to send out instructions
+     */
+    private JLabel ausgabe;
 
     /**
      * JButton where the Ship should be placed.
@@ -131,12 +171,7 @@ public final class GUI extends JFrame implements IObserver {
      * not in use anymore.
      */
     private JDialog notifyframe;
-
-    /**
-     * JTextField where the player should input his name.
-     */
-    private JTextField player;
-
+    
     /**
      * JPopupDialog to notify the players
      */
@@ -144,24 +179,19 @@ public final class GUI extends JFrame implements IObserver {
     private JPopupDialog jpd = null;
 
     /**
-     * JLabel to send out instructions
+     * JTextField where the player should input his name.
      */
-    private JLabel ausgabe;
-
-    /**
-     * Container which contains all object of the mainframe
-     */
-    private final Container container;
+    private JTextField player;
 
     /**
      * JFrame for the menu
      */
-    private final JFrame menuFrame;
+    private JFrame menuFrame;
 
     /**
      * Container which includes the menu components
      */
-    private final Container startContainer;
+    private Container startContainer;
 
     /**
      * Public Contructor to create a GUI.
@@ -171,119 +201,92 @@ public final class GUI extends JFrame implements IObserver {
     public GUI(final IMasterController master) {
         master.addObserver(this);
         this.master = master;
+        //Initialize mainFrame
         this.setTitle("Battleship");
-        this.setIconImage(new ImageIcon(getClass().getResource("frame_icon.jpg")).getImage());
-//        initialize menu
-        this.menuFrame = new JFrame("Battleship");
+        this.setIconImage(new ImageIcon(getClass().getResource("frame_icon.jpg")).getImage()); 
         this.setResizable(false);
-//        close operations
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.menuFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-//        inizialize main container + set background
         this.container = new JLabel(background);
         this.add(container);
-//        add background + layout manager for menuframe
-        this.startContainer = new JLabel(backgroundMenu);
-        this.startContainer.setLayout(null);
-//        set bounds for the menubuttons
+        //Initialize Menu
+        this.menuFrame();
+        //start Game
+        this.newGame();
+    }
+    
+    /**
+     * Method build the menuframe
+     */
+    private void menuFrame() {
+    	this.menuFrame = new JFrame("Battleship");
+    	this.menuFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        //build Buttons
         this.start.setBounds(new Rectangle(300, 240, 200, 50));
         this.exit.setBounds(new Rectangle(300, 310, 200, 50));
-//        adding button icons and remove border
         this.start.setIcon(new ImageIcon(getClass().getResource("menubutton_1.jpg")));
         this.start.setRolloverIcon(new ImageIcon(getClass().getResource("menubutton_1_mouseover.jpg")));
         this.start.setBorder(null);
-        
         this.exit.setIcon(new ImageIcon(getClass().getResource("menubutton_2.jpg")));
         this.exit.setRolloverIcon(new ImageIcon(getClass().getResource("menubutton_2_mouseover.jpg")));
         this.exit.setBorder(null);
-//        add actionlisteners
         this.start.addActionListener(new MenuListener());
         this.exit.addActionListener(new MenuListener());
-//        add buttons to container
+        //Container setup
+        this.startContainer = new JLabel(backgroundMenu);
+        this.startContainer.setLayout(null);
         this.startContainer.add(start);
         this.startContainer.add(exit);
-//        add container to frame
+        //Frame setup
         this.menuFrame.add(startContainer);
-//        set frame size
         this.menuFrame.setSize(800, 500);
-//        set options
         this.menuFrame.setResizable(false);
         this.menuFrame.setLocationRelativeTo(null);
         this.menuFrame.setIconImage(new ImageIcon(getClass().getResource("frame_icon.jpg")).getImage());
-//        show
         this.menuFrame.setVisible(true);
-//        initialize field
-        this.newGame(heightLenght);
     }
 
     /**
      * Method to initialize the GUI for the fields.
-     *
-     * @param boardsize usually StatCollection.heightLenght
      */
-    public void newGame(final int boardsize) {
+    public void newGame() {
         //new Layout
         container.setLayout(new BorderLayout(0, 0));
-        JPanel main = new JPanel();
-        container.add(main, BorderLayout.CENTER);
 
         //panel for the left description
         JLabel left = new JLabel();
         left.setPreferredSize(new Dimension(40, 520));
         left.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        JLabel beschriftung1 = new JLabel();
-        beschriftung1.setPreferredSize(new Dimension(40, 493));
-        beschriftung1.setLayout(new GridLayout(boardsize, 1));
-        beschriftung1.setVerticalTextPosition(JLabel.CENTER);
-        
+        yAxis = new JLabel();
+        yAxis.setPreferredSize(new Dimension(40, 493));
+        yAxis.setLayout(new GridLayout(heightLenght, 1));
+        yAxis.setVerticalTextPosition(SwingConstants.CENTER);
+        left.add(yAxis);
+        container.add(left, BorderLayout.WEST);
 
         //panel for top description
         JLabel top = new JLabel();
         top.setPreferredSize(new Dimension(1000, 40));
         top.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        JLabel beschriftung2 = new JLabel();
-        beschriftung2.setLayout(new GridLayout(1, boardsize));
-        beschriftung2.setPreferredSize(new Dimension(860, 40));
+        xAxis = new JLabel();
+        xAxis.setLayout(new GridLayout(1, heightLenght));
+        xAxis.setPreferredSize(new Dimension(860, 40));
         //panel for the place in the higher left corner
         JLabel leftHigherCorner = new JLabel();
         leftHigherCorner.setPreferredSize(new Dimension(40,40));
+        // adding components
         top.add(leftHigherCorner);
-        top.add(beschriftung2);
-        
-        //center
-        GridLayout gl = new GridLayout(boardsize, boardsize);
-        main.setLayout(gl);
-        for (int y = 0; y < boardsize; y++) {
-            JLabel xLabel = new JLabel();
-            JLabel yLabel = new JLabel();
-            xLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-            xLabel.setVerticalTextPosition(SwingConstants.CENTER);
-            yLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-            yLabel.setVerticalTextPosition(SwingConstants.CENTER);
-            xLabel.setForeground(Color.WHITE);
-            yLabel.setForeground(Color.WHITE);
-            xLabel.setText("" + (y + 1));
-            yLabel.setText("" + (char)('A' + y));
-            beschriftung1.add(yLabel);
-            beschriftung2.add(xLabel);
-            for (int x = 0; x < boardsize; x++) {
-                String name = x + " " + y;
-                this.buttonField[x][y] = new JButton();
-                this.buttonField[x][y].setName(name);
-                this.buttonField[x][y].setIcon(wave);
-                main.add(buttonField[x][y]);
-            }
-        }
-        
-        left.add(beschriftung1);
-        container.add(left, BorderLayout.WEST);
+        top.add(xAxis);
         container.add(top, BorderLayout.NORTH);
+        
+      //build gameField
+        center = new JLabel();
+        buildGameField();
+        container.add(center, BorderLayout.CENTER);
 
         //bottom
         JLabel bottom = new JLabel();
         bottom.setPreferredSize(new Dimension(1000, 50));
         bottom.setLayout(new GridLayout(1, 3));
-        container.add(bottom, BorderLayout.SOUTH);
         ausgabe = new JLabel();
         ausgabe.setHorizontalTextPosition(SwingConstants.CENTER);
         ausgabe.setVerticalTextPosition(SwingConstants.CENTER);
@@ -295,12 +298,42 @@ public final class GUI extends JFrame implements IObserver {
         bottom.add(ausgabe);
         this.setSize(1000, 610);
         this.setLocationRelativeTo(null);
+        container.add(bottom, BorderLayout.SOUTH);
         
         //right
         east = new JLabel();
         east.setPreferredSize(new Dimension(100, 30));
         east.setLayout(new FlowLayout(FlowLayout.LEFT));
         container.add(east, BorderLayout.EAST);
+    }
+    
+    /**
+     * Utility-Method to Build the main Gamefield
+     */
+    private void buildGameField() {
+    	GridLayout gl = new GridLayout(heightLenght, heightLenght);
+    	center.setLayout(gl);
+        for (int y = 0; y < heightLenght; y++) {
+            JLabel xLabel = new JLabel();
+            JLabel yLabel = new JLabel();
+            xLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+            xLabel.setVerticalTextPosition(SwingConstants.CENTER);
+            yLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+            yLabel.setVerticalTextPosition(SwingConstants.CENTER);
+            xLabel.setForeground(Color.WHITE);
+            yLabel.setForeground(Color.WHITE);
+            xLabel.setText("" + (y + 1));
+            yLabel.setText("" + (char)('A' + y));
+            yAxis.add(yLabel);
+            xAxis.add(xLabel);
+            for (int x = 0; x < heightLenght; x++) {
+                String name = x + " " + y;
+                this.buttonField[x][y] = new JButton();
+                this.buttonField[x][y].setName(name);
+                this.buttonField[x][y].setIcon(wave);
+                center.add(buttonField[x][y]);
+            }
+        }
     }
 
     /**
@@ -353,11 +386,11 @@ public final class GUI extends JFrame implements IObserver {
 	    hor.addActionListener(new PlaceListener());
 	    ver.addActionListener(new PlaceListener());
 	    resetPlaceButton();
-	    this.ver.setPreferredSize(new Dimension(90, 30));
+	    this.ver.setPreferredSize(eastButtons);
 	    this.ver.setIcon(new ImageIcon(getClass().getResource("vertical.jpg")));
 	    this.ver.setRolloverIcon(new ImageIcon(getClass().getResource("vertical_mouseover.jpg")));
 	    this.ver.setBorder(null);
-	    this.hor.setPreferredSize(new Dimension(90, 30));
+	    this.hor.setPreferredSize(eastButtons);
 	    this.hor.setIcon(new ImageIcon(getClass().getResource("horizontal.jpg")));
 	    this.hor.setRolloverIcon(new ImageIcon(getClass().getResource("horizontal_mouseover.jpg")));
 	    this.hor.setBorder(null);
@@ -366,20 +399,12 @@ public final class GUI extends JFrame implements IObserver {
         this.setVisible(true);
     }
 
-    /**
-     * Utility-Method to reset the selected button in the place states.
-     */
-    private void resetPlaceButton() {
-        if (shipPlacePosition != null) {
-            shipPlacePosition.setBorder(new JButton().getBorder());
-            shipPlacePosition = null;
-        }
-    }
 
     /**
      * Utility-Method to update the image-icons of the gamefield buttons
      *
-     * @param player
+     * @param player current player
+     * @param hideShip boolean
      */
     private void updateGameField(IPlayer player, boolean hideShips) {
         IShip[] shipList = player.getOwnBoard().getShipList();
@@ -414,6 +439,67 @@ public final class GUI extends JFrame implements IObserver {
             }
         }
     }
+    
+    /**
+     * Utility-Method to reset the selected button in the place states.
+     */
+    private void resetPlaceButton() {
+        if (shipPlacePosition != null) {
+            shipPlacePosition.setBorder(new JButton().getBorder());
+            shipPlacePosition = null;
+        }
+    }
+    
+    /**
+     * Utility-Method to show the Gamefield after the Game
+     */
+    private void endGame() {
+    	this.setVisible(false);
+    	for (JButton[] buttonArray : buttonField) {
+            for (JButton button : buttonArray) {
+                removeListener(button);
+            }
+        }
+    	this.endPlayer1.setPreferredSize(eastButtons);
+    	this.endPlayer2.setPreferredSize(eastButtons);
+    	this.endPlayer1.setBorder(null);
+    	this.endPlayer2.setBorder(null);
+    	this.endPlayer1.setIcon(new ImageIcon(getClass().getResource("end_playername.jpg")));
+    	this.endPlayer2.setIcon(new ImageIcon(getClass().getResource("end_playername.jpg")));
+    	this.endPlayer1.setRolloverIcon(new ImageIcon(getClass().getResource("end_playername_mouseover.jpg")));
+    	this.endPlayer2.setRolloverIcon(new ImageIcon(getClass().getResource("end_playername_mouseover.jpg")));
+    	this.endPlayer1.setVerticalTextPosition(SwingConstants.CENTER);
+    	this.endPlayer2.setVerticalTextPosition(SwingConstants.CENTER);
+    	this.endPlayer1.setHorizontalTextPosition(SwingConstants.CENTER);
+    	this.endPlayer2.setHorizontalTextPosition(SwingConstants.CENTER);
+    	this.endPlayer1.setText(master.getPlayer1().getName());
+    	this.endPlayer2.setText(master.getPlayer2().getName());
+    	this.endPlayer1.setFont((new Font("Helvetica", Font.BOLD, 12)));
+    	this.endPlayer2.setFont((new Font("Helvetica", Font.BOLD, 12)));
+    	this.endPlayer1.setForeground(Color.WHITE);
+    	this.endPlayer2.setForeground(Color.WHITE);
+    	this.endPlayer1.addActionListener(new WinListener());
+    	this.endPlayer2.addActionListener(new WinListener());
+    	JButton finish = new JButton();
+    	finish.setBorder(null);
+    	finish.setPreferredSize(eastButtons);
+    	finish.setIcon(new ImageIcon(getClass().getResource("finish.jpg")));
+    	finish.setRolloverIcon(new ImageIcon(getClass().getResource("finish_mouseover.jpg")));
+    	finish.addActionListener(new WinListener());
+    	east.add(this.endPlayer1);
+    	east.add(this.endPlayer2);
+    	east.add(finish);
+    	this.setVisible(true);
+    }
+    
+    /**
+     * Utility-Method to set the mainframe invisible
+     */
+    private void setInvisible() {
+    	this.setVisible(false);
+    }
+    
+    
 
     @Override
     public void update() {
@@ -486,20 +572,21 @@ public final class GUI extends JFrame implements IObserver {
                         "Your shot was a Miss!!", displaytime, false);
                 break;
             case WIN1:
+            	updateGameField(master.getPlayer2(), false);
                 String msg = master.getPlayer1().getName() + " has won!!";
+                ausgabe.setText(msg);
                 jpd = new JPopupDialog(this, "Winner!", msg,
                         displaytime, false);
                 break;
             case WIN2:
+            	updateGameField(master.getPlayer1(), false);
                 msg = master.getPlayer2().getName() + " has won!!";
+                ausgabe.setText(msg);
                 jpd = new JPopupDialog(this, "Winner!", msg,
                         displaytime, false);
                 break;
             case END:
-                this.setVisible(false);
-                this.start.setText("Start a new Game");
-                this.menuFrame.setVisible(true);
-                this.menuFrame.toBack();
+            	endGame();
                 break;
             case WRONGINPUT:
 //                isn't needed in the GUI, help-state for a UI where you
@@ -564,7 +651,7 @@ public final class GUI extends JFrame implements IObserver {
                             + "supported yet.");
                 }
             } else {
-                if (shipPlacePosition.equals(null) && shipPlacePosition.equals(button)) {
+                if (shipPlacePosition != null && !shipPlacePosition.equals(button)) {
                     switchColor(shipPlacePosition);
                 }
                 String[] parts = button.getName().split(" ");
@@ -646,6 +733,27 @@ public final class GUI extends JFrame implements IObserver {
             master.setPlayerName(player.getText());
             notifyframe.dispose();
         }
+    }
+    
+    private class WinListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JButton button = (JButton)e.getSource();
+			
+			if (button.equals(endPlayer1)) {
+				updateGameField(master.getPlayer2(), false);
+			} else if(button.equals(endPlayer2)) {
+				updateGameField(master.getPlayer1(), false);
+			} else {
+				setInvisible();
+				east.removeAll();
+				menuFrame.setVisible(true);
+                menuFrame.toBack();
+			}
+			
+		}
+    	
     }
 
 }
