@@ -44,7 +44,17 @@ public final class GUI extends JFrame implements IObserver {
      * Constant that indicates how long the JPopupDialogs should be shown before
      * they close automatically.
      */
-    private static final long displaytime = 1000L;
+    private static final long displayTime = 1000L;
+    
+    /**
+     * width/height for the description labels
+     */
+    private final int descriptionWidthHeight = 40;
+    
+    /**
+     * width of the mainframe
+     */
+    private final int frameWidth = 1000;
 
     /**
      * JButton to start or later to restart the Game.
@@ -255,10 +265,10 @@ public final class GUI extends JFrame implements IObserver {
 
         //panel for the left description
         JLabel left = new JLabel();
-        left.setPreferredSize(new Dimension(40, 520));
+        left.setPreferredSize(new Dimension(descriptionWidthHeight, 520));
         left.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         yAxis = new JLabel();
-        yAxis.setPreferredSize(new Dimension(40, 493));
+        yAxis.setPreferredSize(new Dimension(descriptionWidthHeight, 493));
         yAxis.setLayout(new GridLayout(heightLenght, 1));
         yAxis.setVerticalTextPosition(SwingConstants.CENTER);
         left.add(yAxis);
@@ -266,14 +276,14 @@ public final class GUI extends JFrame implements IObserver {
 
         //panel for top description
         JLabel top = new JLabel();
-        top.setPreferredSize(new Dimension(1000, 40));
+        top.setPreferredSize(new Dimension(frameWidth, descriptionWidthHeight));
         top.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         xAxis = new JLabel();
         xAxis.setLayout(new GridLayout(1, heightLenght));
-        xAxis.setPreferredSize(new Dimension(860, 40));
+        xAxis.setPreferredSize(new Dimension(860, descriptionWidthHeight));
         //panel for the place in the higher left corner
         JLabel leftHigherCorner = new JLabel();
-        leftHigherCorner.setPreferredSize(new Dimension(40,40));
+        leftHigherCorner.setPreferredSize(new Dimension(descriptionWidthHeight,descriptionWidthHeight));
         // adding components
         top.add(leftHigherCorner);
         top.add(xAxis);
@@ -286,24 +296,24 @@ public final class GUI extends JFrame implements IObserver {
 
         //bottom
         JLabel bottom = new JLabel();
-        bottom.setPreferredSize(new Dimension(1000, 50));
+        bottom.setPreferredSize(new Dimension(frameWidth, 50));
         bottom.setLayout(new GridLayout(1, 3));
         ausgabe = new JLabel();
         ausgabe.setHorizontalTextPosition(SwingConstants.CENTER);
         ausgabe.setVerticalTextPosition(SwingConstants.CENTER);
-        ausgabe.setPreferredSize(new Dimension(1000, 50));
+        ausgabe.setPreferredSize(new Dimension(frameWidth, 50));
         ausgabe.setHorizontalAlignment(SwingConstants.CENTER);
         ausgabe.setFont(this.font);
         ausgabe.setForeground(Color.WHITE);
         ausgabe.setIcon(new ImageIcon(getClass().getResource("invisible_ausgabe.png")));
         bottom.add(ausgabe);
-        this.setSize(1000, 610);
+        this.setSize(frameWidth, 610);
         this.setLocationRelativeTo(null);
         container.add(bottom, BorderLayout.SOUTH);
         
         //right
         east = new JLabel();
-        east.setPreferredSize(new Dimension(100, 30));
+        east.setPreferredSize(new Dimension(100, 1));
         east.setLayout(new FlowLayout(FlowLayout.LEFT));
         container.add(east, BorderLayout.EAST);
     }
@@ -546,7 +556,7 @@ public final class GUI extends JFrame implements IObserver {
                 new JPopupDialog(this, "Placement error",
                         "Cannot place a ship there due to a collision or "
                         + "the ship is out of the field!",
-                        displaytime, false);
+                        displayTime, false);
                 break;
             case SHOOT1:
                 this.setVisible(false);
@@ -566,25 +576,25 @@ public final class GUI extends JFrame implements IObserver {
                 break;
             case HIT:
                 new JPopupDialog(this, "Shot Result",
-                        "Your shot was a Hit!!", displaytime, false);
+                        "Your shot was a Hit!!", displayTime, false);
                 break;
             case MISS:
                 new JPopupDialog(this, "Shot Result",
-                        "Your shot was a Miss!!", displaytime, false);
+                        "Your shot was a Miss!!", displayTime, false);
                 break;
             case WIN1:
             	updateGameField(master.getPlayer2(), false);
                 String msg = master.getPlayer1().getName() + " has won!!";
                 ausgabe.setText(msg);
                 new JPopupDialog(this, "Winner!", msg,
-                        displaytime, false);
+                        displayTime, false);
                 break;
             case WIN2:
             	updateGameField(master.getPlayer1(), false);
                 msg = master.getPlayer2().getName() + " has won!!";
                 ausgabe.setText(msg);
                 new JPopupDialog(this, "Winner!", msg,
-                        displaytime, false);
+                        displayTime, false);
                 break;
             case END:
             	endGame();
@@ -650,7 +660,7 @@ public final class GUI extends JFrame implements IObserver {
                 } else {
                 	new JPopupDialog(null, "Placement error",
                 			"Please choose a field to place the ship",
-                            displaytime, false);
+                            displayTime, false);
                 }
             } else {
                 if (shipPlacePosition != null && !shipPlacePosition.equals(button)) {
