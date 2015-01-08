@@ -259,11 +259,6 @@ public final class GUI extends JFrame implements IObserver {
     private JFrame menuFrame;
 
     /**
-     * Container which includes the menu components
-     */
-    private Container startContainer;
-
-    /**
      * Public Contructor to create a GUI.
      *
      * @param master MasterController which is the same for all UI
@@ -302,10 +297,10 @@ public final class GUI extends JFrame implements IObserver {
         this.start.addActionListener(new MenuListener());
         this.exit.addActionListener(new MenuListener());
         //Container setup
-        this.startContainer = new JLabel(backgroundMenu);
-        this.startContainer.setLayout(null);
-        this.startContainer.add(start);
-        this.startContainer.add(exit);
+        JLabel startContainer = new JLabel(backgroundMenu);
+        startContainer.setLayout(null);
+        startContainer.add(start);
+        startContainer.add(exit);
         //Frame setup
         this.menuFrame.add(startContainer);
         this.menuFrame.setSize(menuFrameSize);
