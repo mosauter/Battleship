@@ -265,8 +265,6 @@ public class MasterController extends Observable implements IMasterController {
 
     @Override
     public final void setInjector(final Injector injector) {
-        if (this.injector == null) {
-            this.injector = injector;
-        }
+        this.injector = injector;
     }
 }
