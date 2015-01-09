@@ -28,10 +28,6 @@ public final class Battleship {
      */
     private static TUI tui;
     /**
-     * Saves GUI.
-     */
-    private static GUI gui;
-    /**
      * Scanner to read from stdin.
      */
     private static Scanner scanner;
@@ -43,8 +39,9 @@ public final class Battleship {
     public static void main(final String[] args) {
         Injector injector = Guice.createInjector(new BattleshipModule());
         master = injector.getInstance(IMasterController.class);
+        master.setInjector(injector);
         tui = new TUI(master);
-        gui = new GUI(master);
+        GUI gui = new GUI(master);
         scanner = new Scanner(System.in);
         while (true) {
             tui.processInputLine(scanner.nextLine());
