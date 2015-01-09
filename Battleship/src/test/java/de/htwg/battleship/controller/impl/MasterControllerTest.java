@@ -243,11 +243,29 @@ public class MasterControllerTest {
         master.getPlayer2().getOwnBoard().addShip(new Ship(2, true, 0, 0));
         master.addObserver(utilOb);
         master.shoot(2, 2);
+        assertEquals(SHOOT2, master.getCurrentState());
         assertTrue(utilOb.miss);
 //        test that SHOOT2 state is now set
         assertEquals(7, utilOb.util);
         master.shoot(0, 0);
         assertTrue(utilOb.hit);
+    }
+
+    @Test
+    public final void testShootWin() {
+        master.setCurrentState(SHOOT1);
+        master.getPlayer1().getOwnBoard().addShip(new Ship(1, true, 1, 1));
+        master.addObserver(utilOb);
+        master.shoot(1, 1);
+        assertEquals(2, utilOb.util);
+    }
+
+    @Test
+    public final void testStartGameWrong() {
+        master.setCurrentState(PLACE1);
+        master.addObserver(utilOb);
+        master.startGame();
+        assertEquals(PLACE1, master.getCurrentState());
     }
 
     /**
@@ -309,7 +327,6 @@ public class MasterControllerTest {
             if (util == 4) {
                 if (master.getCurrentState() == PLACE1) {
                     util = 5;
-                    return;
                 }
             }
         }
