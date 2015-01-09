@@ -1,6 +1,7 @@
 //IMasterController.java
 package de.htwg.battleship.controller;
 
+import com.google.inject.Injector;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.observer.IObservable;
 import de.htwg.battleship.util.State;
@@ -68,4 +69,10 @@ public interface IMasterController extends IObservable {
      * restart the game.
      */
     void startGame();
+
+    /**
+     * Setter for the injector.
+     * @param injector
+     */
+    void setInjector(Injector injector);
 }
