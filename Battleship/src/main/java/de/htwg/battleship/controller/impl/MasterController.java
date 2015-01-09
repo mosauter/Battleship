@@ -3,9 +3,10 @@
 package de.htwg.battleship.controller.impl;
 
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
-import de.htwg.battleship.model.impl.Ship;
+import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.observer.impl.Observable;
 import de.htwg.battleship.util.StatCollection;
 import de.htwg.battleship.util.State;
@@ -58,6 +59,10 @@ public class MasterController extends Observable implements IMasterController {
      * Presentation of the Game.
      */
     private State currentState;
+    /**
+     * Saves the injector which has to be set by the main method.
+     */
+    private Injector injector;
 
     /**
      * Public Constructor.
@@ -134,8 +139,8 @@ public class MasterController extends Observable implements IMasterController {
         }
 
         if (!shipController.placeShip(
-                new Ship((player.getOwnBoard().getShips() + 2),
-                orientation, x, y), player)) {
+                createShip(x, y, orientation,
+                (player.getOwnBoard().getShips() + 2)), player)) {
             this.setCurrentState(PLACEERR);
             return;
         }
@@ -150,6 +155,26 @@ public class MasterController extends Observable implements IMasterController {
             }
         }
         notifyObserver();
+    }
+
+    /**
+     * Utility Method to create a ship with dependency injection
+     * and additional setters.
+     * @param x x-coordinate where the ship starts
+     * @param y y-coordinate where the ship starts
+     * @param orientation orientation of the ship
+     *                    true if horizontal, false if vertical
+     * @param size size of the ship
+     * @return the created ship
+     */
+    private IShip createShip(final int x, final int y,
+            final boolean orientation, final int size) {
+        IShip ship = injector.getInstance(IShip.class);
+        ship.setX(x);
+        ship.setY(y);
+        ship.setOrientation(orientation);
+        ship.setSize(size);
+        return ship;
     }
 
     /**
@@ -181,7 +206,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     /**
-     * Private utility-method to reset the boards of both players.
+     * Utility-method to reset the boards of both players.
      */
     public void resetBoards() {
         player1.resetBoard();
@@ -194,11 +219,11 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final void setCurrentState(final State currentState) {
-        State tmp = currentState;
-        if (currentState == WRONGINPUT || currentState == PLACEERR) {
+    public final void setCurrentState(final State newState) {
+        State tmp = newState;
+        if (newState == WRONGINPUT || newState == PLACEERR) {
             tmp = this.currentState;
-            this.currentState = currentState;
+            this.currentState = newState;
             notifyObserver();
         }
         this.currentState = tmp;
@@ -235,6 +260,13 @@ public class MasterController extends Observable implements IMasterController {
         } else if (this.currentState == END) {
             this.resetBoards();
             this.setCurrentState(PLACE1);
+        }
+    }
+
+    @Override
+    public final void setInjector(final Injector injector) {
+        if (this.injector == null) {
+            this.injector = injector;
         }
     }
 }
