@@ -19,16 +19,25 @@ public class Ship implements IShip {
     /**
      * X-Coordinate where the ship starts.
      */
-    private final int x;
+    private int x;
     /**
      * Y-Coordinate where the ship starts.
      */
-    private final int y;
+    private int y;
     /**
      * If it is vertical or horizontal.
      * True if horizontal, False if vertical.
      */
     private boolean orientation;
+
+    /**
+     * Public Constructor with no parameters.
+     * initializes all integer values with -1 and orientation with true
+     * only for use with dependency injection
+     */
+    public Ship() {
+        this(-1, true, -1, -1);
+    }
 
     /**
      * Public-Constructor with all parameters.
@@ -76,5 +85,15 @@ public class Ship implements IShip {
             return;
         }
         this.size = size;
+    }
+
+    @Override
+    public final void setX(final int x) {
+        this.x = x;
+    }
+
+    @Override
+    public final void setY(final int y) {
+        this.y = y;
     }
 }
