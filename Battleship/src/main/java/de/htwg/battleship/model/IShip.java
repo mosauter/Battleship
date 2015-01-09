@@ -40,4 +40,14 @@ public interface IShip {
      * @param size > 0
      */
     void setSize(int size);
+    /**
+     * Setter for the x-coordinate where the ship starts.
+     * @param x the new x-coordinate
+     */
+    void setX(int x);
+    /**
+     * Setter for the y-coordinate where the ship starts.
+     * @param y the new y-coordinate
+     */
+    void setY(int y);
 }
