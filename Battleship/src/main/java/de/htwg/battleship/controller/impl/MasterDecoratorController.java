@@ -21,6 +21,15 @@ import org.apache.log4j.Logger;
 public class MasterDecoratorController implements IMasterController {
 
     /**
+     * String constant for x presentation.
+     */
+    private static final String X_STRING = " x = ";
+    /**
+     * String constant for y presentation.
+     */
+    private static final String Y_STRING = " ; y = ";
+
+    /**
      * Saves the real MasterController implementation.
      */
     private final MasterController master;
@@ -44,26 +53,27 @@ public class MasterDecoratorController implements IMasterController {
 
     @Override
     public final void shoot(final int x, final int y) {
-        logger.info("shoot() is called: x = " + x + " ; y = " + y);
+        logger.info("shoot() is called:" + X_STRING + x + Y_STRING + y);
         master.shoot(x, y);
-        logger.info("shoot() is finished: x = " + x + " ; y = " + y);
+        logger.info("shoot() is finished:" + X_STRING + x + Y_STRING + y);
     }
 
     @Override
     public final void placeShip(final int x, final int y,
             final boolean orientation) {
-        logger.info("placeShip() is called: x = " + x
-                + " ; y = " + y + " ; orientation = " + orientation);
+        logger.info("placeShip() is called:" + X_STRING + x
+                + Y_STRING + y + " ; orientation = " + orientation);
         master.placeShip(x, y, orientation);
-        logger.info("placeShip() is finished: x = " + x
-                + " ; y = " + y + " ; orientation = " + orientation);
+        logger.info("placeShip() is finished:" + X_STRING + x
+                + Y_STRING + y + " ; orientation = " + orientation);
     }
 
     @Override
     public final State getCurrentState() {
         logger.info("getCurrentState() is called");
         State tmp = master.getCurrentState();
-        logger.info("getCurrentState() is finished");
+        logger.info("getCurrentState() is finished: result = "
+                + tmp.toString());
         return tmp;
     }
 
@@ -80,7 +90,7 @@ public class MasterDecoratorController implements IMasterController {
     public final IPlayer getPlayer1() {
         logger.info("getPlayer1() is called");
         IPlayer tmp = master.getPlayer1();
-        logger.info("getPlayer1() is finished");
+        logger.info("getPlayer1() is finished: result = " + tmp.toString());
         return tmp;
     }
 
@@ -88,7 +98,7 @@ public class MasterDecoratorController implements IMasterController {
     public final IPlayer getPlayer2() {
         logger.info("getPlayer2() is called");
         IPlayer tmp = master.getPlayer2();
-        logger.info("getPlayer2() is finished");
+        logger.info("getPlayer2() is finished: result = " + tmp.toString());
         return tmp;
     }
 
