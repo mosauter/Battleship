@@ -6,6 +6,7 @@ import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.util.StatCollection;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,5 +59,11 @@ public class CollisionOrientationFirstTrueTest {
         expRes = true;
         result = cc.isCollision(ship1, ship3);
         assertEquals(expRes, result);
+    }
+
+    @Test
+    public final void testIsCollisionFalse() {
+        Ship sh = new Ship(1, false, -1, 4);
+        assertFalse(cc.isCollision(ship1, sh));
     }
 }
