@@ -9,6 +9,7 @@ import static de.htwg.battleship.util.State.GETNAME1;
 import static de.htwg.battleship.util.State.PLACE1;
 import static de.htwg.battleship.util.State.START;
 import static de.htwg.battleship.util.State.WRONGINPUT;
+import org.apache.log4j.Logger;
 
 /**
  * Textual User Interface.
@@ -35,9 +36,18 @@ public class TUI implements IObserver {
      */
     private static final int SHOOT_STATEMENT_LENGTH = 2;
     /**
+     * Constant string for a double newline.
+     */
+    private static final String NEWLINE = "\n\n";
+    /**
      * Saves the MasterController.
      */
     private final IMasterController master;
+    /**
+     * Saves the Logger.
+     */
+    private final Logger logger =
+            Logger.getLogger("de.htwg.battleship.aview.tui");
     /**
      * Public constructor.
      * @param master master controller
@@ -105,7 +115,7 @@ public class TUI implements IObserver {
             default:
                 break;
         }
-        System.out.print(view.getString());
+        logger.info(NEWLINE + view.getString());
     }
 
     @Override
