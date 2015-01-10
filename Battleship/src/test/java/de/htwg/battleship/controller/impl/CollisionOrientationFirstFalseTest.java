@@ -42,6 +42,7 @@ public class CollisionOrientationFirstFalseTest {
         cc = new CollisionOrientationFirstFalse();
         ship1 = new Ship(2, false, 4, 0);
         ship2 = new Ship(2, true, 2, 0);
+        
         ship3 = new Ship(3, true, 2, 0);
     }
 
@@ -49,12 +50,41 @@ public class CollisionOrientationFirstFalseTest {
      * Test of isCollision method, of class CollisionOrientationFirstFalse.
      */
     @Test
-    public final void testIsCollision() {
+    public final void testIsCollisionFalseUnder() {
         boolean expRes = false;
         boolean result = cc.isCollision(ship1, ship2);
         assertEquals(expRes, result);
-        expRes = true;
-        result = cc.isCollision(ship1, ship3);
+    }
+
+    /**
+     * Test of isCollision method.
+     */
+    @Test
+    public final void testIsCollisionFalseUpper() {
+        boolean expRes = false;
+        Ship sh = new Ship(1, true, 5, 0);
+        boolean result = cc.isCollision(ship1, sh);
+        assertEquals(expRes, result);
+    }
+
+    /**
+     * Test of isCollison method.
+     */
+    @Test
+    public final void testIsCollisionTrue() {
+        boolean expRes = true;
+        boolean result = cc.isCollision(ship1, ship3);
+        assertEquals(expRes, result);
+    }
+
+    /**
+     * Test of isCollision method.
+     */
+    @Test
+    public final void testIsCollisionFalseYUnder() {
+        boolean expRes = false;
+        Ship sh = new Ship(1, true, 4, -1);
+        boolean result = cc.isCollision(ship1, sh);
         assertEquals(expRes, result);
     }
 }
