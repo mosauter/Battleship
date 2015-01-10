@@ -2,7 +2,6 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.controller.impl.ShipController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.impl.Board;
 import de.htwg.battleship.model.impl.Player;
@@ -98,5 +97,15 @@ public class ShipControllerTest {
         StatCollection.heightLenght = 2;
         IPlayer pl = new Player();
         boolean result = sc.placeShip(ship2, pl);
+    }
+
+    @Test
+    public final void testPlayerPlace2Ships() {
+        boolean expRes = true;
+        boolean result = sc.placeShip(ship1, player1);
+        assertEquals(expRes, result);
+        Ship sh = new Ship(1, true, 5, 5);
+        result = sc.placeShip(sh, player1);
+        assertEquals(expRes, result);
     }
 }
