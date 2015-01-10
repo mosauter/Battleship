@@ -2,7 +2,6 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.controller.impl.WinController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Player;
@@ -26,7 +25,7 @@ public class WinControllerTest {
     @Before
     public final void setUp() {
         StatCollection.heightLenght = 2;
-        StatCollection.shipNumberMax = 1;
+        StatCollection.shipNumberMax = 2;
     }
 
     /**
@@ -71,6 +70,22 @@ public class WinControllerTest {
         player2.getOwnBoard().addShip(ship);
         WinController wc = new WinController(player1, player2);
         IPlayer expRes = player2;
+        IPlayer result = wc.win();
+        assertEquals(expRes, result);
+    }
+
+    @Test
+    public final void testPlayerDestroyed() {
+        IPlayer player1 = new Player();
+        IPlayer player2 = new Player();
+        IShip ship = new Ship(1, true, 0, 0);
+        player1.getOwnBoard().addShip(ship);
+        player2.getOwnBoard().addShip(ship);
+        IShip ship2 = new Ship(1, true, 1, 1);
+        player1.getOwnBoard().addShip(ship2);
+        player1.getOwnBoard().shoot(0, 0);
+        WinController wc = new WinController(player1, player2);
+        IPlayer expRes = null;
         IPlayer result = wc.win();
         assertEquals(expRes, result);
     }
