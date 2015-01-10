@@ -448,7 +448,7 @@ public final class GUI extends JFrame implements IObserver {
         text.setBounds(PLAYER_FRAME_LABEL);
         player = new JTextField();
         player.setBorder(new LineBorder(Color.BLACK, 1));
-        player.setFont(this.FONT);
+        player.setFont(GUI.FONT);
         player.setBounds(PLAYER_FRAME_TEXT);
         JButton submit = new JButton("OK");
         submit.setIcon(new ImageIcon(
