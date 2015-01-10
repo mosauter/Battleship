@@ -119,19 +119,19 @@ public class MasterDecoratorController implements IMasterController {
     @Override
     public final void setInjector(final Injector injector) {
         logger.info("setInjector() is called: injector = "
-                + injector.toString());
+                + injector.getClass().toString());
         master.setInjector(injector);
         logger.info("setInjector() is finished: injector = "
-                + injector.toString());
+                + injector.getClass().toString());
     }
 
     @Override
     public final void addObserver(final IObserver observer) {
         logger.info("addObserver() is called: observer = "
-                + observer.toString());
+                + observer.getClass().toString());
         master.addObserver(observer);
         logger.info("addObserver() is finished: observer = "
-                + observer.toString());
+                + observer.getClass().toString());
     }
 
     @Override
