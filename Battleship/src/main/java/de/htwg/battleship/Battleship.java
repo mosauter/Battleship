@@ -7,6 +7,7 @@ import de.htwg.battleship.aview.gui.GUI;
 import de.htwg.battleship.aview.tui.TUI;
 import de.htwg.battleship.controller.IMasterController;
 import java.util.Scanner;
+import org.apache.log4j.PropertyConfigurator;
 /**
  * Battleship start file.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
@@ -37,6 +38,7 @@ public final class Battleship {
      * @param args not used
      */
     public static void main(final String[] args) {
+        PropertyConfigurator.configure("log4j.properties");
         Injector injector = Guice.createInjector(new BattleshipModule());
         master = injector.getInstance(IMasterController.class);
         master.setInjector(injector);
