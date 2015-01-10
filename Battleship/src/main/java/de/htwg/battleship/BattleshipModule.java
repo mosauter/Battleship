@@ -14,7 +14,8 @@ import de.htwg.battleship.model.impl.Player;
 import de.htwg.battleship.model.impl.Ship;
 
 /**
- * BattleshipModule
+ * BattleshipModule provides a configuration of the game with
+ * Dependency Injection managed with guice.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-19
