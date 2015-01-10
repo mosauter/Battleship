@@ -36,10 +36,6 @@ public class TUI implements IObserver {
      */
     private static final int SHOOT_STATEMENT_LENGTH = 2;
     /**
-     * Constant string for a double newline.
-     */
-    private static final String NEWLINE = "\n\n";
-    /**
      * Saves the MasterController.
      */
     private final IMasterController master;
@@ -115,7 +111,7 @@ public class TUI implements IObserver {
             default:
                 break;
         }
-        logger.info(NEWLINE + view.getString());
+        logger.info(view.getString());
     }
 
     @Override
