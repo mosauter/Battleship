@@ -1,6 +1,9 @@
 // MasterControllerTest.java
 package de.htwg.battleship.controller.impl;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import de.htwg.battleship.BattleshipModule;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Player;
@@ -52,6 +55,10 @@ public class MasterControllerTest {
      * Saves an util observer object for testing.
      */
     private UtilObserver utilOb;
+    /**
+     * Saves the injector.
+     */
+    private Injector injector;
 
     /**
      * Set-Up.
@@ -60,9 +67,11 @@ public class MasterControllerTest {
     public final void setUp() {
         StatCollection.heightLenght = 3;
         StatCollection.shipNumberMax = 1;
+        injector = Guice.createInjector(new BattleshipModule());
         player1 = new Player();
         player2 = new Player();
         master = new MasterController(player1, player2);
+        master.setInjector(injector);
         utilOb = new UtilObserver();
     }
 
@@ -266,6 +275,16 @@ public class MasterControllerTest {
         master.addObserver(utilOb);
         master.startGame();
         assertEquals(PLACE1, master.getCurrentState());
+    }
+
+    @Test
+    public final void testNextPlaceState() {
+        StatCollection.shipNumberMax = 2;
+        MasterController mas = new MasterController(player1, player2);
+        mas.setInjector(injector);
+        mas.setCurrentState(PLACE1);
+        mas.placeShip(1, 1, true);
+        assertEquals(PLACE1, mas.getCurrentState());
     }
 
     /**
