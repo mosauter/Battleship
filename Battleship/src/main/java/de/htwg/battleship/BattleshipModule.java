@@ -5,7 +5,7 @@ package de.htwg.battleship;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import de.htwg.battleship.controller.IMasterController;
-import de.htwg.battleship.controller.impl.MasterController;
+import de.htwg.battleship.controller.impl.MasterDecoratorController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
@@ -24,7 +24,7 @@ public class BattleshipModule extends AbstractModule {
     @Override
     protected final void configure() {
         bind(IMasterController.class).to(
-                MasterController.class).in(Singleton.class);
+                MasterDecoratorController.class).in(Singleton.class);
         bind(IBoard.class).to(Board.class);
         bind(IPlayer.class).to(Player.class);
         bind(IShip.class).to(Ship.class);
