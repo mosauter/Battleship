@@ -43,7 +43,7 @@ public final class Battleship {
         master = injector.getInstance(IMasterController.class);
         master.setInjector(injector);
         tui = new TUI(master);
-        GUI gui = new GUI(master);
+        new GUI(master);
         scanner = new Scanner(System.in);
         while (true) {
             tui.processInputLine(scanner.nextLine());
