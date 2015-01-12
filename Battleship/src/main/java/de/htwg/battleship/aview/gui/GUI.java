@@ -329,6 +329,8 @@ public final class GUI extends JFrame implements IObserver {
      * Method to initialize the GUI for the fields.
      */
     public void newGame() {
+        hor.addActionListener(new PlaceListener());
+        ver.addActionListener(new PlaceListener());
         //new Layout
         container.setLayout(new BorderLayout(0, 0));
 
@@ -481,8 +483,6 @@ public final class GUI extends JFrame implements IObserver {
         this.setVisible(false);
         east.remove(hor);
         east.remove(ver);
-        hor.addActionListener(new PlaceListener());
-        ver.addActionListener(new PlaceListener());
         resetPlaceButton();
         this.ver.setPreferredSize(EAST_BUTTONS);
         this.ver.setIcon(new ImageIcon(getClass().getResource("vertical.jpg")));
