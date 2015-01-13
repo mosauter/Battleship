@@ -5,8 +5,6 @@ package de.htwg.battleship.aview.tui;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.observer.IObserver;
 import static de.htwg.battleship.util.State.END;
-import static de.htwg.battleship.util.State.GETNAME1;
-import static de.htwg.battleship.util.State.PLACE1;
 import static de.htwg.battleship.util.State.START;
 import static de.htwg.battleship.util.State.WRONGINPUT;
 import org.apache.log4j.Logger;
