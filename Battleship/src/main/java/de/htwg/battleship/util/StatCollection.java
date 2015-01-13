@@ -17,14 +17,22 @@ import java.util.TreeSet;
 public final class StatCollection {
 
     /**
+     * Constant for 10.
+     */
+    public static final int STANDARD_HEIGHT_LENGTH = 10;
+    /**
+     * Constant for 4.
+     */
+    public static final int STANDARD_SHIP_NUMBER_MAX = 4;
+    /**
      * The heigth and the length of the field.
      */
-    public static int heightLenght = 10;
+    public static int heightLenght = STANDARD_HEIGHT_LENGTH;
 
     /**
      * The max number of ships that could be on the field.
      */
-    public static int shipNumberMax = 4;
+    public static int shipNumberMax = STANDARD_SHIP_NUMBER_MAX;
 
 
     /**
