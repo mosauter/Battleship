@@ -97,6 +97,7 @@ public class ShipControllerTest {
         StatCollection.heightLenght = 2;
         IPlayer pl = new Player();
         boolean result = sc.placeShip(ship2, pl);
+        assertEquals(expRes, result);
     }
 
     @Test
