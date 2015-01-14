@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -255,7 +254,7 @@ public final class GUI extends JFrame implements IObserver {
      * JDialog which has to be saved that the program can dispose them after its
      * not in use anymore.
      */
-    private JDialog notifyframe;
+    private JFrame notifyframe;
 
     /**
      * JTextField where the player should input his name.
@@ -420,8 +419,8 @@ public final class GUI extends JFrame implements IObserver {
             yLabel.setVerticalTextPosition(SwingConstants.CENTER);
             xLabel.setForeground(Color.WHITE);
             yLabel.setForeground(Color.WHITE);
-            xLabel.setText("" + (y + 1));
-            yLabel.setText("" + (char) ('A' + y));
+            xLabel.setText("             " + (y + 1));
+            yLabel.setText("      " + (char) ('A' + y));
             yAxis.add(yLabel);
             xAxis.add(xLabel);
             for (int x = 0; x < heightLenght; x++) {
@@ -440,6 +439,7 @@ public final class GUI extends JFrame implements IObserver {
      * @param playernumber indicates the player number
      */
     private void getPlayername(final int playernumber) {
+    	this.setVisible(false);
         PlayerListener pl = new PlayerListener();
         JLabel icon = new JLabel(background);
         icon.setPreferredSize(PLAYER_FRAME);
@@ -460,9 +460,10 @@ public final class GUI extends JFrame implements IObserver {
         submit.setBorder(null);
         submit.setBounds(PLAYER_FRAME_BUTTON);
         submit.addActionListener(pl);
-        notifyframe = new JDialog();
+        notifyframe = new JFrame();
+        notifyframe.setIconImage(new ImageIcon(
+                getClass().getResource("frame_icon.jpg")).getImage());
         notifyframe.add(icon);
-        notifyframe.setModal(true);
         notifyframe.setSize(PLAYER_FRAME);
         icon.setLayout(null);
         icon.add(text);
@@ -472,6 +473,7 @@ public final class GUI extends JFrame implements IObserver {
         notifyframe.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         notifyframe.setLocationRelativeTo(getParent());
         notifyframe.getRootPane().setDefaultButton(submit);
+        notifyframe.toFront();
         notifyframe.setVisible(true);
     }
 
@@ -528,7 +530,6 @@ public final class GUI extends JFrame implements IObserver {
                         isShip = true;
                     }
                 }
-
                 if (!isShip) {
                     if (player.getOwnBoard().isHit(x, y)) {
                         this.buttonField[x][y].setIcon(miss);
@@ -598,10 +599,10 @@ public final class GUI extends JFrame implements IObserver {
     }
 
     /**
-     * Utility-Method to set the mainframe invisible.
+     * Utility-Method to get the Mainframe
      */
-    private void setInvisible() {
-        this.setVisible(false);
+    private JFrame getThis() {
+    	return this;
     }
 
     @Override
@@ -619,6 +620,7 @@ public final class GUI extends JFrame implements IObserver {
                 break;
             case PLACE1:
                 notifyframe.dispose();
+                this.setVisible(true);
                 resetPlaceButton();
                 activateListener(new PlaceListener());
                 updateGameField(master.getPlayer1(), false);
@@ -646,9 +648,9 @@ public final class GUI extends JFrame implements IObserver {
                 break;
             case PLACEERR:
                 new JPopupDialog(this, "Placement error",
-                        "Cannot place a ship there due to a collision or "
-                        + "the ship is out of the field!",
-                        DISPLAYTIME, false);
+                        "<html>Cannot place a ship there due to a collision or <br>"
+                        + "the ship is out of the field!</html>",
+                        (DISPLAYTIME * 2), false);
                 break;
             case SHOOT1:
                 this.setVisible(false);
@@ -749,7 +751,7 @@ public final class GUI extends JFrame implements IObserver {
                                 Integer.valueOf(parts[1]), false);
                     }
                 } else {
-                    new JPopupDialog(null, "Placement error",
+                    new JPopupDialog(getThis(), "Placement error",
                             "Please choose a field to place the ship",
                             DISPLAYTIME, false);
                 }
@@ -807,20 +809,10 @@ public final class GUI extends JFrame implements IObserver {
         public void actionPerformed(final ActionEvent e) {
             menuFrame.setVisible(false);
             JButton target = (JButton) e.getSource();
-            switch (target.getText()) {
-                case "Start Game":
-                    master.startGame();
-                    setVisible(true);
-                    break;
-                case "Exit":
-                    System.exit(0);
-                    break;
-                case "Start a new Game":
-                    setVisible(true);
-                    master.startGame();
-                    break;
-                default:
-                    break;
+            if (target.getText().equals("Exit")) {
+            	System.exit(0);
+            } else {
+            	master.startGame();
             }
         }
 
@@ -835,7 +827,6 @@ public final class GUI extends JFrame implements IObserver {
         public void actionPerformed(final ActionEvent e) {
             notifyframe.setVisible(false);
             master.setPlayerName(player.getText());
-            notifyframe.dispose();
         }
     }
 
@@ -853,13 +844,12 @@ public final class GUI extends JFrame implements IObserver {
             } else if (button.equals(endPlayer2)) {
                 updateGameField(master.getPlayer1(), false);
             } else {
-                setInvisible();
+                setVisible(false);
                 east.removeAll();
                 menuFrame.setVisible(true);
                 menuFrame.toBack();
                 menuFrame.toFront();
             }
-
         }
     }
 }
