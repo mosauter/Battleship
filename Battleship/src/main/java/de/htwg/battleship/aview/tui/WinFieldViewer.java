@@ -55,7 +55,7 @@ public class WinFieldViewer implements Viewer {
         IShip[] listPlayer2 = master.getPlayer2().getOwnBoard().getShipList();
         fillMap(listPlayer2, mapPlayer2,
                 master.getPlayer2().getOwnBoard().getShips());
-        sb.append(master.getPlayer1().getName()).append("\t\t");
+        sb.append("\t").append(master.getPlayer1().getName()).append("\t\t\t");
         sb.append(master.getPlayer2().getName()).append("\n");
         createBorder(sb);
         sb.append("\t ");
@@ -84,7 +84,7 @@ public class WinFieldViewer implements Viewer {
                     sb.append(FIELD_NON_HIT);
                 }
             }
-            sb.append("\t").append(y);
+            sb.append("\t ").append(y);
             for (int x = 0; x < heightLenght; x++) {
                 boolean isShip = false;
                 for (Integer value : mapPlayer2.get(y)) {
