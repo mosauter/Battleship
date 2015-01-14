@@ -4,8 +4,10 @@ package de.htwg.battleship.aview.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Point;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -19,9 +21,10 @@ import javax.swing.SwingConstants;
  * @version 1.00
  * @since 2014-12-28
  */
+@SuppressWarnings({ "serial" })
 public class JPopupDialog extends JDialog implements Runnable {
 
-    /**
+	/**
      * Constant for the font size of the text.
      */
     private static final int FONT_SIZE = 16;
@@ -87,12 +90,15 @@ public class JPopupDialog extends JDialog implements Runnable {
         JLabel text = new JLabel(message);
         text.setFont(new Font("Helvetica", Font.BOLD, FONT_SIZE));
         text.setForeground(Color.WHITE);
-        text.setIcon(
-                new ImageIcon(getClass().getResource("background_dialog.jpg")));
+        text.setIcon(new ImageIcon(
+        		getClass().getResource("background_dialog.jpg")));
         text.setHorizontalTextPosition(SwingConstants.CENTER);
         text.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         this.setContentPane(text);
         this.setLocationRelativeTo(owner);
+        this.setLocation(new Point(
+        		((int) this.getLocation().getX() - FRAME_WIDTH / 2),
+        		((int) this.getLocation().getY() - FRAME_HEIGHT / 2)));
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setVisible(true);
         Thread t = new Thread(this, "Popup-Disposer");
