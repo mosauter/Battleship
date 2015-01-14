@@ -68,10 +68,10 @@ public class ShootController extends Observable {
         int shipY = ship.getY();
         int size = ship.getSize();
         if (ship.isOrientation()) {
-            int xupp = shipX + size;
+            int xupp = shipX + size - 1;
             return isHit(xupp, shipX, x, y, shipY);
         } else {
-            int yupp = shipY + size;
+            int yupp = shipY + size - 1;
             return isHit(yupp, shipY, y, x, shipX);
         }
     }
