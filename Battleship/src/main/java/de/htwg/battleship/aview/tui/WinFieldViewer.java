@@ -44,7 +44,7 @@ public class WinFieldViewer implements Viewer {
     @Override
     public final String getString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\n  ");
+        sb.append("\n");
         Map<Integer, Set<Integer>> mapPlayer1 = createMap();
         Map<Integer, Set<Integer>> mapPlayer2 = createMap();
         IBoard boardPlayer1 = master.getPlayer1().getOwnBoard();
@@ -84,7 +84,7 @@ public class WinFieldViewer implements Viewer {
                     sb.append(FIELD_NON_HIT);
                 }
             }
-            sb.append("\t ").append(y);
+            sb.append("\t").append(y);
             for (int x = 0; x < heightLenght; x++) {
                 boolean isShip = false;
                 for (Integer value : mapPlayer2.get(y)) {

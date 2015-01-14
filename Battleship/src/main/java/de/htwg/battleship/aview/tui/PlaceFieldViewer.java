@@ -43,13 +43,13 @@ public class PlaceFieldViewer implements Viewer {
     @Override
     public final String getString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\n ");
+        sb.append("\n");
         Map<Integer, Set<Integer>> mapPlayer1 = createMap();
         IBoard boardPlayer1 = player1.getOwnBoard();
         IShip[] listPlayer1 = player1.getOwnBoard().getShipList();
         fillMap(listPlayer1, mapPlayer1, player1.getOwnBoard().getShips());
         createBorder(sb);
-        sb.append("\t  ");
+        sb.append("\t ");
         createBorder(sb);
         sb.append("\n");
         for (int y = 0; y < heightLenght; y++) {

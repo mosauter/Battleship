@@ -50,7 +50,7 @@ public class ShootFieldViewer implements Viewer {
     @Override
     public final String getString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\n ");
+        sb.append("\n");
         Map<Integer, Set<Integer>> mapPlayer1 = createMap();
         Map<Integer, Set<Integer>> mapPlayer2 = createMap();
         IBoard boardPlayer1 = player1.getOwnBoard();
@@ -60,7 +60,7 @@ public class ShootFieldViewer implements Viewer {
         fillMap(listPlayer1, mapPlayer1, player1.getOwnBoard().getShips());
         fillMap(listPlayer2, mapPlayer2, player2.getOwnBoard().getShips());
         createBorder(sb);
-        sb.append("\t  ");
+        sb.append("\t ");
         createBorder(sb);
         sb.append("\n");
         for (int y = 0; y < heightLenght; y++) {
