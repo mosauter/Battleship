@@ -271,7 +271,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public Map<Integer, Set<Integer>> fillMap(final IShip[] shipList,
+    public final Map<Integer, Set<Integer>> fillMap(final IShip[] shipList,
             final Map<Integer, Set<Integer>> map, final int ships) {
         for (int i = 0; i < ships; i++) {
             this.getSet(shipList[i], map);
