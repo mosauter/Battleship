@@ -3,8 +3,11 @@ package de.htwg.battleship.controller;
 
 import com.google.inject.Injector;
 import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.observer.IObservable;
 import de.htwg.battleship.util.State;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * IMasterController is an Utility-Interface.
@@ -75,4 +78,14 @@ public interface IMasterController extends IObservable {
      * @param injector
      */
     void setInjector(Injector injector);
+
+    /**
+     * Method to fill a Map with ship coordinates.
+     * @param shipList specified ships
+     * @param map Map where to save the ships
+     * @param ships how much ships are in the list
+     * @return the new Map
+     */
+    Map<Integer, Set<Integer>> fillMap(IShip[] shipList,
+        Map<Integer, Set<Integer>> map, int ships);
 }
