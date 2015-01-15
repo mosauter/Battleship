@@ -11,23 +11,40 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * AbstractFieldViewer
- *
+ * AbstractFieldViewer implements some help methods which are used
+ * by severel viewers.
+ * All viewer representing some sort of the field.
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2015-01-15
  */
 public abstract class AbstractFieldViewer implements Viewer {
 
-    public StringBuilder fillX(Map<Integer, Set<Integer>> mapPlayer1, int y, IBoard boardPlayer1, StringBuilder sb, String shipNonHit) {
+    /**
+     * Utility Method which adds a presentation of one line in
+     * the field of one player.
+     * @param mapPlayer1 map which is filled with y-coordinate as key and
+     *                   a set of the x coordinates
+     * @param y specified line
+     * @param boardPlayer1 the board of the specified player
+     * @param sb specified string builder
+     * @param shipNonHit presentation of a field which is not hit but
+     *                   where a ship takes place
+     * @return the new StringBuilder
+     */
+    public final StringBuilder fillX(
+            final Map<Integer, Set<Integer>> mapPlayer1,
+            final int y, final IBoard boardPlayer1, final StringBuilder sb,
+            final String shipNonHit) {
+        StringBuilder newSB = sb;
         for (int x = 0; x < heightLenght; x++) {
             boolean isShip = false;
             for (Integer value : mapPlayer1.get(y)) {
                 if (value == x) {
                     if (boardPlayer1.isHit(x, y)) {
-                        sb.append(SHIP_IS_HIT);
+                        newSB.append(SHIP_IS_HIT);
                     } else {
-                        sb.append(shipNonHit);
+                        newSB.append(shipNonHit);
                     }
                     isShip = true;
                 }
@@ -36,46 +53,74 @@ public abstract class AbstractFieldViewer implements Viewer {
                 continue;
             }
             if (boardPlayer1.isHit(x, y)) {
-                sb.append(FIELD_IS_HIT);
+                newSB.append(FIELD_IS_HIT);
             } else {
-                sb.append(FIELD_NON_HIT);
+                newSB.append(FIELD_NON_HIT);
             }
         }
-        return sb;
+        return newSB;
     }
 
-    public StringBuilder fillEntire(Map<Integer, Set<Integer>> mapPlayer1,
-            IBoard boardPlayer1, StringBuilder sb,
-            Map<Integer, Set<Integer>> mapPlayer2, IBoard boardPlayer2,
-            String shipNonHit) {
-        sb = addBorder(sb);
+    /**
+     * Utility method which fills an entire line of the field.
+     * @param mapPlayer1 map which is filled with y-coordinate as key and
+     *                   a set of the x coordinates by player one
+     * @param boardPlayer1 the board of player one
+     * @param sb specified StringBuilder
+     * @param mapPlayer2 map which is filled with y-coordinate as key and
+     *                   a set of the x coordinates by player two
+     * @param boardPlayer2 the board of player two
+     * @param shipNonHit presentation of a field which is not hit but
+     *                   where a ship takes place
+     * @return the new StringBuilder
+     */
+    public final StringBuilder fillEntire(
+            final Map<Integer, Set<Integer>> mapPlayer1,
+            final IBoard boardPlayer1, final StringBuilder sb,
+            final Map<Integer, Set<Integer>> mapPlayer2,
+            final IBoard boardPlayer2,
+            final String shipNonHit) {
+        StringBuilder newSB = sb;
+        addBorder(newSB);
         for (int y = 0; y < heightLenght; y++) {
-            sb.append(y);
-            sb = fillX(mapPlayer1, y, boardPlayer1, sb, shipNonHit);
-            sb.append("\t ").append(y);
-            sb = fillX(mapPlayer2, y, boardPlayer2, sb, shipNonHit);
-            sb.append("\n");
+            newSB.append(y);
+            fillX(mapPlayer1, y, boardPlayer1, newSB, shipNonHit);
+            newSB.append("\t ").append(y);
+            fillX(mapPlayer2, y, boardPlayer2, newSB, shipNonHit);
+            newSB.append("\n");
         }
-        return sb;
+        return newSB;
     }
 
-    public StringBuilder addLegend(StringBuilder sb) {
-        sb.append("Legende:\n\t" + FIELD_NON_HIT + " -> Field is not hit!");
-        sb.append("\n\t" + FIELD_IS_HIT + " -> Field "
+    /**
+     * Utility method to add the legend to the viewer.
+     * @param sb the string builder
+     * @return the new StringBuilder
+     */
+    public final StringBuilder addLegend(final StringBuilder sb) {
+        StringBuilder newSB = sb;
+        newSB.append("Legende:\n\t" + FIELD_NON_HIT + " -> Field is not hit!");
+        newSB.append("\n\t" + FIELD_IS_HIT + " -> Field "
                 + "is hit and it was a Miss!");
-        sb.append("\n\t" + SHIP_NON_HIT + " -> A ship take place on "
+        newSB.append("\n\t" + SHIP_NON_HIT + " -> A ship take place on "
                 + "the Field!");
-        sb.append("\n\t" + SHIP_IS_HIT + " -> A ship is on the Field "
+        newSB.append("\n\t" + SHIP_IS_HIT + " -> A ship is on the Field "
                 + "and it is destroyed!\n\n");
-        return sb;
+        return newSB;
     }
 
-    public StringBuilder addBorder(StringBuilder sb) {
-        createBorder(sb);
-        sb.append("\t ");
-        createBorder(sb);
-        sb.append("\n");
-        return sb;
+    /**
+     * Utility method to add the border of both player to the field.
+     * @param sb the string builder before
+     * @return the new StringBuilder
+     */
+    public final StringBuilder addBorder(final StringBuilder sb) {
+        StringBuilder newSB = sb;
+        createBorder(newSB);
+        newSB.append("\t ");
+        createBorder(newSB);
+        newSB.append("\n");
+        return newSB;
     }
 
     @Override
