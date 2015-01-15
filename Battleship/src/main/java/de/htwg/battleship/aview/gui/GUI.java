@@ -5,7 +5,6 @@ import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.observer.IObserver;
 import static de.htwg.battleship.util.StatCollection.createMap;
-import static de.htwg.battleship.util.StatCollection.fillMap;
 import static de.htwg.battleship.util.StatCollection.heightLenght;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -511,7 +510,7 @@ public final class GUI extends JFrame implements IObserver {
             final boolean hideShips) {
         IShip[] shipList = player.getOwnBoard().getShipList();
         Map<Integer, Set<Integer>> map = createMap();
-        fillMap(shipList, map, player.getOwnBoard().getShips());
+        master.fillMap(shipList, map, player.getOwnBoard().getShips());
         for (int y = 0; y < heightLenght; y++) {
             for (int x = 0; x < heightLenght; x++) {
                 boolean isShip = false;
