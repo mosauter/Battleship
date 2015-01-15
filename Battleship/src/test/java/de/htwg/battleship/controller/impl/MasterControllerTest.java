@@ -24,6 +24,8 @@ import static de.htwg.battleship.util.State.START;
 import static de.htwg.battleship.util.State.WIN1;
 import static de.htwg.battleship.util.State.WIN2;
 import static de.htwg.battleship.util.State.WRONGINPUT;
+import java.util.Map;
+import java.util.Set;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -285,6 +287,32 @@ public class MasterControllerTest {
         mas.setCurrentState(PLACE1);
         mas.placeShip(1, 1, true);
         assertEquals(PLACE1, mas.getCurrentState());
+    }
+
+    @Test
+    public final void testGetSetOriTrue() {
+        IShip ship = new Ship(2, true, 1, 1);
+        Map<Integer, Set<Integer>> map = StatCollection.createMap();
+        map = master.getSet(ship, map);
+        Set<Integer> set = map.get(1);
+        Assert.assertTrue(set.contains(1));
+        Assert.assertTrue(set.contains(2));
+    }
+
+    @Test
+    public final void testGetSetOriFalse() {
+        IShip ship = new Ship(1, false, 1, 1);
+        Map<Integer, Set<Integer>> map = StatCollection.createMap();
+        map = master.getSet(ship, map);
+        assertTrue(map.get(1).contains(1));
+    }
+
+    @Test
+    public final void testFillMap() {
+        Map<Integer, Set<Integer>> map = StatCollection.createMap();
+        IShip[] shipList = { new Ship(1, true, 1, 1) };
+        map = master.fillMap(shipList, map, 1);
+        assertTrue(map.get(1).contains(1));
     }
 
     /**
