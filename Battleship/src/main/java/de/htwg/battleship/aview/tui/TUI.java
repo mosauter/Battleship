@@ -69,16 +69,16 @@ public class TUI implements IObserver {
                 view = new InputMaskPlayer2();
                 break;
             case PLACE1:
-                view = new PlaceViewer(master.getPlayer1());
+                view = new PlaceViewer(master.getPlayer1(), master);
                 break;
             case PLACE2:
-                view = new PlaceViewer(master.getPlayer2());
+                view = new PlaceViewer(master.getPlayer2(), master);
                 break;
             case FINALPLACE1:
-                view = new PlaceFieldViewer(master.getPlayer1());
+                view = new PlaceFieldViewer(master.getPlayer1(), master);
                 break;
             case FINALPLACE2:
-                view = new PlaceFieldViewer(master.getPlayer2());
+                view = new PlaceFieldViewer(master.getPlayer2(), master);
                 break;
             case PLACEERR:
                 view = new PlaceErrorViewer();
