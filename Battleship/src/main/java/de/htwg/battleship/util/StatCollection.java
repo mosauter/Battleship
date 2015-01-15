@@ -2,7 +2,6 @@
 
 package de.htwg.battleship.util;
 
-import de.htwg.battleship.model.IShip;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -72,47 +71,5 @@ public final class StatCollection {
             map.put(i, new TreeSet<Integer>());
         }
         return map;
-    }
-
-    /**
-     * Method to fill a Map with ship coordinates.
-     * @param shipList specified ships
-     * @param map Map where to save the ships
-     * @param ships how much ships are in the list
-     * @return the new Map
-     */
-    public static Map<Integer, Set<Integer>> fillMap(final IShip[] shipList,
-            final Map<Integer, Set<Integer>> map, final int ships) {
-        for (int i = 0; i < ships; i++) {
-            getSet(shipList[i], map);
-        }
-        return map;
-    }
-
-    /**
-     * Utility Method to create a Map where ships take place.
-     * @param ship specified ship
-     * @param map specified map
-     * @return the new Map
-     */
-    public static Map<Integer, Set<Integer>> getSet(final IShip ship,
-            final Map<Integer, Set<Integer>> map) {
-        if (ship.isOrientation()) {
-            int xlow = ship.getX();
-            int xupp = xlow + ship.getSize();
-            Set<Integer> set = map.get(ship.getY());
-            for (int i = xlow; i < xupp; i++) {
-                set.add(i);
-            }
-            return map;
-        } else {
-            int ylow = ship.getY();
-            int yupp = ylow + ship.getSize();
-            int x = ship.getX();
-            for (int i = ylow; i < yupp; i++) {
-                map.get(i).add(x);
-            }
-            return map;
-        }
     }
 }
