@@ -2,6 +2,7 @@
 
 package de.htwg.battleship.aview.tui;
 
+import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
 
 /**
@@ -25,9 +26,9 @@ public class PlaceViewer implements Viewer {
      * Public Constructor.
      * @param player which player is at the turn to place a ship
      */
-    public PlaceViewer(final IPlayer player) {
+    public PlaceViewer(final IPlayer player, final IMasterController master) {
         this.player = player;
-        this.fieldViewer = new PlaceFieldViewer(player);
+        this.fieldViewer = new PlaceFieldViewer(player, master);
     }
 
     @Override
