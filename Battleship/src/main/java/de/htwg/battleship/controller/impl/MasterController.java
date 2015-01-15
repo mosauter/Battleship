@@ -26,6 +26,8 @@ import static de.htwg.battleship.util.State.START;
 import static de.htwg.battleship.util.State.WIN1;
 import static de.htwg.battleship.util.State.WIN2;
 import static de.htwg.battleship.util.State.WRONGINPUT;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * MasterController is an implementation of the master controller.
@@ -266,5 +268,41 @@ public class MasterController extends Observable implements IMasterController {
     @Override
     public final void setInjector(final Injector injector) {
         this.injector = injector;
+    }
+
+    @Override
+    public Map<Integer, Set<Integer>> fillMap(final IShip[] shipList,
+            final Map<Integer, Set<Integer>> map, final int ships) {
+        for (int i = 0; i < ships; i++) {
+            this.getSet(shipList[i], map);
+        }
+        return map;
+    }
+
+    /**
+     * Utility Method to create a Map where ships take place.
+     * @param ship specified ship
+     * @param map specified map
+     * @return the new Map
+     */
+    public final Map<Integer, Set<Integer>> getSet(final IShip ship,
+            final Map<Integer, Set<Integer>> map) {
+        if (ship.isOrientation()) {
+            int xlow = ship.getX();
+            int xupp = xlow + ship.getSize();
+            Set<Integer> set = map.get(ship.getY());
+            for (int i = xlow; i < xupp; i++) {
+                set.add(i);
+            }
+            return map;
+        } else {
+            int ylow = ship.getY();
+            int yupp = ylow + ship.getSize();
+            int x = ship.getX();
+            for (int i = ylow; i < yupp; i++) {
+                map.get(i).add(x);
+            }
+            return map;
+        }
     }
 }
