@@ -6,8 +6,12 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.observer.IObserver;
 import de.htwg.battleship.util.State;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
 import org.apache.log4j.Logger;
 
 /**
@@ -139,5 +143,18 @@ public class MasterDecoratorController implements IMasterController {
         logger.info("notifyObserver() is called");
         master.notifyObserver();
         logger.info("notifyObserver() is finished");
+    }
+
+    @Override
+    public final Map<Integer, Set<Integer>> fillMap(final IShip[] shipList,
+            final Map<Integer, Set<Integer>> map, final int ships) {
+        logger.info("fillMap() is called: shipList = "
+                + Arrays.toString(shipList)
+                + " ; map = " + map.toString() + " ; ships = " + ships);
+        Map<Integer, Set<Integer>> tmp = master.fillMap(shipList, map, ships);
+        logger.info("fillMap() is finished: shipList = "
+                + Arrays.toString(shipList)
+                + " ; map = " + map.toString() + " ; ships = " + ships);
+        return tmp;
     }
 }
