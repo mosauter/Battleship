@@ -2,14 +2,10 @@
 
 package de.htwg.battleship.util;
 
-import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.model.impl.Ship;
-import static de.htwg.battleship.util.StatCollection.getSet;
 import java.util.Map;
 import java.util.Set;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
@@ -65,31 +61,5 @@ public class StatCollectionTest {
         for (int i = 0; i < StatCollection.heightLenght; i++) {
             Assert.assertTrue(map.get(i).isEmpty());
         }
-    }
-
-    @Test
-    public final void testGetSetOriTrue() {
-        IShip ship = new Ship(2, true, 1, 1);
-        Map<Integer, Set<Integer>> map = StatCollection.createMap();
-        map = StatCollection.getSet(ship, map);
-        Set<Integer> set = map.get(1);
-        Assert.assertTrue(set.contains(1));
-        Assert.assertTrue(set.contains(2));
-    }
-
-    @Test
-    public final void testGetSetOriFalse() {
-        IShip ship = new Ship(1, false, 1, 1);
-        Map<Integer, Set<Integer>> map = StatCollection.createMap();
-        map = getSet(ship, map);
-        assertTrue(map.get(1).contains(1));
-    }
-
-    @Test
-    public final void testFillMap() {
-        Map<Integer, Set<Integer>> map = StatCollection.createMap();
-        IShip[] shipList = { new Ship(1, true, 1, 1) };
-        map = StatCollection.fillMap(shipList, map, 1);
-        assertTrue(map.get(1).contains(1));
     }
 }
