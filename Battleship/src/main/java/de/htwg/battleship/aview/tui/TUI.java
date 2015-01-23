@@ -2,12 +2,16 @@
 
 package de.htwg.battleship.aview.tui;
 
-import de.htwg.battleship.controller.IMasterController;
-import de.htwg.battleship.observer.IObserver;
 import static de.htwg.battleship.util.State.END;
+import static de.htwg.battleship.util.State.OPTIONS;
 import static de.htwg.battleship.util.State.START;
 import static de.htwg.battleship.util.State.WRONGINPUT;
+
 import org.apache.log4j.Logger;
+
+import de.htwg.battleship.controller.IMasterController;
+import de.htwg.battleship.observer.IObserver;
+import de.htwg.battleship.util.GameMode;
 
 /**
  * Textual User Interface.
@@ -62,6 +66,9 @@ public class TUI implements IObserver {
             case START:
                 view = new StartMenu();
                 break;
+            case OPTIONS:
+            	view = new OptionsMenu();
+            	break;
             case GETNAME1:
                 view = new InputMaskPlayer1();
                 break;
@@ -109,6 +116,7 @@ public class TUI implements IObserver {
             default:
                 break;
         }
+        logger.debug(view.toString());
         logger.info(view.getString());
     }
 
@@ -129,6 +137,11 @@ public class TUI implements IObserver {
                 || master.getCurrentState() == END) {
             processStartEndMenu(field);
             return;
+        }
+//        Options Menu
+        if (master.getCurrentState() == OPTIONS) {
+        	processOptionsMenu(field);
+        	return;
         }
 //        Place Menu
         if (field.length == PLACE_STATEMENT_LENGTH) {
@@ -157,9 +170,35 @@ public class TUI implements IObserver {
         }
         if (line[0].equals("1")) {
             this.master.startGame();
+        } else if (line[0].equals("2")) {
+        	this.master.configure();
         } else {
             System.exit(0);
         }
+    }
+
+    /**
+     * Utility method to process the input line in the options menu.
+     * @param line the input line as array
+     */
+    private void processOptionsMenu(final String[] line) {
+    	if (line.length != 1 && line.length != 2) {
+    		this.master.setCurrentState(WRONGINPUT);
+    		return;
+    	}
+    	if (line[0].equals("1")) {
+    		this.master.setBoardSize(Integer.parseInt(line[1]));
+    	} else if (line[0].equals("2")) {
+    		this.master.setShipNumber(Integer.parseInt(line[1]));
+    	} else if (line[0].equals("3")) {
+    		if (line[1].equals("EXTREME")) {
+    			this.master.setGameMode(GameMode.EXTREME);
+    		} else {
+    			this.master.setGameMode(GameMode.NORMAL);
+    		}
+    	} else if (line[0].equals("4")) {
+    		this.master.startGame();
+    	}
     }
 
     /**
