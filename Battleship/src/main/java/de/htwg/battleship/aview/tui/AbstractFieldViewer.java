@@ -1,14 +1,13 @@
 // AbstractFieldViewer.java
 package de.htwg.battleship.aview.tui;
 
-import static de.htwg.battleship.aview.tui.Viewer.FIELD_IS_HIT;
-import static de.htwg.battleship.aview.tui.Viewer.FIELD_NON_HIT;
-import static de.htwg.battleship.aview.tui.Viewer.SHIP_IS_HIT;
-import de.htwg.battleship.model.IBoard;
 import static de.htwg.battleship.util.StatCollection.createBorder;
 import static de.htwg.battleship.util.StatCollection.heightLenght;
+
 import java.util.Map;
 import java.util.Set;
+
+import de.htwg.battleship.model.IBoard;
 
 /**
  * AbstractFieldViewer implements some help methods which are used
