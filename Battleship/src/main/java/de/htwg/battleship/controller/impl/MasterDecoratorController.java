@@ -186,4 +186,20 @@ public class MasterDecoratorController implements IMasterController {
     	master.configure();
     	logger.info("configure() is finished");
     }
+
+	@Override
+	public final void setBoardSize(final int boardSize) {
+		logger.info("setBoardSize() is called: new size = " + boardSize);
+		master.setBoardSize(boardSize);
+		logger.info("setBoardSize() is finished: new size = " + boardSize);
+	}
+
+	@Override
+	public final void setShipNumber(final int shipNumber) {
+		logger.info("setShipNumber() is called: new ship number = "
+				+ shipNumber);
+		master.setShipNumber(shipNumber);
+		logger.info("setShipNumber() is finished: new ship number = "
+				+ shipNumber);
+	}
 }

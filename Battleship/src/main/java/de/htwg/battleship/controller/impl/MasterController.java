@@ -305,7 +305,7 @@ public class MasterController extends Observable implements IMasterController {
 
     @Override
     public final void startGame() {
-        if (this.currentState == START) {
+        if (this.currentState == START || this.currentState == State.OPTIONS) {
             this.setCurrentState(GETNAME1);
         } else if (this.currentState == END) {
             this.resetBoards();
@@ -358,11 +358,34 @@ public class MasterController extends Observable implements IMasterController {
         if (this.currentState == START) this.setCurrentState(State.OPTIONS);
     }
 
+    public final void setBoardSize(final int boardSize) {
+        if (this.currentState != State.OPTIONS
+            || (StatCollection.shipNumberMax + 2) >= boardSize) {
+            this.setCurrentState(WRONGINPUT);
+            return;
+        }
+        StatCollection.heightLenght = boardSize;
+        this.resetBoards();
+        notifyObserver();
+    }
+
     @Override
-    public final void setGameMode(final GameMode gm) {
+    public final void setShipNumber(final int shipNumber) {
+        if (this.currentState != State.OPTIONS
+            || ((shipNumber + 2) >= StatCollection.heightLenght)) {
+            this.setCurrentState(WRONGINPUT);
+            return;
+        }
+        StatCollection.shipNumberMax = shipNumber;
+        this.resetBoards();
+        notifyObserver();
+    }
+
+    @Override
+    public final void setGameMode(final GameMode newMode) {
         if (this.currentState == State.OPTIONS) {
-            this.gm = gm;
-            this.setCurrentState(GETNAME1);
+            this.gm = newMode;
+            this.notifyObserver();
         } else {
             this.setCurrentState(WRONGINPUT);
         }
