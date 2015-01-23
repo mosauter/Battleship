@@ -130,4 +130,22 @@ public interface IMasterController extends
      * only valid in the START-state
      */
          void configure();
+
+    /**
+     * Method to set the board size.
+     * only valid in the OPTIONS-state
+     * 
+     * @param boardSize
+     *            the new board size
+     */
+         void setBoardSize(int boardSize);
+
+    /**
+     * Method to set the max ship number.
+     * only valid in the OPTIONS-state
+     * 
+     * @param shipNumber
+     *            the new max number of ships
+     */
+         void setShipNumber(int shipNumber);
 }
