@@ -23,15 +23,24 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.inject.Inject;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Injector;
 
 import de.htwg.battleship.controller.IMasterController;
+import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.observer.impl.Observable;
+import de.htwg.battleship.observer.impl.Observable;
+import de.htwg.battleship.util.GameMode;
 import de.htwg.battleship.util.GameMode;
 import de.htwg.battleship.util.StatCollection;
+import de.htwg.battleship.util.StatCollection;
+import de.htwg.battleship.util.State;
 import de.htwg.battleship.util.State;
 
 /**
