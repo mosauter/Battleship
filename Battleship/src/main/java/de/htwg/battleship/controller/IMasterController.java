@@ -124,4 +124,10 @@ public interface IMasterController extends
      * @return the current GameMode
      */
              GameMode getGameMode();
+
+    /**
+     * Method to get in the OPTIONS-state.
+     * only valid in the START-state
+     */
+         void configure();
 }
