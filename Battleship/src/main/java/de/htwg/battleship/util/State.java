@@ -82,5 +82,9 @@ public enum State {
      * was wrong in the current state.
      * Error State
      */
-    WRONGINPUT;
+    WRONGINPUT,
+    /**
+     * State that indicates that the user can configure the Game.
+     */
+    OPTIONS;
 }
