@@ -368,6 +368,6 @@ public class MasterController extends Observable implements IMasterController {
 
     @Override
     public final GameMode getGameMode() {
-        return gm;
+        return this.gm;
     }
 }
