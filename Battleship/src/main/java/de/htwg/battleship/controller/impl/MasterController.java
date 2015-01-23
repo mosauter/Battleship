@@ -363,11 +363,18 @@ public class MasterController extends Observable implements IMasterController {
         if (this.currentState == State.OPTIONS) {
             this.gm = gm;
             this.setCurrentState(GETNAME1);
+        } else {
+            this.setCurrentState(WRONGINPUT);
         }
     }
 
     @Override
     public final GameMode getGameMode() {
         return this.gm;
+    }
+
+    @Override
+    public final void configure() {
+        this.setCurrentState(State.OPTIONS);
     }
 }

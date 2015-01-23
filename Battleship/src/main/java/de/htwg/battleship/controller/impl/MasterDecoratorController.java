@@ -179,4 +179,11 @@ public class MasterDecoratorController implements IMasterController {
         logger.info("getGameMode() is finished: result = " + tmp.toString());
         return tmp;
     }
+
+    @Override
+    public final void configure() {
+    	logger.info("configure() is called");
+    	master.configure();
+    	logger.info("configure() is finished");
+    }
 }
