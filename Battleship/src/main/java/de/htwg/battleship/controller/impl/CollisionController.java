@@ -8,6 +8,7 @@ import de.htwg.battleship.util.StatCollection;
 /**
  * Controller for checking if ship collides.
  * use the Chain-of-Responsibility-Pattern
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-04
@@ -18,22 +19,25 @@ public abstract class CollisionController {
      * Orientation of the first ship.
      * indicates the responsibility of the Controller implementation
      */
-    boolean firstShip;
+    protected boolean firstShip;
     /**
      * Orientation of the second ship.
      * indicates the responsibility of the Controller implementation
      */
-    boolean secondShip;
+    protected boolean secondShip;
 
     /**
      * Next Controller implementation of the chain.
      */
-    CollisionController next;
+    protected CollisionController next;
 
     /**
      * Method to test if the two ship collides.
-     * @param shipIn ship one
-     * @param ship ship two
+     * 
+     * @param shipIn
+     *            ship one
+     * @param ship
+     *            ship two
      * @return true if there is a collision
      *         false if not
      */
@@ -41,14 +45,17 @@ public abstract class CollisionController {
 
     /**
      * Method to search who is responsible for the case in the chain.
-     * @param shipIn first ship
-     * @param ship second ship
+     * 
+     * @param shipIn
+     *            first ship
+     * @param ship
+     *            second ship
      * @return true if there is a collision
      *         false if not
      */
     public final boolean responsibility(final IShip shipIn, final IShip ship) {
         if ((shipIn.isOrientation() == firstShip)
-                && (ship.isOrientation() == secondShip)) {
+            && (ship.isOrientation() == secondShip)) {
             return isCollision(shipIn, ship);
         }
         return next.responsibility(shipIn, ship);
@@ -57,6 +64,7 @@ public abstract class CollisionController {
 
 /**
  * Controller implementation for both ship orientations equals true.
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  */
 class CollisionOrientationBothTrue extends CollisionController {
@@ -89,6 +97,7 @@ class CollisionOrientationBothTrue extends CollisionController {
 
 /**
  * Controller for both ship orientations equals false.
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  */
 class CollisionOrientationBothFalse extends CollisionController {
@@ -122,6 +131,7 @@ class CollisionOrientationBothFalse extends CollisionController {
 /**
  * Controller implementation for first ship orientation true.
  * extends CollisionController
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  */
 class CollisionOrientationFirstTrue extends CollisionController {
@@ -144,13 +154,14 @@ class CollisionOrientationFirstTrue extends CollisionController {
         int yupp = ylow + shipY.getSize() - 1;
         int x = shipY.getX();
         return StatCollection.isBetween(yupp, ylow, yin)
-                && StatCollection.isBetween(xinupp, xinlow, x);
+               && StatCollection.isBetween(xinupp, xinlow, x);
     }
 }
 
 /**
  * Controller implementation for first ship orientation false.
  * extends CollisionController
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  */
 class CollisionOrientationFirstFalse extends CollisionController {
@@ -172,6 +183,6 @@ class CollisionOrientationFirstFalse extends CollisionController {
         int yupp = ylow + shipY.getSize() - 1;
         int x = shipY.getX();
         return StatCollection.isBetween(yupp, ylow, yin)
-                && StatCollection.isBetween(xinupp, xinlow, x);
+               && StatCollection.isBetween(xinupp, xinlow, x);
     }
 }

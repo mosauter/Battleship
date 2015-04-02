@@ -9,6 +9,7 @@ import de.htwg.battleship.model.IShip;
 /**
  * DestroyedController to check if a player is completely destroyed.
  * implements Chain-of-Responsibility
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-11
@@ -19,16 +20,19 @@ public abstract class DestroyedController {
      * Saves the orientation of the ship.
      * used to check if the implementation is responsible for the specific case
      */
-    boolean ship;
+    protected boolean             ship;
     /**
      * Reference to the next implementation of the controller.
      */
-    DestroyedController next;
+    protected DestroyedController next;
 
     /**
      * Method to check if a ship is destroyed of a player.
-     * @param ship specified ship
-     * @param player specified player, owner of the ship
+     * 
+     * @param ship
+     *            specified ship
+     * @param player
+     *            specified player, owner of the ship
      * @return true if the ship is completely destroyed
      *         false if not
      */
@@ -36,13 +40,16 @@ public abstract class DestroyedController {
 
     /**
      * Method to check if the implementation is responsible for the case.
-     * @param ship specified ship
-     * @param player specified player, owner of the ship
+     * 
+     * @param ship
+     *            specified ship
+     * @param player
+     *            specified player, owner of the ship
      * @return true if the ship is completely destroyed
      *         false if not
      */
     public final boolean responsibility(final IShip ship,
-            final IPlayer player) {
+                                        final IPlayer player) {
         if (ship.isOrientation() == this.ship) {
             return isDestroyed(ship, player);
         }
@@ -53,6 +60,7 @@ public abstract class DestroyedController {
 /**
  * Implementation for the Destroyed Controller.
  * responsible for the case the ships orientation is true
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  */
 class DestroyedTrueController extends DestroyedController {
@@ -84,6 +92,7 @@ class DestroyedTrueController extends DestroyedController {
 /**
  * Implementation for the Destroyed Controller.
  * responsible for the case the ships orientation is false
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  */
 class DestroyedFalseController extends DestroyedController {

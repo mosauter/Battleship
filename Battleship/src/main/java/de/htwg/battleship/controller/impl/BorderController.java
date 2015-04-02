@@ -2,13 +2,15 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.model.IShip;
 import static de.htwg.battleship.util.StatCollection.heightLenght;
 import static de.htwg.battleship.util.StatCollection.isBetween;
+
+import de.htwg.battleship.model.IShip;
 
 /**
  * BorderController which checks of the ship is in the field.
  * use the Chain-of-Responsibility-Pattern
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-15
@@ -19,22 +21,27 @@ public abstract class BorderController {
      * Orientation of the ship.
      * indicates the responsibility of the controller implementation
      */
-    boolean shipOrientation;
+    protected boolean shipOrientation;
 
     /**
      * Next controller implementation of the chain.
      */
-    BorderController next;
+    protected BorderController next;
 
     /**
      * Method to test if the ship is in the Field.
-     * @param ship ship to test
+     * 
+     * @param ship
+     *            ship to test
      * @return true if it is in false if not
      */
     public abstract boolean isIn(IShip ship);
+
     /**
      * Method to search who is responsible for the case of the chain.
-     * @param ship ship to test
+     * 
+     * @param ship
+     *            ship to test
      * @return true if it is in false if not
      */
     public final boolean responsibility(final IShip ship) {
@@ -47,6 +54,7 @@ public abstract class BorderController {
 
 /**
  * BorderController implementation for the true ship-orientation.
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  */
 class BorderTrueController extends BorderController {
@@ -77,6 +85,7 @@ class BorderTrueController extends BorderController {
 
 /**
  * BorderController implementation for the false ship-orientation.
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  */
 class BorderFalseController extends BorderController {
