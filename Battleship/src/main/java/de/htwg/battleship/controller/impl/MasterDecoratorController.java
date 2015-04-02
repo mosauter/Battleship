@@ -4,14 +4,18 @@ package de.htwg.battleship.controller.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.observer.IObserver;
+import de.htwg.battleship.util.GameMode;
 import de.htwg.battleship.util.State;
+
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -50,8 +54,8 @@ public class MasterDecoratorController implements IMasterController {
      */
     @Inject
     public MasterDecoratorController(final IPlayer player1,
-            final IPlayer player2) {
-        this.master = new MasterController(player1, player2);
+            final IPlayer player2, Injector in) {
+        this.master = new MasterController(player1, player2, in);
         logger = Logger.getLogger("de.htwg.battleship.controller.impl");
     }
 
@@ -121,15 +125,6 @@ public class MasterDecoratorController implements IMasterController {
     }
 
     @Override
-    public final void setInjector(final Injector injector) {
-        logger.info("setInjector() is called: injector = "
-                + injector.getClass().toString());
-        master.setInjector(injector);
-        logger.info("setInjector() is finished: injector = "
-                + injector.getClass().toString());
-    }
-
-    @Override
     public final void addObserver(final IObserver observer) {
         logger.info("addObserver() is called: observer = "
                 + observer.getClass().toString());
@@ -156,5 +151,27 @@ public class MasterDecoratorController implements IMasterController {
                 + Arrays.toString(shipList)
                 + " ; map = " + map.toString() + " ; ships = " + ships);
         return tmp;
+    }
+
+    @Override
+    public final void configureGame() {
+    	logger.info("configureGame() is called");
+    	this.master.configureGame();
+    	logger.info("configureGame() is finished");
+    }
+
+    @Override
+    public final void setGameMode(final GameMode gm) {
+    	logger.info("setGameMode() is called: new Mode = " + gm.toString());
+    	this.master.setGameMode(gm);
+    	logger.info("setGameMode() is finished: new Mode = " + gm.toString());
+    }
+
+    @Override
+    public final GameMode getGameMode() {
+    	logger.info("getGameMode() is called");
+    	GameMode tmp = this.master.getGameMode();
+    	logger.info("getGameMode() is finished: result = " + tmp.toString());
+		return tmp;
     }
 }
