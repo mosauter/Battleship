@@ -1,15 +1,19 @@
 // Battleship.java
 package de.htwg.battleship;
 
+import java.util.Scanner;
+
+import org.apache.log4j.PropertyConfigurator;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
 import de.htwg.battleship.aview.gui.GUI;
 import de.htwg.battleship.aview.tui.TUI;
-import de.htwg.battleship.controller.IMasterController;
-import java.util.Scanner;
-import org.apache.log4j.PropertyConfigurator;
+
 /**
  * Battleship start file.
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-04
@@ -19,15 +23,12 @@ public final class Battleship {
     /**
      * Private Constructor.
      */
-    private Battleship() { }
-    /**
-     * MasterController of the entire game.
-     */
-    private static IMasterController master;
+    private Battleship() {}
+
     /**
      * Saves TUI.
      */
-    private static TUI tui;
+    private static TUI     tui;
     /**
      * Scanner to read from stdin.
      */
@@ -35,15 +36,15 @@ public final class Battleship {
 
     /**
      * Main-Method.
-     * @param args not used
+     * 
+     * @param args
+     *            not used
      */
     public static void main(final String[] args) {
         PropertyConfigurator.configure("log4j.properties");
         Injector injector = Guice.createInjector(new BattleshipModule());
-        master = injector.getInstance(IMasterController.class);
-        master.setInjector(injector);
-        tui = new TUI(master);
-        new GUI(master);
+        tui = injector.getInstance(TUI.class);
+        injector.getInstance(GUI.class);
         scanner = new Scanner(System.in);
         while (true) {
             tui.processInputLine(scanner.nextLine());
