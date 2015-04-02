@@ -1,18 +1,25 @@
 package de.htwg.battleship.model.impl;
 
+import static de.htwg.battleship.util.StatCollection.heightLenght;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
+import de.htwg.battleship.BattleshipModule;
+
 // PlayerTest.java
 
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.util.StatCollection;
-import static de.htwg.battleship.util.StatCollection.heightLenght;
-import org.junit.After;
-import static org.junit.Assert.assertEquals;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * PlayerTest tests the player implementation.
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-11-06
@@ -24,6 +31,8 @@ public class PlayerTest {
      */
     private IPlayer player;
 
+    private Injector injector;
+
     /**
      * Set-Up.
      */
@@ -31,11 +40,8 @@ public class PlayerTest {
     public final void testSetUp() {
         StatCollection.heightLenght = 10;
         StatCollection.shipNumberMax = 5;
-        player = new Player();
-    }
-
-    @After
-    public void tearDown() throws Exception {
+        injector = Guice.createInjector(new BattleshipModule());
+        player = injector.getInstance(IPlayer.class);
     }
 
     /**
@@ -79,9 +85,9 @@ public class PlayerTest {
      */
     @Test
     public final void testResetBoard() {
-        player.getOwnBoard().addShip(
-                new Ship(heightLenght, true, heightLenght, heightLenght));
-        player.resetBoard();
+        player.getOwnBoard().addShip(new Ship(heightLenght, true, heightLenght,
+                                              heightLenght));
+        player.resetBoard(injector.getInstance(IBoard.class));
         assertEquals(player.getOwnBoard().getShips(), 0);
     }
 }

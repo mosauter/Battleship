@@ -2,22 +2,32 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.model.IPlayer;
-import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.model.impl.Player;
-import de.htwg.battleship.model.impl.Ship;
-import de.htwg.battleship.util.StatCollection;
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
+import de.htwg.battleship.BattleshipModule;
+import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.model.impl.Ship;
+import de.htwg.battleship.util.StatCollection;
+
 /**
  * WinControllerTest tests the entire win controller.
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-14
  */
 public class WinControllerTest {
+
+    private IPlayer  player1;
+    private IPlayer  player2;
+    private Injector injector;
 
     /**
      * Set-Up method.
@@ -26,6 +36,9 @@ public class WinControllerTest {
     public final void setUp() {
         StatCollection.heightLenght = 2;
         StatCollection.shipNumberMax = 2;
+        injector = Guice.createInjector(new BattleshipModule());
+        IPlayer player1 = injector.getInstance(IPlayer.class);
+        IPlayer player2 = injector.getInstance(IPlayer.class);
     }
 
     /**
@@ -33,8 +46,6 @@ public class WinControllerTest {
      */
     @Test
     public final void testNullWin() {
-        IPlayer player1 = new Player();
-        IPlayer player2 = new Player();
         IShip ship = new Ship(1, true, 0, 0);
         player1.getOwnBoard().addShip(ship);
         player2.getOwnBoard().addShip(ship);
@@ -49,8 +60,6 @@ public class WinControllerTest {
      */
     @Test
     public final void testPlayer1Win() {
-        IPlayer player1 = new Player();
-        IPlayer player2 = new Player();
         IShip ship = new Ship(1, true, 0, 0);
         player1.getOwnBoard().addShip(ship);
         WinController wc = new WinController(player1, player2);
@@ -64,8 +73,6 @@ public class WinControllerTest {
      */
     @Test
     public final void testPlayer2Win() {
-        IPlayer player1 = new Player();
-        IPlayer player2 = new Player();
         IShip ship = new Ship(1, true, 0, 0);
         player2.getOwnBoard().addShip(ship);
         WinController wc = new WinController(player1, player2);
@@ -76,8 +83,6 @@ public class WinControllerTest {
 
     @Test
     public final void testPlayerDestroyed() {
-        IPlayer player1 = new Player();
-        IPlayer player2 = new Player();
         IShip ship = new Ship(1, true, 0, 0);
         player1.getOwnBoard().addShip(ship);
         player2.getOwnBoard().addShip(ship);

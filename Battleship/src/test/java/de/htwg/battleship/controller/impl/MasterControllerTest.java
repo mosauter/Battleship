@@ -1,16 +1,6 @@
 // MasterControllerTest.java
 package de.htwg.battleship.controller.impl;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import de.htwg.battleship.BattleshipModule;
-import de.htwg.battleship.model.IPlayer;
-import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.model.impl.Player;
-import de.htwg.battleship.model.impl.Ship;
-import de.htwg.battleship.observer.IObserver;
-import de.htwg.battleship.util.StatCollection;
-import de.htwg.battleship.util.State;
 import static de.htwg.battleship.util.State.END;
 import static de.htwg.battleship.util.State.GETNAME1;
 import static de.htwg.battleship.util.State.HIT;
@@ -24,13 +14,26 @@ import static de.htwg.battleship.util.State.START;
 import static de.htwg.battleship.util.State.WIN1;
 import static de.htwg.battleship.util.State.WIN2;
 import static de.htwg.battleship.util.State.WRONGINPUT;
-import java.util.Map;
-import java.util.Set;
-import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.util.Map;
+import java.util.Set;
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
+import de.htwg.battleship.BattleshipModule;
+import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.model.impl.Ship;
+import de.htwg.battleship.observer.IObserver;
+import de.htwg.battleship.util.StatCollection;
+import de.htwg.battleship.util.State;
 
 /**
  * MasterControllerTest tests the MasterController.
@@ -48,19 +51,19 @@ public class MasterControllerTest {
     /**
      * Saves the first player.
      */
-    private IPlayer player1;
+    private IPlayer          player1;
     /**
      * Saves the second player.
      */
-    private IPlayer player2;
+    private IPlayer          player2;
     /**
      * Saves an util observer object for testing.
      */
-    private UtilObserver utilOb;
+    private UtilObserver     utilOb;
     /**
      * Saves the injector.
      */
-    private Injector injector;
+    private Injector         injector;
 
     /**
      * Set-Up.
@@ -70,10 +73,9 @@ public class MasterControllerTest {
         StatCollection.heightLenght = 3;
         StatCollection.shipNumberMax = 1;
         injector = Guice.createInjector(new BattleshipModule());
-        player1 = new Player();
-        player2 = new Player();
-        master = new MasterController(player1, player2);
-        master.setInjector(injector);
+        player1 = injector.getInstance(IPlayer.class);
+        player2 = injector.getInstance(IPlayer.class);
+        master = new MasterController(player1, player2, injector);
         utilOb = new UtilObserver();
     }
 
@@ -106,8 +108,8 @@ public class MasterControllerTest {
             if (ship1.getY() == 1) {
                 y = true;
             }
-            if (ship1.getSize()
-                    == master.getPlayer1().getOwnBoard().getShips() + 1) {
+            if (ship1.getSize() == master.getPlayer1().getOwnBoard().getShips()
+                                   + 1) {
                 size = true;
             }
             orientation = ship.isOrientation();
@@ -193,9 +195,9 @@ public class MasterControllerTest {
         String name = "Moritz";
         master.setCurrentState(State.GETNAME1);
         master.setPlayerName(name);
-        assert (name.equals(master.getPlayer1().getName()));
+        assert(name.equals(master.getPlayer1().getName()));
         master.setPlayerName(name);
-        assert (name.equals(master.getPlayer2().getName()));
+        assert(name.equals(master.getPlayer2().getName()));
         master.addObserver(utilOb);
         master.setPlayerName(name);
         // Last was a false input
@@ -256,7 +258,7 @@ public class MasterControllerTest {
         master.shoot(2, 2);
         assertEquals(SHOOT2, master.getCurrentState());
         assertTrue(utilOb.miss);
-//        test that SHOOT2 state is now set
+        // test that SHOOT2 state is now set
         assertEquals(7, utilOb.util);
         master.shoot(0, 0);
         assertTrue(utilOb.hit);
@@ -282,8 +284,7 @@ public class MasterControllerTest {
     @Test
     public final void testNextPlaceState() {
         StatCollection.shipNumberMax = 2;
-        MasterController mas = new MasterController(player1, player2);
-        mas.setInjector(injector);
+        MasterController mas = new MasterController(player1, player2, injector);
         mas.setCurrentState(PLACE1);
         mas.placeShip(1, 1, true);
         assertEquals(PLACE1, mas.getCurrentState());
@@ -323,12 +324,12 @@ public class MasterControllerTest {
         /**
          * Utility integer for test purposes.
          */
-        private int util = 0;
+        private int     util  = 0;
         private boolean wrong = false;
         private boolean plerr = false;
-        private boolean hit = false;
-        private boolean miss = false;
-        
+        private boolean hit   = false;
+        private boolean miss  = false;
+
         @Override
         public void update() {
             if (util == 0) {
