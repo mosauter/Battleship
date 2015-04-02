@@ -4,10 +4,14 @@ package de.htwg.battleship.model.impl;
 
 /**
  * Field Object for the Fields in a Board.
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-10-29
+ * @deprecated is obsolete and not fast enough.
+ *             use {@link de.htwg.battleship.model.impl.BoardField} instead
  */
+@Deprecated
 public class Field {
 
     /**
@@ -22,12 +26,15 @@ public class Field {
      * If the field is already hit or not.
      * True if it is hit, false if not.
      */
-    private boolean hit;
+    private boolean   hit;
 
     /**
      * Public-Constructor.
-     * @param x x-Coordinate of the Field.
-     * @param y y-Coordinate of the Field.
+     * 
+     * @param x
+     *            x-Coordinate of the Field.
+     * @param y
+     *            y-Coordinate of the Field.
      */
     public Field(final int x, final int y) {
         this.x = x;
@@ -37,6 +44,7 @@ public class Field {
 
     /**
      * Getter for the y-coordinate.
+     * 
      * @return the y-coordinate as Integer.
      */
     public final int getY() {
@@ -45,6 +53,7 @@ public class Field {
 
     /**
      * Getter for the x-coordinate.
+     * 
      * @return the x-coordinate as Integer.
      */
     public final int getX() {
@@ -53,6 +62,7 @@ public class Field {
 
     /**
      * Getter if the Field is now hit.
+     * 
      * @return boolean if the Field is hit
      */
     public final boolean isHit() {
@@ -61,7 +71,9 @@ public class Field {
 
     /**
      * Setter if the Field is now hit.
-     * @param hit had to be true. False would be nonsensical.
+     * 
+     * @param hit
+     *            had to be true. False would be nonsensical.
      */
     public final void setHit(final boolean hit) {
         if (this.hit) {
