@@ -1,11 +1,14 @@
 // Player.java
 package de.htwg.battleship.model.impl;
 
+import com.google.inject.Inject;
+
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 
 /**
  * Player.
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-11-06
@@ -23,16 +26,12 @@ public class Player implements IPlayer {
 
     /**
      * Public Constructor.
-     * creates a new Board
+     * 
+     * @param player1Board
+     *            Board of the Player.
      */
-    public Player() {
-        this(new Board());
-    }
-    /**
-     * Public Constructor.
-     * @param player1Board Board of the Player.
-     */
-    public Player(final Board player1Board) {
+    @Inject
+    public Player(final IBoard player1Board) {
         ownBoard = player1Board;
     }
 
@@ -54,7 +53,8 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public final void resetBoard() {
-        this.ownBoard = new Board();
+    @Inject
+    public final void resetBoard(IBoard board) {
+        this.ownBoard = board;
     }
 }
