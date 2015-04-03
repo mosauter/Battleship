@@ -1,15 +1,18 @@
 package de.htwg.battleship.model.impl;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * FieldTest tests the field implementation.
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-11-06
  */
+@SuppressWarnings("deprecation")
 public class FieldTest {
 
     /**
@@ -59,7 +62,7 @@ public class FieldTest {
     public final void testSetHit() {
         field.setHit(true);
         assertEquals(field.isHit(), true);
-        field.setHit(false);                // Doesn't make sense.
+        field.setHit(false); // Doesn't make sense.
         assertEquals(field.isHit(), true);
         field.setHit(true);
         assertEquals(field.isHit(), true);
