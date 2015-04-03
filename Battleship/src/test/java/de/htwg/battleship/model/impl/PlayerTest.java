@@ -44,21 +44,14 @@ public class PlayerTest {
         player = injector.getInstance(IPlayer.class);
     }
 
-    /**
-     * Test for getOwnBoard method.
-     */
     @Test
     public final void testGetOwnBoard() {
-        Field[][] expResult = new Field[heightLenght][heightLenght];
-        for (int x = 0; x < heightLenght; x++) {
-            for (int y = 0; y < heightLenght; y++) {
-                expResult[x][y] = new Field(x, y);
-            }
-        }
+        boolean[][] expResult = new boolean[heightLenght][heightLenght];
         IBoard result = player.getOwnBoard();
-        for (int x = 0; x < heightLenght; x++) {
-            for (int y = 0; y < heightLenght; y++) {
-                assertEquals(expResult[x][y].isHit(), result.isHit(x, y));
+        for (int x = 0; x < expResult.length; x++) {
+            boolean[] betResult = expResult[x];
+            for (int y = 0; y < betResult.length; y++) {
+                assertEquals(betResult[y], result.isHit(x, y));
             }
         }
     }

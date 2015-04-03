@@ -2,22 +2,24 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.controller.impl.ShootController;
-import de.htwg.battleship.model.impl.Board;
-import de.htwg.battleship.model.impl.Player;
-import de.htwg.battleship.model.impl.Ship;
-import de.htwg.battleship.util.StatCollection;
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import de.htwg.battleship.AbstractTest;
+import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.util.StatCollection;
+
 /**
  * ShootControllerTest tests the entire shoot controller.
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-11-19
  */
-public class ShootControllerTest {
+public class ShootControllerTest extends AbstractTest {
 
     /**
      * Saves a shootController.
@@ -26,11 +28,11 @@ public class ShootControllerTest {
     /**
      * Saves first player.
      */
-    private Player player1;
+    private IPlayer         player1;
     /**
      * Saves second player.
      */
-    private Player player2;
+    private IPlayer         player2;
 
     /**
      * Set-Up method.
@@ -39,10 +41,10 @@ public class ShootControllerTest {
     public final void setUp() {
         StatCollection.heightLenght = 10;
         StatCollection.shipNumberMax = 5;
-        player1 = new Player(new Board());
-        player2 = new Player(new Board());
-        Ship ship1 = new Ship(1, true, 3, 2 );
-        Ship ship2 = new Ship(1, false, 1, 1);
+        player1 = in.getInstance(IPlayer.class);
+        player2 = in.getInstance(IPlayer.class);
+        IShip ship1 = createShip(1, true, 3, 2);
+        IShip ship2 = createShip(1, false, 1, 1);
         player1.getOwnBoard().addShip(ship1);
         player2.getOwnBoard().addShip(ship2);
         sc = new ShootController(player1, player2);
@@ -71,7 +73,8 @@ public class ShootControllerTest {
     @Test
     public final void shootTestTwoOriTrue() {
         boolean expResult = false;
-        boolean result = sc.shoot(3, 2, true); // first Time true, second time false
+        boolean result = sc.shoot(3, 2, true); // first Time true, second time
+                                               // false
         result = sc.shoot(3, 2, true);
         assertEquals(expResult, result);
         result = sc.shoot(4, 2, true);

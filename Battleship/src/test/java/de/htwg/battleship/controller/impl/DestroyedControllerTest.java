@@ -2,23 +2,24 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.model.IPlayer;
-import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.model.impl.Board;
-import de.htwg.battleship.model.impl.Player;
-import de.htwg.battleship.model.impl.Ship;
-import de.htwg.battleship.util.StatCollection;
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import de.htwg.battleship.AbstractTest;
+import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.util.StatCollection;
+
 /**
  * DestroyedControllerTest tests the entire chain.
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-14
  */
-public class DestroyedControllerTest {
+public class DestroyedControllerTest extends AbstractTest {
 
     /**
      * Saves the entire chain.
@@ -27,19 +28,19 @@ public class DestroyedControllerTest {
     /**
      * Saves a ship.
      */
-    private IShip ship;
+    private IShip               ship;
     /**
      * Saves a player.
      */
-    private IPlayer player;
+    private IPlayer             player;
     /**
      * Saves the shipController.
      */
-    private ShipController sc;
+    private ShipController      sc;
     /**
      * Saves the shoot controller.
      */
-    private ShootController shoot;
+    private ShootController     shoot;
 
     /**
      * Set-Up.
@@ -48,9 +49,9 @@ public class DestroyedControllerTest {
     public final void setUp() {
         StatCollection.heightLenght = 10;
         StatCollection.shipNumberMax = 5;
-        player = new Player(new Board());
-        ship = new Ship(2, false, 3, 3);
-        shoot = new ShootController(player, new Player(new Board()));
+        player = in.getInstance(IPlayer.class);
+        ship = createShip(2, false, 3, 3);
+        shoot = new ShootController(player, in.getInstance(IPlayer.class));
         sc = new ShipController();
         dc = new DestroyedTrueController();
         sc.placeShip(ship, player);

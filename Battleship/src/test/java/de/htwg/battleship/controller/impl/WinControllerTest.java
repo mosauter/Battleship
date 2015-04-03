@@ -7,10 +7,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
-import de.htwg.battleship.BattleshipModule;
+import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Ship;
@@ -23,11 +20,10 @@ import de.htwg.battleship.util.StatCollection;
  * @version 1.00
  * @since 2014-12-14
  */
-public class WinControllerTest {
+public class WinControllerTest extends AbstractTest {
 
-    private IPlayer  player1;
-    private IPlayer  player2;
-    private Injector injector;
+    private IPlayer player1;
+    private IPlayer player2;
 
     /**
      * Set-Up method.
@@ -36,9 +32,8 @@ public class WinControllerTest {
     public final void setUp() {
         StatCollection.heightLenght = 2;
         StatCollection.shipNumberMax = 2;
-        injector = Guice.createInjector(new BattleshipModule());
-        IPlayer player1 = injector.getInstance(IPlayer.class);
-        IPlayer player2 = injector.getInstance(IPlayer.class);
+        player1 = in.getInstance(IPlayer.class);
+        player2 = in.getInstance(IPlayer.class);
     }
 
     /**

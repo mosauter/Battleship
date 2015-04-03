@@ -2,18 +2,21 @@
 
 package de.htwg.battleship.controller.impl;
 
+import org.junit.Test;
+
+import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.util.StatCollection;
-import org.junit.Test;
 
 /**
  * BorderFalseControllerTest tests one implementation of the chain.
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-18
  */
-public class BorderFalseControllerTest {
+public class BorderFalseControllerTest extends AbstractTest {
 
     /**
      * Saves a BorderController.
@@ -27,9 +30,9 @@ public class BorderFalseControllerTest {
     public final void testIsIn() {
         StatCollection.heightLenght = 2;
         IShip ship = new Ship(4, false, 0, 0);
-        assert (!bc.isIn(ship));
+        assert(!bc.isIn(ship));
         StatCollection.heightLenght = 2;
         ship = new Ship(4, false, 0, -1);
-        assert (!bc.isIn(ship));
+        assert(!bc.isIn(ship));
     }
 }

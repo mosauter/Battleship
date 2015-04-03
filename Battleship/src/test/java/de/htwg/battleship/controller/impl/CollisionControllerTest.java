@@ -2,19 +2,23 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.model.impl.Ship;
-import de.htwg.battleship.util.StatCollection;
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import de.htwg.battleship.AbstractTest;
+import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.util.StatCollection;
+
 /**
  * CollisionControllerTest all implementation at once.
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-04
  */
-public class CollisionControllerTest {
+public class CollisionControllerTest extends AbstractTest {
 
     /**
      * Saves the entire chain.
@@ -23,15 +27,15 @@ public class CollisionControllerTest {
     /**
      * Saves the first ship.
      */
-    private Ship ship1;
+    private IShip               ship1;
     /**
      * Saves the second ship.
      */
-    private Ship ship2;
+    private IShip               ship2;
     /**
      * Saves the third ship.
      */
-    private Ship ship3;
+    private IShip               ship3;
 
     /**
      * Set-Up.
@@ -41,9 +45,9 @@ public class CollisionControllerTest {
         StatCollection.heightLenght = 10;
         StatCollection.shipNumberMax = 5;
         cc = new CollisionOrientationBothTrue();
-        ship1 = new Ship(2, false, 4, 0);
-        ship2 = new Ship(2, true, 2, 0);
-        ship3 = new Ship(3, true, 2, 0);
+        ship1 = createShip(2, false, 4, 0);
+        ship2 = createShip(2, true, 2, 0);
+        ship3 = createShip(3, true, 2, 0);
     }
 
     /**

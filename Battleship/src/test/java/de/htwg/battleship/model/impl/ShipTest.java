@@ -1,15 +1,19 @@
 package de.htwg.battleship.model.impl;
 
-import de.htwg.battleship.model.IShip;
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import de.htwg.battleship.AbstractTest;
+import de.htwg.battleship.model.IShip;
+
 /**
  * ShipTest tests implementation of ships.
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  */
-public class ShipTest {
+public class ShipTest extends AbstractTest {
 
     /**
      * Saves a ship.
@@ -23,7 +27,8 @@ public class ShipTest {
     public final void setUp() {
         int x = 2;
         int y = 3;
-        ship = new Ship(5, true, x, y);
+        // ship = new Ship(5, true, x, y);
+        ship = createShip(5, true, x, y);
     }
 
     /**
@@ -51,7 +56,8 @@ public class ShipTest {
         int resultY = ship.getY();
         assertEquals(expResX, resultX);
         assertEquals(expResY, resultY);
-        Ship s = new Ship(1, true, 4, 5);
+        // Ship s = new Ship(1, true, 4, 5);
+        IShip s = createShip(1, true, 4, 5);
         expResX = 4;
         expResY = 5;
         resultX = s.getX();
@@ -59,7 +65,6 @@ public class ShipTest {
         assertEquals(expResX, resultX);
         assertEquals(expResY, resultY);
     }
-
 
     /**
      * Test of getSize method, of class Ship.

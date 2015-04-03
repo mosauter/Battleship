@@ -7,13 +7,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
-import de.htwg.battleship.BattleshipModule;
+import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.util.StatCollection;
 
 /**
@@ -23,7 +19,7 @@ import de.htwg.battleship.util.StatCollection;
  * @version 1.00
  * @since 2014-11-27
  */
-public class ShipControllerTest {
+public class ShipControllerTest extends AbstractTest {
 
     /**
      * Saves ShipController.
@@ -46,8 +42,6 @@ public class ShipControllerTest {
      */
     private IShip          ship2;
 
-    private Injector injector;
-
     /**
      * Method to set all objects up.
      */
@@ -55,11 +49,10 @@ public class ShipControllerTest {
     public final void setUp() {
         StatCollection.heightLenght = 10;
         StatCollection.shipNumberMax = 5;
-        injector = Guice.createInjector(new BattleshipModule());
-        player1 = injector.getInstance(IPlayer.class);
-        player2 = injector.getInstance(IPlayer.class);
-        ship1 = new Ship(2, true, 1, 1);
-        ship2 = new Ship(3, true, 1, 1);
+        player1 = in.getInstance(IPlayer.class);
+        player2 = in.getInstance(IPlayer.class);
+        ship1 = createShip(2, true, 1, 1);
+        ship2 = createShip(3, true, 1, 1);
         sc = new ShipController();
     }
 
@@ -104,7 +97,7 @@ public class ShipControllerTest {
     public final void testBorderPlaceShip() {
         boolean expRes = false;
         StatCollection.heightLenght = 2;
-        IPlayer pl = injector.getInstance(IPlayer.class);
+        IPlayer pl = in.getInstance(IPlayer.class);
         boolean result = sc.placeShip(ship2, pl);
         assertEquals(expRes, result);
     }
@@ -114,7 +107,7 @@ public class ShipControllerTest {
         boolean expRes = true;
         boolean result = sc.placeShip(ship1, player1);
         assertEquals(expRes, result);
-        Ship sh = new Ship(1, true, 5, 5);
+        IShip sh = createShip(1, true, 5, 5);
         result = sc.placeShip(sh, player1);
         assertEquals(expRes, result);
     }
