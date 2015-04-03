@@ -2,21 +2,24 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.model.impl.Ship;
-import de.htwg.battleship.util.StatCollection;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import de.htwg.battleship.AbstractTest;
+import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.util.StatCollection;
+
 /**
  * CollisionOrientationFirstTrueTest tests an implementation of the chain.
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-04
  */
-public class CollisionOrientationFirstTrueTest {
+public class CollisionOrientationFirstTrueTest extends AbstractTest {
 
     /**
      * Saves the implementation.
@@ -25,15 +28,15 @@ public class CollisionOrientationFirstTrueTest {
     /**
      * Saves the first ship.
      */
-    private IShip ship1;
+    private IShip                         ship1;
     /**
      * Saves the second ship.
      */
-    private IShip ship2;
+    private IShip                         ship2;
     /**
      * Saves the third ship.
      */
-    private IShip ship3;
+    private IShip                         ship3;
 
     /**
      * Set-Up.
@@ -43,9 +46,9 @@ public class CollisionOrientationFirstTrueTest {
         StatCollection.heightLenght = 10;
         StatCollection.shipNumberMax = 5;
         cc = new CollisionOrientationFirstTrue();
-        ship1 = new Ship(2, true, 4, 4);
-        ship2 = new Ship(3, false, 4, 5);
-        ship3 = new Ship(3, false, 5, 4);
+        ship1 = createShip(2, true, 4, 4);
+        ship2 = createShip(3, false, 4, 5);
+        ship3 = createShip(3, false, 5, 4);
     }
 
     /**
@@ -63,7 +66,7 @@ public class CollisionOrientationFirstTrueTest {
 
     @Test
     public final void testIsCollisionFalse() {
-        Ship sh = new Ship(1, false, -1, 4);
+        IShip sh = createShip(1, false, -1, 4);
         assertFalse(cc.isCollision(ship1, sh));
     }
 }

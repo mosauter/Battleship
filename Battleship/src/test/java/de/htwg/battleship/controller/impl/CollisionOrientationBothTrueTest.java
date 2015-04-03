@@ -2,36 +2,40 @@
 
 package de.htwg.battleship.controller.impl;
 
-import de.htwg.battleship.model.impl.Ship;
-import de.htwg.battleship.util.StatCollection;
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import de.htwg.battleship.AbstractTest;
+import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.util.StatCollection;
+
 /**
  * CollisionOrientationBothTrueTest tests an implementation of the chain.
+ * 
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-04
  */
-public class CollisionOrientationBothTrueTest {
+public class CollisionOrientationBothTrueTest extends AbstractTest {
 
     /**
      * Saves the implementation.
      */
     private CollisionOrientationBothTrue cc;
     /**
-     * Saves first ship.
+     * Saves first IShip.
      */
-    private Ship ship1;
+    private IShip                        ship1;
     /**
-     * Saves second ship.
+     * Saves second IShip.
      */
-    private Ship ship2;
+    private IShip                        ship2;
     /**
-     * Saves third ship.
+     * Saves third IShip.
      */
-    private Ship ship3;
+    private IShip                        ship3;
 
     /**
      * Set-Up.
@@ -41,9 +45,9 @@ public class CollisionOrientationBothTrueTest {
         StatCollection.heightLenght = 10;
         StatCollection.shipNumberMax = 5;
         cc = new CollisionOrientationBothTrue();
-        ship1 = new Ship(3, true, 4, 4);
-        ship2 = new Ship(3, true, 4, 5);
-        ship3 = new Ship(3, true, 6, 4);
+        ship1 = createShip(3, true, 4, 4);
+        ship2 = createShip(3, true, 4, 5);
+        ship3 = createShip(3, true, 6, 4);
     }
 
     /**
