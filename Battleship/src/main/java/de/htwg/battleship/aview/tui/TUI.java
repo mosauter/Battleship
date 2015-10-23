@@ -2,16 +2,16 @@
 
 package de.htwg.battleship.aview.tui;
 
+import com.google.inject.Inject;
+import de.htwg.battleship.controller.IMasterController;
+import de.htwg.battleship.observer.IObserver;
+import de.htwg.battleship.util.GameMode;
+import org.apache.log4j.Logger;
+
 import static de.htwg.battleship.util.State.END;
 import static de.htwg.battleship.util.State.OPTIONS;
 import static de.htwg.battleship.util.State.START;
 import static de.htwg.battleship.util.State.WRONGINPUT;
-
-import org.apache.log4j.Logger;
-
-import de.htwg.battleship.controller.IMasterController;
-import de.htwg.battleship.observer.IObserver;
-import de.htwg.battleship.util.GameMode;
 
 /**
  * Textual User Interface.
@@ -50,6 +50,7 @@ public class TUI implements IObserver {
      * Public constructor.
      * @param master master controller
      */
+    @Inject
     public TUI(final IMasterController master) {
         this.master = master;
         this.master.addObserver(this);
@@ -129,34 +130,35 @@ public class TUI implements IObserver {
      * Method to detect what statement is in the line.
      * is a transmitter between the user and the master controller
      * @param line input of stdin
+     * @return true in case the input was 'exit'
+     *         false if there was unrecognized input or something valid except
+     *         'exit'
      */
-    public final void processInputLine(final String line) {
+    public final boolean processInputLine(final String line) {
         String[] field = line.split(" ");
-//        Start End Menu
+        if (field[0].equalsIgnoreCase("exit")) {
+            //        Exit Statement at any time
+            return true;
+        }
         if (master.getCurrentState() == START
                 || master.getCurrentState() == END) {
+            //        Start End Menu
             processStartEndMenu(field);
-            return;
-        }
-//        Options Menu
-        if (master.getCurrentState() == OPTIONS) {
-        	processOptionsMenu(field);
-        	return;
-        }
-//        Place Menu
-        if (field.length == PLACE_STATEMENT_LENGTH) {
+        } else if (master.getCurrentState() == OPTIONS) {
+            //        Options Menu
+            processOptionsMenu(field);
+        } else if (field.length == PLACE_STATEMENT_LENGTH) {
+            //        Place Menu
             processPlaceMenu(field);
-            return;
-        }
-//        Shoot Menu
-        if (field.length == SHOOT_STATEMENT_LENGTH) {
+        } else if (field.length == SHOOT_STATEMENT_LENGTH) {
+            //        Shoot Menu
             processShootMenu(field);
-            return;
+        } else if (field.length == SET_NAME_STATEMENT_LENGTH) {
+            //        Player Name Menu
+            processPlayerNameMenu(field);
         }
-//        Exit Statement
-        if (field.length == SET_NAME_STATEMENT_LENGTH) {
-            processExitPlayerNameMenu(field);
-        }
+        // should never happen, only if there was a completely false input
+        return false;
     }
 
     /**
@@ -172,8 +174,6 @@ public class TUI implements IObserver {
             this.master.startGame();
         } else if (line[0].equals("2")) {
         	this.master.configure();
-        } else {
-            System.exit(0);
         }
     }
 
@@ -186,19 +186,24 @@ public class TUI implements IObserver {
     		this.master.setCurrentState(WRONGINPUT);
     		return;
     	}
-    	if (line[0].equals("1")) {
-    		this.master.setBoardSize(Integer.parseInt(line[1]));
-    	} else if (line[0].equals("2")) {
-    		this.master.setShipNumber(Integer.parseInt(line[1]));
-    	} else if (line[0].equals("3")) {
-    		if (line[1].equals("EXTREME")) {
-    			this.master.setGameMode(GameMode.EXTREME);
-    		} else {
-    			this.master.setGameMode(GameMode.NORMAL);
-    		}
-    	} else if (line[0].equals("4")) {
-    		this.master.startGame();
-    	}
+        switch (line[0]) {
+            case "1":
+                this.master.setBoardSize(Integer.parseInt(line[1]));
+                break;
+            case "2":
+                this.master.setShipNumber(Integer.parseInt(line[1]));
+                break;
+            case "3":
+                if (line[1].equalsIgnoreCase("EXTREME")) {
+                    this.master.setGameMode(GameMode.EXTREME);
+                } else {
+                    this.master.setGameMode(GameMode.NORMAL);
+                }
+                break;
+            case "4":
+                this.master.startGame();
+                break;
+        }
     }
 
     /**
@@ -216,7 +221,7 @@ public class TUI implements IObserver {
         }
         int x = (int) line[0].charAt(0) - ASCII_LOW_CASE;
         int y = Integer.parseInt(line[1]);
-        if (line[2].equals("horizontal")) {
+        if (line[2].equalsIgnoreCase("horizontal")) {
             master.placeShip(x, y, true);
         } else {
             master.placeShip(x, y, false);
@@ -242,14 +247,10 @@ public class TUI implements IObserver {
     }
 
     /**
-     * Utility method to process the input line in the exit menu
-     * and the setPlayerName menu.
+     * Utility method to process the input line in the setPlayerName menu.
      * @param line the input line as array
      */
-    private void processExitPlayerNameMenu(final String[] line) {
-        if (line[0].equals("Exit") || line[0].equals("exit")) {
-            System.exit(0);
-        }
+    private void processPlayerNameMenu(final String[] line) {
         master.setPlayerName(line[0]);
     }
 }
