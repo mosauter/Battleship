@@ -19,3 +19,7 @@ target/
 hs_err_pid*
 
 nb-configuration.xml
+
+# IntelliJ configuration
+.idea/
+*.iml
