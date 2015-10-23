@@ -1,18 +1,10 @@
 // JPopupDialog.java
 package de.htwg.battleship.aview.gui;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Point;
+import javax.swing.*;
+import java.awt.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 
 /**
  * JPopupDialog modifies JDialog that the dialog shows only a specified time and
@@ -36,6 +28,14 @@ public class JPopupDialog extends JDialog implements Runnable {
      * Constant for the height of the dialog.
      */
     private static final int FRAME_HEIGHT = 200;
+    /**
+     * Constant for the font.
+     */
+    private static final String FONT = "Helvetica";
+    /**
+     * Saves the Path to the Background image in the img folder.
+     */
+    private static final String BACKGROUND = "../../../../../background_dialog.jpg";
     /**
      * Saves the time how long the message should be shown to the user before
      * dispose.
@@ -88,10 +88,9 @@ public class JPopupDialog extends JDialog implements Runnable {
         super(owner, title, modal);
         this.displaytime = milliseconds;
         JLabel text = new JLabel(message);
-        text.setFont(new Font("Helvetica", Font.BOLD, FONT_SIZE));
+        text.setFont(new Font(FONT, Font.BOLD, FONT_SIZE));
         text.setForeground(Color.WHITE);
-        text.setIcon(new ImageIcon(
-        		getClass().getResource("background_dialog.jpg")));
+        text.setIcon(new ImageIcon(getClass().getResource(BACKGROUND)));
         text.setHorizontalTextPosition(SwingConstants.CENTER);
         text.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         this.setContentPane(text);

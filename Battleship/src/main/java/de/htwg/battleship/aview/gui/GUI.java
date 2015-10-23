@@ -1,30 +1,21 @@
 package de.htwg.battleship.aview.gui;
 
+import com.google.inject.Inject;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.observer.IObserver;
-import static de.htwg.battleship.util.StatCollection.createMap;
-import static de.htwg.battleship.util.StatCollection.heightLenght;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Rectangle;
+
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 import java.util.Set;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
+
+import static de.htwg.battleship.util.StatCollection.createMap;
+import static de.htwg.battleship.util.StatCollection.heightLenght;
 
 /**
  * Graphical User Interface for the Game
@@ -34,6 +25,12 @@ import javax.swing.border.LineBorder;
  */
 @SuppressWarnings("serial")
 public final class GUI extends JFrame implements IObserver {
+
+    /**
+     * Constant for the path to the img folder. This folder should have all the
+     * images for the GUI.
+     */
+    private static final String PATH_TO_IMG_FOLDER = "../../../../../";
 
     /**
      * Constant that indicates how long the JPopupDialogs should be shown before
@@ -170,44 +167,44 @@ public final class GUI extends JFrame implements IObserver {
     /**
      * default Background for mainframe.
      */
-    private final ImageIcon background
-            = new ImageIcon(getClass().getResource("background.jpg"));
+    private final ImageIcon background = new ImageIcon(getClass()
+        .getResource(PATH_TO_IMG_FOLDER + "background.jpg"));
 
     /**
      * default background for the menuframe.
      */
-    private final ImageIcon backgroundMenu
-            = new ImageIcon(getClass().getResource("background_menu.jpg"));
+    private final ImageIcon backgroundMenu = new ImageIcon(getClass()
+        .getResource(PATH_TO_IMG_FOLDER + "background_menu.jpg"));
 
     /**
      * default ImageIcon for non-hitted fields.
      */
-    private final ImageIcon wave
-            = new ImageIcon(getClass().getResource("wave.jpg"));
+    private final ImageIcon wave = new ImageIcon(getClass()
+        .getResource(PATH_TO_IMG_FOLDER + "wave.jpg"));
 
     /**
      * ImageIcon for missed shots.
      */
-    private final ImageIcon miss
-            = new ImageIcon(getClass().getResource("miss.jpg"));
+    private final ImageIcon miss = new ImageIcon(getClass()
+        .getResource(PATH_TO_IMG_FOLDER + "miss.jpg"));
 
     /**
      * ImageIcon for ship placed fields.
      */
-    private final ImageIcon ship
-            = new ImageIcon(getClass().getResource("ship.jpg"));
+    private final ImageIcon ship = new ImageIcon(getClass()
+        .getResource(PATH_TO_IMG_FOLDER + "ship.jpg"));
 
     /**
      * ImageIcon for hitted fields with ship.
      */
-    private final ImageIcon hit
-            = new ImageIcon(getClass().getResource("ship_hit.jpg"));
+    private final ImageIcon hit = new ImageIcon(getClass()
+        .getResource(PATH_TO_IMG_FOLDER + "ship_hit.jpg"));
 
     /**
      * ImageIcon for JLabels with invisible background.
      */
-    private final ImageIcon invisible
-            = new ImageIcon(getClass().getResource("invisible.png"));
+    private final ImageIcon invisible = new ImageIcon(getClass()
+        .getResource(PATH_TO_IMG_FOLDER + "invisible.png"));
 
     /**
      * To save the MasterController for all of the several UIs.
@@ -270,13 +267,14 @@ public final class GUI extends JFrame implements IObserver {
      *
      * @param master MasterController which is the same for all UI
      */
+    @Inject
     public GUI(final IMasterController master) {
         master.addObserver(this);
         this.master = master;
         //Initialize mainFrame
         this.setTitle("Battleship");
-        this.setIconImage(new ImageIcon(
-                getClass().getResource("frame_icon.jpg")).getImage());
+        this.setIconImage(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "frame_icon.jpg")).getImage());
         this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.container = new JLabel(background);
@@ -296,15 +294,15 @@ public final class GUI extends JFrame implements IObserver {
         //build Buttons
         this.start.setBounds(MENU_FRAME_START_BUTTON);
         this.exit.setBounds(MENU_FRAME_EXIT_BUTTON);
-        this.start.setIcon(new ImageIcon(
-                getClass().getResource("menubutton_1.jpg")));
-        this.start.setRolloverIcon(new ImageIcon(
-                getClass().getResource("menubutton_1_mouseover.jpg")));
+        this.start.setIcon(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "menubutton_1.jpg")));
+        this.start.setRolloverIcon(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "menubutton_1_mouseover.jpg")));
         this.start.setBorder(null);
-        this.exit.setIcon(new ImageIcon(
-                getClass().getResource("menubutton_2.jpg")));
-        this.exit.setRolloverIcon(new ImageIcon(
-                getClass().getResource("menubutton_2_mouseover.jpg")));
+        this.exit.setIcon(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "menubutton_2.jpg")));
+        this.exit.setRolloverIcon(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "menubutton_2_mouseover.jpg")));
         this.exit.setBorder(null);
         this.start.addActionListener(new MenuListener());
         this.exit.addActionListener(new MenuListener());
@@ -318,8 +316,8 @@ public final class GUI extends JFrame implements IObserver {
         this.menuFrame.setSize(MENU_FRAME_SIZE);
         this.menuFrame.setResizable(false);
         this.menuFrame.setLocationRelativeTo(null);
-        this.menuFrame.setIconImage(new ImageIcon(
-                getClass().getResource("frame_icon.jpg")).getImage());
+        this.menuFrame.setIconImage(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "frame_icon.jpg")).getImage());
         this.menuFrame.setVisible(true);
     }
 
@@ -389,8 +387,8 @@ public final class GUI extends JFrame implements IObserver {
         ausgabe.setHorizontalAlignment(SwingConstants.CENTER);
         ausgabe.setFont(GUI.FONT);
         ausgabe.setForeground(Color.WHITE);
-        ausgabe.setIcon(new ImageIcon(
-                getClass().getResource("invisible_ausgabe.png")));
+        ausgabe.setIcon(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "invisible_ausgabe.png")));
         bottom.add(ausgabe);
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.setLocationRelativeTo(null);
@@ -452,16 +450,16 @@ public final class GUI extends JFrame implements IObserver {
         player.setFont(GUI.FONT);
         player.setBounds(PLAYER_FRAME_TEXT);
         JButton submit = new JButton("OK");
-        submit.setIcon(new ImageIcon(
-                getClass().getResource("playername_button.jpg")));
-        submit.setRolloverIcon(new ImageIcon(
-                getClass().getResource("playername_button_mouseover.jpg")));
+        submit.setIcon(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "playername_button.jpg")));
+        submit.setRolloverIcon(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "playername_button_mouseover.jpg")));
         submit.setBorder(null);
         submit.setBounds(PLAYER_FRAME_BUTTON);
         submit.addActionListener(pl);
         notifyframe = new JFrame();
-        notifyframe.setIconImage(new ImageIcon(
-                getClass().getResource("frame_icon.jpg")).getImage());
+        notifyframe.setIconImage(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "frame_icon.jpg")).getImage());
         notifyframe.add(icon);
         notifyframe.setSize(PLAYER_FRAME);
         icon.setLayout(null);
@@ -486,15 +484,16 @@ public final class GUI extends JFrame implements IObserver {
         east.remove(ver);
         resetPlaceButton();
         this.ver.setPreferredSize(EAST_BUTTONS);
-        this.ver.setIcon(new ImageIcon(getClass().getResource("vertical.jpg")));
-        this.ver.setRolloverIcon(new ImageIcon(
-                getClass().getResource("vertical_mouseover.jpg")));
+        this.ver.setIcon(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "vertical.jpg")));
+        this.ver.setRolloverIcon(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "vertical_mouseover.jpg")));
         this.ver.setBorder(null);
         this.hor.setPreferredSize(EAST_BUTTONS);
-        this.hor.setIcon(new ImageIcon(
-                getClass().getResource("horizontal.jpg")));
-        this.hor.setRolloverIcon(new ImageIcon(
-                getClass().getResource("horizontal_mouseover.jpg")));
+        this.hor.setIcon(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "horizontal.jpg")));
+        this.hor.setRolloverIcon(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "horizontal_mouseover.jpg")));
         this.hor.setBorder(null);
         east.add(hor);
         east.add(ver);
@@ -564,14 +563,14 @@ public final class GUI extends JFrame implements IObserver {
         this.endPlayer2.setPreferredSize(EAST_BUTTONS);
         this.endPlayer1.setBorder(null);
         this.endPlayer2.setBorder(null);
-        this.endPlayer1.setIcon(new ImageIcon(
-                getClass().getResource("end_playername.jpg")));
-        this.endPlayer2.setIcon(new ImageIcon(
-                getClass().getResource("end_playername.jpg")));
-        this.endPlayer1.setRolloverIcon(new ImageIcon(
-                getClass().getResource("end_playername_mouseover.jpg")));
-        this.endPlayer2.setRolloverIcon(new ImageIcon(
-                getClass().getResource("end_playername_mouseover.jpg")));
+        this.endPlayer1.setIcon(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "end_playername.jpg")));
+        this.endPlayer2.setIcon(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "end_playername.jpg")));
+        this.endPlayer1.setRolloverIcon(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "end_playername_mouseover.jpg")));
+        this.endPlayer2.setRolloverIcon(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "end_playername_mouseover.jpg")));
         this.endPlayer1.setVerticalTextPosition(SwingConstants.CENTER);
         this.endPlayer2.setVerticalTextPosition(SwingConstants.CENTER);
         this.endPlayer1.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -587,9 +586,10 @@ public final class GUI extends JFrame implements IObserver {
         JButton finish = new JButton();
         finish.setBorder(null);
         finish.setPreferredSize(EAST_BUTTONS);
-        finish.setIcon(new ImageIcon(getClass().getResource("finish.jpg")));
-        finish.setRolloverIcon(new ImageIcon(
-                getClass().getResource("finish_mouseover.jpg")));
+        finish.setIcon(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "finish.jpg")));
+        finish.setRolloverIcon(new ImageIcon(getClass()
+            .getResource(PATH_TO_IMG_FOLDER + "finish_mouseover.jpg")));
         finish.addActionListener(new WinListener());
         east.add(this.endPlayer1);
         east.add(this.endPlayer2);
