@@ -60,8 +60,9 @@ public class TUI implements IObserver {
     /**
      * Method to print the current TUI.
      * detects what to do at the current state of the game
+     * @return the tui of the current state in a string presentation
      */
-    public final void printTUI() {
+    public final String printTUI() {
         Viewer view = new WrongInputViewer();
         switch (master.getCurrentState()) {
             case START:
@@ -119,6 +120,7 @@ public class TUI implements IObserver {
         }
         logger.debug(view.toString());
         logger.info(view.getString());
+        return view.getString();
     }
 
     @Override
