@@ -35,7 +35,7 @@ public class JPopupDialog extends JDialog implements Runnable {
     /**
      * Saves the Path to the Background image in the img folder.
      */
-    private static final String BACKGROUND = "../../../../../background_dialog.jpg";
+    private static final String BACKGROUND = "background_dialog.jpg";
     /**
      * Saves the time how long the message should be shown to the user before
      * dispose.
