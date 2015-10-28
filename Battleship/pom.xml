@@ -54,6 +54,9 @@
             <resource>
                 <directory>src/main/img</directory>
             </resource>
+            <resource>
+                <directory>src/main/util</directory>
+            </resource>
         </resources>
     </build>
 </project>

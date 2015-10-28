@@ -22,7 +22,7 @@ public final class Battleship {
     /**
      * The location of the log4j-property-file.
      */
-    private static final String LOG4J_PROPERTY_CONFIG = "log4j.properties";
+    private static final String LOG4J_PROPERTY_CONFIG = "../../../log4j.properties";
     /**
      * Saves the injector.
      */
@@ -52,7 +52,7 @@ public final class Battleship {
      * Private Constructor.
      */
     private Battleship() {
-        PropertyConfigurator.configure(LOG4J_PROPERTY_CONFIG);
+        PropertyConfigurator.configure(getClass().getResource(LOG4J_PROPERTY_CONFIG));
         injector = Guice.createInjector(new BattleshipModule());
         masterController = injector.getInstance(IMasterController.class);
         tui = injector.getInstance(TUI.class);
