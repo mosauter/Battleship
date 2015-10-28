@@ -22,7 +22,7 @@ public final class Battleship {
     /**
      * The location of the log4j-property-file.
      */
-    private static final String LOG4J_PROPERTY_CONFIG = "../../../log4j.properties";
+    private static final String LOG4J_PROPERTY_CONFIG = "log4j.properties";
     /**
      * Saves the injector.
      */
