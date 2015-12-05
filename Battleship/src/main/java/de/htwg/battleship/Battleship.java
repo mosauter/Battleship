@@ -52,7 +52,8 @@ public final class Battleship {
      * Private Constructor.
      */
     private Battleship() {
-        PropertyConfigurator.configure(getClass().getResource(LOG4J_PROPERTY_CONFIG));
+        PropertyConfigurator
+            .configure(getClass().getResource(LOG4J_PROPERTY_CONFIG));
         injector = Guice.createInjector(new BattleshipModule());
         masterController = injector.getInstance(IMasterController.class);
         tui = injector.getInstance(TUI.class);
@@ -68,6 +69,23 @@ public final class Battleship {
         if (instance == null) {
             instance = new Battleship();
         }
+        return instance;
+    }
+
+    /**
+     * Configurable Singleton to get an instance of the game.
+     *
+     * @param newInstance is a boolean true:     get always a new instance of
+     *                    the game false:    get the instance of the last called
+     *                    singleton
+     *
+     * @return the new or last instance of battleship
+     */
+    public static Battleship getInstance(boolean newInstance) {
+        if (!newInstance) {
+            return Battleship.getInstance();
+        }
+        instance = new Battleship();
         return instance;
     }
 
