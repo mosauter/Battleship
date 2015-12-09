@@ -9,7 +9,7 @@ import de.htwg.battleship.util.StatCollection;
 /**
  * Another implementation of the Board-Object where each
  * player adds his own ships.
- * 
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 2.00
  * @since 2015-04-02
@@ -21,13 +21,13 @@ public class BoardField implements IBoard {
      */
     private final IShip[]     shipList;
     /**
-     * How many ships are on the board.
-     */
-    private int               ships;
-    /**
      * The hit matrix.
      */
     private final boolean[][] field;
+    /**
+     * How many ships are on the board.
+     */
+    private int ships;
 
     /**
      * Public-Constructor.
@@ -66,6 +66,11 @@ public class BoardField implements IBoard {
     @Override
     public boolean isHit(int x, int y) {
         return field[x][y];
+    }
+
+    @Override
+    public boolean[][] getHitMap() {
+        return this.field;
     }
 
 }

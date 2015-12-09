@@ -80,7 +80,7 @@ public class ShootController extends Observable {
      * Utility-Method to get the Board of one player.
      * @param first if the board of the first or the second player should
      *              be returned
-     * @return Board
+     * @return IBoard
      */
     private IBoard getBoard(final boolean first) {
         if (first) {

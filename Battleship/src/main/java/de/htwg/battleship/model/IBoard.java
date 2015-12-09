@@ -40,4 +40,11 @@ public interface IBoard {
      * @return boolean if the Field is hit
      */
     boolean isHit(int x, int y);
+
+    /**
+     * Getter for the whole boolean field.
+     *
+     * @return boolean[][] representing the whole field
+     */
+    boolean[][] getHitMap();
 }

@@ -3,7 +3,6 @@ package de.htwg.battleship;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import de.htwg.battleship.aview.gui.GUI;
 import de.htwg.battleship.aview.tui.TUI;
 import de.htwg.battleship.controller.IMasterController;
 import org.apache.log4j.PropertyConfigurator;
@@ -38,7 +37,7 @@ public final class Battleship {
     /**
      * Saves GUI.
      */
-    private static GUI gui;
+    //    private static GUI gui;
     /**
      * Scanner to read from stdin.
      */
@@ -57,7 +56,7 @@ public final class Battleship {
         injector = Guice.createInjector(new BattleshipModule());
         masterController = injector.getInstance(IMasterController.class);
         tui = injector.getInstance(TUI.class);
-        gui = injector.getInstance(GUI.class);
+        //        gui = injector.getInstance(GUI.class);
     }
 
     /**
@@ -120,9 +119,9 @@ public final class Battleship {
      *
      * @return the GUI of the current instance
      */
-    public GUI getGui() {
-        return gui;
-    }
+    //    public GUI getGui() {
+    //        return gui;
+    //    }
 
     /**
      * Getter for the guice injector.
