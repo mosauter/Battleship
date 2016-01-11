@@ -22,7 +22,7 @@ public final class StatCollection {
     /**
      * Constant for 4.
      */
-    public static final int STANDARD_SHIP_NUMBER_MAX = 1;
+    public static final int STANDARD_SHIP_NUMBER_MAX = 5;
     /**
      * The heigth and the length of the field.
      */
