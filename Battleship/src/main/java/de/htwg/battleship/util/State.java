@@ -4,6 +4,7 @@ package de.htwg.battleship.util;
 
 /**
  * Enum with different State for the game.
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  */
 public enum State {
@@ -60,8 +61,8 @@ public enum State {
      */
     WIN2,
     /**
-     * State that the game has ended, there you can go back to the
-     * start state again.
+     * State that the game has ended, there you can go back to the start state
+     * again.
      */
     END,
 
@@ -73,18 +74,16 @@ public enum State {
 
     //  -----------------   Error States    ------------------------
     /**
-     * Place state that there was an Error while placing a Ship.
-     * Error State
+     * Place state that there was an Error while placing a Ship. Error State
      */
     PLACEERR,
     /**
-     * Interim state that there was a method call which
-     * was wrong in the current state.
-     * Error State
+     * Interim state that there was a method call which was wrong in the current
+     * state. Error State
      */
     WRONGINPUT,
     /**
      * State that indicates that the user can configure the Game.
      */
-    OPTIONS;
+    OPTIONS
 }

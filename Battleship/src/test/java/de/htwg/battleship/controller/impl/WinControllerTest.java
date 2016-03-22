@@ -2,20 +2,19 @@
 
 package de.htwg.battleship.controller.impl;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.util.StatCollection;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * WinControllerTest tests the entire win controller.
- * 
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-14
@@ -45,9 +44,8 @@ public class WinControllerTest extends AbstractTest {
         player1.getOwnBoard().addShip(ship);
         player2.getOwnBoard().addShip(ship);
         WinController wc = new WinController(player1, player2);
-        IPlayer expRes = null;
         IPlayer result = wc.win();
-        assertEquals(expRes, result);
+        assertEquals(null, result);
     }
 
     /**
@@ -55,12 +53,7 @@ public class WinControllerTest extends AbstractTest {
      */
     @Test
     public final void testPlayer1Win() {
-        IShip ship = new Ship(1, true, 0, 0);
-        player1.getOwnBoard().addShip(ship);
-        WinController wc = new WinController(player1, player2);
-        IPlayer expRes = player1;
-        IPlayer result = wc.win();
-        assertEquals(expRes, result);
+        checkPlayerWin(player1);
     }
 
     /**
@@ -68,12 +61,15 @@ public class WinControllerTest extends AbstractTest {
      */
     @Test
     public final void testPlayer2Win() {
+        checkPlayerWin(player2);
+    }
+
+    private void checkPlayerWin(IPlayer player) {
         IShip ship = new Ship(1, true, 0, 0);
-        player2.getOwnBoard().addShip(ship);
+        player.getOwnBoard().addShip(ship);
         WinController wc = new WinController(player1, player2);
-        IPlayer expRes = player2;
         IPlayer result = wc.win();
-        assertEquals(expRes, result);
+        assertEquals(player, result);
     }
 
     @Test
@@ -85,8 +81,7 @@ public class WinControllerTest extends AbstractTest {
         player1.getOwnBoard().addShip(ship2);
         player1.getOwnBoard().shoot(0, 0);
         WinController wc = new WinController(player1, player2);
-        IPlayer expRes = null;
         IPlayer result = wc.win();
-        assertEquals(expRes, result);
+        assertEquals(null, result);
     }
 }

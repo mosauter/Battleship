@@ -7,8 +7,8 @@ import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.util.StatCollection;
 
 /**
- * Another implementation of the Board-Object where each
- * player adds his own ships.
+ * Another implementation of the Board-Object where each player adds his own
+ * ships.
  *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 2.00
@@ -19,7 +19,7 @@ public class BoardField implements IBoard {
     /**
      * Saved Ships on the Board.
      */
-    private final IShip[]     shipList;
+    private final IShip[] shipList;
     /**
      * The hit matrix.
      */
@@ -35,7 +35,8 @@ public class BoardField implements IBoard {
     public BoardField() {
         this.shipList = new Ship[StatCollection.shipNumberMax];
         this.ships = 0;
-        this.field = new boolean[StatCollection.heightLenght][StatCollection.heightLenght];
+        this.field =
+            new boolean[StatCollection.heightLenght][StatCollection.heightLenght];
     }
 
     @Override

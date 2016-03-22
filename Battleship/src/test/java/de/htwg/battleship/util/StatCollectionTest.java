@@ -2,14 +2,19 @@
 
 package de.htwg.battleship.util;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.util.Map;
 import java.util.Set;
-import org.junit.Assert;
+
 import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * StatCollectionTest tests the utility collection of some methods.
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-04
@@ -21,23 +26,20 @@ public class StatCollectionTest {
      */
     @Test
     public final void testIsBetween() {
-        boolean expResult = false;
         int xlow = 3;
         int xupp = 5;
         int x = 6;
         boolean result = StatCollection.isBetween(xupp, xlow, x);
-        assertEquals(expResult, result);
-        expResult = true;
+        assertFalse(result);
         x = 5;
         result = StatCollection.isBetween(xupp, xlow, x);
-        assertEquals(expResult, result);
+        assertTrue(result);
         x = 3;
         result = StatCollection.isBetween(xupp, xlow, x);
-        assertEquals(expResult, result);
-        expResult = false;
+        assertTrue(result);
         x = 2;
         result = StatCollection.isBetween(xupp, xlow, x);
-        assertEquals(expResult, result);
+        assertFalse(result);
     }
 
     /**

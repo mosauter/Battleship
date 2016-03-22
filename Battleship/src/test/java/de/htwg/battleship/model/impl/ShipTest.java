@@ -1,16 +1,17 @@
 package de.htwg.battleship.model.impl;
 
-import static org.junit.Assert.assertEquals;
-
+import de.htwg.battleship.AbstractTest;
+import de.htwg.battleship.model.IShip;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htwg.battleship.AbstractTest;
-import de.htwg.battleship.model.IShip;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * ShipTest tests implementation of ships.
- * 
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  */
 public class ShipTest extends AbstractTest {
@@ -36,13 +37,11 @@ public class ShipTest extends AbstractTest {
      */
     @Test
     public final void testIsOrientation() {
-        boolean expResult = true;
         boolean result = ship.isOrientation();
-        assertEquals(expResult, result);
-        expResult = false;
-        this.ship.setOrientation(expResult);
+        assertTrue(result);
+        this.ship.setOrientation(false);
         result = ship.isOrientation();
-        assertEquals(expResult, result);
+        assertFalse(result);
     }
 
     /**

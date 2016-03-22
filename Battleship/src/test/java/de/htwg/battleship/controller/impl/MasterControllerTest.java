@@ -1,6 +1,22 @@
 // MasterControllerTest.java
 package de.htwg.battleship.controller.impl;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import de.htwg.battleship.BattleshipModule;
+import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.model.impl.Ship;
+import de.htwg.battleship.observer.IObserver;
+import de.htwg.battleship.util.StatCollection;
+import de.htwg.battleship.util.State;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.Map;
+import java.util.Set;
+
 import static de.htwg.battleship.util.State.END;
 import static de.htwg.battleship.util.State.GETNAME1;
 import static de.htwg.battleship.util.State.HIT;
@@ -16,24 +32,6 @@ import static de.htwg.battleship.util.State.WIN2;
 import static de.htwg.battleship.util.State.WRONGINPUT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import java.util.Map;
-import java.util.Set;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
-import de.htwg.battleship.BattleshipModule;
-import de.htwg.battleship.model.IPlayer;
-import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.model.impl.Ship;
-import de.htwg.battleship.observer.IObserver;
-import de.htwg.battleship.util.StatCollection;
-import de.htwg.battleship.util.State;
 
 /**
  * MasterControllerTest tests the MasterController.
@@ -51,19 +49,19 @@ public class MasterControllerTest {
     /**
      * Saves the first player.
      */
-    private IPlayer          player1;
+    private IPlayer player1;
     /**
      * Saves the second player.
      */
-    private IPlayer          player2;
+    private IPlayer player2;
     /**
      * Saves an util observer object for testing.
      */
-    private UtilObserver     utilOb;
+    private UtilObserver utilOb;
     /**
      * Saves the injector.
      */
-    private Injector         injector;
+    private Injector injector;
 
     /**
      * Set-Up.
@@ -108,8 +106,8 @@ public class MasterControllerTest {
             if (ship1.getY() == 1) {
                 y = true;
             }
-            if (ship1.getSize() == master.getPlayer1().getOwnBoard().getShips()
-                                   + 1) {
+            if (ship1.getSize() ==
+                master.getPlayer1().getOwnBoard().getShips() + 1) {
                 size = true;
             }
             orientation = ship.isOrientation();
@@ -195,9 +193,9 @@ public class MasterControllerTest {
         String name = "Moritz";
         master.setCurrentState(State.GETNAME1);
         master.setPlayerName(name);
-        assert(name.equals(master.getPlayer1().getName()));
+        assert (name.equals(master.getPlayer1().getName()));
         master.setPlayerName(name);
-        assert(name.equals(master.getPlayer2().getName()));
+        assert (name.equals(master.getPlayer2().getName()));
         master.addObserver(utilOb);
         master.setPlayerName(name);
         // Last was a false input
@@ -311,7 +309,7 @@ public class MasterControllerTest {
     @Test
     public final void testFillMap() {
         Map<Integer, Set<Integer>> map = StatCollection.createMap();
-        IShip[] shipList = { new Ship(1, true, 1, 1) };
+        IShip[] shipList = {new Ship(1, true, 1, 1)};
         map = master.fillMap(shipList, map, 1);
         assertTrue(map.get(1).contains(1));
     }
@@ -319,16 +317,16 @@ public class MasterControllerTest {
     /**
      * Utility observer object for test purposes. implements IObserver
      */
-    class UtilObserver implements IObserver {
+    private class UtilObserver implements IObserver {
 
         /**
          * Utility integer for test purposes.
          */
-        private int     util  = 0;
+        private int util = 0;
         private boolean wrong = false;
         private boolean plerr = false;
-        private boolean hit   = false;
-        private boolean miss  = false;
+        private boolean hit = false;
+        private boolean miss = false;
 
         @Override
         public void update() {

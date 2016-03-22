@@ -39,10 +39,6 @@ public final class Battleship {
      */
     //    private static GUI gui;
     /**
-     * Scanner to read from stdin.
-     */
-    private static Scanner scanner;
-    /**
      * Saves a instance of this game. Is used in a Singleton-Pattern.
      */
     private static Battleship instance;
@@ -89,23 +85,6 @@ public final class Battleship {
     }
 
     /**
-     * Main-Method.
-     *
-     * @param args not used
-     */
-    public static void main(final String[] args) {
-        @SuppressWarnings("unused") Battleship bs = Battleship.getInstance();
-        scanner = new Scanner(System.in);
-        boolean done = false;
-        while (!done) {
-            done = tui.processInputLine(scanner.nextLine());
-        }
-        // exit because TUI detected 'exit' as input string
-        // exit that the GUI closes too
-        System.exit(0);
-    }
-
-    /**
      * Getter for TUI.
      *
      * @return the TUI of the current instance
@@ -139,5 +118,22 @@ public final class Battleship {
      */
     public IMasterController getMasterController() {
         return masterController;
+    }
+
+    /**
+     * Main-Method.
+     *
+     * @param args not used
+     */
+    public static void main(final String[] args) {
+        @SuppressWarnings("unused") Battleship bs = Battleship.getInstance();
+        Scanner scanner = new Scanner(System.in);
+        boolean done = false;
+        while (!done) {
+            done = tui.processInputLine(scanner.nextLine());
+        }
+        // exit because TUI detected 'exit' as input string
+        // exit that the GUI closes too
+        System.exit(0);
     }
 }

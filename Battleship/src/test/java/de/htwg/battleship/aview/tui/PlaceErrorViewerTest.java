@@ -7,6 +7,7 @@ import org.junit.Test;
 
 /**
  * PlaceErrorViewerTest tests the placeerror viewer.
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-18
@@ -19,8 +20,8 @@ public class PlaceErrorViewerTest {
     @Test
     public final void testGetString() {
         Viewer v = new PlaceErrorViewer();
-        String s = "Cannot place the Ship because there was a collision or"
-                + " the ship ends out of the field. Try again!\n";
+        String s = "Cannot place the Ship because there was a collision or" +
+                   " the ship ends out of the field. Try again!\n";
         assert (v.getString().equals(s));
     }
 

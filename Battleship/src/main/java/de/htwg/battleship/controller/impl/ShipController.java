@@ -6,14 +6,14 @@ import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.observer.impl.Observable;
 
 /**
- * ShipController to place the ships and test if there are collisions.
- * to test that it uses another controller which uses a
- * chain-of-responsibility-pattern
+ * ShipController to place the ships and test if there are collisions. to test
+ * that it uses another controller which uses a chain-of-responsibility-pattern
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-11-27
  */
-public class ShipController extends Observable {
+class ShipController extends Observable {
 
     /**
      * Controller with a chain of responsibility.
@@ -28,29 +28,31 @@ public class ShipController extends Observable {
     /**
      * Public Constructor.
      */
-    public ShipController() {
+    ShipController() {
         this.collisionController = new CollisionOrientationBothTrue();
         this.borderController = new BorderTrueController();
     }
 
     /**
      * Method to place a Ship on a field.
-     * @param ship ship which should be placed
+     *
+     * @param ship   ship which should be placed
      * @param player on which board the ship should be placed
-     * @return true if the ship was placed false if there was a
-     *         collision or the ship is out of the field
+     *
+     * @return true if the ship was placed false if there was a collision or the
+     * ship is out of the field
      */
     public final boolean placeShip(final IShip ship, final IPlayer player) {
-        if (!borderController.responsibility(ship)) {
-            return false;
-        }
-        return playerShip(ship, player);
+        return borderController.responsibility(ship) &&
+               playerShip(ship, player);
     }
 
     /**
      * Utility-Method to set a ship for a specified player.
-     * @param ship to place
+     *
+     * @param ship   to place
      * @param player which player
+     *
      * @return true if it is set, false if not
      */
     private boolean playerShip(final IShip ship, final IPlayer player) {
@@ -67,8 +69,10 @@ public class ShipController extends Observable {
 
     /**
      * Tests if two ships collide.
-     * @param ship on the board
+     *
+     * @param ship   on the board
      * @param shipIn to place
+     *
      * @return true if they collide
      */
     private boolean isCollision(final IShip ship, final IShip shipIn) {

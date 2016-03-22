@@ -2,13 +2,12 @@
 package de.htwg.battleship.model.impl;
 
 import com.google.inject.Inject;
-
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 
 /**
  * Player.
- * 
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-11-06
@@ -26,9 +25,8 @@ public class Player implements IPlayer {
 
     /**
      * Public Constructor.
-     * 
-     * @param player1Board
-     *            Board of the Player.
+     *
+     * @param player1Board Board of the Player.
      */
     @Inject
     public Player(final IBoard player1Board) {
@@ -36,15 +34,15 @@ public class Player implements IPlayer {
     }
 
     @Override
+    public final String getName() {
+        return this.name;
+    }
+
+    @Override
     public final void setName(final String name) {
         if (this.name.isEmpty()) {
             this.name = name;
         }
-    }
-
-    @Override
-    public final String getName() {
-        return this.name;
     }
 
     @Override

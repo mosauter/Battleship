@@ -2,19 +2,18 @@
 
 package de.htwg.battleship.controller.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.util.StatCollection;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * CollisionOrientationFirstTrueTest tests an implementation of the chain.
- * 
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-04
@@ -28,15 +27,15 @@ public class CollisionOrientationFirstTrueTest extends AbstractTest {
     /**
      * Saves the first ship.
      */
-    private IShip                         ship1;
+    private IShip ship1;
     /**
      * Saves the second ship.
      */
-    private IShip                         ship2;
+    private IShip ship2;
     /**
      * Saves the third ship.
      */
-    private IShip                         ship3;
+    private IShip ship3;
 
     /**
      * Set-Up.
@@ -56,12 +55,10 @@ public class CollisionOrientationFirstTrueTest extends AbstractTest {
      */
     @Test
     public final void testIsCollision() {
-        boolean expRes = false;
         boolean result = cc.isCollision(ship1, ship2);
-        assertEquals(expRes, result);
-        expRes = true;
+        assertFalse(result);
         result = cc.isCollision(ship1, ship3);
-        assertEquals(expRes, result);
+        assertTrue(result);
     }
 
     @Test

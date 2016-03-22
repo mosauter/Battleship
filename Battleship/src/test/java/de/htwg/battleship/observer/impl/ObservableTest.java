@@ -3,11 +3,13 @@
 package de.htwg.battleship.observer.impl;
 
 import de.htwg.battleship.observer.IObserver;
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * ObservableTest tests the observable.
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-18
@@ -30,13 +32,12 @@ public class ObservableTest {
     /**
      * Test utility object.
      */
-    class ObservableTestObject extends Observable {
-    }
+    private class ObservableTestObject extends Observable {}
 
     /**
      * Test utility object.
      */
-    class ObserverObject implements IObserver {
+    private class ObserverObject implements IObserver {
 
         /**
          * Test int.

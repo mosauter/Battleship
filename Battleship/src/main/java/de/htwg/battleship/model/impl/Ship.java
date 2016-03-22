@@ -6,6 +6,7 @@ import de.htwg.battleship.model.IShip;
 
 /**
  * Ship for Battleship.
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-10-29
@@ -25,15 +26,13 @@ public class Ship implements IShip {
      */
     private int y;
     /**
-     * If it is vertical or horizontal.
-     * True if horizontal, False if vertical.
+     * If it is vertical or horizontal. True if horizontal, False if vertical.
      */
     private boolean orientation;
 
     /**
-     * Public Constructor with no parameters.
-     * initializes all integer values with -1 and orientation with true
-     * only for use with dependency injection
+     * Public Constructor with no parameters. initializes all integer values
+     * with -1 and orientation with true only for use with dependency injection
      */
     public Ship() {
         this(-1, true, -1, -1);
@@ -41,13 +40,14 @@ public class Ship implements IShip {
 
     /**
      * Public-Constructor with all parameters.
-     * @param size of the ship.
+     *
+     * @param size        of the ship.
      * @param orientation true if horizontal.
-     * @param x X-Coordinate where the ship starts
-     * @param y Y-Coordinate where the ship starts
+     * @param x           X-Coordinate where the ship starts
+     * @param y           Y-Coordinate where the ship starts
      */
-    public Ship(final int size, final boolean orientation,
-            final int x, final int y) {
+    public Ship(final int size, final boolean orientation, final int x,
+                final int y) {
         this.size = size;
         this.orientation = orientation;
         this.x = x;
@@ -70,8 +70,18 @@ public class Ship implements IShip {
     }
 
     @Override
+    public final void setX(final int x) {
+        this.x = x;
+    }
+
+    @Override
     public final int getY() {
         return this.y;
+    }
+
+    @Override
+    public final void setY(final int y) {
+        this.y = y;
     }
 
     @Override
@@ -85,15 +95,5 @@ public class Ship implements IShip {
             return;
         }
         this.size = size;
-    }
-
-    @Override
-    public final void setX(final int x) {
-        this.x = x;
-    }
-
-    @Override
-    public final void setY(final int y) {
-        this.y = y;
     }
 }

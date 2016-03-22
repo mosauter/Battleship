@@ -6,65 +6,80 @@ import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.util.StatCollection;
 
 /**
- * Controller for checking if ship collides.
- * use the Chain-of-Responsibility-Pattern
- * 
+ * Controller for checking if ship collides. use the Chain-of-Responsibility-Pattern
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-04
  */
-public abstract class CollisionController {
+abstract class CollisionController {
 
     /**
-     * Orientation of the first ship.
-     * indicates the responsibility of the Controller implementation
+     * Orientation of the first ship. indicates the responsibility of the
+     * Controller implementation
      */
-    protected boolean firstShip;
+    boolean firstShip;
     /**
-     * Orientation of the second ship.
-     * indicates the responsibility of the Controller implementation
+     * Orientation of the second ship. indicates the responsibility of the
+     * Controller implementation
      */
-    protected boolean secondShip;
+    boolean secondShip;
 
     /**
      * Next Controller implementation of the chain.
      */
-    protected CollisionController next;
+    CollisionController next;
 
     /**
      * Method to test if the two ship collides.
-     * 
-     * @param shipIn
-     *            ship one
-     * @param ship
-     *            ship two
-     * @return true if there is a collision
-     *         false if not
+     *
+     * @param shipIn ship one
+     * @param ship   ship two
+     *
+     * @return true if there is a collision false if not
      */
     public abstract boolean isCollision(IShip shipIn, IShip ship);
 
     /**
      * Method to search who is responsible for the case in the chain.
-     * 
-     * @param shipIn
-     *            first ship
-     * @param ship
-     *            second ship
-     * @return true if there is a collision
-     *         false if not
+     *
+     * @param shipIn first ship
+     * @param ship   second ship
+     *
+     * @return true if there is a collision false if not
      */
-    public final boolean responsibility(final IShip shipIn, final IShip ship) {
-        if ((shipIn.isOrientation() == firstShip)
-            && (ship.isOrientation() == secondShip)) {
+    final boolean responsibility(final IShip shipIn, final IShip ship) {
+        if ((shipIn.isOrientation() == firstShip) &&
+            (ship.isOrientation() == secondShip)) {
             return isCollision(shipIn, ship);
         }
         return next.responsibility(shipIn, ship);
+    }
+
+    /**
+     * Check if the ships collide. To use this method the ships must have
+     * different orientations.
+     *
+     * @param first  the first ship
+     * @param second the second ship with a different orientation
+     *
+     * @return true if the ships collide
+     */
+    boolean checkShipsDifferent(IShip first, IShip second) {
+        int xinlow = second.getX();
+        int xinupp = xinlow + second.getSize() - 1;
+        int yin = second.getY();
+        int ylow = first.getY();
+        int yupp = ylow + first.getSize() - 1;
+        int x = first.getX();
+        return StatCollection.isBetween(yupp, ylow, yin) &&
+               StatCollection.isBetween(xinupp, xinlow, x);
     }
 }
 
 /**
  * Controller implementation for both ship orientations equals true.
- * 
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  */
 class CollisionOrientationBothTrue extends CollisionController {
@@ -72,7 +87,7 @@ class CollisionOrientationBothTrue extends CollisionController {
     /**
      * Public Constructor.
      */
-    public CollisionOrientationBothTrue() {
+    CollisionOrientationBothTrue() {
         this.firstShip = true;
         this.secondShip = true;
         this.next = new CollisionOrientationBothFalse();
@@ -97,7 +112,7 @@ class CollisionOrientationBothTrue extends CollisionController {
 
 /**
  * Controller for both ship orientations equals false.
- * 
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  */
 class CollisionOrientationBothFalse extends CollisionController {
@@ -105,7 +120,7 @@ class CollisionOrientationBothFalse extends CollisionController {
     /**
      * Public Constructor.
      */
-    public CollisionOrientationBothFalse() {
+    CollisionOrientationBothFalse() {
         this.firstShip = false;
         this.secondShip = false;
         this.next = new CollisionOrientationFirstTrue();
@@ -129,9 +144,9 @@ class CollisionOrientationBothFalse extends CollisionController {
 }
 
 /**
- * Controller implementation for first ship orientation true.
- * extends CollisionController
- * 
+ * Controller implementation for first ship orientation true. extends
+ * CollisionController
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  */
 class CollisionOrientationFirstTrue extends CollisionController {
@@ -139,29 +154,23 @@ class CollisionOrientationFirstTrue extends CollisionController {
     /**
      * Public Constructor.
      */
-    public CollisionOrientationFirstTrue() {
+    CollisionOrientationFirstTrue() {
         this.firstShip = true;
         this.secondShip = false;
         this.next = new CollisionOrientationFirstFalse();
     }
 
     @Override
-    public boolean isCollision(final IShip shipX, final IShip shipY) {
-        int xinlow = shipX.getX();
-        int xinupp = xinlow + shipX.getSize() - 1;
-        int yin = shipX.getY();
-        int ylow = shipY.getY();
-        int yupp = ylow + shipY.getSize() - 1;
-        int x = shipY.getX();
-        return StatCollection.isBetween(yupp, ylow, yin)
-               && StatCollection.isBetween(xinupp, xinlow, x);
+    public boolean isCollision(final IShip horizontalShip,
+                               final IShip verticalShip) {
+        return checkShipsDifferent(verticalShip, horizontalShip);
     }
 }
 
 /**
- * Controller implementation for first ship orientation false.
- * extends CollisionController
- * 
+ * Controller implementation for first ship orientation false. extends
+ * CollisionController
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  */
 class CollisionOrientationFirstFalse extends CollisionController {
@@ -169,20 +178,14 @@ class CollisionOrientationFirstFalse extends CollisionController {
     /**
      * Public - Constructor.
      */
-    public CollisionOrientationFirstFalse() {
+    CollisionOrientationFirstFalse() {
         this.firstShip = false;
         this.secondShip = true;
     }
 
     @Override
-    public boolean isCollision(final IShip shipY, final IShip shipX) {
-        int xinlow = shipX.getX();
-        int xinupp = xinlow + shipX.getSize() - 1;
-        int yin = shipX.getY();
-        int ylow = shipY.getY();
-        int yupp = ylow + shipY.getSize() - 1;
-        int x = shipY.getX();
-        return StatCollection.isBetween(yupp, ylow, yin)
-               && StatCollection.isBetween(xinupp, xinlow, x);
+    public boolean isCollision(final IShip verticalShip,
+                               final IShip horizontalShip) {
+        return checkShipsDifferent(verticalShip, horizontalShip);
     }
 }

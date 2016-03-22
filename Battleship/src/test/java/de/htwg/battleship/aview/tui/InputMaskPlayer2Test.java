@@ -7,6 +7,7 @@ import org.junit.Test;
 
 /**
  * InputMaskPlayer2Test tests the input mask for player 2.
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-18

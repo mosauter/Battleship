@@ -2,6 +2,20 @@
 
 package de.htwg.battleship.controller.impl;
 
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import de.htwg.battleship.controller.IMasterController;
+import de.htwg.battleship.model.IBoard;
+import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.observer.impl.Observable;
+import de.htwg.battleship.util.GameMode;
+import de.htwg.battleship.util.StatCollection;
+import de.htwg.battleship.util.State;
+
+import java.util.Map;
+import java.util.Set;
+
 import static de.htwg.battleship.util.State.END;
 import static de.htwg.battleship.util.State.FINALPLACE1;
 import static de.htwg.battleship.util.State.FINALPLACE2;
@@ -19,33 +33,9 @@ import static de.htwg.battleship.util.State.WIN1;
 import static de.htwg.battleship.util.State.WIN2;
 import static de.htwg.battleship.util.State.WRONGINPUT;
 
-import java.util.Map;
-import java.util.Set;
-
-import com.google.inject.Inject;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Injector;
-
-import de.htwg.battleship.controller.IMasterController;
-import de.htwg.battleship.controller.IMasterController;
-import de.htwg.battleship.model.IBoard;
-import de.htwg.battleship.model.IPlayer;
-import de.htwg.battleship.model.IPlayer;
-import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.observer.impl.Observable;
-import de.htwg.battleship.observer.impl.Observable;
-import de.htwg.battleship.util.GameMode;
-import de.htwg.battleship.util.GameMode;
-import de.htwg.battleship.util.StatCollection;
-import de.htwg.battleship.util.StatCollection;
-import de.htwg.battleship.util.State;
-import de.htwg.battleship.util.State;
-
 /**
  * MasterController is an implementation of the master controller.
- * 
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-16
@@ -55,7 +45,7 @@ public class MasterController extends Observable implements IMasterController {
     /**
      * Internal Ship controller.
      */
-    private final ShipController  shipController;
+    private final ShipController shipController;
     /**
      * Internal shoot controller.
      */
@@ -63,35 +53,33 @@ public class MasterController extends Observable implements IMasterController {
     /**
      * Internal win controller.
      */
-    private final WinController   winController;
+    private final WinController winController;
     /**
      * Saves the first Player.
      */
-    private final IPlayer         player1;
+    private final IPlayer player1;
     /**
      * Saves the second Player.
      */
-    private final IPlayer         player2;
+    private final IPlayer player2;
     /**
      * Presentation of the Game.
      */
-    private State                 currentState;
+    private State currentState;
     /**
      * Saves the GameMode of the Game.
      */
-    private GameMode              gm;
+    private GameMode gm;
     /**
      * Saves the injector which has to be set by the main method.
      */
-    private Injector              injector;
+    private Injector injector;
 
     /**
      * Public Constructor.
-     * 
-     * @param player1
-     *            player one
-     * @param player2
-     *            player two
+     *
+     * @param player1 player one
+     * @param player2 player two
      */
     @Inject
     public MasterController(final IPlayer player1, final IPlayer player2,
@@ -127,9 +115,8 @@ public class MasterController extends Observable implements IMasterController {
 
     /**
      * Utility-Method to wrap the Hit/Miss differentiation.
-     * 
-     * @param shootResult
-     *            true if there was a hit false if not
+     *
+     * @param shootResult true if there was a hit false if not
      */
     private void hitMiss(final boolean shootResult) {
         if (shootResult) {
@@ -141,9 +128,8 @@ public class MasterController extends Observable implements IMasterController {
 
     /**
      * Utility-Method to set the next state for shooting.
-     * 
-     * @param before
-     *            state before the shoot method changes it to hit or miss
+     *
+     * @param before state before the shoot method changes it to hit or miss
      */
     private void nextShootState(final State before, final boolean shootResult) {
         if (before.equals(SHOOT1)) {
@@ -180,8 +166,7 @@ public class MasterController extends Observable implements IMasterController {
 
         if (!shipController.placeShip(createShip(x, y, orientation,
                                                  (player.getOwnBoard()
-                                                        .getShips()
-                                                  + 2)),
+                                                        .getShips() + 2)),
                                       player)) {
             this.setCurrentState(PLACEERR);
             return;
@@ -200,18 +185,15 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     /**
-     * Utility Method to create a ship with dependency injection
-     * and additional setters.
-     * 
-     * @param x
-     *            x-coordinate where the ship starts
-     * @param y
-     *            y-coordinate where the ship starts
-     * @param orientation
-     *            orientation of the ship
-     *            true if horizontal, false if vertical
-     * @param size
-     *            size of the ship
+     * Utility Method to create a ship with dependency injection and additional
+     * setters.
+     *
+     * @param x           x-coordinate where the ship starts
+     * @param y           y-coordinate where the ship starts
+     * @param orientation orientation of the ship true if horizontal, false if
+     *                    vertical
+     * @param size        size of the ship
+     *
      * @return the created ship
      */
     private IShip createShip(final int x, final int y,
@@ -226,12 +208,12 @@ public class MasterController extends Observable implements IMasterController {
 
     /**
      * Checks if someone has won.
-     * 
-     * @return true if someone has won false if not, sets the win-states
-     *         and after that the end-state
-     *         returns true not until the win- and the end-states are setted
+     *
+     * @return true if someone has won false if not, sets the win-states and
+     * after that the end-state returns true not until the win- and the
+     * end-states are setted
      */
-    public final boolean win() {
+    final boolean win() {
         IPlayer winner = winController.win();
         if (winner == null) {
             return false;
@@ -243,9 +225,8 @@ public class MasterController extends Observable implements IMasterController {
 
     /**
      * Utility-Method to wrap the win-state differentiation.
-     * 
-     * @param first
-     *            true if the winner is the player1 false if not
+     *
+     * @param first true if the winner is the player1 false if not
      */
     private void winner(final boolean first) {
         if (first) {
@@ -258,7 +239,7 @@ public class MasterController extends Observable implements IMasterController {
     /**
      * Utility-method to reset the boards of both players.
      */
-    public void resetBoards() {
+    void resetBoards() {
         player1.resetBoard(injector.getInstance(IBoard.class));
         player2.resetBoard(injector.getInstance(IBoard.class));
     }
@@ -325,15 +306,14 @@ public class MasterController extends Observable implements IMasterController {
 
     /**
      * Utility Method to create a Map where ships take place.
-     * 
-     * @param ship
-     *            specified ship
-     * @param map
-     *            specified map
+     *
+     * @param ship specified ship
+     * @param map  specified map
+     *
      * @return the new Map
      */
-    public final Map<Integer, Set<Integer>>
-           getSet(final IShip ship, final Map<Integer, Set<Integer>> map) {
+    final Map<Integer, Set<Integer>> getSet(final IShip ship,
+                                            final Map<Integer, Set<Integer>> map) {
         if (ship.isOrientation()) {
             int xlow = ship.getX();
             int xupp = xlow + ship.getSize();
@@ -359,8 +339,8 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     public final void setBoardSize(final int boardSize) {
-        if (this.currentState != State.OPTIONS
-            || (StatCollection.shipNumberMax + 2) >= boardSize) {
+        if (this.currentState != State.OPTIONS ||
+            (StatCollection.shipNumberMax + 2) >= boardSize) {
             this.setCurrentState(WRONGINPUT);
             return;
         }
@@ -371,14 +351,19 @@ public class MasterController extends Observable implements IMasterController {
 
     @Override
     public final void setShipNumber(final int shipNumber) {
-        if (this.currentState != State.OPTIONS
-            || ((shipNumber + 2) >= StatCollection.heightLenght)) {
+        if (this.currentState != State.OPTIONS ||
+            ((shipNumber + 2) >= StatCollection.heightLenght)) {
             this.setCurrentState(WRONGINPUT);
             return;
         }
         StatCollection.shipNumberMax = shipNumber;
         this.resetBoards();
         notifyObserver();
+    }
+
+    @Override
+    public final GameMode getGameMode() {
+        return this.gm;
     }
 
     @Override
@@ -389,11 +374,6 @@ public class MasterController extends Observable implements IMasterController {
         } else {
             this.setCurrentState(WRONGINPUT);
         }
-    }
-
-    @Override
-    public final GameMode getGameMode() {
-        return this.gm;
     }
 
     @Override

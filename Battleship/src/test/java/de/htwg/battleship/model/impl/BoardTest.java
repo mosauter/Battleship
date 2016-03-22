@@ -1,21 +1,22 @@
 // BoardTest.java
 package de.htwg.battleship.model.impl;
 
-import static de.htwg.battleship.util.StatCollection.heightLenght;
-import static de.htwg.battleship.util.StatCollection.shipNumberMax;
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.util.StatCollection;
+import org.junit.Before;
+import org.junit.Test;
+
+import static de.htwg.battleship.util.StatCollection.heightLenght;
+import static de.htwg.battleship.util.StatCollection.shipNumberMax;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * BoardTest tests a board implementation.
- * 
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-11-05
@@ -42,11 +43,10 @@ public class BoardTest extends AbstractTest {
      */
     @Test
     public final void testAddShip() {
-        IShip[] expRes = { createShip(2, true, 3, 4),
-                           createShip(3, false, 5, 8),
-                           createShip(6, true, 1, 1),
-                           createShip(1, true, 10, 10),
-                           createShip(4, false, 1, 10) };
+        IShip[] expRes = {createShip(2, true, 3, 4), createShip(3, false, 5, 8),
+                          createShip(6, true, 1, 1),
+                          createShip(1, true, 10, 10),
+                          createShip(4, false, 1, 10)};
         board.addShip(expRes[0]);
 
         IShip[] result = board.getShipList();
@@ -74,11 +74,10 @@ public class BoardTest extends AbstractTest {
         int expRes = 0;
         int result = board.getShips();
         assertEquals(expRes, result);
-        IShip[] shipList = { createShip(2, true, 3, 4),
-                             createShip(3, false, 5, 8),
-                             createShip(6, true, 1, 1),
-                             createShip(1, true, 10, 10),
-                             createShip(4, false, 1, 10) };
+        IShip[] shipList =
+            {createShip(2, true, 3, 4), createShip(3, false, 5, 8),
+             createShip(6, true, 1, 1), createShip(1, true, 10, 10),
+             createShip(4, false, 1, 10)};
         for (int i = 0; i < shipNumberMax; i++) {
             board.addShip(shipList[i]);
             expRes++;
@@ -111,12 +110,10 @@ public class BoardTest extends AbstractTest {
     public final void testShoot() {
         int x = 2;
         int y = 3;
-        boolean expRes = false;
         boolean result = board.isHit(x, y);
-        assertEquals(expRes, result);
-        expRes = true;
+        assertFalse(result);
         board.shoot(x, y);
         result = board.isHit(x, y);
-        assertEquals(expRes, result);
+        assertTrue(result);
     }
 }

@@ -19,11 +19,9 @@ public interface IPlayer {
     String getName();
 
     /**
-     * Setter for the name.
-     * Only works one time.
+     * Setter for the name. Only works one time.
      *
-     * @param name
-     *            String name of the player
+     * @param name String name of the player
      */
     void setName(String name);
 
