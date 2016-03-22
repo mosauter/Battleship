@@ -1,12 +1,14 @@
 // WinPlayer1.java
 
-package de.htwg.battleship.aview.tui;
+package de.htwg.battleship.aview.tui.views;
 
+import de.htwg.battleship.aview.tui.Viewer;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
 
 /**
  * WinPlayer1 presents a view which player has won.
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-11
@@ -24,6 +26,7 @@ public class WinPlayer implements Viewer {
 
     /**
      * Public Constructor.
+     *
      * @param player the winner
      * @param master saves the MasterController
      */
@@ -34,9 +37,7 @@ public class WinPlayer implements Viewer {
 
     @Override
     public final String getString() {
-        StringBuilder sb = new StringBuilder(view.getString());
-        sb.append(player.getName());
-        sb.append(" has won!\n\n");
-        return sb.toString();
+        return view.getString() + player.getName() +
+               " has won!\n\n";
     }
 }

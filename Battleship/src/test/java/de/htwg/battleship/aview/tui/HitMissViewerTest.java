@@ -2,8 +2,7 @@
 
 package de.htwg.battleship.aview.tui;
 
-import de.htwg.battleship.aview.tui.HitMissViewer;
-import de.htwg.battleship.aview.tui.Viewer;
+import de.htwg.battleship.aview.tui.views.HitMissViewer;
 import org.junit.Test;
 
 /**

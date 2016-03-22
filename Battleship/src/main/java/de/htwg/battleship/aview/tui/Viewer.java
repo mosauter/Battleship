@@ -4,6 +4,7 @@ package de.htwg.battleship.aview.tui;
 
 /**
  * States is an Utility-Interface.
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-09
@@ -28,8 +29,9 @@ public interface Viewer {
     String FIELD_NON_HIT = " O";
 
     /**
-     * To get a String - Representation of something the
-     * States has to implement.
+     * To get a String - Representation of something the States has to
+     * implement.
+     *
      * @return String
      */
     String getString();

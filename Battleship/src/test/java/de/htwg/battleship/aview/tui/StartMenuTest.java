@@ -2,8 +2,7 @@
 
 package de.htwg.battleship.aview.tui;
 
-import de.htwg.battleship.aview.tui.StartMenu;
-import de.htwg.battleship.aview.tui.Viewer;
+import de.htwg.battleship.aview.tui.views.StartMenu;
 import org.junit.Test;
 
 /**
@@ -19,12 +18,11 @@ public class StartMenuTest {
      */
     @Test
     public final void testGetString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("1. Start Game\n");
-        sb.append("2. Options\n");
-        sb.append("Type 'Exit' or 'exit' at any time to close the game.\n");
-        sb.append("\t--->\t");
+        String sb = "1. Start Game\n" +
+                    "2. Options\n" +
+                    "Type 'Exit' or 'exit' at any time to close the game.\n" +
+                    "\t--->\t";
         Viewer v = new StartMenu();
-        assert (v.getString().equals(sb.toString()));
+        assert (v.getString().equals(sb));
     }
 }

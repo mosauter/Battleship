@@ -3,9 +3,11 @@
 package de.htwg.battleship.aview.tui;
 
 import com.google.inject.Inject;
+import de.htwg.battleship.aview.tui.views.*;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.observer.IObserver;
 import de.htwg.battleship.util.GameMode;
+import de.htwg.battleship.util.StatCollection;
 import org.apache.log4j.Logger;
 
 import static de.htwg.battleship.util.State.END;
@@ -15,6 +17,7 @@ import static de.htwg.battleship.util.State.WRONGINPUT;
 
 /**
  * Textual User Interface.
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-10
@@ -24,7 +27,7 @@ public class TUI implements IObserver {
     /**
      * Constant for the conversion of the ASCII table.
      */
-    public static final int ASCII_LOW_CASE = 97;
+    private static final int ASCII_LOW_CASE = 97;
     /**
      * Constant for the length of a set name statement.
      */
@@ -44,10 +47,11 @@ public class TUI implements IObserver {
     /**
      * Saves the Logger.
      */
-    private final Logger logger =
-            Logger.getLogger("de.htwg.battleship.aview.tui");
+    private final Logger logger = Logger.getLogger(TUI.class);
+
     /**
      * Public constructor.
+     *
      * @param master master controller
      */
     @Inject
@@ -58,19 +62,20 @@ public class TUI implements IObserver {
     }
 
     /**
-     * Method to print the current TUI.
-     * detects what to do at the current state of the game
+     * Method to print the current TUI. detects what to do at the current state
+     * of the game
+     *
      * @return the tui of the current state in a string presentation
      */
-    public final String printTUI() {
+    private String printTUI() {
         Viewer view = new WrongInputViewer();
         switch (master.getCurrentState()) {
             case START:
                 view = new StartMenu();
                 break;
             case OPTIONS:
-            	view = new OptionsMenu();
-            	break;
+                view = new OptionsMenu();
+                break;
             case GETNAME1:
                 view = new InputMaskPlayer1();
                 break;
@@ -118,7 +123,6 @@ public class TUI implements IObserver {
             default:
                 break;
         }
-        logger.debug(view.toString());
         logger.info(view.getString());
         return view.getString();
     }
@@ -129,12 +133,13 @@ public class TUI implements IObserver {
     }
 
     /**
-     * Method to detect what statement is in the line.
-     * is a transmitter between the user and the master controller
+     * Method to detect what statement is in the line. is a transmitter between
+     * the user and the master controller
+     *
      * @param line input of stdin
-     * @return true in case the input was 'exit'
-     *         false if there was unrecognized input or something valid except
-     *         'exit'
+     *
+     * @return true in case the input was 'exit' false if there was unrecognized
+     * input or something valid except 'exit'
      */
     public final boolean processInputLine(final String line) {
         String[] field = line.split(" ");
@@ -142,8 +147,8 @@ public class TUI implements IObserver {
             //        Exit Statement at any time
             return true;
         }
-        if (master.getCurrentState() == START
-                || master.getCurrentState() == END) {
+        if (master.getCurrentState() == START ||
+            master.getCurrentState() == END) {
             //        Start End Menu
             processStartEndMenu(field);
         } else if (master.getCurrentState() == OPTIONS) {
@@ -165,6 +170,7 @@ public class TUI implements IObserver {
 
     /**
      * Utility method to process the input line in the start end menu.
+     *
      * @param line the input line as array
      */
     private void processStartEndMenu(final String[] line) {
@@ -175,30 +181,37 @@ public class TUI implements IObserver {
         if (line[0].equals("1")) {
             this.master.startGame();
         } else if (line[0].equals("2")) {
-        	this.master.configure();
+            this.master.configure();
         }
     }
 
     /**
      * Utility method to process the input line in the options menu.
+     *
      * @param line the input line as array
      */
     private void processOptionsMenu(final String[] line) {
-    	if (line.length != 1 && line.length != 2) {
-    		this.master.setCurrentState(WRONGINPUT);
-    		return;
-    	}
+        if (line.length != 1 && line.length != 2) {
+            this.master.setCurrentState(WRONGINPUT);
+            return;
+        }
         switch (line[0]) {
             case "1":
                 this.master.setBoardSize(Integer.parseInt(line[1]));
+                logger.info("The new size of the board is set to " +
+                            StatCollection.heightLenght);
                 break;
             case "2":
                 this.master.setShipNumber(Integer.parseInt(line[1]));
+                logger.info("The new number of ships is set to " +
+                            StatCollection.shipNumberMax);
                 break;
             case "3":
                 if (line[1].equalsIgnoreCase("EXTREME")) {
+                    this.logger.info("Game Mode is set to " + GameMode.EXTREME);
                     this.master.setGameMode(GameMode.EXTREME);
                 } else {
+                    this.logger.info("Game Mode is set to " + GameMode.NORMAL);
                     this.master.setGameMode(GameMode.NORMAL);
                 }
                 break;
@@ -210,6 +223,7 @@ public class TUI implements IObserver {
 
     /**
      * Utility method to process the input line in the place menu.
+     *
      * @param line the input line as array
      */
     private void processPlaceMenu(final String[] line) {
@@ -232,6 +246,7 @@ public class TUI implements IObserver {
 
     /**
      * Utility method to process the input line in the shoot menu.
+     *
      * @param line the input line as array
      */
     private void processShootMenu(final String[] line) {
@@ -250,6 +265,7 @@ public class TUI implements IObserver {
 
     /**
      * Utility method to process the input line in the setPlayerName menu.
+     *
      * @param line the input line as array
      */
     private void processPlayerNameMenu(final String[] line) {

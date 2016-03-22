@@ -2,8 +2,7 @@
 
 package de.htwg.battleship.aview.tui;
 
-import de.htwg.battleship.aview.tui.InputMaskPlayer2;
-import de.htwg.battleship.aview.tui.Viewer;
+import de.htwg.battleship.aview.tui.views.InputMaskPlayer2;
 import org.junit.Test;
 
 /**

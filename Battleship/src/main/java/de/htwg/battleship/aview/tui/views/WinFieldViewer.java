@@ -1,23 +1,26 @@
 // WinFieldViewer.java
 
-package de.htwg.battleship.aview.tui;
+package de.htwg.battleship.aview.tui.views;
 
+import de.htwg.battleship.aview.tui.Viewer;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IShip;
-import static de.htwg.battleship.util.StatCollection.createMap;
+
 import java.util.Map;
 import java.util.Set;
 
+import static de.htwg.battleship.util.StatCollection.createMap;
+
 /**
- * WinFieldViewer presents a view of the entire field that means it
- * shows the ships of both players.
- * implements viewer
+ * WinFieldViewer presents a view of the entire field that means it shows the
+ * ships of both players. implements viewer
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-23
  */
-public class WinFieldViewer extends AbstractFieldViewer implements Viewer {
+class WinFieldViewer extends AbstractFieldViewer implements Viewer {
 
     /**
      * Saves the MasterController.
@@ -26,16 +29,18 @@ public class WinFieldViewer extends AbstractFieldViewer implements Viewer {
 
     /**
      * Public Constructor.
+     *
      * @param master the MasterController for the entire game
      */
-    public WinFieldViewer(final IMasterController master) {
+    WinFieldViewer(final IMasterController master) {
         this.master = master;
     }
 
     /**
-     * Method to get the Field presented as a String.
-     * Shows the own Ships on the field. The field which is owned by the
-     * Player at the turn is always at the left side.
+     * Method to get the Field presented as a String. Shows the own Ships on the
+     * field. The field which is owned by the Player at the turn is always at
+     * the left side.
+     *
      * @return String presentation of the Field
      */
     @Override
@@ -47,15 +52,15 @@ public class WinFieldViewer extends AbstractFieldViewer implements Viewer {
         IBoard boardPlayer1 = master.getPlayer1().getOwnBoard();
         IShip[] listPlayer1 = master.getPlayer1().getOwnBoard().getShipList();
         master.fillMap(listPlayer1, mapPlayer1,
-                master.getPlayer1().getOwnBoard().getShips());
+                       master.getPlayer1().getOwnBoard().getShips());
         IBoard boardPlayer2 = master.getPlayer2().getOwnBoard();
         IShip[] listPlayer2 = master.getPlayer2().getOwnBoard().getShipList();
         master.fillMap(listPlayer2, mapPlayer2,
-                master.getPlayer2().getOwnBoard().getShips());
+                       master.getPlayer2().getOwnBoard().getShips());
         sb.append("\t").append(master.getPlayer1().getName()).append("\t\t\t");
         sb.append(master.getPlayer2().getName()).append("\n");
-        sb = fillEntire(mapPlayer1, boardPlayer1, sb,
-                mapPlayer2, boardPlayer2, SHIP_NON_HIT);
+        sb = fillEntire(mapPlayer1, boardPlayer1, sb, mapPlayer2, boardPlayer2,
+                        SHIP_NON_HIT);
         sb = addLegend(sb);
         return sb.toString();
     }

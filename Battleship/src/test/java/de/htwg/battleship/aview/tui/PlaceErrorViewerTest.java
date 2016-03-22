@@ -2,8 +2,7 @@
 
 package de.htwg.battleship.aview.tui;
 
-import de.htwg.battleship.aview.tui.PlaceErrorViewer;
-import de.htwg.battleship.aview.tui.Viewer;
+import de.htwg.battleship.aview.tui.views.PlaceErrorViewer;
 import org.junit.Test;
 
 /**

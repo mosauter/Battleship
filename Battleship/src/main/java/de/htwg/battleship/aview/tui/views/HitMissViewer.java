@@ -1,9 +1,12 @@
 // HitMissViewer.java
 
-package de.htwg.battleship.aview.tui;
+package de.htwg.battleship.aview.tui.views;
+
+import de.htwg.battleship.aview.tui.Viewer;
 
 /**
  * HitMissViewer presents if a shot was a hit or a miss.
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-17
@@ -17,6 +20,7 @@ public class HitMissViewer implements Viewer {
 
     /**
      * Public Constructor.
+     *
      * @param hit true if the shot was a hit
      */
     public HitMissViewer(final boolean hit) {

@@ -1,9 +1,12 @@
 // InputMask.java
 
-package de.htwg.battleship.aview.tui;
+package de.htwg.battleship.aview.tui.views;
+
+import de.htwg.battleship.aview.tui.Viewer;
 
 /**
  * InputMask presents the input mask for player one.
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-15

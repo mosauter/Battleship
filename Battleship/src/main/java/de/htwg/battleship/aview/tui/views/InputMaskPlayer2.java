@@ -1,9 +1,12 @@
 // InputMaskPlayer2.java
 
-package de.htwg.battleship.aview.tui;
+package de.htwg.battleship.aview.tui.views;
+
+import de.htwg.battleship.aview.tui.Viewer;
 
 /**
  * InputMaskPlayer2 presents a input mask for player two.
+ *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-15
