@@ -13,7 +13,7 @@ import de.htwg.battleship.model.IPlayer;
  * @version 1.00
  * @since 2014-12-15
  */
-public class ShootMenu implements Viewer {
+public class ShootMenu extends Viewer {
 
     /**
      * Saves the Player.

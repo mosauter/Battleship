@@ -16,9 +16,6 @@ import java.util.TreeSet;
  */
 public final class StatCollection {
 
-    private StatCollection() {
-    }
-
     /**
      * Constant for 10.
      */
@@ -37,19 +34,21 @@ public final class StatCollection {
      */
     public static int shipNumberMax = STANDARD_SHIP_NUMBER_MAX;
 
+    private StatCollection() {
+    }
 
     /**
      * Utility-Method to check if a value is between.
      *
-     * @param xupp upper border
-     * @param xlow lower border
-     * @param x    value
+     * @param upper upper border
+     * @param lower lower border
+     * @param value value
      *
      * @return true if the value is between
      */
-    public static boolean isBetween(final int xupp, final int xlow,
-                                    final int x) {
-        return (x >= xlow && x <= xupp);
+    public static boolean isBetween(final int upper, final int lower,
+                                    final int value) {
+        return value >= lower && value <= upper;
     }
 
     /**
@@ -74,7 +73,7 @@ public final class StatCollection {
      * @return Map empty with HEIGHT_LENGTH of empty sets
      */
     public static Map<Integer, Set<Integer>> createMap() {
-        TreeMap<Integer, Set<Integer>> map = new TreeMap<>();
+        Map<Integer, Set<Integer>> map = new TreeMap<>();
         for (int i = 0; i < heightLenght; i++) {
             map.put(i, new TreeSet<>());
         }

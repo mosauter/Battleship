@@ -164,10 +164,9 @@ public class MasterController extends Observable implements IMasterController {
             return;
         }
 
-        if (!shipController.placeShip(createShip(x, y, orientation,
-                                                 (player.getOwnBoard()
-                                                        .getShips() + 2)),
-                                      player)) {
+        if (!shipController.placeShip(
+            createShip(x, y, orientation, player.getOwnBoard().getShips() + 2),
+            player)) {
             this.setCurrentState(PLACEERR);
             return;
         }
@@ -335,9 +334,12 @@ public class MasterController extends Observable implements IMasterController {
 
     @Override
     public final void configureGame() {
-        if (this.currentState == START) this.setCurrentState(State.OPTIONS);
+        if (this.currentState == START) {
+            this.setCurrentState(State.OPTIONS);
+        }
     }
 
+    @Override
     public final void setBoardSize(final int boardSize) {
         if (this.currentState != State.OPTIONS ||
             (StatCollection.shipNumberMax + 2) >= boardSize) {

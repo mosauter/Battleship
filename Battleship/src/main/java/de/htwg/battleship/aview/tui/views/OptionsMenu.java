@@ -5,7 +5,7 @@ import de.htwg.battleship.aview.tui.Viewer;
 /**
  * @author moritz
  */
-public class OptionsMenu implements Viewer {
+public class OptionsMenu extends Viewer {
 
     @Override
     public String getString() {

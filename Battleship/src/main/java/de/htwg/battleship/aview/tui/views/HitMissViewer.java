@@ -11,7 +11,7 @@ import de.htwg.battleship.aview.tui.Viewer;
  * @version 1.00
  * @since 2014-12-17
  */
-public class HitMissViewer implements Viewer {
+public class HitMissViewer extends Viewer {
 
     /**
      * To save if the shot was a hit.

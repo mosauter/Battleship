@@ -2,7 +2,6 @@
 
 package de.htwg.battleship.aview.tui.views;
 
-import de.htwg.battleship.aview.tui.Viewer;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
@@ -20,7 +19,7 @@ import static de.htwg.battleship.util.StatCollection.createMap;
  * @version 1.00
  * @since 2014-12-09
  */
-class ShootFieldViewer extends AbstractFieldViewer implements Viewer {
+class ShootFieldViewer extends AbstractFieldViewer {
 
     /**
      * Saves Player one. Has not coersive necessary that it has to be the first

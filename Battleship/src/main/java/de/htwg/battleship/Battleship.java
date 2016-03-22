@@ -35,10 +35,6 @@ public final class Battleship {
      */
     private static TUI tui;
     /**
-     * Saves GUI.
-     */
-    //    private static GUI gui;
-    /**
      * Saves a instance of this game. Is used in a Singleton-Pattern.
      */
     private static Battleship instance;
@@ -94,15 +90,6 @@ public final class Battleship {
     }
 
     /**
-     * Getter for GUI.
-     *
-     * @return the GUI of the current instance
-     */
-    //    public GUI getGui() {
-    //        return gui;
-    //    }
-
-    /**
      * Getter for the guice injector.
      *
      * @return the injector of the current instance
@@ -126,7 +113,7 @@ public final class Battleship {
      * @param args not used
      */
     public static void main(final String[] args) {
-        @SuppressWarnings("unused") Battleship bs = Battleship.getInstance();
+        Battleship.getInstance();
         Scanner scanner = new Scanner(System.in);
         boolean done = false;
         while (!done) {

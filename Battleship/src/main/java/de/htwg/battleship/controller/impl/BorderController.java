@@ -72,9 +72,9 @@ class BorderTrueController extends BorderController {
     public boolean isIn(final IShip ship) {
         int xlow = ship.getX();
         int xupp = xlow + ship.getSize() - 1;
-        return isBetween((heightLenght - 1), 0, xlow) &&
-               isBetween((heightLenght - 1), 0, xupp) &&
-               isBetween((heightLenght - 1), 0, ship.getY());
+        return isBetween(heightLenght - 1, 0, xlow) &&
+               isBetween(heightLenght - 1, 0, xupp) &&
+               isBetween(heightLenght - 1, 0, ship.getY());
     }
 }
 
@@ -98,8 +98,8 @@ class BorderFalseController extends BorderController {
         int ylow = ship.getY();
         int yupp = ylow + ship.getSize() - 1;
         int x = ship.getX();
-        return isBetween((heightLenght - 1), 0, ylow) &&
-               isBetween((heightLenght - 1), 0, yupp) &&
-               isBetween((heightLenght - 1), 0, x);
+        return isBetween(heightLenght - 1, 0, ylow) &&
+               isBetween(heightLenght - 1, 0, yupp) &&
+               isBetween(heightLenght - 1, 0, x);
     }
 }

@@ -11,7 +11,7 @@ import de.htwg.battleship.aview.tui.Viewer;
  * @version 1.00
  * @since 2014-12-17
  */
-public class PlaceErrorViewer implements Viewer {
+public class PlaceErrorViewer extends Viewer {
 
     @Override
     public final String getString() {

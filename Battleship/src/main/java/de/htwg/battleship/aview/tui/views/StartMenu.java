@@ -11,7 +11,7 @@ import de.htwg.battleship.aview.tui.Viewer;
  * @version 1.00
  * @since 2014-12-10
  */
-public class StartMenu implements Viewer {
+public class StartMenu extends Viewer {
 
     @Override
     public final String getString() {

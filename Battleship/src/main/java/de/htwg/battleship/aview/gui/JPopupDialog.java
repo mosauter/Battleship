@@ -97,8 +97,8 @@ class JPopupDialog extends JDialog implements Runnable {
         this.setContentPane(text);
         this.setLocationRelativeTo(owner);
         this.setLocation(
-            new Point(((int) this.getLocation().getX() - FRAME_WIDTH / 2),
-                      ((int) this.getLocation().getY() - FRAME_HEIGHT / 2)));
+            new Point((int) this.getLocation().getX() - FRAME_WIDTH / 2,
+                      (int) this.getLocation().getY() - FRAME_HEIGHT / 2));
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setVisible(true);
         Thread t = new Thread(this, "Popup-Disposer");

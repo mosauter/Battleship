@@ -2,7 +2,6 @@
 
 package de.htwg.battleship.aview.tui.views;
 
-import de.htwg.battleship.aview.tui.Viewer;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
@@ -22,7 +21,7 @@ import static de.htwg.battleship.util.StatCollection.heightLenght;
  * @version 1.00
  * @since 2014-12-09
  */
-public class PlaceFieldViewer extends AbstractFieldViewer implements Viewer {
+public class PlaceFieldViewer extends AbstractFieldViewer {
 
     /**
      * Saves Player one.

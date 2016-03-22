@@ -11,7 +11,7 @@ import de.htwg.battleship.aview.tui.Viewer;
  * @version 1.00
  * @since 2014-12-29
  */
-public class EndMenuViewer implements Viewer {
+public class EndMenuViewer extends Viewer {
 
     @Override
     public final String getString() {

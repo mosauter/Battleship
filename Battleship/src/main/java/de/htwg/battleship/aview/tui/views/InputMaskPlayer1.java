@@ -11,7 +11,7 @@ import de.htwg.battleship.aview.tui.Viewer;
  * @version 1.00
  * @since 2014-12-15
  */
-public class InputMaskPlayer1 implements Viewer {
+public class InputMaskPlayer1 extends Viewer {
 
     @Override
     public final String getString() {

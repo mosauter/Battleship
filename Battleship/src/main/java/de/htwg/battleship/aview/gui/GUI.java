@@ -201,6 +201,12 @@ public final class GUI extends JFrame implements IObserver {
         new ImageIcon(getClass().getResource("invisible.png"));
 
     /**
+     * Image for the frame.
+     */
+    private final Image frameIcon =
+        new ImageIcon(getClass().getResource("frame_icon.jpg")).getImage();
+
+    /**
      * To save the MasterController for all of the several UIs.
      */
     private final IMasterController master;
@@ -267,8 +273,7 @@ public final class GUI extends JFrame implements IObserver {
         this.master = master;
         //Initialize mainFrame
         this.setTitle("Battleship");
-        this.setIconImage(
-            new ImageIcon(getClass().getResource("frame_icon.jpg")).getImage());
+        this.setIconImage(frameIcon);
         this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.container = new JLabel(background);
@@ -310,8 +315,7 @@ public final class GUI extends JFrame implements IObserver {
         this.menuFrame.setSize(MENU_FRAME_SIZE);
         this.menuFrame.setResizable(false);
         this.menuFrame.setLocationRelativeTo(null);
-        this.menuFrame.setIconImage(
-            new ImageIcon(getClass().getResource("frame_icon.jpg")).getImage());
+        this.menuFrame.setIconImage(frameIcon);
         this.menuFrame.setVisible(true);
     }
 
@@ -447,8 +451,7 @@ public final class GUI extends JFrame implements IObserver {
         submit.setBounds(PLAYER_FRAME_BUTTON);
         submit.addActionListener(pl);
         notifyframe = new JFrame();
-        notifyframe.setIconImage(
-            new ImageIcon(getClass().getResource("frame_icon.jpg")).getImage());
+        notifyframe.setIconImage(frameIcon);
         notifyframe.add(icon);
         notifyframe.setSize(PLAYER_FRAME);
         icon.setLayout(null);
@@ -639,7 +642,7 @@ public final class GUI extends JFrame implements IObserver {
                 new JPopupDialog(this, "Placement error",
                                  "<html>Cannot place a ship there due to a collision or <br>" +
                                  "the ship is out of the field!</html>",
-                                 (DISPLAYTIME * 2), false);
+                                 DISPLAYTIME * 2, false);
                 break;
             case SHOOT1:
                 this.setVisible(false);
@@ -797,7 +800,7 @@ public final class GUI extends JFrame implements IObserver {
         public void actionPerformed(final ActionEvent e) {
             menuFrame.setVisible(false);
             JButton target = (JButton) e.getSource();
-            if (target.getText().equals("Exit")) {
+            if ("Exit".equalsIgnoreCase(target.getText())) {
                 System.exit(0);
             } else {
                 master.startGame();

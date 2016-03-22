@@ -18,7 +18,7 @@ import static de.htwg.battleship.util.StatCollection.heightLenght;
  * @version 1.00
  * @since 2015-01-15
  */
-abstract class AbstractFieldViewer implements Viewer {
+abstract class AbstractFieldViewer extends Viewer {
 
     /**
      * Utility Method which adds a presentation of one line in the field of one

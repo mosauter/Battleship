@@ -13,7 +13,7 @@ import de.htwg.battleship.model.IPlayer;
  * @version 1.00
  * @since 2014-12-11
  */
-public class WinPlayer implements Viewer {
+public class WinPlayer extends Viewer {
 
     /**
      * Saves the winner.

@@ -47,7 +47,7 @@ public class TUI implements IObserver {
     /**
      * Saves the Logger.
      */
-    private final Logger logger = Logger.getLogger(TUI.class);
+    private static final Logger LOGGER = Logger.getLogger(TUI.class);
 
     /**
      * Public constructor.
@@ -123,7 +123,7 @@ public class TUI implements IObserver {
             default:
                 break;
         }
-        logger.info(view.getString());
+        LOGGER.info(view.getString());
         return view.getString();
     }
 
@@ -143,7 +143,7 @@ public class TUI implements IObserver {
      */
     public final boolean processInputLine(final String line) {
         String[] field = line.split(" ");
-        if (field[0].equalsIgnoreCase("exit")) {
+        if ("exit".equalsIgnoreCase(field[0])) {
             //        Exit Statement at any time
             return true;
         }
@@ -178,9 +178,9 @@ public class TUI implements IObserver {
             this.master.setCurrentState(WRONGINPUT);
             return;
         }
-        if (line[0].equals("1")) {
+        if ("1".equals(line[0])) {
             this.master.startGame();
-        } else if (line[0].equals("2")) {
+        } else if ("2".equals(line[0])) {
             this.master.configure();
         }
     }
@@ -198,27 +198,39 @@ public class TUI implements IObserver {
         switch (line[0]) {
             case "1":
                 this.master.setBoardSize(Integer.parseInt(line[1]));
-                logger.info("The new size of the board is set to " +
+                LOGGER.info("The new size of the board is set to " +
                             StatCollection.heightLenght);
                 break;
             case "2":
                 this.master.setShipNumber(Integer.parseInt(line[1]));
-                logger.info("The new number of ships is set to " +
+                LOGGER.info("The new number of ships is set to " +
                             StatCollection.shipNumberMax);
                 break;
             case "3":
-                if (line[1].equalsIgnoreCase("EXTREME")) {
-                    this.logger.info("Game Mode is set to " + GameMode.EXTREME);
-                    this.master.setGameMode(GameMode.EXTREME);
+                if ("EXTREME".equalsIgnoreCase(line[1])) {
+                    this.setNotifyGameMode(GameMode.EXTREME);
                 } else {
-                    this.logger.info("Game Mode is set to " + GameMode.NORMAL);
-                    this.master.setGameMode(GameMode.NORMAL);
+                    this.setNotifyGameMode(GameMode.NORMAL);
                 }
                 break;
             case "4":
                 this.master.startGame();
                 break;
+            default:
+                this.master.setCurrentState(WRONGINPUT);
+                break;
         }
+    }
+
+    /**
+     * Utility method to set the game mode in the options menu and notify the
+     * user about the new mode.
+     *
+     * @param mode the new game mode
+     */
+    private void setNotifyGameMode(final GameMode mode) {
+        this.master.setGameMode(mode);
+        LOGGER.info("Game Mode is set to " + mode);
     }
 
     /**
@@ -237,7 +249,7 @@ public class TUI implements IObserver {
         }
         int x = (int) line[0].charAt(0) - ASCII_LOW_CASE;
         int y = Integer.parseInt(line[1]);
-        if (line[2].equalsIgnoreCase("horizontal")) {
+        if ("horizontal".equalsIgnoreCase(line[2])) {
             master.placeShip(x, y, true);
         } else {
             master.placeShip(x, y, false);

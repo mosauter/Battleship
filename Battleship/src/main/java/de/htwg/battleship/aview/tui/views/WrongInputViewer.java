@@ -11,7 +11,7 @@ import de.htwg.battleship.aview.tui.Viewer;
  * @version 1.00
  * @since 2014-12-18
  */
-public class WrongInputViewer implements Viewer {
+public class WrongInputViewer extends Viewer {
 
     @Override
     public final String getString() {

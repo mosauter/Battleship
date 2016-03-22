@@ -9,24 +9,24 @@ package de.htwg.battleship.aview.tui;
  * @version 1.00
  * @since 2014-12-09
  */
-public interface Viewer {
+public abstract class Viewer {
 
     /**
      * Presentation of a ship which is Hit.
      */
-    String SHIP_IS_HIT = " X";
+    protected static final String SHIP_IS_HIT = " X";
     /**
      * Presentation of a ship which is not hit.
      */
-    String SHIP_NON_HIT = " S";
+    protected static final String SHIP_NON_HIT = " S";
     /**
      * Presentation of a Field with no ship on it but which is hit.
      */
-    String FIELD_IS_HIT = " M";
+    protected static final String FIELD_IS_HIT = " M";
     /**
      * Presentation of a Field with no ship on it and which is not hit.
      */
-    String FIELD_NON_HIT = " O";
+    protected static final String FIELD_NON_HIT = " O";
 
     /**
      * To get a String - Representation of something the States has to
@@ -34,5 +34,5 @@ public interface Viewer {
      *
      * @return String
      */
-    String getString();
+    public abstract String getString();
 }

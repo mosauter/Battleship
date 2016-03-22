@@ -13,7 +13,7 @@ import de.htwg.battleship.model.IPlayer;
  * @version 1.00
  * @since 2014-12-15
  */
-public class PlaceViewer implements Viewer {
+public class PlaceViewer extends Viewer {
 
     /**
      * Saves th player.
