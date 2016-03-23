@@ -497,6 +497,7 @@ public final class GUI extends JFrame implements IObserver {
      * @param player    current player
      * @param hideShips boolean
      */
+    @SuppressWarnings("squid:S134")
     private void updateGameField(final IPlayer player,
                                  final boolean hideShips) {
         IShip[] shipList = player.getOwnBoard().getShipList();
@@ -596,6 +597,7 @@ public final class GUI extends JFrame implements IObserver {
     }
 
     @Override
+    @SuppressWarnings("squid:S1848,squid:MethodCyclomaticComplexity,squid:S1151")
     public void update() {
         switch (master.getCurrentState()) {
             case START:
@@ -729,6 +731,7 @@ public final class GUI extends JFrame implements IObserver {
     private class PlaceListener implements ActionListener {
 
         @Override
+        @SuppressWarnings("squid:S1848")
         public void actionPerformed(final ActionEvent e) {
             JButton button = (JButton) e.getSource();
             if (button.equals(hor) || button.equals(ver)) {
@@ -797,6 +800,7 @@ public final class GUI extends JFrame implements IObserver {
     private class MenuListener implements ActionListener {
 
         @Override
+        @SuppressWarnings("squid:S1147")
         public void actionPerformed(final ActionEvent e) {
             menuFrame.setVisible(false);
             JButton target = (JButton) e.getSource();

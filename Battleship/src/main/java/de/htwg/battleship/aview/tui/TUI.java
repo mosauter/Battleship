@@ -67,6 +67,7 @@ public class TUI implements IObserver {
      *
      * @return the tui of the current state in a string presentation
      */
+    @SuppressWarnings("squid:MethodCyclomaticComplexity")
     private String printTUI() {
         Viewer view = new WrongInputViewer();
         switch (master.getCurrentState()) {
@@ -190,6 +191,7 @@ public class TUI implements IObserver {
      *
      * @param line the input line as array
      */
+    @SuppressWarnings("squid:S1151")
     private void processOptionsMenu(final String[] line) {
         if (line.length != 1 && line.length != 2) {
             this.master.setCurrentState(WRONGINPUT);

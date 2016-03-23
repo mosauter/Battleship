@@ -34,6 +34,7 @@ abstract class AbstractFieldViewer extends Viewer {
      *
      * @return the new StringBuilder
      */
+    @SuppressWarnings("squid:S134")
     final StringBuilder fillX(final Map<Integer, Set<Integer>> mapPlayer1,
                               final int y, final IBoard boardPlayer1,
                               final StringBuilder sb, final String shipNonHit) {
