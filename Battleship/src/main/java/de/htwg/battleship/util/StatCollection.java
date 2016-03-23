@@ -27,13 +27,13 @@ public final class StatCollection {
     /**
      * The heigth and the length of the field.
      */
-    @SuppressWarnings("squid:S1444,squid:ClassVariableVisibilityCheck")
+    @SuppressWarnings({"squid:S1444", "squid:ClassVariableVisibilityCheck"})
     public static int heightLenght = STANDARD_HEIGHT_LENGTH;
 
     /**
      * The max number of ships that could be on the field.
      */
-    @SuppressWarnings("squid:S1444,squid:ClassVariableVisibilityCheck")
+    @SuppressWarnings({"squid:S1444", "squid:ClassVariableVisibilityCheck"})
     public static int shipNumberMax = STANDARD_SHIP_NUMBER_MAX;
 
     private StatCollection() {
