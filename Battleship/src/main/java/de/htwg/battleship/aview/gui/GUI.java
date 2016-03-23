@@ -597,7 +597,8 @@ public final class GUI extends JFrame implements IObserver {
     }
 
     @Override
-    @SuppressWarnings("squid:S1848,squid:MethodCyclomaticComplexity,squid:S1151")
+    @SuppressWarnings({"squid:S1848", "squid:MethodCyclomaticComplexity",
+                       "squid:S1151"})
     public void update() {
         switch (master.getCurrentState()) {
             case START:
