@@ -48,7 +48,6 @@ public final class Battleship {
         injector = Guice.createInjector(new BattleshipModule());
         masterController = injector.getInstance(IMasterController.class);
         tui = injector.getInstance(TUI.class);
-        //        gui = injector.getInstance(GUI.class);
     }
 
     /**
@@ -112,6 +111,7 @@ public final class Battleship {
      *
      * @param args not used
      */
+    @SuppressWarnings("squid:S1147")
     public static void main(final String[] args) {
         Battleship.getInstance();
         Scanner scanner = new Scanner(System.in);
