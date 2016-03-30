@@ -13,6 +13,8 @@ import de.htwg.battleship.util.GameMode;
 import de.htwg.battleship.util.StatCollection;
 import de.htwg.battleship.util.State;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,28 +42,38 @@ import static de.htwg.battleship.util.State.WRONGINPUT;
  * @version 1.00
  * @since 2014-12-16
  */
-public class MasterController extends Observable implements IMasterController {
+@Entity
+public class HibernateMasterController extends Observable
+    implements IMasterController, Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     /**
      * Internal Ship controller.
      */
+    @Transient
     private final ShipController shipController;
     /**
      * Internal shoot controller.
      */
-    private final ShootController shootController;
+    @Transient
+    private ShootController shootController;
     /**
      * Internal win controller.
      */
-    private final WinController winController;
+    @Transient
+    private WinController winController;
     /**
      * Saves the first Player.
      */
-    private final IPlayer player1;
+    @OneToOne
+    private IPlayer player1;
     /**
      * Saves the second Player.
      */
-    private final IPlayer player2;
+    @OneToOne
+    private IPlayer player2;
     /**
      * Presentation of the Game.
      */
@@ -73,7 +85,13 @@ public class MasterController extends Observable implements IMasterController {
     /**
      * Saves the injector which has to be set by the main method.
      */
+    @Transient
     private Injector injector;
+
+
+    public HibernateMasterController() {
+        shipController = new ShipController();
+    }
 
     /**
      * Public Constructor.
@@ -82,8 +100,8 @@ public class MasterController extends Observable implements IMasterController {
      * @param player2 player two
      */
     @Inject
-    public MasterController(final IPlayer player1, final IPlayer player2,
-                            Injector in) {
+    public HibernateMasterController(final IPlayer player1,
+                                     final IPlayer player2, Injector in) {
         this.shipController = new ShipController();
         this.shootController = new ShootController(player1, player2);
         this.winController = new WinController(player1, player2);
@@ -212,7 +230,7 @@ public class MasterController extends Observable implements IMasterController {
      * after that the end-state returns true not until the win- and the
      * end-states are setted
      */
-    final boolean win() {
+    private final boolean win() {
         IPlayer winner = winController.win();
         if (winner == null) {
             return false;
@@ -238,7 +256,7 @@ public class MasterController extends Observable implements IMasterController {
     /**
      * Utility-method to reset the boards of both players.
      */
-    void resetBoards() {
+    private void resetBoards() {
         player1.resetBoard(injector.getInstance(IBoard.class));
         player2.resetBoard(injector.getInstance(IBoard.class));
     }
@@ -311,8 +329,8 @@ public class MasterController extends Observable implements IMasterController {
      *
      * @return the new Map
      */
-    final Map<Integer, Set<Integer>> getSet(final IShip ship,
-                                            final Map<Integer, Set<Integer>> map) {
+    private final Map<Integer, Set<Integer>> getSet(final IShip ship,
+                                                    final Map<Integer, Set<Integer>> map) {
         if (ship.isOrientation()) {
             int xlow = ship.getX();
             int xupp = xlow + ship.getSize();
@@ -386,9 +404,9 @@ public class MasterController extends Observable implements IMasterController {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof MasterController)) return false;
+        if (!(o instanceof HibernateMasterController)) return false;
 
-        MasterController that = (MasterController) o;
+        HibernateMasterController that = (HibernateMasterController) o;
         return this.getCurrentState() == that.currentState &&
                this.gm == that.gm && (this.player1.equals(that.player1) &&
                                       this.player2.equals(that.player2) ||

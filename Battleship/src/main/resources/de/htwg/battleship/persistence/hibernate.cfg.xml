@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">
+            com.mysql.jdbc.Driver
+        </property>
+        <property name="hibernate.connection.url">
+            jdbc:mysql://localhost/test
+        </property>
+        <property name="hibernate.connection.username">
+            root
+        </property>
+        <property name="hibernate.connection.password">
+            root
+        </property>
+        <property name="current_session_context_class">thread</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="show_sql">false</property>
+        <property name="hibernate.dialect">
+            org.hibernate.dialect.MySQL5Dialect
+        </property>
+        <mapping class="de.htwg.battleship.model.hibernate.BoardField"/>
+        <mapping class="de.htwg.battleship.model.hibernate.Ship"/>
+        <mapping class="de.htwg.battleship.model.hibernate.Player"/>
+        <mapping class="de.htwg.battleship.controller.impl.HibernateMasterController"/>
+    </session-factory>
+</hibernate-configuration>

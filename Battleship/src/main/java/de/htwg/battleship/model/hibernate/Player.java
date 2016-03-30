@@ -1,9 +1,15 @@
 // Player.java
-package de.htwg.battleship.model.impl;
+package de.htwg.battleship.model.hibernate;
 
 import com.google.inject.Inject;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import java.io.Serializable;
 
 /**
  * Player.
@@ -12,11 +18,16 @@ import de.htwg.battleship.model.IPlayer;
  * @version 1.00
  * @since 2014-11-06
  */
-public class Player implements IPlayer {
+public class Player implements IPlayer, Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public int id;
 
     /**
      * Saves the board of the specified Player.
      */
+    @OneToOne
     private IBoard ownBoard;
     /**
      * Name of the Player.
