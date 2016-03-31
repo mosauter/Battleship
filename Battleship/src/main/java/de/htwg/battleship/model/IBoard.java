@@ -59,4 +59,9 @@ public interface IBoard {
      * @return boolean[][] representing the whole field
      */
     boolean[][] getHitMap();
+
+    /**
+     * Setter for the boolean matrix. Should be used for restoring a game.
+     */
+    void restoreBoard(boolean[][] hitMap, IShip[] shipList);
 }

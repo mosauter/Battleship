@@ -19,11 +19,11 @@ public class BoardField implements IBoard {
     /**
      * Saved Ships on the Board.
      */
-    private final IShip[] shipList;
+    private IShip[] shipList;
     /**
      * The hit matrix.
      */
-    private final boolean[][] field;
+    private boolean[][] field;
     /**
      * How many ships are on the board.
      */
@@ -73,5 +73,12 @@ public class BoardField implements IBoard {
     public boolean[][] getHitMap() {
         return this.field;
     }
+
+    @Override
+    public void restoreBoard(final boolean[][] hitMap, final IShip[] shipList) {
+        this.field = hitMap;
+        this.shipList = shipList;
+    }
+
 
 }
