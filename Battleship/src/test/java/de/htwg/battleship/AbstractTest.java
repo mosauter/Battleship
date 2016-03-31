@@ -16,7 +16,7 @@ public abstract class AbstractTest {
     /**
      * The Guice Injector with the standard Module.
      */
-    protected Injector in = Guice.createInjector(new BattleshipModule());
+    protected final Injector in = Guice.createInjector(new BattleshipModule());
 
     /**
      * createShip is a help method to create a ship like you did with the
