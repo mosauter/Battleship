@@ -8,13 +8,13 @@
             com.mysql.jdbc.Driver
         </property>
         <property name="hibernate.connection.url">
-            jdbc:mysql://localhost/test
+            jdbc:mysql://lenny2.in.htwg-konstanz.de:3306/games?createDatabaseIfNotExist=true
         </property>
         <property name="hibernate.connection.username">
-            root
+            htwg
         </property>
         <property name="hibernate.connection.password">
-            root
+            htwg
         </property>
         <property name="current_session_context_class">thread</property>
         <property name="hibernate.hbm2ddl.auto">create</property>
