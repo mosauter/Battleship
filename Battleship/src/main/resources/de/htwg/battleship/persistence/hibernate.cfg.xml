@@ -22,9 +22,6 @@
         <property name="hibernate.dialect">
             org.hibernate.dialect.MySQL5Dialect
         </property>
-        <mapping class="de.htwg.battleship.model.hibernate.BoardField"/>
-        <mapping class="de.htwg.battleship.model.hibernate.Ship"/>
-        <mapping class="de.htwg.battleship.model.hibernate.Player"/>
-        <mapping class="de.htwg.battleship.controller.impl.HibernateMasterController"/>
+        <mapping class="de.htwg.battleship.model.persistence.HibernateGameSave" />
     </session-factory>
 </hibernate-configuration>
