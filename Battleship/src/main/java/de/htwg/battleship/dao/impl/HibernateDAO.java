@@ -5,7 +5,7 @@ package de.htwg.battleship.dao.impl;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.dao.IDAO;
 import de.htwg.battleship.model.IPlayer;
-import de.htwg.battleship.model.persistence.HibernateGameSave;
+import de.htwg.battleship.model.persistence.impl.HibernateGameSave;
 import de.htwg.battleship.persistence.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
