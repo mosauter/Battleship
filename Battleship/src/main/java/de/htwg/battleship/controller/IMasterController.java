@@ -3,6 +3,7 @@ package de.htwg.battleship.controller;
 
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.observer.IObservable;
 import de.htwg.battleship.util.GameMode;
 import de.htwg.battleship.util.State;
@@ -131,4 +132,12 @@ public interface IMasterController extends IObservable {
      * @param shipNumber the new max number of ships
      */
     void setShipNumber(int shipNumber);
+
+    /**
+     * Method to restore a whole game with a given state. TODO: make it only
+     * valid in specific states
+     *
+     * @param save the specified {@link IGameSave} which represents a game
+     */
+    void restoreGame(IGameSave save);
 }

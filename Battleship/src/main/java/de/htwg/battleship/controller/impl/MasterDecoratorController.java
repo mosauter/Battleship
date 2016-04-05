@@ -7,6 +7,7 @@ import com.google.inject.Injector;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.observer.IObserver;
 import de.htwg.battleship.util.GameMode;
 import de.htwg.battleship.util.State;
@@ -197,5 +198,12 @@ public class MasterDecoratorController implements IMasterController {
         master.setShipNumber(shipNumber);
         LOGGER.info(
             "setShipNumber() is finished: new ship number = " + shipNumber);
+    }
+
+    @Override
+    public void restoreGame(IGameSave save) {
+        LOGGER.info("restoreGame() is called");
+        master.restoreGame(save);
+        LOGGER.info("restoreGame() is finished");
     }
 }

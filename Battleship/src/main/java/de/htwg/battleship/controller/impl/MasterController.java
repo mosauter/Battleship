@@ -8,7 +8,7 @@ import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.model.persistence.GameSave;
+import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.observer.impl.Observable;
 import de.htwg.battleship.util.GameMode;
 import de.htwg.battleship.util.StatCollection;
@@ -384,14 +384,18 @@ public class MasterController extends Observable implements IMasterController {
         this.setCurrentState(State.OPTIONS);
     }
 
-    public final void restoreGame(GameSave save) {
-        gm = save.getGameMode();
-        currentState = save.getCurrentState();
+    @Override
+    public final void restoreGame(IGameSave save) {
         player1.setName(save.getPlayer1());
         player2.setName(save.getPlayer2());
+        gm = save.getGameMode();
+        currentState = save.getCurrentState();
         IBoard board1 = injector.getInstance(IBoard.class);
+        IBoard board2 = injector.getInstance(IBoard.class);
         board1.restoreBoard(save.getField1(), save.getShipList1());
-        board1.restoreBoard(save.getField2(), save.getShipList2());
+        board2.restoreBoard(save.getField2(), save.getShipList2());
+        StatCollection.heightLenght = save.getHeightLength();
+        StatCollection.shipNumberMax = save.getMaxShipNumber();
     }
 
     @Override
