@@ -1,10 +1,11 @@
 // GameSave
 
-package de.htwg.battleship.model.persistence;
+package de.htwg.battleship.model.persistence.impl;
 
 import com.google.inject.Injector;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.util.GameMode;
 import de.htwg.battleship.util.StatCollection;
 import de.htwg.battleship.util.State;
@@ -20,7 +21,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "HibernateGameSave")
-public class HibernateGameSave implements Serializable {
+public class HibernateGameSave implements IGameSave, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,8 +35,13 @@ public class HibernateGameSave implements Serializable {
     private GameMode gameMode;
     @Column(name = "currentState")
     private State currentState;
-    //    private boolean[][] field1;
-    //    private boolean[][] field2;
+
+    // TODO: make them not transient but real columns in the database
+    @Transient
+    private boolean[][] field1;
+    // TODO: make them not transient but real columns in the database
+    @Transient
+    private boolean[][] field2;
     @Column(name = "shipList1")
     private IShip[] shipList1;
     @Column(name = "shipList2")
@@ -53,8 +59,8 @@ public class HibernateGameSave implements Serializable {
         this.player2 = masterController.getPlayer2().getName();
         this.gameMode = masterController.getGameMode();
         this.currentState = masterController.getCurrentState();
-        //        this.field1 = masterController.getPlayer1().getOwnBoard().getHitMap();
-        //        this.field2 = masterController.getPlayer2().getOwnBoard().getHitMap();
+        this.field1 = masterController.getPlayer1().getOwnBoard().getHitMap();
+        this.field2 = masterController.getPlayer2().getOwnBoard().getHitMap();
         this.shipList1 =
             masterController.getPlayer1().getOwnBoard().getShipList();
         this.shipList2 =
@@ -95,21 +101,21 @@ public class HibernateGameSave implements Serializable {
         this.currentState = currentState;
     }
 
-    //    public boolean[][] getField1() {
-    //        return field1;
-    //    }
-    //
-    //    public void setField1(boolean[][] field1) {
-    //        this.field1 = field1;
-    //    }
-    //
-    //    public boolean[][] getField2() {
-    //        return field2;
-    //    }
-    //
-    //    public void setField2(boolean[][] field2) {
-    //        this.field2 = field2;
-    //    }
+    public boolean[][] getField1() {
+        return field1;
+    }
+
+    public void setField1(boolean[][] field1) {
+        this.field1 = field1;
+    }
+
+    public boolean[][] getField2() {
+        return field2;
+    }
+
+    public void setField2(boolean[][] field2) {
+        this.field2 = field2;
+    }
 
     public IShip[] getShipList1() {
         return shipList1;
@@ -130,6 +136,9 @@ public class HibernateGameSave implements Serializable {
     public IMasterController restoreGame(Injector injector) {
         IMasterController masterController =
             injector.getInstance(IMasterController.class);
+        masterController.getPlayer1().setName(this.getPlayer1());
+        masterController.getPlayer2().setName(this.getPlayer2());
+        masterController.setCurrentState(this.currentState);
         return masterController;
     }
 
