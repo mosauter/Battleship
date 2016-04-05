@@ -120,10 +120,20 @@ public class MasterControllerTest {
     }
 
     /**
+     * Utility Method to give both player names. Is needed to identify both
+     * players.
+     */
+    private void givePlayerNames() {
+        this.player1.setName("PLAYER_1");
+        this.player2.setName("PLAYER_2");
+    }
+
+    /**
      * Test of win method, of class MasterController.
      */
     @Test
     public final void testWinPlayer1() {
+        givePlayerNames();
         master.getPlayer1().getOwnBoard().addShip(new Ship(1, true, 1, 1));
         master.addObserver(utilOb);
         master.win();
@@ -135,6 +145,7 @@ public class MasterControllerTest {
      */
     @Test
     public final void testWinPlayer2() {
+        givePlayerNames();
         master.getPlayer2().getOwnBoard().addShip(new Ship(1, true, 1, 1));
         master.addObserver(utilOb);
         master.win();
@@ -146,6 +157,7 @@ public class MasterControllerTest {
      */
     @Test
     public final void testWinNull() {
+        givePlayerNames();
         master.getPlayer1().getOwnBoard().addShip(new Ship(1, true, 1, 1));
         master.getPlayer2().getOwnBoard().addShip(new Ship(1, true, 1, 1));
         master.addObserver(utilOb);
@@ -264,6 +276,7 @@ public class MasterControllerTest {
 
     @Test
     public final void testShootWin() {
+        givePlayerNames();
         master.setCurrentState(SHOOT1);
         master.getPlayer1().getOwnBoard().addShip(new Ship(1, true, 1, 1));
         master.addObserver(utilOb);

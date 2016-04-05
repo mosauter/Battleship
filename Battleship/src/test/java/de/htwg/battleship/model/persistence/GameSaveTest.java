@@ -19,11 +19,11 @@ public class GameSaveTest {
 
     private static final String PLAYER_NAME = "PLAYER_NAME";
     private static final int BOARD_CONST = 5;
-    private GameSave gameSave;
+    private IGameSave gameSave;
 
     @Before
     public void setUp() throws Exception {
-        gameSave = new GameSave();
+        gameSave = new IGameSave();
     }
 
     @Test
