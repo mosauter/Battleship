@@ -272,6 +272,19 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
+    public void setPlayerProfile(String name, int id) {
+        if (this.currentState == GETNAME1) {
+            this.player1.setProfile(name, id);
+            this.setCurrentState(GETNAME2);
+        } else if (this.currentState == GETNAME2) {
+            this.player2.setProfile(name, id);
+            this.setCurrentState(PLACE1);
+        } else {
+            this.setCurrentState(WRONGINPUT);
+        }
+    }
+
+    @Override
     public final void setPlayerName(final String name) {
         if (this.currentState == GETNAME1) {
             player1.setName(name);
@@ -386,8 +399,8 @@ public class MasterController extends Observable implements IMasterController {
 
     @Override
     public final void restoreGame(IGameSave save) {
-        player1.setName(save.getPlayer1());
-        player2.setName(save.getPlayer2());
+        player1.setProfile(save.getPlayer1Name(), save.getPlayer1ID());
+        player2.setProfile(save.getPlayer2Name(), save.getPlayer2ID());
         gm = save.getGameMode();
         currentState = save.getCurrentState();
         IBoard board1 = injector.getInstance(IBoard.class);

@@ -20,50 +20,50 @@ public class IDAOTest {
 //        Injector injector = Guice.createInjector(new BattleshipModule());
 //        idao = injector.getInstance(IDAO.class);
 //        iMasterController = injector.getInstance(IMasterController.class);
-//        iMasterController.getPlayer1().setName(player1Name);
-//        iMasterController.getPlayer2().setName(player2Name);
+//        iMasterController.getPlayer1Name().setProfile(player1Name);
+//        iMasterController.getPlayer2Name().setProfile(player2Name);
 //        savedState = iMasterController.getCurrentState();
 //        idao.saveOrUpdateGame(iMasterController);
 //    }
 
 //    @Test
 //    public void isGameExisting() {
-//        assertTrue(idao.isGameExisting(iMasterController.getPlayer1(),
-//                                       iMasterController.getPlayer2()));
-//        assertTrue(idao.isGameExisting(iMasterController.getPlayer2(),
-//                                       iMasterController.getPlayer1()));
+//        assertTrue(idao.isGameExisting(iMasterController.getPlayer1Name(),
+//                                       iMasterController.getPlayer2Name()));
+//        assertTrue(idao.isGameExisting(iMasterController.getPlayer2Name(),
+//                                       iMasterController.getPlayer1Name()));
 //    }
 //
 //    @Test
 //    public void listAllGames() {
 //        List<IMasterController> list =
-//            idao.listAllGames(iMasterController.getPlayer1());
+//            idao.listAllGames(iMasterController.getPlayer1Name());
 //        assertEquals(1, list.size());
 //        IMasterController tmp1 = list.get(list.size() - 1);
 //        assertEquals(savedState, tmp1.getCurrentState());
-//        list = idao.listAllGames(iMasterController.getPlayer2());
+//        list = idao.listAllGames(iMasterController.getPlayer2Name());
 //        assertEquals(1, list.size());
 //        IMasterController tmp2 = list.get(list.size() - 1);
 //        assertEquals(savedState, tmp2.getCurrentState());
-//        assertEquals(tmp1.getPlayer1(), tmp2.getPlayer1());
-//        assertEquals(tmp1.getPlayer2(), tmp2.getPlayer2());
+//        assertEquals(tmp1.getPlayer1Name(), tmp2.getPlayer1Name());
+//        assertEquals(tmp1.getPlayer2Name(), tmp2.getPlayer2Name());
 //        assertEquals(tmp1.getCurrentState(), tmp2.getCurrentState());
 //    }
 //
 //    @Test
 //    public void loadGameRight() {
-//        IMasterController mc = idao.loadGame(iMasterController.getPlayer1(),
-//                                             iMasterController.getPlayer2());
-//        assertEquals(iMasterController.getPlayer1(), mc.getPlayer1());
-//        assertEquals(iMasterController.getPlayer2(), mc.getPlayer2());
+//        IMasterController mc = idao.loadGame(iMasterController.getPlayer1Name(),
+//                                             iMasterController.getPlayer2Name());
+//        assertEquals(iMasterController.getPlayer1Name(), mc.getPlayer1Name());
+//        assertEquals(iMasterController.getPlayer2Name(), mc.getPlayer2Name());
 //    }
 //
 //    @Test
 //    public void loadGameReverse() {
-//        IMasterController mc = idao.loadGame(iMasterController.getPlayer2(),
-//                                             iMasterController.getPlayer1());
-//        assertEquals(iMasterController.getPlayer1(), mc.getPlayer1());
-//        assertEquals(iMasterController.getPlayer2(), mc.getPlayer2());
+//        IMasterController mc = idao.loadGame(iMasterController.getPlayer2Name(),
+//                                             iMasterController.getPlayer1Name());
+//        assertEquals(iMasterController.getPlayer1Name(), mc.getPlayer1Name());
+//        assertEquals(iMasterController.getPlayer2Name(), mc.getPlayer2Name());
 //    }
 //
 //    @After

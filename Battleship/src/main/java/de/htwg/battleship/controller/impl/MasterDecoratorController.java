@@ -97,18 +97,27 @@ public class MasterDecoratorController implements IMasterController {
 
     @Override
     public final IPlayer getPlayer1() {
-        LOGGER.info("getPlayer1() is called");
+        LOGGER.info("getPlayer1Name() is called");
         IPlayer tmp = master.getPlayer1();
-        LOGGER.info("getPlayer1() is finished: result = " + tmp.toString());
+        LOGGER.info("getPlayer1Name() is finished: result = " + tmp.toString());
         return tmp;
     }
 
     @Override
     public final IPlayer getPlayer2() {
-        LOGGER.info("getPlayer2() is called");
+        LOGGER.info("getPlayer2Name() is called");
         IPlayer tmp = master.getPlayer2();
-        LOGGER.info("getPlayer2() is finished: result = " + tmp.toString());
+        LOGGER.info("getPlayer2Name() is finished: result = " + tmp.toString());
         return tmp;
+    }
+
+    @Override
+    public void setPlayerProfile(String name, int id) {
+        LOGGER.info(
+            "setPlayersProfile() is called: name = " + name + " id = " + id);
+        this.master.setPlayerProfile(name, id);
+        LOGGER.info(
+            "setPlayersProfile() is finished: name = " + name + " id = " + id);
     }
 
     @Override

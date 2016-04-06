@@ -124,7 +124,7 @@ public class MasterControllerTest {
      * players.
      */
     private void givePlayerNames() {
-        this.player1.setName("PLAYER_1");
+        this.player1.setName("PLAYER_1") ;
         this.player2.setName("PLAYER_2");
     }
 
@@ -182,7 +182,7 @@ public class MasterControllerTest {
     }
 
     /**
-     * Test of getPlayer1 method, of class MasterController.
+     * Test of getPlayer1Name method, of class MasterController.
      */
     @Test
     public final void testGetPlayer1() {
@@ -190,7 +190,7 @@ public class MasterControllerTest {
     }
 
     /**
-     * Test of getPlayer2 method, of class MasterController.
+     * Test of getPlayer2Name method, of class MasterController.
      */
     @Test
     public final void testGetPlayer2() {

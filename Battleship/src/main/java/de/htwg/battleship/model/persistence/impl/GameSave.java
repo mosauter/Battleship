@@ -18,8 +18,10 @@ import de.htwg.battleship.util.State;
  */
 public class GameSave implements IGameSave {
 
-    private String player1;
-    private String player2;
+    private String player1Name;
+    private int player1ID;
+    private String player2Name;
+    private int player2ID;
     private GameMode gameMode;
     private State currentState;
     private boolean[][] field1;
@@ -33,8 +35,10 @@ public class GameSave implements IGameSave {
     }
 
     public GameSave(IMasterController masterController) {
-        this.player1 = masterController.getPlayer1().getName();
-        this.player2 = masterController.getPlayer2().getName();
+        this.player1Name = masterController.getPlayer1().getName();
+        this.player2Name = masterController.getPlayer2().getName();
+        this.player1ID = masterController.getPlayer1().getID();
+        this.player2ID = masterController.getPlayer2().getID();
         this.gameMode = masterController.getGameMode();
         this.currentState = masterController.getCurrentState();
         this.field1 = masterController.getPlayer1().getOwnBoard().getHitMap();
@@ -48,23 +52,23 @@ public class GameSave implements IGameSave {
     }
 
     @Override
-    public String getPlayer1() {
-        return player1;
+    public String getPlayer1Name() {
+        return player1Name;
     }
 
     @Override
-    public void setPlayer1(String player1) {
-        this.player1 = player1;
+    public void setPlayer1Name(String player1Name) {
+        this.player1Name = player1Name;
     }
 
     @Override
-    public String getPlayer2() {
-        return player2;
+    public String getPlayer2Name() {
+        return player2Name;
     }
 
     @Override
-    public void setPlayer2(String player2) {
-        this.player2 = player2;
+    public void setPlayer2Name(String player2Name) {
+        this.player2Name = player2Name;
     }
 
     @Override
@@ -153,5 +157,25 @@ public class GameSave implements IGameSave {
     @Override
     public void setMaxShipNumber(int maxShipNumber) {
         this.maxShipNumber = maxShipNumber;
+    }
+
+    @Override
+    public int getPlayer1ID() {
+        return player1ID;
+    }
+
+    @Override
+    public void setPlayer1ID(int player1ID) {
+        this.player1ID = player1ID;
+    }
+
+    @Override
+    public int getPlayer2ID() {
+        return player2ID;
+    }
+
+    @Override
+    public void setPlayer2ID(int player2ID) {
+        this.player2ID = player2ID;
     }
 }

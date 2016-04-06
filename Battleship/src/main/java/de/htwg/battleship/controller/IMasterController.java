@@ -68,6 +68,17 @@ public interface IMasterController extends IObservable {
     IPlayer getPlayer2();
 
     /**
+     * Method to set the whole players profile. Which players name and id is set
+     * is addicted to the current state of the game. This method should be used
+     * in the UIs where an ID is given by a specific login method that all users
+     * share.
+     *
+     * @param name of the player which will be displayed
+     * @param id   of the player to identify if internally
+     */
+    void setPlayerProfile(String name, int id);
+
+    /**
      * Method to set the players name. Which players name is set is addicted to
      * the current state of the game
      *

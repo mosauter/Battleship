@@ -24,30 +24,58 @@ public interface IGameSave {
      *
      * @return the name of the player one
      */
-    String getPlayer1();
+    String getPlayer1Name();
+
+    /**
+     * Same as: {@link IPlayer#getID()}
+     *
+     * @return the ID of the player one
+     */
+    int getPlayer1ID();
+
+    /**
+     * Setter for the ID of player one.
+     *
+     * @param id the new ID of player one
+     */
+    void setPlayer1ID(int id);
 
     /**
      * Same as: {@link IPlayer#setName(String)} but without the second write
      * protection.
      *
-     * @param player1 the new name of player one
+     * @param player1Name the new name of player one
      */
-    void setPlayer1(String player1);
+    void setPlayer1Name(String player1Name);
 
     /**
      * Same as: {@link IPlayer#getName()}.
      *
      * @return the name of the player two
      */
-    String getPlayer2();
+    String getPlayer2Name();
 
     /**
      * Same as: {@link IPlayer#setName(String)} but without the second write
      * protection.
      *
-     * @param player2 the new name of player two
+     * @param player2Name the new name of player two
      */
-    void setPlayer2(String player2);
+    void setPlayer2Name(String player2Name);
+
+    /**
+     * Same as: {@link IPlayer#getID()}
+     *
+     * @return the ID of the player two
+     */
+    int getPlayer2ID();
+
+    /**
+     * Setter for the ID of player two.
+     *
+     * @param id the new ID of player two
+     */
+    void setPlayer2ID(int id);
 
     /**
      * The {@link GameMode} of the saved instance of the game.

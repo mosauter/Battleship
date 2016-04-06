@@ -54,7 +54,7 @@ public class PlayerTest {
     }
 
     /**
-     * Test for setName and getName methods.
+     * Test for setProfile and getName methods.
      */
     @Test
     public final void setGetName() {

@@ -19,11 +19,27 @@ public interface IPlayer {
     String getName();
 
     /**
-     * Setter for the name. Only works one time.
+     * Setter only for the name. As ID it sets a negative number. Should only be
+     * used in UIs where an ID is not given by a login system.
      *
-     * @param name String name of the player
+     * @param name the name of the player
      */
     void setName(String name);
+
+    /**
+     * Setter for the whole profile of a player. Only works one time.
+     *
+     * @param name String name of the player
+     * @param id   of the player should be a positive number given by a login
+     *             system
+     */
+    void setProfile(String name, int id);
+
+    /**
+     * Getter for the unique player id.
+     * @return the id as an int
+     */
+    int getID();
 
     /**
      * Getter for the Board of the Player.
