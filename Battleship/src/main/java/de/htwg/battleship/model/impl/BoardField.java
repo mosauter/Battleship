@@ -33,7 +33,7 @@ public class BoardField implements IBoard {
      * Public-Constructor.
      */
     public BoardField() {
-        this.shipList = new Ship[StatCollection.shipNumberMax];
+        this.shipList = new IShip[StatCollection.shipNumberMax];
         this.ships = 0;
         this.field =
             new boolean[StatCollection.heightLenght][StatCollection.heightLenght];
