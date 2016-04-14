@@ -35,20 +35,7 @@ public class GameSave implements IGameSave {
     }
 
     public GameSave(IMasterController masterController) {
-        this.player1Name = masterController.getPlayer1().getName();
-        this.player2Name = masterController.getPlayer2().getName();
-        this.player1ID = masterController.getPlayer1().getID();
-        this.player2ID = masterController.getPlayer2().getID();
-        this.gameMode = masterController.getGameMode();
-        this.currentState = masterController.getCurrentState();
-        this.field1 = masterController.getPlayer1().getOwnBoard().getHitMap();
-        this.field2 = masterController.getPlayer2().getOwnBoard().getHitMap();
-        this.shipList1 =
-            masterController.getPlayer1().getOwnBoard().getShipList();
-        this.shipList2 =
-            masterController.getPlayer2().getOwnBoard().getShipList();
-        heightLength = StatCollection.heightLenght;
-        maxShipNumber = StatCollection.shipNumberMax;
+        this.saveGame(masterController);
     }
 
     @Override
@@ -137,6 +124,24 @@ public class GameSave implements IGameSave {
             injector.getInstance(IMasterController.class);
         masterController.restoreGame(this);
         return masterController;
+    }
+
+    @Override
+    public void saveGame(IMasterController masterController) {
+        this.player1Name = masterController.getPlayer1().getName();
+        this.player2Name = masterController.getPlayer2().getName();
+        this.player1ID = masterController.getPlayer1().getID();
+        this.player2ID = masterController.getPlayer2().getID();
+        this.gameMode = masterController.getGameMode();
+        this.currentState = masterController.getCurrentState();
+        this.field1 = masterController.getPlayer1().getOwnBoard().getHitMap();
+        this.field2 = masterController.getPlayer2().getOwnBoard().getHitMap();
+        this.shipList1 =
+            masterController.getPlayer1().getOwnBoard().getShipList();
+        this.shipList2 =
+            masterController.getPlayer2().getOwnBoard().getShipList();
+        heightLength = StatCollection.heightLenght;
+        maxShipNumber = StatCollection.shipNumberMax;
     }
 
     @Override

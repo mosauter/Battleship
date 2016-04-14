@@ -203,4 +203,11 @@ public interface IGameSave {
      * "this"
      */
     IMasterController restoreGame(Injector injector);
+
+    /**
+     * Method to save a {@link IMasterController}.
+     *
+     * @param masterController the IMasterController which will be saved in this
+     */
+    void saveGame(IMasterController masterController);
 }
