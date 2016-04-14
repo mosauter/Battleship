@@ -242,7 +242,7 @@ public final class GUI extends JFrame implements IObserver {
     private JLabel ausgabe;
 
     /**
-     * JButton where the Ship should be placed.
+     * JButton where the HibernateShip should be placed.
      */
     private JButton shipPlacePosition;
 
