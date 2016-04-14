@@ -13,7 +13,7 @@ import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.BoardField;
 import de.htwg.battleship.model.impl.Player;
-import de.htwg.battleship.model.impl.Ship;
+import de.htwg.battleship.model.persistence.HibernateShip;
 import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.model.persistence.impl.HibernateGameSave;
 
@@ -33,7 +33,7 @@ public class BattleshipModule extends AbstractModule {
                                      .in(Singleton.class);
         bind(IBoard.class).to(BoardField.class);
         bind(IPlayer.class).to(Player.class);
-        bind(IShip.class).to(Ship.class);
+        bind(IShip.class).to(HibernateShip.class);
         bind(IDAO.class).to(HibernateDAO.class);
         bind(IGameSave.class).to(HibernateGameSave.class);
     }
