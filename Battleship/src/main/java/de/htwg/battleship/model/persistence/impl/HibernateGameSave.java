@@ -2,6 +2,7 @@
 
 package de.htwg.battleship.model.persistence.impl;
 
+import com.google.gson.Gson;
 import com.google.inject.Injector;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IShip;
@@ -20,7 +21,7 @@ import java.io.Serializable;
  * @since 2016-03-31
  */
 @Entity
-@Table(name = "HibernateGameSave")
+@Table(name = "HibernateGameSave3")
 public class HibernateGameSave implements IGameSave, Serializable {
 
     @Id
@@ -39,13 +40,10 @@ public class HibernateGameSave implements IGameSave, Serializable {
     private GameMode gameMode;
     @Column(name = "currentState")
     private State currentState;
-
-    // TODO: make them not transient but real columns in the database
-    @Transient
-    private boolean[][] field1;
-    // TODO: make them not transient but real columns in the database
-    @Transient
-    private boolean[][] field2;
+    @Column(name = "field1", length = 660)
+    private String field1;
+    @Column(name = "field2", length = 660)
+    private String field2;
     @Column(name = "shipList1")
     private IShip[] shipList1;
     @Column(name = "shipList2")
@@ -54,27 +52,12 @@ public class HibernateGameSave implements IGameSave, Serializable {
     private int heightLength;
     @Column(name = "maxShipNumber")
     private int maxShipNumber;
-    // GameSave
-
 
     public HibernateGameSave() {
     }
 
     public HibernateGameSave(IMasterController masterController) {
-        this.player1Name = masterController.getPlayer1().getName();
-        this.player2Name = masterController.getPlayer2().getName();
-        this.player1ID = masterController.getPlayer1().getID();
-        this.player2ID = masterController.getPlayer2().getID();
-        this.gameMode = masterController.getGameMode();
-        this.currentState = masterController.getCurrentState();
-        this.field1 = masterController.getPlayer1().getOwnBoard().getHitMap();
-        this.field2 = masterController.getPlayer2().getOwnBoard().getHitMap();
-        this.shipList1 =
-            masterController.getPlayer1().getOwnBoard().getShipList();
-        this.shipList2 =
-            masterController.getPlayer2().getOwnBoard().getShipList();
-        heightLength = StatCollection.heightLenght;
-        maxShipNumber = StatCollection.shipNumberMax;
+        this.saveGame(masterController);
     }
 
     @Override
@@ -119,22 +102,22 @@ public class HibernateGameSave implements IGameSave, Serializable {
 
     @Override
     public boolean[][] getField1() {
-        return field1;
+        return new Gson().fromJson(field1, boolean[][].class);
     }
 
     @Override
     public void setField1(boolean[][] field1) {
-        this.field1 = field1;
+        this.field1 = new Gson().toJson(field1);
     }
 
     @Override
     public boolean[][] getField2() {
-        return field2;
+        return new Gson().fromJson(field2, boolean[][].class);
     }
 
     @Override
     public void setField2(boolean[][] field2) {
-        this.field2 = field2;
+        this.field2 = new Gson().toJson(field2);
     }
 
     @Override
@@ -163,6 +146,24 @@ public class HibernateGameSave implements IGameSave, Serializable {
             injector.getInstance(IMasterController.class);
         masterController.restoreGame(this);
         return masterController;
+    }
+
+    @Override
+    public void saveGame(IMasterController masterController) {
+        this.player1Name = masterController.getPlayer1().getName();
+        this.player2Name = masterController.getPlayer2().getName();
+        this.player1ID = masterController.getPlayer1().getID();
+        this.player2ID = masterController.getPlayer2().getID();
+        this.gameMode = masterController.getGameMode();
+        this.currentState = masterController.getCurrentState();
+        this.setField1(masterController.getPlayer1().getOwnBoard().getHitMap());
+        this.setField2(masterController.getPlayer2().getOwnBoard().getHitMap());
+        this.shipList1 =
+            masterController.getPlayer1().getOwnBoard().getShipList();
+        this.shipList2 =
+            masterController.getPlayer2().getOwnBoard().getShipList();
+        heightLength = StatCollection.heightLenght;
+        maxShipNumber = StatCollection.shipNumberMax;
     }
 
     @Override
