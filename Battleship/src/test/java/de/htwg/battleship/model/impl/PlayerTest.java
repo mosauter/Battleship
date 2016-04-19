@@ -11,6 +11,8 @@ import org.junit.Test;
 
 import static de.htwg.battleship.util.StatCollection.heightLenght;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 // PlayerTest.java
 
@@ -23,6 +25,8 @@ import static org.junit.Assert.assertEquals;
  */
 public class PlayerTest {
 
+    private static final String PLAYER_NAME = "PLAYER_NAME";
+    private static final int PLAYER_ID = 17;
     /**
      * Saves player.
      */
@@ -80,5 +84,43 @@ public class PlayerTest {
             new Ship(heightLenght, true, heightLenght, heightLenght));
         player.resetBoard(injector.getInstance(IBoard.class));
         assertEquals(player.getOwnBoard().getShips(), 0);
+    }
+
+    @Test
+    public void equalsPlayer() throws Exception {
+        player.setProfile(PLAYER_NAME, PLAYER_ID);
+        assertFalse(player.equals(injector.getInstance(IPlayer.class)));
+    }
+
+    @Test
+    public void equalsPlayerObject() throws Exception {
+        player.setProfile(PLAYER_NAME, PLAYER_ID);
+        assertFalse(player.equals("NO_PLAYER"));
+    }
+
+    @Test
+    public void equalsPlayerReference() throws Exception {
+        player.setProfile(PLAYER_NAME, PLAYER_ID);
+        assertTrue(player.equals(player));
+    }
+
+    @Test
+    public void equalsPlayerTrue() throws Exception {
+        player.setProfile(PLAYER_NAME, PLAYER_ID);
+        IPlayer testee = injector.getInstance(IPlayer.class);
+        testee.setProfile(PLAYER_NAME, PLAYER_ID);
+        assertTrue(player.equals(testee));
+    }
+
+    @Test
+    public void hashPlayer() throws Exception {
+        player.setProfile(PLAYER_NAME, PLAYER_ID);
+        assertEquals(PLAYER_ID, player.hashCode());
+    }
+
+    @Test
+    public void getPlayerID() throws Exception {
+        player.setProfile(PLAYER_NAME, PLAYER_ID);
+        assertEquals(PLAYER_ID, player.getID());
     }
 }

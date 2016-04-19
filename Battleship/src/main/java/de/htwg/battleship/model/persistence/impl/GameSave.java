@@ -34,10 +34,6 @@ public class GameSave implements IGameSave {
     public GameSave() {
     }
 
-    public GameSave(IMasterController masterController) {
-        this.saveGame(masterController);
-    }
-
     @Override
     public String getPlayer1Name() {
         return player1Name;

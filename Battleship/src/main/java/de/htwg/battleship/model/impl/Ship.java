@@ -96,4 +96,29 @@ public class Ship implements IShip {
         }
         this.size = size;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Ship)) {
+            return false;
+        }
+
+        Ship ship = (Ship) o;
+
+        return getSize() == ship.getSize() && getX() == ship.getX() &&
+               getY() == ship.getY() && isOrientation() == ship.isOrientation();
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getSize();
+        result = 31 * result + getX();
+        result = 31 * result + getY();
+        result = 31 * result + (isOrientation() ? 1 : 0);
+        return result;
+    }
 }

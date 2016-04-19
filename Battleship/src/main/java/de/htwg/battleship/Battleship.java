@@ -7,6 +7,8 @@ import de.htwg.battleship.aview.tui.TUI;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.dao.IDAO;
 import de.htwg.battleship.dao.impl.HibernateDAO;
+import de.htwg.battleship.model.impl.BoardField;
+import de.htwg.battleship.model.impl.Player;
 import org.apache.log4j.PropertyConfigurator;
 
 /**
@@ -117,12 +119,14 @@ public final class Battleship {
         IMasterController mc = bs.getMasterController();
         IDAO idao = new HibernateDAO();
         idao.saveOrUpdateGame(mc);
+        idao.listAllGames(new Player(new BoardField()));
 
-//        Scanner scanner = new Scanner(System.in);
-//        boolean done = false;
-//        while (!done) {
-//            done = tui.processInputLine(scanner.nextLine());
-//        }
+
+        //        Scanner scanner = new Scanner(System.in);
+        //        boolean done = false;
+        //        while (!done) {
+        //            done = tui.processInputLine(scanner.nextLine());
+        //        }
         // exit because TUI detected 'exit' as input string
         // exit that the GUI closes too
         System.exit(0);

@@ -272,7 +272,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public void setPlayerProfile(String name, int id) {
+    public void setPlayerProfile(final String name, final int id) {
         if (this.currentState == GETNAME1) {
             this.player1.setProfile(name, id);
             this.setCurrentState(GETNAME2);
@@ -286,15 +286,7 @@ public class MasterController extends Observable implements IMasterController {
 
     @Override
     public final void setPlayerName(final String name) {
-        if (this.currentState == GETNAME1) {
-            player1.setName(name);
-            this.setCurrentState(GETNAME2);
-        } else if (this.currentState == GETNAME2) {
-            player2.setName(name);
-            this.setCurrentState(PLACE1);
-        } else {
-            this.setCurrentState(WRONGINPUT);
-        }
+        this.setPlayerProfile(name, -1);
     }
 
     @Override

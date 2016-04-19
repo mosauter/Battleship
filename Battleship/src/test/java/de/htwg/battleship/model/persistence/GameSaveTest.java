@@ -143,6 +143,17 @@ public class GameSaveTest {
                      gameSave.getShipList2().length);
     }
 
+    @Test
+    public void setPlayer1ID() throws Exception {
+        gameSave.setPlayer1ID(PLAYER_1_ID);
+        assertEquals(PLAYER_1_ID, gameSave.getPlayer1ID());
+    }
+
+    @Test
+    public void setPlayer2ID() throws Exception {
+        gameSave.setPlayer2ID(PLAYER_2_ID);
+        assertEquals(PLAYER_2_ID, gameSave.getPlayer2ID());
+    }
 
     @Test
     public void heightLength() throws Exception {

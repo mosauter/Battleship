@@ -56,10 +56,6 @@ public class HibernateGameSave implements IGameSave, Serializable {
     public HibernateGameSave() {
     }
 
-    public HibernateGameSave(IMasterController masterController) {
-        this.saveGame(masterController);
-    }
-
     @Override
     public String getPlayer1Name() {
         return player1Name;

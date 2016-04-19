@@ -116,4 +116,41 @@ public class BoardTest extends AbstractTest {
         result = board.isHit(x, y);
         assertTrue(result);
     }
+
+    @Test
+    public void testGetHitMap() throws Exception {
+        boolean[][] hitMap = board.getHitMap();
+        for (boolean[] aHitMap : hitMap) {
+            for (boolean anAHitMap : aHitMap) {
+                assertFalse(anAHitMap);
+            }
+        }
+    }
+
+    @Test
+    public void testRestoreBoard() throws Exception {
+        boolean[][] hitMap =
+            new boolean[StatCollection.heightLenght][StatCollection.heightLenght];
+        IShip[] shipList = new IShip[StatCollection.shipNumberMax];
+        // create a dummy ship
+        shipList[0] = createShip(2, true, 3, 4);
+        // shoot on (1,1)
+        hitMap[1][1] = true;
+
+        // shoot on real hitmap, should be false after the restore
+        board.shoot(0, 0);
+
+        board.restoreBoard(hitMap, shipList);
+
+        for (int i = 0; i < board.getHitMap().length; i++) {
+            boolean[] row = board.getHitMap()[i];
+            for (int j = 0; j < row.length; j++) {
+                assertEquals(hitMap[i][j], row[j]);
+            }
+        }
+        IShip[] result = board.getShipList();
+        for (int i = 0; i < result.length; i++) {
+            assertEquals(shipList[i], result[i]);
+        }
+    }
 }
