@@ -207,7 +207,17 @@ public interface IGameSave {
     /**
      * Method to save a {@link IMasterController}.
      *
-     * @param masterController the IMasterController which will be saved in this
+     * @param masterController the IMasterController which will be saved in
+     *                         this
      */
     void saveGame(IMasterController masterController);
+
+    /**
+     * Method to check if all properties of the game save are set and so make
+     * sure that this instance isn't a criteria or something with missing
+     * properties.
+     *
+     * @return true if the complete IGameSave is valid, false if it isn't
+     */
+    boolean validate();
 }

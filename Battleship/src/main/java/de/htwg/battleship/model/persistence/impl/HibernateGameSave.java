@@ -162,8 +162,16 @@ public class HibernateGameSave implements IGameSave, Serializable {
             masterController.getPlayer1().getOwnBoard().getShipList();
         this.shipList2 =
             masterController.getPlayer2().getOwnBoard().getShipList();
-        heightLength = StatCollection.heightLenght;
-        maxShipNumber = StatCollection.shipNumberMax;
+        this.heightLength = StatCollection.heightLenght;
+        this.maxShipNumber = StatCollection.shipNumberMax;
+    }
+
+    @Override
+    public boolean validate() {
+        return player1Name != null && player2Name != null && gameMode != null &&
+               currentState != null && field1 != null && field2 != null &&
+               shipList1 != null && shipList2 != null && heightLength != 0 &&
+               maxShipNumber != 0 && player1ID != 0 && player2ID != 0;
     }
 
     @Override

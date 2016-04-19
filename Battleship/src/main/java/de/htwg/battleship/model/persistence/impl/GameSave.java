@@ -122,7 +122,11 @@ public class GameSave implements IGameSave {
     public IMasterController restoreGame(Injector injector) {
         IMasterController masterController =
             injector.getInstance(IMasterController.class);
-        masterController.restoreGame(this);
+        try {
+            masterController.restoreGame(this);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Could not load:\n" + e.getMessage());
+        }
         return masterController;
     }
 
@@ -140,8 +144,16 @@ public class GameSave implements IGameSave {
             masterController.getPlayer1().getOwnBoard().getShipList();
         this.shipList2 =
             masterController.getPlayer2().getOwnBoard().getShipList();
-        heightLength = StatCollection.heightLenght;
-        maxShipNumber = StatCollection.shipNumberMax;
+        this.heightLength = StatCollection.heightLenght;
+        this.maxShipNumber = StatCollection.shipNumberMax;
+    }
+
+    @Override
+    public boolean validate() {
+        return player1Name != null && player2Name != null && gameMode != null &&
+               currentState != null && field1 != null && field2 != null &&
+               shipList1 != null && shipList2 != null && heightLength != 0 &&
+               maxShipNumber != 0 && player1ID != 0 && player2ID != 0;
     }
 
     @Override
