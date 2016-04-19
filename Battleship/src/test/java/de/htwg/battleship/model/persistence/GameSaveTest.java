@@ -25,7 +25,7 @@ public class GameSaveTest {
 
     private static final String PLAYER_NAME = "PLAYER_NAME";
     private static final int BOARD_CONST = 5;
-    public static final int PLAYER_1_ID = 1;
+    private static final int PLAYER_1_ID = 1;
     private static final int PLAYER_2_ID = 2;
     private IGameSave gameSave;
     private static final Injector INJECTOR =
