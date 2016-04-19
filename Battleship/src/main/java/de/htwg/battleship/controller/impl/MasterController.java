@@ -398,7 +398,12 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final void restoreGame(IGameSave save) {
+    public final void restoreGame(IGameSave save)
+        throws IllegalArgumentException {
+        if (!save.validate()) {
+            throw new IllegalArgumentException(
+                "The game save is not valid, check with IGameSave.validate()");
+        }
         player1.setProfile(save.getPlayer1Name(), save.getPlayer1ID());
         player2.setProfile(save.getPlayer2Name(), save.getPlayer2ID());
         gm = save.getGameMode();

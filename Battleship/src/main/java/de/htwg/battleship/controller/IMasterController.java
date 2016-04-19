@@ -150,5 +150,5 @@ public interface IMasterController extends IObservable {
      *
      * @param save the specified {@link IGameSave} which represents a game
      */
-    void restoreGame(IGameSave save);
+    void restoreGame(IGameSave save) throws IllegalArgumentException;
 }
