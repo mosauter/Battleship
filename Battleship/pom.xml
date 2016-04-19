@@ -18,6 +18,11 @@
             <version>4.12</version>
         </dependency>
         <dependency>
+            <groupId>org.sonarsource.scanner.maven</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.codehaus.sonar</groupId>
             <artifactId>sonar-maven-plugin</artifactId>
             <version>5.1</version>
@@ -65,7 +70,7 @@
         <dependency>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.7.6.201602180812</version>
+            <version>0.7.0.201403182114</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -78,7 +83,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.6.201602180812</version>
+                <version>0.7.0.201403182114</version>
                 <executions>
                     <execution>
                         <goals>
