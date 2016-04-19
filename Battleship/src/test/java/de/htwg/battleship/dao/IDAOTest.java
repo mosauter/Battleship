@@ -4,10 +4,15 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.htwg.battleship.BattleshipModule;
 import de.htwg.battleship.controller.IMasterController;
+import de.htwg.battleship.model.persistence.IGameSave;
+import de.htwg.battleship.persistence.HibernateUtil;
 import de.htwg.battleship.util.State;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -21,23 +26,26 @@ import static org.junit.Assert.assertTrue;
  * @author ms
  * @since 2016-03-30
  */
-@Ignore
 public class IDAOTest {
 
-    private static final String player1 = "PLAYER_ONE";
-    private static final String player2 = "PLAYER_TWO";
+    private static final String PLAYER_1 = "PLAYER_ONE";
+    private static final String PLAYER_2 = "PLAYER_TWO";
+
+    private static final int PLAYER_1_ID = 111111;
+    private static final int PLAYER_2_ID = 222222;
 
     private IDAO idao;
     private IMasterController iMasterController;
     private State savedState;
+    private Injector injector;
 
     @Before
     public void setUp() {
-        Injector injector = Guice.createInjector(new BattleshipModule());
+        injector = Guice.createInjector(new BattleshipModule());
         idao = injector.getInstance(IDAO.class);
         iMasterController = injector.getInstance(IMasterController.class);
-        iMasterController.getPlayer1().setName(player1);
-        iMasterController.getPlayer2().setName(player2);
+        iMasterController.getPlayer1().setProfile(PLAYER_1, PLAYER_1_ID);
+        iMasterController.getPlayer2().setProfile(PLAYER_2, PLAYER_2_ID);
         savedState = iMasterController.getCurrentState();
         idao.saveOrUpdateGame(iMasterController);
     }
@@ -67,7 +75,7 @@ public class IDAOTest {
     }
 
     @Test
-    public void loadGameRight() {
+    public void loadGameRightOrder() {
         IMasterController mc = idao.loadGame(iMasterController.getPlayer1(),
                                              iMasterController.getPlayer2());
         assertEquals(iMasterController.getPlayer1(), mc.getPlayer1());
@@ -75,7 +83,7 @@ public class IDAOTest {
     }
 
     @Test
-    public void loadGameReverse() {
+    public void loadGameReverseOrder() {
         IMasterController mc = idao.loadGame(iMasterController.getPlayer2(),
                                              iMasterController.getPlayer1());
         assertEquals(iMasterController.getPlayer1(), mc.getPlayer1());
@@ -84,7 +92,26 @@ public class IDAOTest {
 
     @After
     public void tearDown() throws Exception {
-
-
+        Transaction tx = null;
+        try {
+            Session session = HibernateUtil.getInstance().getCurrentSession();
+            tx = session.beginTransaction();
+            Criteria criteria = session.createCriteria(
+                injector.getInstance(IGameSave.class).getClass());
+            for (Object o : criteria.list()) {
+                session.delete(o);
+            }
+            tx.commit();
+        } catch (HibernateException ex) {
+            if (tx != null) {
+                try {
+                    tx.rollback();
+                } catch (HibernateException e) {
+                    throw new RuntimeException(
+                        "Exception at Rollback:\n" + e.getMessage());
+                }
+                throw new RuntimeException(ex.getMessage());
+            }
+        }
     }
 }

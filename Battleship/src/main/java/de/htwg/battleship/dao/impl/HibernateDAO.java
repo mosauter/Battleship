@@ -9,7 +9,6 @@ import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.dao.IDAO;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.persistence.IGameSave;
-import de.htwg.battleship.model.persistence.impl.GameSave;
 import de.htwg.battleship.model.persistence.impl.HibernateGameSave;
 import de.htwg.battleship.persistence.HibernateUtil;
 import org.hibernate.*;
@@ -25,6 +24,9 @@ import java.util.List;
  * @since 2016-03-29
  */
 public class HibernateDAO implements IDAO {
+
+    private static final String PLAYER_1_COLUMN_ID = "player1ID";
+    private static final String PLAYER_2_COLUMN_ID = "player2ID";
 
     private final SessionFactory sessionFactory;
     private final Injector injector;
@@ -57,11 +59,12 @@ public class HibernateDAO implements IDAO {
             Session session = sessionFactory.getCurrentSession();
             tx = session.beginTransaction();
 
-            Criteria criteria = session.createCriteria(GameSave.class);
+            Criteria criteria = session.createCriteria(
+                injector.getInstance(IGameSave.class).getClass());
             List list = criteria.list();
 
             for (Object o : list) {
-                GameSave gameSave = (GameSave) o;
+                IGameSave gameSave = (IGameSave) o;
                 if (gameSave.getPlayer1Name().equals(player1.getName()) &&
                     gameSave.getPlayer2Name().equals(player2.getName()) ||
                     gameSave.getPlayer1Name().equals(player2.getName()) &&
@@ -82,35 +85,35 @@ public class HibernateDAO implements IDAO {
         // TODO: maybe include the date in the game
         IMasterController result = null;
         Transaction tx = null;
+        IGameSave gameSave = null;
         try {
             Session session = sessionFactory.getCurrentSession();
             tx = session.beginTransaction();
 
-            Criteria criteria = session.createCriteria(GameSave.class);
-            criteria.add(Restrictions.eq("player1ID", player1.getID()))
-                    .add(Restrictions.eq("player2ID", player2.getID()));
-            List list = criteria.list();
-            if (!list.isEmpty()) {
-                result =
-                    ((HibernateGameSave) list.get(0)).restoreGame(injector);
-            } else {
-                criteria = session.createCriteria(GameSave.class);
-                criteria.add(Restrictions.eq("player1ID", player2.getID()))
-                        .add(Restrictions.eq("player2ID", player1.getID()));
-                list = criteria.list();
-                if (!list.isEmpty()) {
-                    result =
-                        ((HibernateGameSave) list.get(0)).restoreGame(injector);
-                }
+            gameSave = load(player1, player2, session);
+
+            if (gameSave == null) {
+                gameSave = load(player2, player1, session);
             }
+
         } catch (HibernateException ex) {
             handleHibernateException(ex, tx);
         }
-        return result;
+        return gameSave == null ? null : gameSave.restoreGame(injector);
+    }
+
+    private IGameSave load(final IPlayer player1, final IPlayer player2,
+                           final Session session) {
+        Criteria criteria = session
+            .createCriteria(injector.getInstance(IGameSave.class).getClass());
+        criteria.add(Restrictions.eq(PLAYER_1_COLUMN_ID, player1.getID()))
+                .add(Restrictions.eq(PLAYER_2_COLUMN_ID, player2.getID()));
+        List list = criteria.list();
+        return list.isEmpty() ? null : (IGameSave) list.get(0);
     }
 
     @Override
-    public List<IMasterController> listAllGames(IPlayer player) {
+    public List<IMasterController> listAllGames(final IPlayer player) {
         Transaction tx = null;
         List<IMasterController> list = new LinkedList<>();
         try {
@@ -119,7 +122,8 @@ public class HibernateDAO implements IDAO {
 
             int queryPlayer = player.getID();
 
-            Criteria criteria = session.createCriteria(HibernateGameSave.class);
+            Criteria criteria = session.createCriteria(
+                injector.getInstance(IGameSave.class).getClass());
             List list1 = criteria.list();
             for (Object o : list1) {
                 HibernateGameSave gs = (HibernateGameSave) o;
@@ -141,8 +145,8 @@ public class HibernateDAO implements IDAO {
      * @param ex the {@link HibernateException} which occurred
      * @param tx the {@link Transaction} in which the exception occurred
      */
-    private void handleHibernateException(HibernateException ex,
-                                          Transaction tx) {
+    private void handleHibernateException(final HibernateException ex,
+                                          final Transaction tx) {
         if (tx != null) {
             try {
                 tx.rollback();
