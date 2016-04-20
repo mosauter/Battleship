@@ -5,12 +5,10 @@ import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.util.StatCollection;
+import de.htwg.battleship.util.IBoardValues;
 import org.junit.Before;
 import org.junit.Test;
 
-import static de.htwg.battleship.util.StatCollection.heightLenght;
-import static de.htwg.battleship.util.StatCollection.shipNumberMax;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -24,10 +22,14 @@ import static org.junit.Assert.assertTrue;
  */
 public class BoardTest extends AbstractTest {
 
+    private static final int HEIGHT_LENGTH = 10;
+    private static final int MAX_SHIPS = 5;
+
     /**
      * Saves a Board.
      */
     private IBoard board;
+    private IBoardValues boardValues;
 
     public BoardTest(AbstractModule module) {
         this.createInjector(module);
@@ -38,8 +40,9 @@ public class BoardTest extends AbstractTest {
      */
     @Before
     public final void setUp() {
-        StatCollection.heightLenght = 10;
-        StatCollection.shipNumberMax = 5;
+        boardValues = injector.getInstance(IBoardValues.class);
+        boardValues.setBoardSize(HEIGHT_LENGTH);
+        boardValues.setMaxShips(MAX_SHIPS);
         board = injector.getInstance(IBoard.class);
     }
 
@@ -56,16 +59,16 @@ public class BoardTest extends AbstractTest {
 
         IShip[] result = board.getShipList();
         assertEquals(expRes[0], result[0]);
-        for (int i = 1; i < shipNumberMax; i++) {
+        for (int i = 1; i < boardValues.getMaxShips(); i++) {
             board.addShip(expRes[i]);
         }
         result = board.getShipList();
-        for (int i = 0; i < shipNumberMax; i++) {
+        for (int i = 0; i < boardValues.getMaxShips(); i++) {
             assertEquals(expRes[i], result[i]);
         }
         board.addShip(expRes[3]);
         result = board.getShipList();
-        for (int i = 0; i < shipNumberMax; i++) {
+        for (int i = 0; i < boardValues.getMaxShips(); i++) {
             assertEquals(expRes[i], result[i]);
         }
 
@@ -83,7 +86,7 @@ public class BoardTest extends AbstractTest {
             {createShip(2, true, 3, 4), createShip(3, false, 5, 8),
              createShip(6, true, 1, 1), createShip(1, true, 10, 10),
              createShip(4, false, 1, 10)};
-        for (int i = 0; i < shipNumberMax; i++) {
+        for (int i = 0; i < boardValues.getMaxShips(); i++) {
             board.addShip(shipList[i]);
             expRes++;
             result = board.getShips();
@@ -99,7 +102,8 @@ public class BoardTest extends AbstractTest {
      */
     @Test
     public final void testGetBoard() {
-        boolean[][] expResult = new boolean[heightLenght][heightLenght];
+        boolean[][] expResult =
+            new boolean[boardValues.getBoardSize()][boardValues.getBoardSize()];
         for (int x = 0; x < expResult.length; x++) {
             boolean[] tmpResult = expResult[x];
             for (int y = 0; y < tmpResult.length; y++) {
@@ -135,8 +139,8 @@ public class BoardTest extends AbstractTest {
     @Test
     public void testRestoreBoard() throws Exception {
         boolean[][] hitMap =
-            new boolean[StatCollection.heightLenght][StatCollection.heightLenght];
-        IShip[] shipList = new IShip[StatCollection.shipNumberMax];
+            new boolean[boardValues.getBoardSize()][boardValues.getBoardSize()];
+        IShip[] shipList = new IShip[boardValues.getMaxShips()];
         // create a dummy ship
         shipList[0] = createShip(2, true, 3, 4);
         // shoot on (1,1)

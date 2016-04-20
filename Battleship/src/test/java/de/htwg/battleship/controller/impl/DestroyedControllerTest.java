@@ -6,7 +6,7 @@ import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.util.StatCollection;
+import de.htwg.battleship.util.IBoardValues;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,6 +22,8 @@ import static org.junit.Assert.assertTrue;
  */
 public class DestroyedControllerTest extends AbstractTest {
 
+    public static final int HEIGHT_LENGTH = 10;
+    public static final int MAX_SHIPS = 5;
     /**
      * Saves the entire chain.
      */
@@ -48,12 +50,14 @@ public class DestroyedControllerTest extends AbstractTest {
      */
     @Before
     public final void setUp() {
-        StatCollection.heightLenght = 10;
-        StatCollection.shipNumberMax = 5;
+        IBoardValues boardValues = injector.getInstance(IBoardValues.class);
+        boardValues.setBoardSize(HEIGHT_LENGTH);
+        boardValues.setMaxShips(MAX_SHIPS);
         player = injector.getInstance(IPlayer.class);
         ship = createShip(2, false, 3, 3);
-        shoot = new ShootController(player, injector.getInstance(IPlayer.class));
-        ShipController sc = new ShipController();
+        shoot =
+            new ShootController(player, injector.getInstance(IPlayer.class));
+        ShipController sc = new ShipController(boardValues.getBoardSize());
         dc = new DestroyedTrueController();
         sc.placeShip(ship, player);
     }

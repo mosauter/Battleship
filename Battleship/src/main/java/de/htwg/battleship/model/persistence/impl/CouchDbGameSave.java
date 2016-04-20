@@ -6,14 +6,13 @@ import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.util.GameMode;
-import de.htwg.battleship.util.StatCollection;
 import de.htwg.battleship.util.State;
-
 import org.ektorp.support.CouchDbDocument;
-import javax.persistence.*;
+
 import java.io.Serializable;
 
-public class CouchDbGameSave extends CouchDbDocument implements IGameSave, Serializable {
+public class CouchDbGameSave extends CouchDbDocument
+    implements IGameSave, Serializable {
     private String id;
     private String player1Name;
     private int player1ID;
@@ -114,15 +113,14 @@ public class CouchDbGameSave extends CouchDbDocument implements IGameSave, Seria
     @Override
     public IMasterController restoreGame(Injector injector) {
         IMasterController masterController =
-                injector.getInstance(IMasterController.class);
+            injector.getInstance(IMasterController.class);
         masterController.restoreGame(this);
         return masterController;
     }
 
     @Override
     public void saveGame(IMasterController masterController) {
-        this.id =
-        this.player1Name = masterController.getPlayer1().getName();
+        this.id = this.player1Name = masterController.getPlayer1().getName();
         this.player2Name = masterController.getPlayer2().getName();
         this.player1ID = masterController.getPlayer1().getID();
         this.player2ID = masterController.getPlayer2().getID();
@@ -131,19 +129,19 @@ public class CouchDbGameSave extends CouchDbDocument implements IGameSave, Seria
         this.setField1(masterController.getPlayer1().getOwnBoard().getHitMap());
         this.setField2(masterController.getPlayer2().getOwnBoard().getHitMap());
         this.shipList1 =
-                masterController.getPlayer1().getOwnBoard().getShipList();
+            masterController.getPlayer1().getOwnBoard().getShipList();
         this.shipList2 =
-                masterController.getPlayer2().getOwnBoard().getShipList();
-        this.heightLength = StatCollection.heightLenght;
-        this.maxShipNumber = StatCollection.shipNumberMax;
+            masterController.getPlayer2().getOwnBoard().getShipList();
+        this.heightLength = masterController.getBoardSize();
+        this.maxShipNumber = masterController.getShipNumber();
     }
 
     @Override
     public boolean validate() {
         return player1Name != null && player2Name != null && gameMode != null &&
-                currentState != null && field1 != null && field2 != null &&
-                shipList1 != null && shipList2 != null && heightLength != 0 &&
-                maxShipNumber != 0 && player1ID != 0 && player2ID != 0;
+               currentState != null && field1 != null && field2 != null &&
+               shipList1 != null && shipList2 != null && heightLength != 0 &&
+               maxShipNumber != 0 && player1ID != 0 && player2ID != 0;
     }
 
     @Override
@@ -186,7 +184,7 @@ public class CouchDbGameSave extends CouchDbDocument implements IGameSave, Seria
         this.player2ID = player2ID;
     }
 
-    public String getId(){
+    public String getId() {
         return this.id;
     }
 }

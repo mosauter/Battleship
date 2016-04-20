@@ -48,9 +48,8 @@ public class StatCollectionTest {
     @Test
     public final void testCreateBorder() {
         StringBuilder sb = new StringBuilder();
-        StatCollection.heightLenght = 1;
         String expResult = "  a";
-        sb = StatCollection.createBorder(sb);
+        sb = StatCollection.createBorder(sb, 1);
         assertEquals(expResult, sb.toString());
     }
 
@@ -59,8 +58,9 @@ public class StatCollectionTest {
      */
     @Test
     public final void testCreateMap() {
-        Map<Integer, Set<Integer>> map = StatCollection.createMap();
-        for (int i = 0; i < StatCollection.heightLenght; i++) {
+        int heightLenght = 10;
+        Map<Integer, Set<Integer>> map = StatCollection.createMap(heightLenght);
+        for (int i = 0; i < heightLenght; i++) {
             Assert.assertTrue(map.get(i).isEmpty());
         }
     }

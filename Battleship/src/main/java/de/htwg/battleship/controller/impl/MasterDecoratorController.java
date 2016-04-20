@@ -10,6 +10,7 @@ import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.observer.IObserver;
 import de.htwg.battleship.util.GameMode;
+import de.htwg.battleship.util.IBoardValues;
 import de.htwg.battleship.util.State;
 import org.apache.log4j.Logger;
 
@@ -57,7 +58,8 @@ public class MasterDecoratorController implements IMasterController {
     @Inject
     public MasterDecoratorController(final IPlayer player1,
                                      final IPlayer player2, Injector in) {
-        this.master = new MasterController(player1, player2, in);
+        this.master = new MasterController(player1, player2, in,
+                                           in.getInstance(IBoardValues.class));
     }
 
     @Override
@@ -194,7 +196,29 @@ public class MasterDecoratorController implements IMasterController {
     }
 
     @Override
-    public final void setBoardSize(final int boardSize) {
+    public int getBoardSize() {
+        LOGGER.info("getBoardSize() is called");
+        int boardSize = master.getBoardSize();
+        LOGGER.info("getBoardSize() is finished: result = " + boardSize);
+        return boardSize;
+    }
+
+    @Override
+    public void setBoardSize(final int boardSize) {
+        LOGGER.info("setBoardSize() is called: newBoardSize = " + boardSize);
+        master.setBoardSize(boardSize);
+        LOGGER.info("setBoardSize() is finished: newBoardSize = " + boardSize);
+    }
+
+    @Override
+    public int getShipNumber() {
+        LOGGER.info("getShipNumber() is called");
+        int max = master.getShipNumber();
+        LOGGER.info("getShipNumber() is finished: result = " + max);
+        return max;
+    }
+
+    public final void setBoardValues(final int boardSize) {
         LOGGER.info("setBoardSize() is called: new size = " + boardSize);
         master.setBoardSize(boardSize);
         LOGGER.info("setBoardSize() is finished: new size = " + boardSize);

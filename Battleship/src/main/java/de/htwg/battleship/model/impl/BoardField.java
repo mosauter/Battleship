@@ -2,9 +2,10 @@
 
 package de.htwg.battleship.model.impl;
 
+import com.google.inject.Inject;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.util.StatCollection;
+import de.htwg.battleship.util.IBoardValues;
 
 /**
  * Another implementation of the Board-Object where each player adds his own
@@ -28,25 +29,32 @@ public class BoardField implements IBoard {
      * How many ships are on the board.
      */
     private int ships;
+    /**
+     * The maximum number of ships on the current board. Used in constructor and
+     * if someone resets the board.
+     */
+    private int shipNumber;
 
     /**
      * Public-Constructor.
      */
-    public BoardField() {
-        this.shipList = new IShip[StatCollection.shipNumberMax];
+    @Inject
+    public BoardField(IBoardValues boardValues) {
+        this.shipNumber = boardValues.getMaxShips();
+        this.shipList = new IShip[shipNumber];
         this.ships = 0;
         this.field =
-            new boolean[StatCollection.heightLenght][StatCollection.heightLenght];
+            new boolean[boardValues.getBoardSize()][boardValues.getBoardSize()];
     }
 
     @Override
     public int addShip(IShip ship) {
-        if (this.ships == StatCollection.shipNumberMax) {
+        if (this.ships == this.shipNumber) {
             return -1;
         }
         this.shipList[ships] = ship;
         this.ships++;
-        return StatCollection.shipNumberMax - this.ships;
+        return this.shipNumber - this.ships;
     }
 
     @Override

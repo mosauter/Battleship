@@ -8,7 +8,6 @@ import de.htwg.battleship.BattleshipCouchModule;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.util.GameMode;
-import de.htwg.battleship.util.StatCollection;
 import de.htwg.battleship.util.State;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,9 +25,11 @@ import static org.junit.Assert.assertTrue;
 public class GameSaveTest extends AbstractTest {
 
     private static final String PLAYER_NAME = "PLAYER_NAME";
-    private static final int BOARD_CONST = 5;
+    private static final int MAX_SHIPS = 5;
+    private static final int BOARD_CONST = MAX_SHIPS;
     private static final int PLAYER_1_ID = 1;
     private static final int PLAYER_2_ID = 2;
+    private static final int HEIGHT_LENGTH = 10;
     private IGameSave gameSave;
 
     public GameSaveTest(AbstractModule module) {
@@ -105,19 +106,18 @@ public class GameSaveTest extends AbstractTest {
     @Test
     public void field1() throws Exception {
         gameSave.setField1(
-            new boolean[StatCollection.heightLenght][StatCollection.heightLenght]);
+            new boolean[HEIGHT_LENGTH][HEIGHT_LENGTH]);
         boolean[][] result =
-            new boolean[StatCollection.heightLenght][StatCollection.heightLenght];
+            new boolean[HEIGHT_LENGTH][HEIGHT_LENGTH];
         compareField(result);
     }
 
     @Test
     public void field2() throws Exception {
-
         gameSave.setField1(
-            new boolean[StatCollection.heightLenght][StatCollection.heightLenght]);
+            new boolean[HEIGHT_LENGTH][HEIGHT_LENGTH]);
         boolean[][] result =
-            new boolean[StatCollection.heightLenght][StatCollection.heightLenght];
+            new boolean[HEIGHT_LENGTH][HEIGHT_LENGTH];
         compareField(result);
     }
 
@@ -134,15 +134,15 @@ public class GameSaveTest extends AbstractTest {
 
     @Test
     public void shipList1() throws Exception {
-        gameSave.setShipList1(new Ship[StatCollection.shipNumberMax]);
-        assertEquals(StatCollection.shipNumberMax,
+        gameSave.setShipList1(new Ship[MAX_SHIPS]);
+        assertEquals(MAX_SHIPS,
                      gameSave.getShipList1().length);
     }
 
     @Test
     public void shipList2() throws Exception {
-        gameSave.setShipList2(new Ship[StatCollection.shipNumberMax]);
-        assertEquals(StatCollection.shipNumberMax,
+        gameSave.setShipList2(new Ship[MAX_SHIPS]);
+        assertEquals(MAX_SHIPS,
                      gameSave.getShipList2().length);
     }
 

@@ -7,7 +7,7 @@ import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Ship;
-import de.htwg.battleship.util.StatCollection;
+import de.htwg.battleship.util.IBoardValues;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,6 +22,8 @@ import static org.junit.Assert.assertEquals;
  */
 public class WinControllerTest extends AbstractTest {
 
+    private static final int HEIGHT_LENGTH = 2;
+    private static final int MAX_SHIPS = 2;
     private IPlayer player1;
     private IPlayer player2;
 
@@ -34,8 +36,9 @@ public class WinControllerTest extends AbstractTest {
      */
     @Before
     public final void setUp() {
-        StatCollection.heightLenght = 2;
-        StatCollection.shipNumberMax = 2;
+        IBoardValues boardValues = injector.getInstance(IBoardValues.class);
+        boardValues.setBoardSize(HEIGHT_LENGTH);
+        boardValues.setMaxShips(MAX_SHIPS);
         player1 = injector.getInstance(IPlayer.class);
         player2 = injector.getInstance(IPlayer.class);
     }

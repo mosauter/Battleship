@@ -4,11 +4,10 @@ import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
-import de.htwg.battleship.util.StatCollection;
+import de.htwg.battleship.util.IBoardValues;
 import org.junit.Before;
 import org.junit.Test;
 
-import static de.htwg.battleship.util.StatCollection.heightLenght;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -24,10 +23,13 @@ public class PlayerTest extends AbstractTest {
 
     private static final String PLAYER_NAME = "PLAYER_NAME";
     private static final int PLAYER_ID = 17;
+    private static final int HEIGHT_LENGHT = 10;
+    private static final int MAX_SHIPS = 5;
     /**
      * Saves player.
      */
     private IPlayer player;
+    private IBoardValues boardValues;
 
     public PlayerTest(AbstractModule module) {
         this.createInjector(module);
@@ -38,14 +40,16 @@ public class PlayerTest extends AbstractTest {
      */
     @Before
     public final void testSetUp() {
-        StatCollection.heightLenght = 10;
-        StatCollection.shipNumberMax = 5;
+        boardValues = injector.getInstance(IBoardValues.class);
+        boardValues.setBoardSize(HEIGHT_LENGHT);
+        boardValues.setMaxShips(MAX_SHIPS);
         player = injector.getInstance(IPlayer.class);
     }
 
     @Test
     public final void testGetOwnBoard() {
-        boolean[][] expResult = new boolean[heightLenght][heightLenght];
+        boolean[][] expResult =
+            new boolean[boardValues.getBoardSize()][boardValues.getBoardSize()];
         IBoard result = player.getOwnBoard();
         for (int x = 0; x < expResult.length; x++) {
             boolean[] betResult = expResult[x];
@@ -78,8 +82,9 @@ public class PlayerTest extends AbstractTest {
     @Test
     public final void testResetBoard() {
         //noinspection SuspiciousNameCombination
-        player.getOwnBoard().addShip(
-            new Ship(heightLenght, true, heightLenght, heightLenght));
+        player.getOwnBoard().addShip(new Ship(boardValues.getBoardSize(), true,
+                                              boardValues.getBoardSize(),
+                                              boardValues.getBoardSize()));
         player.resetBoard(injector.getInstance(IBoard.class));
         assertEquals(player.getOwnBoard().getShips(), 0);
     }

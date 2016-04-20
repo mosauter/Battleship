@@ -6,7 +6,6 @@ import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Ship;
-import de.htwg.battleship.util.StatCollection;
 import org.junit.Test;
 
 /**
@@ -18,6 +17,8 @@ import org.junit.Test;
  */
 public class BorderFalseControllerTest extends AbstractTest {
 
+    private static final int HEIGHT_LENGTH = 2;
+
     public BorderFalseControllerTest(AbstractModule module) {
         this.createInjector(module);
     }
@@ -25,17 +26,16 @@ public class BorderFalseControllerTest extends AbstractTest {
     /**
      * Saves a BorderController.
      */
-    private final BorderController bc = new BorderFalseController();
+    private final BorderController bc =
+        new BorderFalseController(HEIGHT_LENGTH);
 
     /**
      * Test of isIn method, of class BorderFalseController.
      */
     @Test
     public final void testIsIn() {
-        StatCollection.heightLenght = 2;
         IShip ship = new Ship(4, false, 0, 0);
         assert (!bc.isIn(ship));
-        StatCollection.heightLenght = 2;
         ship = new Ship(4, false, 0, -1);
         assert (!bc.isIn(ship));
     }

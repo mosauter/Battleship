@@ -7,7 +7,6 @@ import de.htwg.battleship.aview.tui.views.*;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.observer.IObserver;
 import de.htwg.battleship.util.GameMode;
-import de.htwg.battleship.util.StatCollection;
 import org.apache.log4j.Logger;
 
 import static de.htwg.battleship.util.State.END;
@@ -201,12 +200,12 @@ public class TUI implements IObserver {
             case "1":
                 this.master.setBoardSize(Integer.parseInt(line[1]));
                 LOGGER.info("The new size of the board is set to " +
-                            StatCollection.heightLenght);
+                            master.getBoardSize());
                 break;
             case "2":
                 this.master.setShipNumber(Integer.parseInt(line[1]));
                 LOGGER.info("The new number of ships is set to " +
-                            StatCollection.shipNumberMax);
+                            master.getShipNumber());
                 break;
             case "3":
                 if ("EXTREME".equalsIgnoreCase(line[1])) {

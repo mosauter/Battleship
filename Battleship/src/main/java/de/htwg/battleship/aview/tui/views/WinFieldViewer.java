@@ -46,8 +46,10 @@ class WinFieldViewer extends AbstractFieldViewer {
     public final String getString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
-        Map<Integer, Set<Integer>> mapPlayer1 = createMap();
-        Map<Integer, Set<Integer>> mapPlayer2 = createMap();
+        Map<Integer, Set<Integer>> mapPlayer1 =
+            createMap(master.getBoardSize());
+        Map<Integer, Set<Integer>> mapPlayer2 =
+            createMap(master.getBoardSize());
         IBoard boardPlayer1 = master.getPlayer1().getOwnBoard();
         IShip[] listPlayer1 = master.getPlayer1().getOwnBoard().getShipList();
         master.fillMap(listPlayer1, mapPlayer1,
@@ -59,7 +61,7 @@ class WinFieldViewer extends AbstractFieldViewer {
         sb.append("\t").append(master.getPlayer1().getName()).append("\t\t\t");
         sb.append(master.getPlayer2().getName()).append("\n");
         sb = fillEntire(mapPlayer1, boardPlayer1, sb, mapPlayer2, boardPlayer2,
-                        SHIP_NON_HIT);
+                        SHIP_NON_HIT, master.getBoardSize());
         sb = addLegend(sb);
         return sb.toString();
     }

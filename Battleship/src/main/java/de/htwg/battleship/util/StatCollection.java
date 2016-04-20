@@ -16,26 +16,6 @@ import java.util.TreeSet;
  */
 public final class StatCollection {
 
-    /**
-     * Constant for 10.
-     */
-    private static final int STANDARD_HEIGHT_LENGTH = 10;
-    /**
-     * Constant for 4.
-     */
-    private static final int STANDARD_SHIP_NUMBER_MAX = 5;
-    /**
-     * The heigth and the length of the field.
-     */
-    @SuppressWarnings({"squid:S1444", "squid:ClassVariableVisibilityCheck"})
-    public static int heightLenght = STANDARD_HEIGHT_LENGTH;
-
-    /**
-     * The max number of ships that could be on the field.
-     */
-    @SuppressWarnings({"squid:S1444", "squid:ClassVariableVisibilityCheck"})
-    public static int shipNumberMax = STANDARD_SHIP_NUMBER_MAX;
-
     private StatCollection() {
     }
 
@@ -56,13 +36,16 @@ public final class StatCollection {
     /**
      * Method to create the legend of both fields.
      *
-     * @param sb StringBuilder on which the method has to add a legend
+     * @param sb        StringBuilder on which the method has to add a legend
+     * @param boardSize the size of the board which is represented with this
+     *                  border
      *
      * @return the sb mentioned above with a legend
      */
-    public static StringBuilder createBorder(final StringBuilder sb) {
+    public static StringBuilder createBorder(final StringBuilder sb,
+                                             int boardSize) {
         sb.append(" ");
-        for (int i = 0; i < heightLenght; i++) {
+        for (int i = 0; i < boardSize; i++) {
             char c = (char) ('a' + i);
             sb.append(" ").append(c);
         }
@@ -72,11 +55,14 @@ public final class StatCollection {
     /**
      * Method to initialize the map for all the ships.
      *
+     * @param boardSize the size of the board which should be represented with
+     *                  this map
+     *
      * @return Map empty with HEIGHT_LENGTH of empty sets
      */
-    public static Map<Integer, Set<Integer>> createMap() {
+    public static Map<Integer, Set<Integer>> createMap(int boardSize) {
         Map<Integer, Set<Integer>> map = new TreeMap<>();
-        for (int i = 0; i < heightLenght; i++) {
+        for (int i = 0; i < boardSize; i++) {
             map.put(i, new TreeSet<>());
         }
         return map;

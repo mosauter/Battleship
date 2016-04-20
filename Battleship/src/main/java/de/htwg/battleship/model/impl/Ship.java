@@ -14,7 +14,7 @@ import de.htwg.battleship.model.IShip;
 public class Ship implements IShip {
 
     /**
-     * Size of the ship.
+     * BoardValues of the ship.
      */
     private int size;
     /**

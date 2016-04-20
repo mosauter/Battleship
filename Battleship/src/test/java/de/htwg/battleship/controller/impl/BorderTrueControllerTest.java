@@ -5,7 +5,6 @@ package de.htwg.battleship.controller.impl;
 import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.util.StatCollection;
 import org.junit.Test;
 
 /**
@@ -17,10 +16,11 @@ import org.junit.Test;
  */
 public class BorderTrueControllerTest extends AbstractTest {
 
+    public static final int HEIGHT_LENGTH = 2;
     /**
      * Saves a BorderController.
      */
-    private final BorderController bc = new BorderTrueController();
+    private final BorderController bc = new BorderTrueController(HEIGHT_LENGTH);
 
     public BorderTrueControllerTest(AbstractModule module) {
         this.createInjector(module);
@@ -31,10 +31,8 @@ public class BorderTrueControllerTest extends AbstractTest {
      */
     @Test
     public final void testIsIn() {
-        StatCollection.heightLenght = 2;
         IShip ship = createShip(4, true, 0, 0);
         assert (!bc.isIn(ship));
-        StatCollection.heightLenght = 2;
         ship = createShip(4, true, -1, 0);
         assert (!bc.isIn(ship));
     }

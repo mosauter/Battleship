@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import static de.htwg.battleship.util.StatCollection.createBorder;
-import static de.htwg.battleship.util.StatCollection.heightLenght;
 
 /**
  * AbstractFieldViewer implements some help methods which are used by severel
@@ -37,8 +36,9 @@ abstract class AbstractFieldViewer extends Viewer {
     @SuppressWarnings("squid:S134")
     final StringBuilder fillX(final Map<Integer, Set<Integer>> mapPlayer1,
                               final int y, final IBoard boardPlayer1,
-                              final StringBuilder sb, final String shipNonHit) {
-        for (int x = 0; x < heightLenght; x++) {
+                              final StringBuilder sb, final String shipNonHit,
+                              int boardSize) {
+        for (int x = 0; x < boardSize; x++) {
             boolean isShip = false;
             for (Integer value : mapPlayer1.get(y)) {
                 if (value == x) {
@@ -82,13 +82,13 @@ abstract class AbstractFieldViewer extends Viewer {
                                    final StringBuilder sb,
                                    final Map<Integer, Set<Integer>> mapPlayer2,
                                    final IBoard boardPlayer2,
-                                   final String shipNonHit) {
-        addBorder(sb);
-        for (int y = 0; y < heightLenght; y++) {
+                                   final String shipNonHit, int boardSize) {
+        addBorder(sb, boardSize);
+        for (int y = 0; y < boardSize; y++) {
             sb.append(y);
-            fillX(mapPlayer1, y, boardPlayer1, sb, shipNonHit);
+            fillX(mapPlayer1, y, boardPlayer1, sb, shipNonHit, boardSize);
             sb.append("\t ").append(y);
-            fillX(mapPlayer2, y, boardPlayer2, sb, shipNonHit);
+            fillX(mapPlayer2, y, boardPlayer2, sb, shipNonHit, boardSize);
             sb.append("\n");
         }
         return sb;
@@ -115,14 +115,15 @@ abstract class AbstractFieldViewer extends Viewer {
     /**
      * Utility method to add the border of both player to the field.
      *
-     * @param sb the string builder before
+     * @param sb        the string builder before
+     * @param boardSize the size of the border which represents the board
      *
      * @return the new StringBuilder
      */
-    final StringBuilder addBorder(final StringBuilder sb) {
-        createBorder(sb);
+    final StringBuilder addBorder(final StringBuilder sb, int boardSize) {
+        createBorder(sb, boardSize);
         sb.append("\t ");
-        createBorder(sb);
+        createBorder(sb, boardSize);
         sb.append("\n");
         return sb;
     }

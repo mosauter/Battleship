@@ -7,7 +7,6 @@ import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.util.GameMode;
-import de.htwg.battleship.util.StatCollection;
 import de.htwg.battleship.util.State;
 
 /**
@@ -136,8 +135,8 @@ public class GameSave implements IGameSave {
             masterController.getPlayer1().getOwnBoard().getShipList();
         this.shipList2 =
             masterController.getPlayer2().getOwnBoard().getShipList();
-        this.heightLength = StatCollection.heightLenght;
-        this.maxShipNumber = StatCollection.shipNumberMax;
+        this.heightLength = masterController.getBoardSize();
+        this.maxShipNumber = masterController.getShipNumber();
     }
 
     @Override

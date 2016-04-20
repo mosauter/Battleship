@@ -8,7 +8,6 @@ import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.util.GameMode;
-import de.htwg.battleship.util.StatCollection;
 import de.htwg.battleship.util.State;
 
 import javax.persistence.*;
@@ -158,8 +157,8 @@ public class HibernateGameSave implements IGameSave, Serializable {
             masterController.getPlayer1().getOwnBoard().getShipList();
         this.shipList2 =
             masterController.getPlayer2().getOwnBoard().getShipList();
-        this.heightLength = StatCollection.heightLenght;
-        this.maxShipNumber = StatCollection.shipNumberMax;
+        this.heightLength = masterController.getBoardSize();
+        this.maxShipNumber = masterController.getShipNumber();
     }
 
     @Override

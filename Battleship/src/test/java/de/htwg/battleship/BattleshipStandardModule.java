@@ -16,6 +16,8 @@ import de.htwg.battleship.model.impl.Player;
 import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.model.persistence.impl.GameSave;
+import de.htwg.battleship.util.IBoardValues;
+import de.htwg.battleship.util.impl.BoardValues;
 
 /**
  * BattleshipModule provides a configuration of the game with Dependency
@@ -36,5 +38,6 @@ public class BattleshipStandardModule extends AbstractModule {
         bind(IShip.class).to(Ship.class);
         bind(IDAO.class).to(HibernateDAO.class);
         bind(IGameSave.class).to(GameSave.class);
+        bind(IBoardValues.class).to(BoardValues.class).in(Singleton.class);
     }
 }

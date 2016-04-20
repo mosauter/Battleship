@@ -11,7 +11,7 @@ import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.observer.impl.Observable;
 import de.htwg.battleship.util.GameMode;
-import de.htwg.battleship.util.StatCollection;
+import de.htwg.battleship.util.IBoardValues;
 import de.htwg.battleship.util.State;
 
 import java.util.Map;
@@ -75,6 +75,11 @@ public class MasterController extends Observable implements IMasterController {
      * Saves the injector which has to be set by the main method.
      */
     private Injector injector;
+    /**
+     * Saves important values of the size for the board and how many ships could
+     * be set on it.
+     */
+    private IBoardValues boardValues;
 
     /**
      * Public Constructor.
@@ -84,14 +89,15 @@ public class MasterController extends Observable implements IMasterController {
      */
     @Inject
     public MasterController(final IPlayer player1, final IPlayer player2,
-                            Injector in) {
-        this.shipController = new ShipController();
+                            final Injector in, final IBoardValues boardValues) {
+        this.shipController = new ShipController(boardValues.getBoardSize());
         this.shootController = new ShootController(player1, player2);
         this.winController = new WinController(player1, player2);
         this.player1 = player1;
         this.player2 = player2;
         this.currentState = START;
         this.gm = GameMode.NORMAL;
+        this.boardValues = boardValues;
         this.injector = in;
     }
 
@@ -172,7 +178,7 @@ public class MasterController extends Observable implements IMasterController {
             return;
         }
 
-        if (player.getOwnBoard().getShips() == StatCollection.shipNumberMax) {
+        if (player.getOwnBoard().getShips() == boardValues.getMaxShips()) {
             if (firstPlayer) {
                 this.setCurrentState(FINALPLACE1);
                 this.currentState = PLACE2;
@@ -348,23 +354,28 @@ public class MasterController extends Observable implements IMasterController {
     @Override
     public final void setBoardSize(final int boardSize) {
         if (this.currentState != State.OPTIONS ||
-            (StatCollection.shipNumberMax + 2) >= boardSize) {
+            (this.boardValues.getMaxShips() + 2) >= boardSize) {
             this.setCurrentState(WRONGINPUT);
             return;
         }
-        StatCollection.heightLenght = boardSize;
+        this.boardValues.setBoardSize(boardSize);
         this.resetBoards();
         notifyObserver();
     }
 
     @Override
+    public int getShipNumber() {
+        return boardValues.getMaxShips();
+    }
+
+    @Override
     public final void setShipNumber(final int shipNumber) {
         if (this.currentState != State.OPTIONS ||
-            ((shipNumber + 2) >= StatCollection.heightLenght)) {
+            ((shipNumber + 2) >= boardValues.getBoardSize())) {
             this.setCurrentState(WRONGINPUT);
             return;
         }
-        StatCollection.shipNumberMax = shipNumber;
+        boardValues.setMaxShips(shipNumber);
         this.resetBoards();
         notifyObserver();
     }
@@ -390,8 +401,12 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final void restoreGame(IGameSave save)
-        throws IllegalArgumentException {
+    public int getBoardSize() {
+        return boardValues.getBoardSize();
+    }
+
+    @Override
+    public final void restoreGame(IGameSave save) {
         if (!save.validate()) {
             throw new IllegalArgumentException(
                 "The game save is not valid, check with IGameSave.validate()");
@@ -402,16 +417,20 @@ public class MasterController extends Observable implements IMasterController {
         currentState = save.getCurrentState();
         IBoard board1 = injector.getInstance(IBoard.class);
         IBoard board2 = injector.getInstance(IBoard.class);
+        boardValues.setMaxShips(save.getMaxShipNumber());
+        boardValues.setBoardSize(save.getHeightLength());
         board1.restoreBoard(save.getField1(), save.getShipList1());
         board2.restoreBoard(save.getField2(), save.getShipList2());
-        StatCollection.heightLenght = save.getHeightLength();
-        StatCollection.shipNumberMax = save.getMaxShipNumber();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof MasterController)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MasterController)) {
+            return false;
+        }
 
         MasterController that = (MasterController) o;
         return this.getCurrentState() == that.currentState &&

@@ -10,6 +10,7 @@ import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.model.persistence.impl.HibernateGameSave;
 import de.htwg.battleship.persistence.HibernateUtil;
+import org.apache.log4j.Logger;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
@@ -26,6 +27,7 @@ public class HibernateDAO implements IDAO {
 
     private static final String PLAYER_1_COLUMN_ID = "player1ID";
     private static final String PLAYER_2_COLUMN_ID = "player2ID";
+    private static final Logger LOGGER = Logger.getLogger(HibernateDAO.class);
 
     private final SessionFactory sessionFactory;
     private final Injector injector;
@@ -148,9 +150,12 @@ public class HibernateDAO implements IDAO {
     private void handleHibernateException(final HibernateException ex,
                                           final Transaction tx) {
         if (tx != null) {
+            LOGGER.error("HibernateException occured, tryin to" +
+                         " rollback the last transaction.");
             try {
                 tx.rollback();
             } catch (HibernateException e) {
+                LOGGER.error("HibernateException occured, at rollback.");
                 throw new RuntimeException(
                     "Exeption at Rollback:\n" + e.getMessage());
             }

@@ -6,7 +6,7 @@ import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.util.StatCollection;
+import de.htwg.battleship.util.IBoardValues;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,6 +22,8 @@ import static org.junit.Assert.assertTrue;
  */
 public class ShipControllerTest extends AbstractTest {
 
+    public static final int HEIGHT_LENGTH = 10;
+    public static final int MAX_SHIPS = 5;
     /**
      * Saves ShipController.
      */
@@ -42,6 +44,7 @@ public class ShipControllerTest extends AbstractTest {
      * Saves the second ship.
      */
     private IShip ship2;
+    private IBoardValues boardValues;
 
     public ShipControllerTest(AbstractModule module) {
         this.createInjector(module);
@@ -52,13 +55,14 @@ public class ShipControllerTest extends AbstractTest {
      */
     @Before
     public final void setUp() {
-        StatCollection.heightLenght = 10;
-        StatCollection.shipNumberMax = 5;
+        boardValues = injector.getInstance(IBoardValues.class);
+        boardValues.setBoardSize(HEIGHT_LENGTH);
+        boardValues.setMaxShips(MAX_SHIPS);
         player1 = injector.getInstance(IPlayer.class);
         player2 = injector.getInstance(IPlayer.class);
         ship1 = createShip(2, true, 1, 1);
         ship2 = createShip(3, true, 1, 1);
-        sc = new ShipController();
+        sc = new ShipController(boardValues.getBoardSize());
     }
 
     /**
@@ -91,7 +95,8 @@ public class ShipControllerTest extends AbstractTest {
      */
     @Test
     public final void testBorderPlaceShip() {
-        StatCollection.heightLenght = 2;
+        boardValues.setBoardSize(2);
+        sc = new ShipController(boardValues.getBoardSize());
         IPlayer pl = injector.getInstance(IPlayer.class);
         boolean result = sc.placeShip(ship2, pl);
         assertFalse(result);

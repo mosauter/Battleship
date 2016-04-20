@@ -28,9 +28,9 @@ class ShipController extends Observable {
     /**
      * Public Constructor.
      */
-    ShipController() {
+    ShipController(final int boardSize) {
         this.collisionController = new CollisionOrientationBothTrue();
-        this.borderController = new BorderTrueController();
+        this.borderController = new BorderTrueController(boardSize);
     }
 
     /**

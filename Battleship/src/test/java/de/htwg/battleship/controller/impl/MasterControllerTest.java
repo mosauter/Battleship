@@ -7,6 +7,7 @@ import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.observer.IObserver;
+import de.htwg.battleship.util.IBoardValues;
 import de.htwg.battleship.util.StatCollection;
 import de.htwg.battleship.util.State;
 import org.junit.Assert;
@@ -41,6 +42,8 @@ import static org.junit.Assert.assertTrue;
  */
 public class MasterControllerTest extends AbstractTest {
 
+    private static final int HEIGHT_LENGHT = 3;
+    private static final int MAX_SHIPS = 1;
     /**
      * Saves the MasterController.
      */
@@ -57,6 +60,7 @@ public class MasterControllerTest extends AbstractTest {
      * Saves an util observer object for testing.
      */
     private UtilObserver utilOb;
+    private IBoardValues boardValues;
 
     public MasterControllerTest(AbstractModule module) {
         this.createInjector(module);
@@ -67,11 +71,12 @@ public class MasterControllerTest extends AbstractTest {
      */
     @Before
     public final void setUp() {
-        StatCollection.heightLenght = 3;
-        StatCollection.shipNumberMax = 1;
+        boardValues = injector.getInstance(IBoardValues.class);
+        boardValues.setBoardSize(HEIGHT_LENGHT);
+        boardValues.setMaxShips(MAX_SHIPS);
         player1 = injector.getInstance(IPlayer.class);
         player2 = injector.getInstance(IPlayer.class);
-        master = new MasterController(player1, player2, injector);
+        master = new MasterController(player1, player2, injector, boardValues);
         utilOb = new UtilObserver();
     }
 
@@ -122,7 +127,7 @@ public class MasterControllerTest extends AbstractTest {
      * players.
      */
     private void givePlayerNames() {
-        this.player1.setName("PLAYER_1") ;
+        this.player1.setName("PLAYER_1");
         this.player2.setName("PLAYER_2");
     }
 
@@ -292,8 +297,9 @@ public class MasterControllerTest extends AbstractTest {
 
     @Test
     public final void testNextPlaceState() {
-        StatCollection.shipNumberMax = 2;
-        MasterController mas = new MasterController(player1, player2, injector);
+        boardValues.setMaxShips(2);
+        MasterController mas =
+            new MasterController(player1, player2, injector, boardValues);
         mas.setCurrentState(PLACE1);
         mas.placeShip(1, 1, true);
         assertEquals(PLACE1, mas.getCurrentState());
@@ -302,7 +308,8 @@ public class MasterControllerTest extends AbstractTest {
     @Test
     public final void testGetSetOriTrue() {
         IShip ship = new Ship(2, true, 1, 1);
-        Map<Integer, Set<Integer>> map = StatCollection.createMap();
+        Map<Integer, Set<Integer>> map =
+            StatCollection.createMap(boardValues.getBoardSize());
         map = master.getSet(ship, map);
         Set<Integer> set = map.get(1);
         Assert.assertTrue(set.contains(1));
@@ -312,14 +319,16 @@ public class MasterControllerTest extends AbstractTest {
     @Test
     public final void testGetSetOriFalse() {
         IShip ship = new Ship(1, false, 1, 1);
-        Map<Integer, Set<Integer>> map = StatCollection.createMap();
+        Map<Integer, Set<Integer>> map =
+            StatCollection.createMap(boardValues.getBoardSize());
         map = master.getSet(ship, map);
         assertTrue(map.get(1).contains(1));
     }
 
     @Test
     public final void testFillMap() {
-        Map<Integer, Set<Integer>> map = StatCollection.createMap();
+        Map<Integer, Set<Integer>> map =
+            StatCollection.createMap(boardValues.getBoardSize());
         IShip[] shipList = {new Ship(1, true, 1, 1)};
         map = master.fillMap(shipList, map, 1);
         assertTrue(map.get(1).contains(1));

@@ -4,7 +4,6 @@ package de.htwg.battleship.controller.impl;
 
 import de.htwg.battleship.model.IShip;
 
-import static de.htwg.battleship.util.StatCollection.heightLenght;
 import static de.htwg.battleship.util.StatCollection.isBetween;
 
 /**
@@ -27,6 +26,10 @@ abstract class BorderController {
      * Next controller implementation of the chain.
      */
     BorderController next;
+    /**
+     * The current size of the board.
+     */
+    int boardSize;
 
     /**
      * Method to test if the ship is in the Field.
@@ -63,18 +66,19 @@ class BorderTrueController extends BorderController {
      * Public Constructor. creates the next controller in the chain
      * automatically
      */
-    BorderTrueController() {
+    BorderTrueController(final int boardSize) {
         this.shipOrientation = true;
-        this.next = new BorderFalseController();
+        this.next = new BorderFalseController(boardSize);
+        this.boardSize = boardSize;
     }
 
     @Override
     public boolean isIn(final IShip ship) {
         int xlow = ship.getX();
         int xupp = xlow + ship.getSize() - 1;
-        return isBetween(heightLenght - 1, 0, xlow) &&
-               isBetween(heightLenght - 1, 0, xupp) &&
-               isBetween(heightLenght - 1, 0, ship.getY());
+        return isBetween(this.boardSize - 1, 0, xlow) &&
+               isBetween(this.boardSize - 1, 0, xupp) &&
+               isBetween(this.boardSize - 1, 0, ship.getY());
     }
 }
 
@@ -88,9 +92,10 @@ class BorderFalseController extends BorderController {
     /**
      * Public Constructor.
      */
-    BorderFalseController() {
+    BorderFalseController(final int boardSize) {
         this.shipOrientation = false;
         this.next = null;
+        this.boardSize = boardSize;
     }
 
     @Override
@@ -98,8 +103,8 @@ class BorderFalseController extends BorderController {
         int ylow = ship.getY();
         int yupp = ylow + ship.getSize() - 1;
         int x = ship.getX();
-        return isBetween(heightLenght - 1, 0, ylow) &&
-               isBetween(heightLenght - 1, 0, yupp) &&
-               isBetween(heightLenght - 1, 0, x);
+        return isBetween(this.boardSize - 1, 0, ylow) &&
+               isBetween(this.boardSize - 1, 0, yupp) &&
+               isBetween(this.boardSize - 1, 0, x);
     }
 }

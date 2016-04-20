@@ -57,8 +57,10 @@ class ShootFieldViewer extends AbstractFieldViewer {
     public final String getString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
-        Map<Integer, Set<Integer>> mapPlayer1 = createMap();
-        Map<Integer, Set<Integer>> mapPlayer2 = createMap();
+        Map<Integer, Set<Integer>> mapPlayer1 =
+            createMap(master.getBoardSize());
+        Map<Integer, Set<Integer>> mapPlayer2 =
+            createMap(master.getBoardSize());
         IBoard boardPlayer1 = player1.getOwnBoard();
         IBoard boardPlayer2 = player2.getOwnBoard();
         IShip[] listPlayer1 = player1.getOwnBoard().getShipList();
@@ -68,7 +70,7 @@ class ShootFieldViewer extends AbstractFieldViewer {
         master
             .fillMap(listPlayer2, mapPlayer2, player2.getOwnBoard().getShips());
         sb = fillEntire(mapPlayer1, boardPlayer1, sb, mapPlayer2, boardPlayer2,
-                        FIELD_NON_HIT);
+                        FIELD_NON_HIT, master.getBoardSize());
         sb = addLegend(sb);
         return sb.toString();
     }

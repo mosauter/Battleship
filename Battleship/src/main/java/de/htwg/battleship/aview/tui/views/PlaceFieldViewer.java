@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 
 import static de.htwg.battleship.util.StatCollection.createMap;
-import static de.htwg.battleship.util.StatCollection.heightLenght;
 
 /**
  * FieldViewer to represents the Field. Acts like a viewer without an own
@@ -54,17 +53,19 @@ public class PlaceFieldViewer extends AbstractFieldViewer {
     public final String getString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
-        Map<Integer, Set<Integer>> mapPlayer1 = createMap();
+        Map<Integer, Set<Integer>> mapPlayer1 =
+            createMap(master.getBoardSize());
         IBoard boardPlayer1 = player1.getOwnBoard();
         IShip[] listPlayer1 = player1.getOwnBoard().getShipList();
         master
             .fillMap(listPlayer1, mapPlayer1, player1.getOwnBoard().getShips());
-        addBorder(sb);
-        for (int y = 0; y < heightLenght; y++) {
+        addBorder(sb, master.getBoardSize());
+        for (int y = 0; y < master.getBoardSize(); y++) {
             sb.append(y);
-            sb = fillX(mapPlayer1, y, boardPlayer1, sb, SHIP_NON_HIT);
+            sb = fillX(mapPlayer1, y, boardPlayer1, sb, SHIP_NON_HIT,
+                       master.getBoardSize());
             sb.append("\t ").append(y);
-            for (int x = 0; x < heightLenght; x++) {
+            for (int x = 0; x < master.getBoardSize(); x++) {
                 sb.append(FIELD_NON_HIT);
             }
             sb.append("\n");

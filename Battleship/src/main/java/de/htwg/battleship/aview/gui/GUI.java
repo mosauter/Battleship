@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Set;
 
 import static de.htwg.battleship.util.StatCollection.createMap;
-import static de.htwg.battleship.util.StatCollection.heightLenght;
 
 /**
  * Graphical User Interface for the Game
@@ -155,8 +154,7 @@ public final class GUI extends JFrame implements IObserver {
     /**
      * JButton[][] for the Field. Button named with: 'x + " " + y'
      */
-    private final JButton[][] buttonField =
-        new JButton[heightLenght][heightLenght];
+    private final JButton[][] buttonField;
 
     /**
      * default Background for mainframe.
@@ -270,6 +268,8 @@ public final class GUI extends JFrame implements IObserver {
     @Inject
     public GUI(final IMasterController master) {
         master.addObserver(this);
+        this.buttonField =
+            new JButton[master.getBoardSize()][master.getBoardSize()];
         this.master = master;
         //Initialize mainFrame
         this.setTitle("Battleship");
@@ -339,7 +339,7 @@ public final class GUI extends JFrame implements IObserver {
                                              FRAME_HEIGHT - BOTTOM_HEIGHT -
                                              DESCRIPTION_WIDTH_HEIGHT -
                                              Y_AXIS_GAP));
-        yAxis.setLayout(new GridLayout(heightLenght, 1));
+        yAxis.setLayout(new GridLayout(master.getBoardSize(), 1));
         yAxis.setVerticalTextPosition(SwingConstants.CENTER);
         left.add(yAxis);
         container.add(left, BorderLayout.WEST);
@@ -350,7 +350,7 @@ public final class GUI extends JFrame implements IObserver {
             new Dimension(FRAME_WIDTH, DESCRIPTION_WIDTH_HEIGHT));
         top.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         xAxis = new JLabel();
-        xAxis.setLayout(new GridLayout(1, heightLenght));
+        xAxis.setLayout(new GridLayout(1, master.getBoardSize()));
         xAxis.setPreferredSize(new Dimension(
             FRAME_WIDTH - DESCRIPTION_WIDTH_HEIGHT - EAST_WIDTH - X_AXIS_GAP,
             DESCRIPTION_WIDTH_HEIGHT));
@@ -397,9 +397,10 @@ public final class GUI extends JFrame implements IObserver {
      * Utility-Method to Build the main Gamefield.
      */
     private void buildGameField() {
-        GridLayout gl = new GridLayout(heightLenght, heightLenght);
+        GridLayout gl =
+            new GridLayout(master.getBoardSize(), master.getBoardSize());
         center.setLayout(gl);
-        for (int y = 0; y < heightLenght; y++) {
+        for (int y = 0; y < master.getBoardSize(); y++) {
             JLabel xLabel = new JLabel();
             JLabel yLabel = new JLabel();
             xLabel.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -412,7 +413,7 @@ public final class GUI extends JFrame implements IObserver {
             yLabel.setText("   " + (1 + y));
             yAxis.add(yLabel);
             xAxis.add(xLabel);
-            for (int x = 0; x < heightLenght; x++) {
+            for (int x = 0; x < master.getBoardSize(); x++) {
                 String name = x + " " + y;
                 this.buttonField[x][y] = new JButton();
                 this.buttonField[x][y].setName(name);
@@ -501,10 +502,10 @@ public final class GUI extends JFrame implements IObserver {
     private void updateGameField(final IPlayer player,
                                  final boolean hideShips) {
         IShip[] shipList = player.getOwnBoard().getShipList();
-        Map<Integer, Set<Integer>> map = createMap();
+        Map<Integer, Set<Integer>> map = createMap(master.getBoardSize());
         master.fillMap(shipList, map, player.getOwnBoard().getShips());
-        for (int y = 0; y < heightLenght; y++) {
-            for (int x = 0; x < heightLenght; x++) {
+        for (int y = 0; y < master.getBoardSize(); y++) {
+            for (int x = 0; x < master.getBoardSize(); x++) {
                 boolean isShip = false;
                 this.buttonField[x][y].setBorder(new JButton().getBorder());
                 for (Integer value : map.get(y)) {

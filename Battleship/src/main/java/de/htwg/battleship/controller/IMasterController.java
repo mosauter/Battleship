@@ -131,11 +131,25 @@ public interface IMasterController extends IObservable {
     void configure();
 
     /**
+     * Getter for the size of the board.
+     *
+     * @return the current height and length of the board
+     */
+    int getBoardSize();
+
+    /**
      * Method to set the board size. only valid in the OPTIONS-state
      *
      * @param boardSize the new board size
      */
     void setBoardSize(int boardSize);
+
+    /**
+     * Getter for the maximum number of ships on the board.
+     *
+     * @return the current max
+     */
+    int getShipNumber();
 
     /**
      * Method to set the max ship number. only valid in the OPTIONS-state
@@ -150,5 +164,5 @@ public interface IMasterController extends IObservable {
      *
      * @param save the specified {@link IGameSave} which represents a game
      */
-    void restoreGame(IGameSave save) throws IllegalArgumentException;
+    void restoreGame(IGameSave save);
 }

@@ -6,7 +6,7 @@ import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
-import de.htwg.battleship.util.StatCollection;
+import de.htwg.battleship.util.IBoardValues;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,6 +22,8 @@ import static org.junit.Assert.assertTrue;
  */
 public class ShootControllerTest extends AbstractTest {
 
+    public static final int HEIGHT_LENGTH = 10;
+    public static final int MAX_SHIPS = 5;
     /**
      * Saves a shootController.
      */
@@ -36,8 +38,9 @@ public class ShootControllerTest extends AbstractTest {
      */
     @Before
     public final void setUp() {
-        StatCollection.heightLenght = 10;
-        StatCollection.shipNumberMax = 5;
+        IBoardValues boardValues = injector.getInstance(IBoardValues.class);
+        boardValues.setBoardSize(HEIGHT_LENGTH);
+        boardValues.setMaxShips(MAX_SHIPS);
         IPlayer player1 = injector.getInstance(IPlayer.class);
         IPlayer player2 = injector.getInstance(IPlayer.class);
         IShip ship1 = createShip(1, true, 3, 2);

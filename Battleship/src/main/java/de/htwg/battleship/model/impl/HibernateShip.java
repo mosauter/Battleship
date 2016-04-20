@@ -24,7 +24,7 @@ public class HibernateShip implements IShip, Serializable {
     private int id;
 
     /**
-     * Size of the ship.
+     * BoardValues of the ship.
      */
     @Column(name = "size")
     private int size;
