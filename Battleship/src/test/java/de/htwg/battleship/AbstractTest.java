@@ -31,7 +31,7 @@ public abstract class AbstractTest {
         AbstractModule[] modules =
             new AbstractModule[] {new BattleshipCouchModule(),
                                   new BattleshipStandardModule(),
-                                  new BattleshipCouchModule()};
+                                  new BattleshipHibernateModule()};
         return Arrays.asList(modules);
     }
 

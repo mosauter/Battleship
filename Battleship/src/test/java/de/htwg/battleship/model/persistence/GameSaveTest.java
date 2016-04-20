@@ -105,26 +105,23 @@ public class GameSaveTest extends AbstractTest {
 
     @Test
     public void field1() throws Exception {
-        gameSave.setField1(
-            new boolean[HEIGHT_LENGTH][HEIGHT_LENGTH]);
-        boolean[][] result =
-            new boolean[HEIGHT_LENGTH][HEIGHT_LENGTH];
-        compareField(result);
+        gameSave.setField1(new boolean[HEIGHT_LENGTH][HEIGHT_LENGTH]);
+        boolean[][] result = new boolean[HEIGHT_LENGTH][HEIGHT_LENGTH];
+        compareField(result, true);
     }
 
     @Test
     public void field2() throws Exception {
-        gameSave.setField1(
-            new boolean[HEIGHT_LENGTH][HEIGHT_LENGTH]);
-        boolean[][] result =
-            new boolean[HEIGHT_LENGTH][HEIGHT_LENGTH];
-        compareField(result);
+        gameSave.setField2(new boolean[HEIGHT_LENGTH][HEIGHT_LENGTH]);
+        boolean[][] result = new boolean[HEIGHT_LENGTH][HEIGHT_LENGTH];
+        compareField(result, false);
     }
 
-    private void compareField(boolean[][] result) {
+    private void compareField(boolean[][] result, boolean first) {
         for (int i = 0; i < result.length; i++) {
             boolean[] x = result[i];
-            boolean[] y = gameSave.getField1()[i];
+            boolean[] y =
+                first ? gameSave.getField1()[i] : gameSave.getField2()[i];
             for (int j = 0; j < x.length; j++) {
                 assertEquals(x[j], y[j]);
             }
@@ -135,15 +132,13 @@ public class GameSaveTest extends AbstractTest {
     @Test
     public void shipList1() throws Exception {
         gameSave.setShipList1(new Ship[MAX_SHIPS]);
-        assertEquals(MAX_SHIPS,
-                     gameSave.getShipList1().length);
+        assertEquals(MAX_SHIPS, gameSave.getShipList1().length);
     }
 
     @Test
     public void shipList2() throws Exception {
         gameSave.setShipList2(new Ship[MAX_SHIPS]);
-        assertEquals(MAX_SHIPS,
-                     gameSave.getShipList2().length);
+        assertEquals(MAX_SHIPS, gameSave.getShipList2().length);
     }
 
     @Test
