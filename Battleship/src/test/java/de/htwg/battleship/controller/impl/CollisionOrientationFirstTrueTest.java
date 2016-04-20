@@ -2,6 +2,7 @@
 
 package de.htwg.battleship.controller.impl;
 
+import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.util.StatCollection;
@@ -36,6 +37,10 @@ public class CollisionOrientationFirstTrueTest extends AbstractTest {
      * Saves the third ship.
      */
     private IShip ship3;
+
+    public CollisionOrientationFirstTrueTest(AbstractModule module) {
+        this.createInjector(module);
+    }
 
     /**
      * Set-Up.

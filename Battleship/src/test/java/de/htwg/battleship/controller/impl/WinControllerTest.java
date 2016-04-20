@@ -2,6 +2,7 @@
 
 package de.htwg.battleship.controller.impl;
 
+import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
@@ -24,6 +25,10 @@ public class WinControllerTest extends AbstractTest {
     private IPlayer player1;
     private IPlayer player2;
 
+    public WinControllerTest(AbstractModule module) {
+        this.createInjector(module);
+    }
+
     /**
      * Set-Up method.
      */
@@ -31,8 +36,8 @@ public class WinControllerTest extends AbstractTest {
     public final void setUp() {
         StatCollection.heightLenght = 2;
         StatCollection.shipNumberMax = 2;
-        player1 = in.getInstance(IPlayer.class);
-        player2 = in.getInstance(IPlayer.class);
+        player1 = injector.getInstance(IPlayer.class);
+        player2 = injector.getInstance(IPlayer.class);
     }
 
     /**

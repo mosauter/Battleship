@@ -2,6 +2,7 @@
 
 package de.htwg.battleship.controller.impl;
 
+import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Ship;
@@ -16,6 +17,10 @@ import org.junit.Test;
  * @since 2014-12-18
  */
 public class BorderFalseControllerTest extends AbstractTest {
+
+    public BorderFalseControllerTest(AbstractModule module) {
+        this.createInjector(module);
+    }
 
     /**
      * Saves a BorderController.

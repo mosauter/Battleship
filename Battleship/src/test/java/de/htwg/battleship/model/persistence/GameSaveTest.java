@@ -1,7 +1,9 @@
 package de.htwg.battleship.model.persistence;
 
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.BattleshipModule;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.impl.Ship;
@@ -21,25 +23,27 @@ import static org.junit.Assert.assertTrue;
  * @author ms
  * @since 2016-03-31
  */
-public class GameSaveTest {
+public class GameSaveTest extends AbstractTest {
 
     private static final String PLAYER_NAME = "PLAYER_NAME";
     private static final int BOARD_CONST = 5;
     private static final int PLAYER_1_ID = 1;
     private static final int PLAYER_2_ID = 2;
     private IGameSave gameSave;
-    private static final Injector INJECTOR =
-        Guice.createInjector(new BattleshipModule());
+
+    public GameSaveTest(AbstractModule module) {
+        this.createInjector(module);
+    }
 
     @Before
     public void setUp() throws Exception {
-        gameSave = INJECTOR.getInstance(IGameSave.class);
+        gameSave = injector.getInstance(IGameSave.class);
     }
 
     @Test
     public void validateTrue() throws Exception {
         IMasterController masterController =
-            INJECTOR.getInstance(IMasterController.class);
+            injector.getInstance(IMasterController.class);
         gameSave.saveGame(masterController);
         assertTrue(gameSave.validate());
     }
@@ -58,12 +62,12 @@ public class GameSaveTest {
     @Test
     public void restoreGame() throws Exception {
         IMasterController masterController =
-            INJECTOR.getInstance(IMasterController.class);
+            injector.getInstance(IMasterController.class);
         masterController.getPlayer1().setProfile(PLAYER_NAME, PLAYER_1_ID);
         masterController.getPlayer2().setProfile(PLAYER_NAME, PLAYER_2_ID);
         masterController.setCurrentState(State.SHOOT1);
         gameSave.saveGame(masterController);
-        IMasterController result = gameSave.restoreGame(INJECTOR);
+        IMasterController result = gameSave.restoreGame(injector);
 
         assertEquals(masterController.getPlayer1().getID(),
                      result.getPlayer1().getID());
@@ -100,7 +104,6 @@ public class GameSaveTest {
 
     @Test
     public void field1() throws Exception {
-        System.out.println("field1 " + StatCollection.heightLenght);
         gameSave.setField1(
             new boolean[StatCollection.heightLenght][StatCollection.heightLenght]);
         boolean[][] result =

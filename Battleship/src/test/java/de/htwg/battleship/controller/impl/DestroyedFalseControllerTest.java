@@ -2,6 +2,7 @@
 
 package de.htwg.battleship.controller.impl;
 
+import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
@@ -38,6 +39,10 @@ public class DestroyedFalseControllerTest extends AbstractTest {
      */
     private ShootController shoot;
 
+    public DestroyedFalseControllerTest(AbstractModule module) {
+        this.createInjector(module);
+    }
+
     /**
      * Set-Up.
      */
@@ -45,9 +50,10 @@ public class DestroyedFalseControllerTest extends AbstractTest {
     public final void setUp() {
         StatCollection.shipNumberMax = 5;
         StatCollection.heightLenght = 10;
-        player = in.getInstance(IPlayer.class);
+        player = injector.getInstance(IPlayer.class);
         ship = createShip(2, false, 3, 3);
-        shoot = new ShootController(player, in.getInstance(IPlayer.class));
+        shoot =
+            new ShootController(player, injector.getInstance(IPlayer.class));
         ShipController sc = new ShipController();
         dc = new DestroyedTrueController();
         sc.placeShip(ship, player);

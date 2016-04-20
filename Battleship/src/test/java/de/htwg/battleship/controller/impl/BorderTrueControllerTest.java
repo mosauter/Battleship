@@ -2,6 +2,7 @@
 
 package de.htwg.battleship.controller.impl;
 
+import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.util.StatCollection;
@@ -20,6 +21,10 @@ public class BorderTrueControllerTest extends AbstractTest {
      * Saves a BorderController.
      */
     private final BorderController bc = new BorderTrueController();
+
+    public BorderTrueControllerTest(AbstractModule module) {
+        this.createInjector(module);
+    }
 
     /**
      * Test of isIn method, of class BorderTrueController.

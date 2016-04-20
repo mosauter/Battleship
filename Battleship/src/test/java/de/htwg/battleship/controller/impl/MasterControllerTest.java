@@ -1,9 +1,8 @@
 // MasterControllerTest.java
 package de.htwg.battleship.controller.impl;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import de.htwg.battleship.BattleshipModule;
+import com.google.inject.AbstractModule;
+import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.Ship;
@@ -40,7 +39,7 @@ import static org.junit.Assert.assertTrue;
  * @version 1.00
  * @since 2014-12-18
  */
-public class MasterControllerTest {
+public class MasterControllerTest extends AbstractTest {
 
     /**
      * Saves the MasterController.
@@ -58,10 +57,10 @@ public class MasterControllerTest {
      * Saves an util observer object for testing.
      */
     private UtilObserver utilOb;
-    /**
-     * Saves the injector.
-     */
-    private Injector injector;
+
+    public MasterControllerTest(AbstractModule module) {
+        this.createInjector(module);
+    }
 
     /**
      * Set-Up.
@@ -70,7 +69,6 @@ public class MasterControllerTest {
     public final void setUp() {
         StatCollection.heightLenght = 3;
         StatCollection.shipNumberMax = 1;
-        injector = Guice.createInjector(new BattleshipModule());
         player1 = injector.getInstance(IPlayer.class);
         player2 = injector.getInstance(IPlayer.class);
         master = new MasterController(player1, player2, injector);

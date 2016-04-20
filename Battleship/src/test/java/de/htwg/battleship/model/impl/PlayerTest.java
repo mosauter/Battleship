@@ -1,8 +1,7 @@
 package de.htwg.battleship.model.impl;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import de.htwg.battleship.BattleshipModule;
+import com.google.inject.AbstractModule;
+import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.util.StatCollection;
@@ -14,8 +13,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-// PlayerTest.java
-
 /**
  * PlayerTest tests the player implementation.
  *
@@ -23,7 +20,7 @@ import static org.junit.Assert.assertTrue;
  * @version 1.00
  * @since 2014-11-06
  */
-public class PlayerTest {
+public class PlayerTest extends AbstractTest {
 
     private static final String PLAYER_NAME = "PLAYER_NAME";
     private static final int PLAYER_ID = 17;
@@ -32,7 +29,9 @@ public class PlayerTest {
      */
     private IPlayer player;
 
-    private Injector injector;
+    public PlayerTest(AbstractModule module) {
+        this.createInjector(module);
+    }
 
     /**
      * Set-Up.
@@ -41,7 +40,6 @@ public class PlayerTest {
     public final void testSetUp() {
         StatCollection.heightLenght = 10;
         StatCollection.shipNumberMax = 5;
-        injector = Guice.createInjector(new BattleshipModule());
         player = injector.getInstance(IPlayer.class);
     }
 

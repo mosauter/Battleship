@@ -1,6 +1,7 @@
 // BoardTest.java
 package de.htwg.battleship.model.impl;
 
+import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IShip;
@@ -28,6 +29,10 @@ public class BoardTest extends AbstractTest {
      */
     private IBoard board;
 
+    public BoardTest(AbstractModule module) {
+        this.createInjector(module);
+    }
+
     /**
      * Set-Up.
      */
@@ -35,7 +40,7 @@ public class BoardTest extends AbstractTest {
     public final void setUp() {
         StatCollection.heightLenght = 10;
         StatCollection.shipNumberMax = 5;
-        board = in.getInstance(IBoard.class);
+        board = injector.getInstance(IBoard.class);
     }
 
     /**

@@ -1,5 +1,6 @@
 package de.htwg.battleship.model.impl;
 
+import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IShip;
 import org.junit.Before;
@@ -20,6 +21,10 @@ public class ShipTest extends AbstractTest {
      * Saves a ship.
      */
     private IShip ship;
+
+    public ShipTest(AbstractModule module) {
+        this.createInjector(module);
+    }
 
     /**
      * Set-Up.

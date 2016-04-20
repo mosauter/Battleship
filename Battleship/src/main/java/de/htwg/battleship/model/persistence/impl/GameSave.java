@@ -118,11 +118,7 @@ public class GameSave implements IGameSave {
     public IMasterController restoreGame(Injector injector) {
         IMasterController masterController =
             injector.getInstance(IMasterController.class);
-        try {
-            masterController.restoreGame(this);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Could not load:\n" + e.getMessage());
-        }
+        masterController.restoreGame(this);
         return masterController;
     }
 

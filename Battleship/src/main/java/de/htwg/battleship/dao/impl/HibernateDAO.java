@@ -65,10 +65,10 @@ public class HibernateDAO implements IDAO {
 
             for (Object o : list) {
                 IGameSave gameSave = (IGameSave) o;
-                if (gameSave.getPlayer1Name().equals(player1.getName()) &&
-                    gameSave.getPlayer2Name().equals(player2.getName()) ||
-                    gameSave.getPlayer1Name().equals(player2.getName()) &&
-                    gameSave.getPlayer2Name().equals(player1.getName())) {
+                if (gameSave.getPlayer1ID() == player1.getID() &&
+                    gameSave.getPlayer2ID() == player2.getID() ||
+                    gameSave.getPlayer1ID() == player2.getID() &&
+                    gameSave.getPlayer2ID() == player1.getID()) {
                     contains = true;
                     break;
                 }

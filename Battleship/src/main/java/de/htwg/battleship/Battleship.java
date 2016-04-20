@@ -118,8 +118,7 @@ public final class Battleship {
         Battleship bs = Battleship.getInstance();
         IMasterController mc = bs.getMasterController();
         IDAO idao = new HibernateDAO();
-        idao.saveOrUpdateGame(mc);
-        idao.listAllGames(new Player(new BoardField()));
+        System.out.println(idao.listAllGames(new Player(new BoardField())));
 
 
         //        Scanner scanner = new Scanner(System.in);

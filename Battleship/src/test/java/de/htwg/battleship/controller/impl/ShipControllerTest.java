@@ -2,6 +2,7 @@
 
 package de.htwg.battleship.controller.impl;
 
+import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
@@ -42,6 +43,10 @@ public class ShipControllerTest extends AbstractTest {
      */
     private IShip ship2;
 
+    public ShipControllerTest(AbstractModule module) {
+        this.createInjector(module);
+    }
+
     /**
      * Method to set all objects up.
      */
@@ -49,8 +54,8 @@ public class ShipControllerTest extends AbstractTest {
     public final void setUp() {
         StatCollection.heightLenght = 10;
         StatCollection.shipNumberMax = 5;
-        player1 = in.getInstance(IPlayer.class);
-        player2 = in.getInstance(IPlayer.class);
+        player1 = injector.getInstance(IPlayer.class);
+        player2 = injector.getInstance(IPlayer.class);
         ship1 = createShip(2, true, 1, 1);
         ship2 = createShip(3, true, 1, 1);
         sc = new ShipController();
@@ -87,7 +92,7 @@ public class ShipControllerTest extends AbstractTest {
     @Test
     public final void testBorderPlaceShip() {
         StatCollection.heightLenght = 2;
-        IPlayer pl = in.getInstance(IPlayer.class);
+        IPlayer pl = injector.getInstance(IPlayer.class);
         boolean result = sc.placeShip(ship2, pl);
         assertFalse(result);
     }

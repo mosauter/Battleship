@@ -2,6 +2,7 @@
 
 package de.htwg.battleship.controller.impl;
 
+import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.util.StatCollection;
@@ -39,7 +40,8 @@ public class CollisionOrientationFirstFalseTest extends AbstractTest {
     /**
      * Public Constructor.
      */
-    public CollisionOrientationFirstFalseTest() {
+    public CollisionOrientationFirstFalseTest(AbstractModule module) {
+        this.createInjector(module);
         StatCollection.heightLenght = 10;
         StatCollection.shipNumberMax = 5;
         cc = new CollisionOrientationFirstFalse();
