@@ -85,7 +85,6 @@ public class HibernateDAO implements IDAO {
     @Override
     public IMasterController loadGame(IPlayer player1, IPlayer player2) {
         // TODO: maybe include the date in the game
-        IMasterController result = null;
         Transaction tx = null;
         IGameSave gameSave = null;
         try {
