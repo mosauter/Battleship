@@ -154,12 +154,9 @@ public class HibernateDAO implements IDAO {
             try {
                 tx.rollback();
             } catch (HibernateException e) {
-                LOGGER.error("HibernateException occured, at rollback.\n" +
+                LOGGER.error("HibernateException occured at rollback.\n" +
                              e.getMessage());
-                throw new RuntimeException(
-                    "Exeption at Rollback:\n" + e.getMessage());
             }
-            throw new RuntimeException(ex.getMessage());
         }
     }
 }
