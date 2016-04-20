@@ -151,11 +151,12 @@ public class HibernateDAO implements IDAO {
                                           final Transaction tx) {
         if (tx != null) {
             LOGGER.error("HibernateException occured, tryin to" +
-                         " rollback the last transaction.");
+                         " rollback the last transaction.\n" + ex.getMessage());
             try {
                 tx.rollback();
             } catch (HibernateException e) {
-                LOGGER.error("HibernateException occured, at rollback.");
+                LOGGER.error("HibernateException occured, at rollback.\n" +
+                             e.getMessage());
                 throw new RuntimeException(
                     "Exeption at Rollback:\n" + e.getMessage());
             }
