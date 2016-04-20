@@ -6,6 +6,7 @@ import com.google.inject.Injector;
 import de.htwg.battleship.aview.tui.TUI;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.dao.IDAO;
+import de.htwg.battleship.dao.impl.CouchDbDAO;
 import de.htwg.battleship.dao.impl.HibernateDAO;
 import de.htwg.battleship.model.impl.BoardField;
 import de.htwg.battleship.model.impl.Player;
@@ -117,8 +118,9 @@ public final class Battleship {
     public static void main(final String[] args) {
         Battleship bs = Battleship.getInstance();
         IMasterController mc = bs.getMasterController();
-        IDAO idao = new HibernateDAO();
-        System.out.println(idao.listAllGames(new Player(new BoardField())));
+        IDAO idao = new CouchDbDAO();
+        idao.saveOrUpdateGame(mc);
+        idao.listAllGames(new Player(new BoardField()));
 
 
         //        Scanner scanner = new Scanner(System.in);
