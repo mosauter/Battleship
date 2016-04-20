@@ -110,4 +110,30 @@ public class HibernateShip implements IShip, Serializable {
         }
         this.size = size;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof HibernateShip)) {
+            return false;
+        }
+
+        HibernateShip that = (HibernateShip) o;
+
+        return getSize() == that.getSize() && getX() == that.getX() &&
+               getY() == that.getY() && isOrientation() == that.isOrientation();
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + getSize();
+        result = 31 * result + getX();
+        result = 31 * result + getY();
+        result = 31 * result + (isOrientation() ? 1 : 0);
+        return result;
+    }
 }
