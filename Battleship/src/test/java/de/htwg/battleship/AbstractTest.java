@@ -24,12 +24,14 @@ public abstract class AbstractTest {
      * The Guice Injector with the standard Module.
      */
     protected Injector injector =
-        Guice.createInjector(new BattleshipModule());
+        Guice.createInjector(new BattleshipCouchModule());
 
     @Parameterized.Parameters
     public static Collection modules() {
         AbstractModule[] modules =
-            new AbstractModule[] {new BattleshipModule(), new BattleshipTestModule()};
+            new AbstractModule[] {new BattleshipCouchModule(),
+                                  new BattleshipStandardModule(),
+                                  new BattleshipCouchModule()};
         return Arrays.asList(modules);
     }
 

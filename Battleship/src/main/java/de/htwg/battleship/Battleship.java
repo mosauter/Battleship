@@ -6,8 +6,6 @@ import com.google.inject.Injector;
 import de.htwg.battleship.aview.tui.TUI;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.dao.IDAO;
-import de.htwg.battleship.dao.impl.CouchDbDAO;
-import de.htwg.battleship.dao.impl.HibernateDAO;
 import de.htwg.battleship.model.impl.BoardField;
 import de.htwg.battleship.model.impl.Player;
 import org.apache.log4j.PropertyConfigurator;
@@ -48,7 +46,7 @@ public final class Battleship {
     private Battleship() {
         PropertyConfigurator
             .configure(getClass().getResource(LOG4J_PROPERTY_CONFIG));
-        injector = Guice.createInjector(new BattleshipModule());
+        injector = Guice.createInjector(new BattleshipCouchModule());
         masterController = injector.getInstance(IMasterController.class);
         tui = injector.getInstance(TUI.class);
     }
@@ -118,7 +116,7 @@ public final class Battleship {
     public static void main(final String[] args) {
         Battleship bs = Battleship.getInstance();
         IMasterController mc = bs.getMasterController();
-        IDAO idao = new CouchDbDAO();
+        IDAO idao = injector.getInstance(IDAO.class);
         idao.saveOrUpdateGame(mc);
         idao.listAllGames(new Player(new BoardField()));
 

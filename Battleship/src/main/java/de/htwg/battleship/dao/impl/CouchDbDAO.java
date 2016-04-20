@@ -1,10 +1,9 @@
 package de.htwg.battleship.dao.impl;
 
-import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
-import de.htwg.battleship.BattleshipModule;
-import de.htwg.battleship.dao.IDAO;
 import de.htwg.battleship.controller.IMasterController;
+import de.htwg.battleship.dao.IDAO;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.model.persistence.impl.CouchDbGameSave;
@@ -19,9 +18,10 @@ public class CouchDbDAO implements IDAO {
     private final CouchDbConnector db;
     private final Injector injector;
 
-    public CouchDbDAO() {
+    @Inject
+    public CouchDbDAO(Injector injector) {
         db = CouchDbUtil.getDB();
-        injector = Guice.createInjector(new BattleshipModule());
+        this.injector = injector;
     }
 
     @Override

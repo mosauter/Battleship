@@ -25,7 +25,7 @@ import de.htwg.battleship.model.persistence.impl.GameSave;
  * @version 1.00
  * @since 2014-12-19
  */
-public class BattleshipTestModule extends AbstractModule {
+public class BattleshipStandardModule extends AbstractModule {
 
     @Override
     protected final void configure() {

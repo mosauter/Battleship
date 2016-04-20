@@ -2,9 +2,8 @@
 
 package de.htwg.battleship.dao.impl;
 
-import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
-import de.htwg.battleship.BattleshipModule;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.dao.IDAO;
 import de.htwg.battleship.model.IPlayer;
@@ -31,9 +30,10 @@ public class HibernateDAO implements IDAO {
     private final SessionFactory sessionFactory;
     private final Injector injector;
 
-    public HibernateDAO() {
+    @Inject
+    public HibernateDAO(Injector injector) {
         sessionFactory = HibernateUtil.getInstance();
-        injector = Guice.createInjector(new BattleshipModule());
+        this.injector = injector;
     }
 
     @Override

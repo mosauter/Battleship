@@ -1,8 +1,9 @@
 package de.htwg.battleship.dao;
 
 import com.google.inject.AbstractModule;
-import de.htwg.battleship.AbstractTest;
-import de.htwg.battleship.BattleshipModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import de.htwg.battleship.BattleshipHibernateModule;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.persistence.HibernateUtil;
@@ -14,7 +15,11 @@ import org.hibernate.Transaction;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -26,7 +31,8 @@ import static org.junit.Assert.assertTrue;
  * @author ms
  * @since 2016-03-30
  */
-public class IDAOTest extends AbstractTest {
+@RunWith(Parameterized.class)
+public class IDAOTest {
 
     private static final String PLAYER_1 = "PLAYER_ONE";
     private static final String PLAYER_2 = "PLAYER_TWO";
@@ -37,12 +43,19 @@ public class IDAOTest extends AbstractTest {
     private IDAO idao;
     private IMasterController iMasterController;
     private State savedState;
+    private Injector injector;
+
+    @Parameterized.Parameters
+    public static Collection modules() {
+        // TODO: maybe use all modules from AbstractTest
+        AbstractModule[] modules =
+            new AbstractModule[] {// new BattleshipCouchModule(),
+                                  new BattleshipHibernateModule()};
+        return Arrays.asList(modules);
+    }
 
     public IDAOTest(AbstractModule module) {
-        // TODO: // FIXME: 20.04.16 take the real @param module
-        // this causes a test failure in list all games when expecting 1 result but getting 2
-        // think this is caused by an uncomplete clear of the database
-        this.createInjector(new BattleshipModule());
+        injector = Guice.createInjector(module);
     }
 
     @Before

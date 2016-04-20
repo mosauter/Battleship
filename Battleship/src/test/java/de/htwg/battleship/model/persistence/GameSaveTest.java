@@ -4,7 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.htwg.battleship.AbstractTest;
-import de.htwg.battleship.BattleshipModule;
+import de.htwg.battleship.BattleshipCouchModule;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.util.GameMode;
@@ -55,7 +55,7 @@ public class GameSaveTest extends AbstractTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void restoreGameWithException() throws Exception {
-        Injector injector = Guice.createInjector(new BattleshipModule());
+        Injector injector = Guice.createInjector(new BattleshipCouchModule());
         IMasterController mc = gameSave.restoreGame(injector);
     }
 
