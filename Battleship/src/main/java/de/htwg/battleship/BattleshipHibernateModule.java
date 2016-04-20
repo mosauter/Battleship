@@ -12,8 +12,8 @@ import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.impl.BoardField;
+import de.htwg.battleship.model.impl.HibernateShip;
 import de.htwg.battleship.model.impl.Player;
-import de.htwg.battleship.model.persistence.HibernateShip;
 import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.model.persistence.impl.HibernateGameSave;
 

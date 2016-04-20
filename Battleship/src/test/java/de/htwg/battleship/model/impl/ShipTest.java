@@ -17,6 +17,11 @@ import static org.junit.Assert.assertTrue;
  */
 public class ShipTest extends AbstractTest {
 
+    private static final boolean ORIENTATION = true;
+    private static final int SHIP_SIZE = 5;
+    private static final int X = 2;
+    private static final int Y = 3;
+
     /**
      * Saves a ship.
      */
@@ -31,10 +36,8 @@ public class ShipTest extends AbstractTest {
      */
     @Before
     public final void setUp() {
-        int x = 2;
-        int y = 3;
         // ship = new Ship(5, true, x, y);
-        ship = createShip(5, true, x, y);
+        ship = createShip(SHIP_SIZE, ORIENTATION, X, Y);
     }
 
     /**
@@ -98,5 +101,33 @@ public class ShipTest extends AbstractTest {
         ship.setSize(falseEnter);
         result = this.ship.getSize();
         assertEquals(expRes, result);
+    }
+
+    @Test
+    public void equalsReference() throws Exception {
+        assertTrue(ship.equals(ship));
+    }
+
+    @Test
+    public void equalsObject() throws Exception {
+        assertFalse(ship.equals("NOT_A_SHIP"));
+    }
+
+    @Test
+    public void equalsTrue() throws Exception {
+        IShip s = createShip(SHIP_SIZE, ORIENTATION, X, Y);
+        assertTrue(s.equals(ship));
+    }
+
+    @Test
+    public void equalsFalse() throws Exception {
+        IShip s = createShip(SHIP_SIZE + 1, ORIENTATION, X, Y);
+        assertFalse(s.equals(ship));
+        s = createShip(SHIP_SIZE, !ORIENTATION, X, Y);
+        assertFalse(s.equals(ship));
+        s = createShip(SHIP_SIZE, ORIENTATION, X + 1, Y);
+        assertFalse(s.equals(ship));
+        s = createShip(SHIP_SIZE, !ORIENTATION, X, Y + 1);
+        assertFalse(s.equals(ship));
     }
 }

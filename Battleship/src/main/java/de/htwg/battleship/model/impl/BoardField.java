@@ -79,6 +79,4 @@ public class BoardField implements IBoard {
         this.field = hitMap;
         this.shipList = shipList;
     }
-
-
 }

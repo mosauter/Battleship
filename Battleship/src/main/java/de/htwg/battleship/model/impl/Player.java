@@ -20,7 +20,6 @@ public class Player implements IPlayer {
      * Saves an unique identifier for a player.
      */
     private int id;
-
     /**
      * Saves the board of the specified Player.
      */

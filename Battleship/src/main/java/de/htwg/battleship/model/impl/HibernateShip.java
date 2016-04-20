@@ -1,6 +1,6 @@
 // Ship.java
 
-package de.htwg.battleship.model.persistence;
+package de.htwg.battleship.model.impl;
 
 import de.htwg.battleship.model.IShip;
 
