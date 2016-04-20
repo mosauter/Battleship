@@ -424,6 +424,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
+    @SuppressWarnings("squid:S1067")
     public boolean equals(Object o) {
         if (this == o) {
             return true;
