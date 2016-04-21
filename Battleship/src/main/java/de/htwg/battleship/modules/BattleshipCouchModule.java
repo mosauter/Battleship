@@ -1,6 +1,6 @@
 // BattleshipModule.java
 
-package de.htwg.battleship;
+package de.htwg.battleship.modules;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;

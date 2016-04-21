@@ -7,6 +7,7 @@ import de.htwg.battleship.aview.tui.TUI;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.dao.IDAO;
 import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.modules.BattleshipCouchModule;
 import org.apache.log4j.PropertyConfigurator;
 
 /**

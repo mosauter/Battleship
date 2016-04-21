@@ -4,6 +4,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.modules.BattleshipCouchModule;
+import de.htwg.battleship.modules.BattleshipHibernateModule;
+import de.htwg.battleship.modules.BattleshipStandardModule;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
