@@ -119,6 +119,7 @@ public final class Battleship {
         IDAO idao = injector.getInstance(IDAO.class);
         idao.saveOrUpdateGame(mc);
         idao.listAllGames(injector.getInstance(IPlayer.class));
+        idao.loadGame(injector.getInstance(IPlayer.class), injector.getInstance(IPlayer.class));
 
 
         //        Scanner scanner = new Scanner(System.in);

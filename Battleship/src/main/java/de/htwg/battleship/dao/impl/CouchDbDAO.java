@@ -11,6 +11,7 @@ import de.htwg.battleship.persistence.CouchDbUtil;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.ViewQuery;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class CouchDbDAO implements IDAO {
@@ -29,7 +30,7 @@ public class CouchDbDAO implements IDAO {
         IGameSave gamesave = new CouchDbGameSave();
         gamesave.saveGame(masterController);
         if(isGameExisting(masterController.getPlayer1(), masterController.getPlayer2())){
-            db.update(gamesave);
+            //TODO: db.update(gamesave); needs id as second param
         } else {
             db.create(gamesave);
         }
@@ -55,11 +56,27 @@ public class CouchDbDAO implements IDAO {
 
     @Override
     public IMasterController loadGame(IPlayer player1, IPlayer player2) {
+        for(IMasterController mc : listAllGames(player1)){
+            if(mc.getPlayer1().equals(player2) || mc.getPlayer2().equals(player2)){
+                return mc;
+            }
+        }
+
         return null;
     }
 
     @Override
     public List<IMasterController> listAllGames(IPlayer player) {
-        return null;
+        List<IMasterController> list = new LinkedList<>();
+        ViewQuery query = new ViewQuery().allDocs().includeDocs(true);
+
+        for (Object o : db.queryView(query, injector.getInstance(IGameSave.class).getClass())) {
+            IGameSave gameSave = (IGameSave) o;
+            if (gameSave.getPlayer1ID() == player.getID() || gameSave.getPlayer2ID() == player.getID()) {
+                list.add(gameSave.restoreGame(injector));
+            }
+        }
+
+        return list;
     }
 }
