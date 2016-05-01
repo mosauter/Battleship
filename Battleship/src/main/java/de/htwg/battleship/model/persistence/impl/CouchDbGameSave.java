@@ -1,5 +1,7 @@
 package de.htwg.battleship.model.persistence.impl;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.Gson;
 import com.google.inject.Injector;
 import de.htwg.battleship.controller.IMasterController;
@@ -8,12 +10,14 @@ import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.util.GameMode;
 import de.htwg.battleship.util.State;
 import org.ektorp.support.CouchDbDocument;
-
 import java.io.Serializable;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CouchDbGameSave extends CouchDbDocument
     implements IGameSave, Serializable {
+
     private String id;
+    private String revision;
     private String player1Name;
     private int player1ID;
     private String player2Name;
@@ -28,6 +32,26 @@ public class CouchDbGameSave extends CouchDbDocument
     private int maxShipNumber;
 
     public CouchDbGameSave() {
+    }
+
+    @JsonProperty("_id")
+    public String getId() {
+        return id;
+    }
+
+    @JsonProperty("_id")
+    public void setId(String s) {
+        this.id = s;
+    }
+
+    @JsonProperty("_rev")
+    public String getRevision() {
+        return revision;
+    }
+
+    @JsonProperty("_rev")
+    public void setRevision(String s) {
+        this.revision = s;
     }
 
     @Override
@@ -120,7 +144,7 @@ public class CouchDbGameSave extends CouchDbDocument
 
     @Override
     public void saveGame(IMasterController masterController) {
-        this.id = this.player1Name = masterController.getPlayer1().getName();
+        this.player1Name = masterController.getPlayer1().getName();
         this.player2Name = masterController.getPlayer2().getName();
         this.player1ID = masterController.getPlayer1().getID();
         this.player2ID = masterController.getPlayer2().getID();
@@ -182,9 +206,5 @@ public class CouchDbGameSave extends CouchDbDocument
     @Override
     public void setPlayer2ID(int player2ID) {
         this.player2ID = player2ID;
-    }
-
-    public String getId() {
-        return this.id;
     }
 }

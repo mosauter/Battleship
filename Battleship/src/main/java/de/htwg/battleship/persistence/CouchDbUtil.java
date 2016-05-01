@@ -7,6 +7,7 @@ import org.ektorp.CouchDbInstance;
 import org.ektorp.http.HttpClient;
 import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbInstance;
+import org.ektorp.support.DesignDocument;
 
 import java.net.MalformedURLException;
 
