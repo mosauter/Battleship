@@ -61,19 +61,9 @@ public class HibernateDAO implements IDAO {
             Session session = sessionFactory.getCurrentSession();
             tx = session.beginTransaction();
 
-            Criteria criteria = session.createCriteria(
-                injector.getInstance(IGameSave.class).getClass());
-            List list = criteria.list();
-
-            for (Object o : list) {
-                IGameSave gameSave = (IGameSave) o;
-                if (gameSave.getPlayer1ID() == player1.getID() &&
-                    gameSave.getPlayer2ID() == player2.getID() ||
-                    gameSave.getPlayer1ID() == player2.getID() &&
-                    gameSave.getPlayer2ID() == player1.getID()) {
-                    contains = true;
-                    break;
-                }
+            contains = load(player1, player2, session) != null;
+            if (!contains) {
+                contains = load(player2, player1, session) != null;
             }
             tx.commit();
         } catch (HibernateException ex) {

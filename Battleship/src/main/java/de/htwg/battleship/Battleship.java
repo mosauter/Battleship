@@ -5,10 +5,12 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.htwg.battleship.aview.tui.TUI;
 import de.htwg.battleship.controller.IMasterController;
-import de.htwg.battleship.dao.IDAO;
-import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.modules.BattleshipCouchModule;
+import de.htwg.battleship.persistence.CouchDbUtil;
 import org.apache.log4j.PropertyConfigurator;
+import org.ektorp.CouchDbConnector;
+import org.ektorp.ViewQuery;
 
 /**
  * Battleship start file.
@@ -116,10 +118,16 @@ public final class Battleship {
     public static void main(final String[] args) {
         Battleship bs = Battleship.getInstance();
         IMasterController mc = bs.getMasterController();
-        IDAO idao = injector.getInstance(IDAO.class);
-        idao.saveOrUpdateGame(mc);
-        idao.listAllGames(injector.getInstance(IPlayer.class));
-        idao.loadGame(injector.getInstance(IPlayer.class), injector.getInstance(IPlayer.class));
+        CouchDbConnector db = CouchDbUtil.getDB();
+        for (Object o : db
+            .queryView(new ViewQuery().allDocs().includeDocs(true),
+                       injector.getInstance(IGameSave.class).getClass())) {
+            System.out.println(o.getClass());
+            IGameSave gs = (IGameSave) o;
+            System.out.println(gs.getPlayer1Name());
+            System.out.println(gs.getPlayer2Name());
+
+        }
 
 
         //        Scanner scanner = new Scanner(System.in);

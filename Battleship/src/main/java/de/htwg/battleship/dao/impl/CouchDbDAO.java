@@ -14,7 +14,7 @@ import org.ektorp.ViewResult;
 
 import java.util.*;
 
-public class CouchDbDAO implements IDAO {
+public class  CouchDbDAO implements IDAO {
 
     private final CouchDbConnector db;
     private final Injector injector;
