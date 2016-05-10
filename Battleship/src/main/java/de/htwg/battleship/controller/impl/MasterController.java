@@ -2,8 +2,13 @@
 
 package de.htwg.battleship.controller.impl;
 
+import akka.actor.ActorRef;
+import akka.pattern.Patterns;
+import akka.util.Timeout;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import de.htwg.battleship.actor.ActorFactory;
+import de.htwg.battleship.actor.messages.ShootMessage;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
@@ -13,9 +18,12 @@ import de.htwg.battleship.observer.impl.Observable;
 import de.htwg.battleship.util.GameMode;
 import de.htwg.battleship.util.IBoardValues;
 import de.htwg.battleship.util.State;
+import scala.concurrent.Await;
+import scala.concurrent.Future;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import static de.htwg.battleship.util.State.END;
 import static de.htwg.battleship.util.State.FINALPLACE1;
@@ -43,14 +51,13 @@ import static de.htwg.battleship.util.State.WRONGINPUT;
  */
 public class MasterController extends Observable implements IMasterController {
 
+
+    private static final Timeout TIMEOUT = new Timeout(10, TimeUnit.SECONDS);
+    private final ActorRef masterActor;
     /**
      * Internal Ship controller.
      */
     private final ShipController shipController;
-    /**
-     * Internal shoot controller.
-     */
-    private final ShootController shootController;
     /**
      * Internal win controller.
      */
@@ -90,6 +97,7 @@ public class MasterController extends Observable implements IMasterController {
     @Inject
     public MasterController(final IPlayer player1, final IPlayer player2,
                             final Injector in, final IBoardValues boardValues) {
+        masterActor = ActorFactory.getMasterRef();
         this.shipController = new ShipController(boardValues.getBoardSize());
         this.shootController = new ShootController(player1, player2);
         this.winController = new WinController(player1, player2);
@@ -113,7 +121,16 @@ public class MasterController extends Observable implements IMasterController {
             this.setCurrentState(WRONGINPUT);
             return;
         }
-        boolean shootResult = shootController.shoot(x, y, first);
+        Future<Object> future =
+            Patterns.ask(masterActor, new ShootMessage(), TIMEOUT);
+        try {
+            Await.result(future, TIMEOUT.duration());
+        } catch (Exception e) {
+            // some unknown exception can come ... :D
+            // TODO: research
+        }
+
+        boolean shootResult = ()
         if (!this.win()) {
             this.hitMiss(shootResult);
             this.nextShootState(before, shootResult);
