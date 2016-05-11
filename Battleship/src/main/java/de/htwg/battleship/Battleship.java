@@ -5,12 +5,10 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.htwg.battleship.aview.tui.TUI;
 import de.htwg.battleship.controller.IMasterController;
-import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.modules.BattleshipCouchModule;
-import de.htwg.battleship.persistence.CouchDbUtil;
 import org.apache.log4j.PropertyConfigurator;
-import org.ektorp.CouchDbConnector;
-import org.ektorp.ViewQuery;
+
+import java.util.Scanner;
 
 /**
  * Battleship start file.
@@ -117,24 +115,11 @@ public final class Battleship {
     @SuppressWarnings("squid:S1147")
     public static void main(final String[] args) {
         Battleship bs = Battleship.getInstance();
-        IMasterController mc = bs.getMasterController();
-        CouchDbConnector db = CouchDbUtil.getDB();
-        for (Object o : db
-            .queryView(new ViewQuery().allDocs().includeDocs(true),
-                       injector.getInstance(IGameSave.class).getClass())) {
-            System.out.println(o.getClass());
-            IGameSave gs = (IGameSave) o;
-            System.out.println(gs.getPlayer1Name());
-            System.out.println(gs.getPlayer2Name());
-
+        Scanner scanner = new Scanner(System.in);
+        boolean done = false;
+        while (!done) {
+            done = tui.processInputLine(scanner.nextLine());
         }
-
-
-        //        Scanner scanner = new Scanner(System.in);
-        //        boolean done = false;
-        //        while (!done) {
-        //            done = tui.processInputLine(scanner.nextLine());
-        //        }
         // exit because TUI detected 'exit' as input string
         // exit that the GUI closes too
         System.exit(0);
