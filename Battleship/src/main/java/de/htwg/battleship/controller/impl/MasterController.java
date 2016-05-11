@@ -8,6 +8,7 @@ import akka.util.Timeout;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import de.htwg.battleship.actor.ActorFactory;
+import de.htwg.battleship.actor.messages.ShipMessage;
 import de.htwg.battleship.actor.messages.ShootMessage;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IBoard;
@@ -51,13 +52,9 @@ import static de.htwg.battleship.util.State.WRONGINPUT;
  */
 public class MasterController extends Observable implements IMasterController {
 
-
-    private static final Timeout TIMEOUT = new Timeout(10, TimeUnit.SECONDS);
+    private static final State START_STATE = START;
+    private static final Timeout TIMEOUT = new Timeout(1, TimeUnit.SECONDS);
     private final ActorRef masterActor;
-    /**
-     * Internal Ship controller.
-     */
-    private final ShipController shipController;
     /**
      * Internal win controller.
      */
@@ -98,12 +95,10 @@ public class MasterController extends Observable implements IMasterController {
     public MasterController(final IPlayer player1, final IPlayer player2,
                             final Injector in, final IBoardValues boardValues) {
         masterActor = ActorFactory.getMasterRef();
-        this.shipController = new ShipController(boardValues.getBoardSize());
-        this.shootController = new ShootController(player1, player2);
         this.winController = new WinController(player1, player2);
         this.player1 = player1;
         this.player2 = player2;
-        this.currentState = START;
+        this.currentState = START_STATE;
         this.gm = GameMode.NORMAL;
         this.boardValues = boardValues;
         this.injector = in;
@@ -121,20 +116,22 @@ public class MasterController extends Observable implements IMasterController {
             this.setCurrentState(WRONGINPUT);
             return;
         }
-        Future<Object> future =
-            Patterns.ask(masterActor, new ShootMessage(), TIMEOUT);
+        Future<Object> future = Patterns
+            .ask(masterActor, new ShootMessage(player1, player2, x, y, first),
+                 TIMEOUT);
         try {
-            Await.result(future, TIMEOUT.duration());
+            boolean shootResult =
+                (boolean) Await.result(future, TIMEOUT.duration());
+
+            if (!this.win()) {
+                this.hitMiss(shootResult);
+                this.nextShootState(before, shootResult);
+            }
         } catch (Exception e) {
             // some unknown exception can come ... :D
             // TODO: research
         }
 
-        boolean shootResult = ()
-        if (!this.win()) {
-            this.hitMiss(shootResult);
-            this.nextShootState(before, shootResult);
-        }
     }
 
     /**
@@ -188,11 +185,18 @@ public class MasterController extends Observable implements IMasterController {
             return;
         }
 
-        if (!shipController.placeShip(
-            createShip(x, y, orientation, player.getOwnBoard().getShips() + 2),
-            player)) {
-            this.setCurrentState(PLACEERR);
-            return;
+        Future<Object> future = Patterns.ask(masterActor, new ShipMessage(
+                                                 boardValues.getBoardSize(), player,
+                                                 createShip(x, y, orientation, player.getOwnBoard().getShips() + 2)),
+                                             TIMEOUT);
+        try {
+            boolean result = (boolean) Await.result(future, TIMEOUT.duration());
+            if (!result) {
+                this.setCurrentState(PLACEERR);
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         if (player.getOwnBoard().getShips() == boardValues.getMaxShips()) {
@@ -461,9 +465,7 @@ public class MasterController extends Observable implements IMasterController {
 
     @Override
     public int hashCode() {
-        int result = shipController.hashCode();
-        result = 31 * result + shootController.hashCode();
-        result = 31 * result + winController.hashCode();
+        int result = winController.hashCode();
         result =
             31 * result + (getPlayer1() != null ? getPlayer1().hashCode() : 0);
         result =
