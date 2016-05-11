@@ -5,7 +5,7 @@ package de.htwg.battleship.actor.childactor.grandchild;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
-import de.htwg.battleship.messages.BorderMessage;
+import de.htwg.battleship.actor.messages.BorderMessage;
 import de.htwg.battleship.model.IShip;
 
 import static de.htwg.battleship.util.StatCollection.isBetween;
