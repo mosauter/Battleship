@@ -2,9 +2,6 @@
 
 package de.htwg.battleship.actor.childactor.grandchild;
 
-import akka.actor.ActorRef;
-import akka.actor.Props;
-import akka.actor.UntypedActor;
 import de.htwg.battleship.actor.messages.BorderMessage;
 import de.htwg.battleship.model.IShip;
 
@@ -19,46 +16,19 @@ import static de.htwg.battleship.util.StatCollection.isBetween;
  * @since 2014-12-15
  */
 
-abstract class BorderActor extends UntypedActor {
+abstract class BorderActor extends AbstractGrandchildActor {
+    static final String ACTOR_NAME = "borderer";
+
     @Override
-    public void onReceive(Object message) throws Exception {
+    public void onReceive(final Object message) throws Exception {
         if (!(message instanceof BorderMessage)) {
-            unhandled(message);
+            logUnhandled(ACTOR_NAME, message);
             return;
         }
         handleBorderMessage((BorderMessage) message);
     }
 
     abstract void handleBorderMessage(BorderMessage message);
-}
-
-/**
- * BorderController implementation for the true ship-orientation.
- *
- * @author Moritz Sauter (SauterMoritz@gmx.de)
- */
-public class BorderTrueActor extends BorderActor {
-    private ActorRef falseActor = getContext()
-        .actorOf(Props.create(BorderFalseActor.class), "FALSE_BORDER");
-
-    private boolean isIn(final IShip ship, int boardSize) {
-        int xlow = ship.getX();
-        int xupp = xlow + ship.getSize() - 1;
-        return isBetween(boardSize - 1, 0, xlow) &&
-               isBetween(boardSize - 1, 0, xupp) &&
-               isBetween(boardSize - 1, 0, ship.getY());
-    }
-
-    @Override
-    void handleBorderMessage(BorderMessage borderMessage) {
-        if (borderMessage.getShip().isOrientation()) {
-            getSender().tell(
-                isIn(borderMessage.getShip(), borderMessage.getBoardSize()),
-                getSelf());
-        } else {
-            falseActor.forward(borderMessage, getContext());
-        }
-    }
 }
 
 /**

@@ -10,6 +10,8 @@ import com.google.inject.Injector;
 import de.htwg.battleship.actor.ActorFactory;
 import de.htwg.battleship.actor.messages.ShipMessage;
 import de.htwg.battleship.actor.messages.ShootMessage;
+import de.htwg.battleship.actor.messages.WinMessage;
+import de.htwg.battleship.actor.messages.WinnerResponse;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
@@ -53,12 +55,8 @@ import static de.htwg.battleship.util.State.WRONGINPUT;
 public class MasterController extends Observable implements IMasterController {
 
     private static final State START_STATE = START;
-    private static final Timeout TIMEOUT = new Timeout(1, TimeUnit.SECONDS);
+    private static final Timeout TIMEOUT = new Timeout(10, TimeUnit.SECONDS);
     private final ActorRef masterActor;
-    /**
-     * Internal win controller.
-     */
-    private final WinController winController;
     /**
      * Saves the first Player.
      */
@@ -95,7 +93,6 @@ public class MasterController extends Observable implements IMasterController {
     public MasterController(final IPlayer player1, final IPlayer player2,
                             final Injector in, final IBoardValues boardValues) {
         masterActor = ActorFactory.getMasterRef();
-        this.winController = new WinController(player1, player2);
         this.player1 = player1;
         this.player2 = player2;
         this.currentState = START_STATE;
@@ -241,13 +238,23 @@ public class MasterController extends Observable implements IMasterController {
      * end-states are setted
      */
     final boolean win() {
-        IPlayer winner = winController.win();
-        if (winner == null) {
-            return false;
+        Future<Object> future = Patterns.ask(masterActor,
+                                             new WinMessage(this.getPlayer1(),
+                                                            this.getPlayer2()),
+                                             TIMEOUT);
+
+        try {
+            WinnerResponse winnerResponse =
+                (WinnerResponse) Await.result(future, TIMEOUT.duration());
+            if (winnerResponse.hasWon()) {
+                winner(winnerResponse.getWinner().equals(this.player1));
+                this.setCurrentState(END);
+                return true;
+            }
+        } catch (final Exception e) {
+            e.printStackTrace();
         }
-        winner(winner.equals(this.player1));
-        this.setCurrentState(END);
-        return true;
+        return false;
     }
 
     /**
@@ -427,7 +434,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final void restoreGame(IGameSave save) {
+    public final void restoreGame(final IGameSave save) {
         if (!save.validate()) {
             throw new IllegalArgumentException(
                 "The game save is not valid, check with IGameSave.validate()");
@@ -446,7 +453,7 @@ public class MasterController extends Observable implements IMasterController {
 
     @Override
     @SuppressWarnings("squid:S1067")
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
@@ -465,9 +472,7 @@ public class MasterController extends Observable implements IMasterController {
 
     @Override
     public int hashCode() {
-        int result = winController.hashCode();
-        result =
-            31 * result + (getPlayer1() != null ? getPlayer1().hashCode() : 0);
+        int result = getPlayer1() != null ? getPlayer1().hashCode() : 0;
         result =
             31 * result + (getPlayer2() != null ? getPlayer2().hashCode() : 0);
         result = 31 * result +

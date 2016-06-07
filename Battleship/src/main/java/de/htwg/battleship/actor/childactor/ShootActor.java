@@ -2,7 +2,6 @@
 
 package de.htwg.battleship.actor.childactor;
 
-import akka.actor.UntypedActor;
 import de.htwg.battleship.actor.messages.ShootMessage;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
@@ -16,7 +15,9 @@ import de.htwg.battleship.util.StatCollection;
  * @version 1.00
  * @since 2014-11-19
  */
-public class ShootActor extends UntypedActor {
+public class ShootActor extends AbstractChildActor {
+
+    public static final String ACTOR_NAME = "shooter";
 
     /**
      * Method to shoot on the field of a specific player.
@@ -104,7 +105,7 @@ public class ShootActor extends UntypedActor {
     @Override
     public void onReceive(Object message) throws Exception {
         if (!(message instanceof ShootMessage)) {
-            unhandled(message);
+            logUnhandled(ACTOR_NAME, message);
             return;
         }
         ShootMessage shootMessage = (ShootMessage) message;

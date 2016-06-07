@@ -4,7 +4,6 @@ package de.htwg.battleship.actor.childactor.grandchild;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import akka.actor.UntypedActor;
 import de.htwg.battleship.actor.messages.CollisionMessage;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.util.StatCollection;
@@ -16,17 +15,19 @@ import de.htwg.battleship.util.StatCollection;
  * @version 1.00
  * @since 2014-12-04
  */
-public class CollisionActor extends UntypedActor {
+public class CollisionActor extends AbstractGrandchildActor {
 
-    private final ActorRef same =
-        getContext().actorOf(Props.create(SameCollision.class), "both_same");
+    public static final String ACTOR_NAME = "collider";
+    private final ActorRef same = getContext()
+        .actorOf(Props.create(SameCollision.class), SameCollision.ACTOR_NAME);
     private final ActorRef different = getContext()
-        .actorOf(Props.create(DifferentCollision.class), "first_true");
+        .actorOf(Props.create(DifferentCollision.class),
+                 DifferentCollision.ACTOR_NAME);
 
     @Override
-    public void onReceive(Object message) throws Exception {
+    public void onReceive(final Object message) throws Exception {
         if (!(message instanceof CollisionMessage)) {
-            unhandled(message);
+            logUnhandled(ACTOR_NAME, message);
             return;
         }
         CollisionMessage collisionMessage = (CollisionMessage) message;
@@ -41,11 +42,11 @@ public class CollisionActor extends UntypedActor {
     }
 }
 
-abstract class ShipCollisionActor extends UntypedActor {
+abstract class ShipCollisionActor extends AbstractGrandchildActor {
     @Override
-    public void onReceive(Object message) throws Exception {
+    public void onReceive(final Object message) throws Exception {
         if (!(message instanceof CollisionMessage)) {
-            unhandled(message);
+            logUnhandled("collider_abstract", message);
             return;
         }
         final boolean collision =
@@ -57,6 +58,8 @@ abstract class ShipCollisionActor extends UntypedActor {
 }
 
 class SameCollision extends ShipCollisionActor {
+    static final String ACTOR_NAME = "collider_same";
+
     private boolean isCollision(final IShip firstShip, final IShip secondShip) {
         final int firstLow, firstFix, secLow, secFix;
         if (firstShip.isOrientation()) {
@@ -88,6 +91,8 @@ class SameCollision extends ShipCollisionActor {
 }
 
 class DifferentCollision extends ShipCollisionActor {
+    static final String ACTOR_NAME = "collider_different";
+
     /**
      * Check if the ships collide. To use this method the ships must have
      * different orientations.

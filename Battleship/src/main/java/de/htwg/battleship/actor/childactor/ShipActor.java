@@ -3,9 +3,7 @@ package de.htwg.battleship.actor.childactor;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import akka.actor.UntypedActor;
 import akka.pattern.Patterns;
-import akka.util.Timeout;
 import de.htwg.battleship.actor.childactor.grandchild.BorderTrueActor;
 import de.htwg.battleship.actor.childactor.grandchild.CollisionActor;
 import de.htwg.battleship.actor.messages.BorderMessage;
@@ -18,7 +16,6 @@ import scala.concurrent.Future;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * ShipController to place the ships and test if there are collisions. to test
@@ -28,21 +25,21 @@ import java.util.concurrent.TimeUnit;
  * @version 1.00
  * @since 2014-11-27
  */
-public class ShipActor extends UntypedActor {
+public class ShipActor extends AbstractChildActor {
 
-    private static final Timeout TIMEOUT = new Timeout(3, TimeUnit.SECONDS);
+    public static final String ACTOR_NAME = "shipper";
 
     /**
      * Controller with a chain of responsibility.
      */
     private final ActorRef collisionActor =
-        getContext().actorOf(Props.create(CollisionActor.class), "Collider");
+        getContext().actorOf(Props.create(CollisionActor.class), CollisionActor.ACTOR_NAME);
 
     /**
      * Controller with a chain of responsibility.
      */
     private final ActorRef borderActor =
-        getContext().actorOf(Props.create(BorderTrueActor.class), "Borderer");
+        getContext().actorOf(Props.create(BorderTrueActor.class), BorderTrueActor.ACTOR_NAME);
 
     /**
      * Method to place a Ship on a field.
@@ -102,7 +99,7 @@ public class ShipActor extends UntypedActor {
     @Override
     public void onReceive(Object message) throws Exception {
         if (!(message instanceof ShipMessage)) {
-            unhandled(message);
+            logUnhandled(ACTOR_NAME, message);
             return;
         }
         ShipMessage shipMessage = (ShipMessage) message;
