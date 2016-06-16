@@ -4,12 +4,11 @@ package de.htwg.battleship.actor;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import de.htwg.battleship.actor.childactor.ShipActor;
-import de.htwg.battleship.actor.childactor.ShootActor;
-import de.htwg.battleship.actor.childactor.WinActor;
+import akka.actor.UntypedActor;
 import de.htwg.battleship.actor.messages.ShipMessage;
 import de.htwg.battleship.actor.messages.ShootMessage;
 import de.htwg.battleship.actor.messages.WinMessage;
+import org.apache.log4j.Logger;
 
 /**
  * MasterActor
@@ -17,15 +16,17 @@ import de.htwg.battleship.actor.messages.WinMessage;
  * @author ms
  * @since 2016-05-10
  */
-class MasterActor extends AbstractActor {
+class MasterActor extends UntypedActor {
 
     private static final String ACTOR_NAME = "master";
+    private final Logger LOGGER = Logger.getLogger(this.getClass());
+
     private final ActorRef shootActors = getContext()
-        .actorOf(Props.create(ShootActor.class), ShootActor.ACTOR_NAME);
+        .actorOf(Props.create(ShootActor.class), ShootActor.ACTOR_NAME());
     private final ActorRef shipActor = getContext()
-        .actorOf(Props.create(ShipActor.class), ShipActor.ACTOR_NAME);
-    private final ActorRef winActor =
-        getContext().actorOf(Props.create(WinActor.class), WinActor.ACTOR_NAME);
+        .actorOf(Props.create(ShipActor.class), ShipActor.ACTOR_NAME());
+    private final ActorRef winActor = getContext()
+        .actorOf(Props.create(WinActor.class), WinActor.ACTOR_NAME());
 
     @Override
     public void onReceive(final Object message) throws Exception {
@@ -38,5 +39,11 @@ class MasterActor extends AbstractActor {
         } else {
             logUnhandled(ACTOR_NAME, message);
         }
+    }
+
+    private final void logUnhandled(String actorName, Object message) {
+        LOGGER.info(actorName + " received an unrecognized message of type: " +
+                    message.getClass());
+        unhandled(message);
     }
 }

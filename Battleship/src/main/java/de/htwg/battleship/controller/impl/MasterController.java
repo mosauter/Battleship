@@ -21,6 +21,7 @@ import de.htwg.battleship.observer.impl.Observable;
 import de.htwg.battleship.util.GameMode;
 import de.htwg.battleship.util.IBoardValues;
 import de.htwg.battleship.util.State;
+import org.apache.log4j.Logger;
 import scala.concurrent.Await;
 import scala.concurrent.Future;
 
@@ -55,7 +56,9 @@ import static de.htwg.battleship.util.State.WRONGINPUT;
 public class MasterController extends Observable implements IMasterController {
 
     private static final State START_STATE = START;
-    private static final Timeout TIMEOUT = new Timeout(10, TimeUnit.SECONDS);
+    private static final Timeout TIMEOUT = new Timeout(5, TimeUnit.SECONDS);
+    private final Logger LOGGER = Logger.getLogger(this.getClass());
+    //    private final WinController winController;
     private final ActorRef masterActor;
     /**
      * Saves the first Player.
@@ -93,6 +96,7 @@ public class MasterController extends Observable implements IMasterController {
     public MasterController(final IPlayer player1, final IPlayer player2,
                             final Injector in, final IBoardValues boardValues) {
         masterActor = ActorFactory.getMasterRef();
+        //        winController = new WinController(this.player1, this.player2);
         this.player1 = player1;
         this.player2 = player2;
         this.currentState = START_STATE;
@@ -119,14 +123,15 @@ public class MasterController extends Observable implements IMasterController {
         try {
             boolean shootResult =
                 (boolean) Await.result(future, TIMEOUT.duration());
+            // set board value on true
+            (first ? player2.getOwnBoard() : player1.getOwnBoard()).shoot(x, y);
 
             if (!this.win()) {
                 this.hitMiss(shootResult);
                 this.nextShootState(before, shootResult);
             }
         } catch (Exception e) {
-            // some unknown exception can come ... :D
-            // TODO: research
+            logTimeout(e);
         }
 
     }
@@ -181,19 +186,22 @@ public class MasterController extends Observable implements IMasterController {
             this.setCurrentState(WRONGINPUT);
             return;
         }
-
+        LOGGER.info("master tryin to place on x = " + x + " y = " + y +
+                    " orientation = " + orientation);
         Future<Object> future = Patterns.ask(masterActor, new ShipMessage(
                                                  boardValues.getBoardSize(), player,
                                                  createShip(x, y, orientation, player.getOwnBoard().getShips() + 2)),
                                              TIMEOUT);
         try {
             boolean result = (boolean) Await.result(future, TIMEOUT.duration());
+            LOGGER.info("master result was " + result);
             if (!result) {
                 this.setCurrentState(PLACEERR);
                 return;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.info("master got a timeout");
+            logTimeout(e);
         }
 
         if (player.getOwnBoard().getShips() == boardValues.getMaxShips()) {
@@ -238,6 +246,14 @@ public class MasterController extends Observable implements IMasterController {
      * end-states are setted
      */
     final boolean win() {
+        /*IPlayer winner = winController.win();
+        if (winner == null) {
+            return false;
+        }
+        winner(winner.equals(this.player1));
+        this.setCurrentState(END);
+        return true;
+        */
         Future<Object> future = Patterns.ask(masterActor,
                                              new WinMessage(this.getPlayer1(),
                                                             this.getPlayer2()),
@@ -246,13 +262,13 @@ public class MasterController extends Observable implements IMasterController {
         try {
             WinnerResponse winnerResponse =
                 (WinnerResponse) Await.result(future, TIMEOUT.duration());
-            if (winnerResponse.hasWon()) {
-                winner(winnerResponse.getWinner().equals(this.player1));
+            if (winnerResponse.won()) {
+                winner(winnerResponse.winner().equals(this.player1));
                 this.setCurrentState(END);
                 return true;
             }
         } catch (final Exception e) {
-            e.printStackTrace();
+            logTimeout(e);
         }
         return false;
     }
@@ -449,6 +465,11 @@ public class MasterController extends Observable implements IMasterController {
         boardValues.setBoardSize(save.getHeightLength());
         board1.restoreBoard(save.getField1(), save.getShipList1());
         board2.restoreBoard(save.getField2(), save.getShipList2());
+    }
+
+    protected final void logTimeout(Throwable throwable) {
+        LOGGER.error("in the masterControler a timeout exception occured",
+                     throwable);
     }
 
     @Override
