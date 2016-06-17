@@ -1,7 +1,6 @@
 package de.htwg.battleship.actor
 
 import akka.actor.{Actor, Props}
-import akka.event.Logging
 import akka.util.Timeout
 import de.htwg.battleship.actor.messages.CollisionMessage
 import de.htwg.battleship.model.IShip
@@ -16,19 +15,20 @@ object CollisionActor {
 }
 
 class CollisionActor extends Actor {
-    val log = Logging(context.system, this)
     val same = context.actorOf(Props[SameCollision], SameCollision.ACTOR_NAME)
     val diff = context.actorOf(Props[DifferentCollision], DifferentCollision.ACTOR_NAME)
     implicit val timeout = Timeout(5 seconds)
 
+    /**
+      * Method to check if there is a collision.
+      *
+      * @return Sends 'true' for it is all okay or 'false' if there is a problem to the asker
+      */
     override def receive: Receive = {
         case msg: CollisionMessage =>
-            log.info(CollisionActor.ACTOR_NAME + " received a message")
             if (msg.ship1.isOrientation == msg.ship2.isOrientation) {
-                log.info(CollisionActor.ACTOR_NAME + " forwarded to same")
                 same forward msg
             } else {
-                log.info(CollisionActor.ACTOR_NAME + " forwarded to diff")
                 diff forward msg
             }
         case msg => unhandled(msg)
@@ -40,16 +40,20 @@ object SameCollision {
 }
 
 class SameCollision extends Actor {
-    val log = Logging(context.system, this)
-
     override def receive: Receive = {
         case msg: CollisionMessage =>
-            log.info(SameCollision.ACTOR_NAME + " received a message")
-            val result = isCollision(msg.ship1, msg.ship2)
-            log.info(SameCollision.ACTOR_NAME + " results " + result.toString)
+            // negate result as we need false as stronger boolean in the composition
+            val result = !isCollision(msg.ship1, msg.ship2)
             sender() ! result
     }
 
+    /**
+      * Help method to check if two ships collide when both ships have the same orientation
+      *
+      * @param firstShip  first ship
+      * @param secondShip second ship
+      * @return true if there was a collision, false if everything was okay
+      */
     def isCollision(firstShip: IShip, secondShip: IShip): Boolean = {
         var firstLow: Int = -1
         var firstFix: Int = -1
@@ -73,7 +77,8 @@ class SameCollision extends Actor {
         } else {
             var returner = false
             breakable {
-                for (i <- secLow until secUp) {
+                // loop INCLUDING secLow AND secUp -> for (i = secLow; i <= secUp; i++)
+                for (i <- secLow to secUp) {
                     if (StatCollection.isBetween(firstUp, firstLow, i)) {
                         returner = true
                         break
@@ -90,8 +95,6 @@ object DifferentCollision {
 }
 
 class DifferentCollision extends Actor {
-    var log = Logging(context.system, this)
-
     override def receive: Receive = {
         case msg: CollisionMessage =>
             var horizontal: IShip = msg.ship1
@@ -100,12 +103,18 @@ class DifferentCollision extends Actor {
                 horizontal = msg.ship2
                 vertical = msg.ship1
             }
-            log.info(DifferentCollision.ACTOR_NAME + " received a message")
-            val result = checkShipsDifferent(vertical, horizontal)
-            log.info(DifferentCollision.ACTOR_NAME + " results " + result.toString)
+            // negate result as we need false forces the entire result to be false
+            val result = !checkShipsDifferent(vertical, horizontal)
             sender() ! result
     }
 
+    /**
+      * Help method to check if two ships collide if they have different orientations.
+      *
+      * @param vertical   the ship with orientation = false
+      * @param horizontal the ship with the orientation = true
+      * @return 'true' if there is a collision or false if everything is okay
+      */
     def checkShipsDifferent(vertical: IShip, horizontal: IShip): Boolean = {
         val horizontalLow = horizontal.getX
         val horizontalUp = horizontalLow + horizontal.getSize - 1
