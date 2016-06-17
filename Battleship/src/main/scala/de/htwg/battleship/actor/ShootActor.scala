@@ -18,7 +18,6 @@ object ShootActor {
 }
 
 class ShootActor extends Actor {
-
     def getBoard(first: Boolean, player1: IPlayer, player2: IPlayer): IBoard = {
         if (first) {
             player2.getOwnBoard
@@ -27,8 +26,8 @@ class ShootActor extends Actor {
         }
     }
 
-    def isHit(xupp: Int, xlow: Int, x: Int, y: Int, shipY: Int): Boolean = {
-        y == shipY && StatCollection.isBetween(xupp, xlow, x)
+    def isHit(upper: Int, lower: Int, targetVar: Int, targetFix: Int, fix: Int): Boolean = {
+        targetFix == fix && StatCollection.isBetween(upper, lower, targetVar)
     }
 
     def hit(ship: IShip, x: Int, y: Int): Boolean = {
@@ -36,6 +35,7 @@ class ShootActor extends Actor {
         val shipY = ship.getY
         val size = ship.getSize
         if (ship.isOrientation) {
+
             val xupp = shipX + size - 1
             isHit(xupp, shipX, x, y, shipY)
         } else {
@@ -67,7 +67,8 @@ class ShootActor extends Actor {
     }
 
     override def receive: Receive = {
-        case msg: ShootMessage => sender() ! shoot(msg.x, msg.y, getBoard(msg.first, msg.player1, msg.player2))
+        case msg: ShootMessage =>
+            sender() ! shoot(msg.x, msg.y, getBoard(msg.first, msg.player1, msg.player2))
         case msg => unhandled(msg)
     }
 }
