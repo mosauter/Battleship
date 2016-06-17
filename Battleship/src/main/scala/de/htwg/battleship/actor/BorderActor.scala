@@ -31,10 +31,10 @@ class BorderActor extends Actor {
     /**
       * Method to receive messages.
       *
-      * @return sends true to the asker if the ship is NOT on the field, sends false if the ship is placed on the board in a valid way
+      * @return sends true to the asker if everything is okay, sends false if there was an error / problem
       */
     override def receive: Receive = {
-        case msg: BorderMessage => sender() ! !isOnField(msg.ship, msg.boardSize)
+        case msg: BorderMessage => sender() ! isOnField(msg.ship, msg.boardSize)
         case msg => unhandled(msg)
     }
 }
