@@ -43,7 +43,7 @@ class ShipDestroyedActor extends Actor {
     }
 
     override def receive: Receive = {
-        case msg: ShipDestroyedMessage =>
+        case msg: ShipDestroyedMessage => sender() ! isDestroyed(msg.ship, msg.player)
         case msg => unhandled(msg)
     }
 }
