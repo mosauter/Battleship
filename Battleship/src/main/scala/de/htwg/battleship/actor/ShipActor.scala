@@ -1,7 +1,6 @@
 package de.htwg.battleship.actor
 
 import akka.actor.{Actor, ActorRef, Props}
-import akka.event.Logging
 import akka.pattern.ask
 import akka.util.Timeout
 import de.htwg.battleship.actor.messages.{BorderMessage, CollisionMessage, ShipMessage}
@@ -17,7 +16,6 @@ object ShipActor {
 }
 
 class ShipActor extends Actor {
-    val log = Logging(context.system, this)
     val borderer = context.actorOf(Props[BorderActor], BorderActor.ACTOR_NAME)
     val collider = context.actorOf(Props[CollisionActor], CollisionActor.ACTOR_NAME)
     implicit val timeout = Timeout(5 seconds)
@@ -31,33 +29,28 @@ class ShipActor extends Actor {
         list.toList
     }
 
+    // TODO: think about an abstract
     def reduce(one: Boolean, two: Boolean): Boolean = one && two
 
     def placeShip(ship: IShip, player: IPlayer, boardSize: Int, ref: ActorRef) = {
-        log.info(ShipActor.ACTOR_NAME + " start placeShip")
         val borderFuture = (borderer ? BorderMessage(ship, boardSize)).mapTo[Boolean]
-        log.info(ShipActor.ACTOR_NAME + " send ask to borderer")
         val collisionFutures = createColliderFutures(ship, player)
-        log.info(ShipActor.ACTOR_NAME + " send asks to colliders")
         val allFutures = List(collisionFutures, List(borderFuture)).flatten
-        log.info(ShipActor.ACTOR_NAME + " flatten all futures " + allFutures.toString())
         val aggrFuture = Future sequence allFutures
-        log.info(ShipActor.ACTOR_NAME + " aggregated the futures")
         aggrFuture onSuccess {
             case results: List[Boolean] =>
-                log.info(ShipActor.ACTOR_NAME + " in onSuccess " + results.toString())
-                val result = results.reduce(reduce)
-                log.info(ShipActor.ACTOR_NAME + " in onSuccess result " + result.toString)
-                log.info(ShipActor.ACTOR_NAME + " in onSuccess sender ref " + ref.toString())
-                ref ! result
+                ref ! results.reduce(reduce)
         }
     }
 
+    /**
+      * Method to check if a ship could validly placed on the board of a player
+      *
+      * @return
+      */
     override def receive: Receive = {
-        case msg: ShipMessage => {
-            log.info(ShipActor.ACTOR_NAME + " received a message")
+        case msg: ShipMessage =>
             placeShip(msg.ship, msg.player, msg.boardSize, sender())
-        }
         case msg => unhandled(msg)
     }
 }
