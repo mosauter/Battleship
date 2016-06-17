@@ -58,7 +58,6 @@ public class MasterController extends Observable implements IMasterController {
     private static final State START_STATE = START;
     private static final Timeout TIMEOUT = new Timeout(5, TimeUnit.SECONDS);
     private final Logger LOGGER = Logger.getLogger(this.getClass());
-    //    private final WinController winController;
     private final ActorRef masterActor;
     /**
      * Saves the first Player.
@@ -96,7 +95,6 @@ public class MasterController extends Observable implements IMasterController {
     public MasterController(final IPlayer player1, final IPlayer player2,
                             final Injector in, final IBoardValues boardValues) {
         masterActor = ActorFactory.getMasterRef();
-        //        winController = new WinController(this.player1, this.player2);
         this.player1 = player1;
         this.player2 = player2;
         this.currentState = START_STATE;
@@ -125,11 +123,16 @@ public class MasterController extends Observable implements IMasterController {
                 (boolean) Await.result(future, TIMEOUT.duration());
             // set board value on true
             (first ? player2.getOwnBoard() : player1.getOwnBoard()).shoot(x, y);
-
-            if (!this.win()) {
-                this.hitMiss(shootResult);
-                this.nextShootState(before, shootResult);
+            if (shootResult) {
+                // detected a hit so have to check if someone win
+                if (this.win()) {
+                    // someone has won, win method handle the rest from here
+                    return;
+                }
             }
+            // a miss was detected and/or noone has won so handle after shoot
+            this.hitMiss(shootResult);
+            this.nextShootState(before, shootResult);
         } catch (Exception e) {
             logTimeout(e);
         }
@@ -186,21 +189,19 @@ public class MasterController extends Observable implements IMasterController {
             this.setCurrentState(WRONGINPUT);
             return;
         }
-        LOGGER.info("master tryin to place on x = " + x + " y = " + y +
-                    " orientation = " + orientation);
+        IShip ship =
+            createShip(x, y, orientation, player.getOwnBoard().getShips() + 2);
         Future<Object> future = Patterns.ask(masterActor, new ShipMessage(
-                                                 boardValues.getBoardSize(), player,
-                                                 createShip(x, y, orientation, player.getOwnBoard().getShips() + 2)),
-                                             TIMEOUT);
+            boardValues.getBoardSize(), player, ship), TIMEOUT);
         try {
             boolean result = (boolean) Await.result(future, TIMEOUT.duration());
-            LOGGER.info("master result was " + result);
             if (!result) {
                 this.setCurrentState(PLACEERR);
                 return;
             }
+            // if all was okay add the ship to the players board
+            player.getOwnBoard().addShip(ship);
         } catch (Exception e) {
-            LOGGER.info("master got a timeout");
             logTimeout(e);
         }
 
@@ -246,14 +247,6 @@ public class MasterController extends Observable implements IMasterController {
      * end-states are setted
      */
     final boolean win() {
-        /*IPlayer winner = winController.win();
-        if (winner == null) {
-            return false;
-        }
-        winner(winner.equals(this.player1));
-        this.setCurrentState(END);
-        return true;
-        */
         Future<Object> future = Patterns.ask(masterActor,
                                              new WinMessage(this.getPlayer1(),
                                                             this.getPlayer2()),
@@ -467,7 +460,7 @@ public class MasterController extends Observable implements IMasterController {
         board2.restoreBoard(save.getField2(), save.getShipList2());
     }
 
-    protected final void logTimeout(Throwable throwable) {
+    private void logTimeout(Throwable throwable) {
         LOGGER.error("in the masterControler a timeout exception occured",
                      throwable);
     }
