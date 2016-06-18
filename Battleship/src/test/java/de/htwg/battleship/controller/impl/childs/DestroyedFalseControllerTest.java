@@ -1,6 +1,6 @@
-// DestroyedTrueControllerTest.java
+// DestroyedFalseControllerTest.java
 
-package de.htwg.battleship.controller.impl;
+package de.htwg.battleship.controller.impl.childs;
 
 import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
@@ -14,16 +14,16 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * DestroyedTrueControllerTest tests an implementation of the chain.
+ * DestroyedFalseControllerTest an implementation of the chain.
  *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-14
  */
-public class DestroyedTrueControllerTest extends AbstractTest {
+public class DestroyedFalseControllerTest extends AbstractTest {
 
-    public static final int HEIGHT_LENGTH = 10;
-    public static final int MAX_SHIPS = 5;
+    private static final int MAX_SHIPS = 5;
+    private static final int HEIGHT_LENGTH = 10;
     /**
      * Saves the implementation.
      */
@@ -33,7 +33,7 @@ public class DestroyedTrueControllerTest extends AbstractTest {
      */
     private IShip ship;
     /**
-     * Saves a player.
+     * Saves the player.
      */
     private IPlayer player;
     /**
@@ -41,7 +41,7 @@ public class DestroyedTrueControllerTest extends AbstractTest {
      */
     private ShootController shoot;
 
-    public DestroyedTrueControllerTest(AbstractModule module) {
+    public DestroyedFalseControllerTest(AbstractModule module) {
         this.createInjector(module);
     }
 
@@ -54,7 +54,7 @@ public class DestroyedTrueControllerTest extends AbstractTest {
         boardValues.setBoardSize(HEIGHT_LENGTH);
         boardValues.setMaxShips(MAX_SHIPS);
         player = injector.getInstance(IPlayer.class);
-        ship = createShip(2, true, 3, 3);
+        ship = createShip(2, false, 3, 3);
         shoot =
             new ShootController(player, injector.getInstance(IPlayer.class));
         ShipController sc = new ShipController(boardValues.getBoardSize());
@@ -63,14 +63,14 @@ public class DestroyedTrueControllerTest extends AbstractTest {
     }
 
     /**
-     * Test of isDestroyed method, of class DestroyedTrueController.
+     * Test of isDestroyed method, of class DestroyedFalseController.
      */
     @Test
     public final void testIsDestroyed() {
         boolean result = dc.responsibility(ship, player);
         assertFalse(result);
         shoot.shoot(3, 3, false);
-        shoot.shoot(4, 3, false);
+        shoot.shoot(3, 4, false);
         result = dc.responsibility(ship, player);
         assertTrue(result);
     }

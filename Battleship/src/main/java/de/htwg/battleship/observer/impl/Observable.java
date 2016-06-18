@@ -23,13 +23,13 @@ public class Observable implements IObservable {
     private final List<IObserver> subscriber = new LinkedList<>();
 
     @Override
-    public final void addObserver(final IObserver observer) {
+    public void addObserver(final IObserver observer) {
         subscriber.add(observer);
     }
 
 
     @Override
-    public final void notifyObserver() {
+    public void notifyObserver() {
         for (IObserver sub : subscriber) {
             sub.update();
         }

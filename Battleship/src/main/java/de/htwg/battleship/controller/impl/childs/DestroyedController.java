@@ -1,6 +1,6 @@
 // DestroyedController.java
 
-package de.htwg.battleship.controller.impl;
+package de.htwg.battleship.controller.impl.childs;
 
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;

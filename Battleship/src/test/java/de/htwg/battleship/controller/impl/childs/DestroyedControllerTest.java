@@ -1,6 +1,6 @@
-// DestroyedFalseControllerTest.java
+// DestroyedControllerTest.java
 
-package de.htwg.battleship.controller.impl;
+package de.htwg.battleship.controller.impl.childs;
 
 import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
@@ -14,18 +14,18 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * DestroyedFalseControllerTest an implementation of the chain.
+ * DestroyedControllerTest tests the entire chain.
  *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-14
  */
-public class DestroyedFalseControllerTest extends AbstractTest {
+public class DestroyedControllerTest extends AbstractTest {
 
-    private static final int MAX_SHIPS = 5;
-    private static final int HEIGHT_LENGTH = 10;
+    public static final int HEIGHT_LENGTH = 10;
+    public static final int MAX_SHIPS = 5;
     /**
-     * Saves the implementation.
+     * Saves the entire chain.
      */
     private DestroyedController dc;
     /**
@@ -33,7 +33,7 @@ public class DestroyedFalseControllerTest extends AbstractTest {
      */
     private IShip ship;
     /**
-     * Saves the player.
+     * Saves a player.
      */
     private IPlayer player;
     /**
@@ -41,7 +41,7 @@ public class DestroyedFalseControllerTest extends AbstractTest {
      */
     private ShootController shoot;
 
-    public DestroyedFalseControllerTest(AbstractModule module) {
+    public DestroyedControllerTest(AbstractModule module) {
         this.createInjector(module);
     }
 
@@ -63,7 +63,7 @@ public class DestroyedFalseControllerTest extends AbstractTest {
     }
 
     /**
-     * Test of isDestroyed method, of class DestroyedFalseController.
+     * Test of isDestroyed method, of class DestroyedController.
      */
     @Test
     public final void testIsDestroyed() {

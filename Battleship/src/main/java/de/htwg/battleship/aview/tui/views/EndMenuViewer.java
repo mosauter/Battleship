@@ -16,7 +16,8 @@ public class EndMenuViewer extends Viewer {
     @Override
     public final String getString() {
         return "1. Start a new Game\n" +
-               "2. End Game\n" +
+               "2. Options\n" +
+               "3. End Game\n" +
                "\t--->\t";
     }
 }

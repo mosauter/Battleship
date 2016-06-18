@@ -2,8 +2,16 @@
 
 package de.htwg.battleship.controller.impl;
 
+import akka.actor.ActorRef;
+import akka.pattern.Patterns;
+import akka.util.Timeout;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import de.htwg.battleship.actor.ActorFactory;
+import de.htwg.battleship.actor.messages.ShipMessage;
+import de.htwg.battleship.actor.messages.ShootMessage;
+import de.htwg.battleship.actor.messages.WinMessage;
+import de.htwg.battleship.actor.messages.WinnerResponse;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
@@ -13,9 +21,13 @@ import de.htwg.battleship.observer.impl.Observable;
 import de.htwg.battleship.util.GameMode;
 import de.htwg.battleship.util.IBoardValues;
 import de.htwg.battleship.util.State;
+import org.apache.log4j.Logger;
+import scala.concurrent.Await;
+import scala.concurrent.Future;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import static de.htwg.battleship.util.State.END;
 import static de.htwg.battleship.util.State.FINALPLACE1;
@@ -43,18 +55,10 @@ import static de.htwg.battleship.util.State.WRONGINPUT;
  */
 public class MasterController extends Observable implements IMasterController {
 
-    /**
-     * Internal Ship controller.
-     */
-    private final ShipController shipController;
-    /**
-     * Internal shoot controller.
-     */
-    private final ShootController shootController;
-    /**
-     * Internal win controller.
-     */
-    private final WinController winController;
+    private static final State START_STATE = START;
+    private static final Timeout TIMEOUT = new Timeout(5, TimeUnit.SECONDS);
+    private final Logger LOGGER = Logger.getLogger(this.getClass());
+    private final ActorRef masterActor;
     /**
      * Saves the first Player.
      */
@@ -90,19 +94,17 @@ public class MasterController extends Observable implements IMasterController {
     @Inject
     public MasterController(final IPlayer player1, final IPlayer player2,
                             final Injector in, final IBoardValues boardValues) {
-        this.shipController = new ShipController(boardValues.getBoardSize());
-        this.shootController = new ShootController(player1, player2);
-        this.winController = new WinController(player1, player2);
+        masterActor = ActorFactory.getMasterRef();
         this.player1 = player1;
         this.player2 = player2;
-        this.currentState = START;
+        this.currentState = START_STATE;
         this.gm = GameMode.NORMAL;
         this.boardValues = boardValues;
         this.injector = in;
     }
 
     @Override
-    public final void shoot(final int x, final int y) {
+    public void shoot(final int x, final int y) {
         boolean first;
         State before = this.currentState;
         if (this.currentState == SHOOT1) {
@@ -113,11 +115,28 @@ public class MasterController extends Observable implements IMasterController {
             this.setCurrentState(WRONGINPUT);
             return;
         }
-        boolean shootResult = shootController.shoot(x, y, first);
-        if (!this.win()) {
+        Future<Object> future = Patterns
+            .ask(masterActor, new ShootMessage(player1, player2, x, y, first),
+                 TIMEOUT);
+        try {
+            boolean shootResult =
+                (boolean) Await.result(future, TIMEOUT.duration());
+            // set board value on true
+            (first ? player2.getOwnBoard() : player1.getOwnBoard()).shoot(x, y);
+            if (shootResult) {
+                // detected a hit so have to check if someone win
+                if (this.win()) {
+                    // someone has won, win method handle the rest from here
+                    return;
+                }
+            }
+            // a miss was detected and/or noone has won so handle after shoot
             this.hitMiss(shootResult);
             this.nextShootState(before, shootResult);
+        } catch (Exception e) {
+            logTimeout(e);
         }
+
     }
 
     /**
@@ -155,7 +174,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final void placeShip(final int x, final int y,
+    public void placeShip(final int x, final int y,
                                 final boolean orientation) {
         IPlayer player;
         boolean firstPlayer;
@@ -170,12 +189,20 @@ public class MasterController extends Observable implements IMasterController {
             this.setCurrentState(WRONGINPUT);
             return;
         }
-
-        if (!shipController.placeShip(
-            createShip(x, y, orientation, player.getOwnBoard().getShips() + 2),
-            player)) {
-            this.setCurrentState(PLACEERR);
-            return;
+        IShip ship =
+            createShip(x, y, orientation, player.getOwnBoard().getShips() + 2);
+        Future<Object> future = Patterns.ask(masterActor, new ShipMessage(
+            boardValues.getBoardSize(), player, ship), TIMEOUT);
+        try {
+            boolean result = (boolean) Await.result(future, TIMEOUT.duration());
+            if (!result) {
+                this.setCurrentState(PLACEERR);
+                return;
+            }
+            // if all was okay add the ship to the players board
+            player.getOwnBoard().addShip(ship);
+        } catch (Exception e) {
+            logTimeout(e);
         }
 
         if (player.getOwnBoard().getShips() == boardValues.getMaxShips()) {
@@ -219,14 +246,24 @@ public class MasterController extends Observable implements IMasterController {
      * after that the end-state returns true not until the win- and the
      * end-states are setted
      */
-    final boolean win() {
-        IPlayer winner = winController.win();
-        if (winner == null) {
-            return false;
+    boolean win() {
+        Future<Object> future = Patterns.ask(masterActor,
+                                             new WinMessage(this.getPlayer1(),
+                                                            this.getPlayer2()),
+                                             TIMEOUT);
+
+        try {
+            WinnerResponse winnerResponse =
+                (WinnerResponse) Await.result(future, TIMEOUT.duration());
+            if (winnerResponse.won()) {
+                winner(winnerResponse.winner().equals(this.player1));
+                this.setCurrentState(END);
+                return true;
+            }
+        } catch (final Exception e) {
+            logTimeout(e);
         }
-        winner(winner.equals(this.player1));
-        this.setCurrentState(END);
-        return true;
+        return false;
     }
 
     /**
@@ -251,12 +288,12 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final State getCurrentState() {
+    public State getCurrentState() {
         return this.currentState;
     }
 
     @Override
-    public final void setCurrentState(final State newState) {
+    public void setCurrentState(final State newState) {
         State tmp = newState;
         if (newState == WRONGINPUT || newState == PLACEERR) {
             tmp = this.currentState;
@@ -268,12 +305,12 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final IPlayer getPlayer1() {
+    public IPlayer getPlayer1() {
         return player1;
     }
 
     @Override
-    public final IPlayer getPlayer2() {
+    public IPlayer getPlayer2() {
         return player2;
     }
 
@@ -291,12 +328,12 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final void setPlayerName(final String name) {
+    public void setPlayerName(final String name) {
         this.setPlayerProfile(name, -1);
     }
 
     @Override
-    public final void startGame() {
+    public void startGame() {
         if (this.currentState == START || this.currentState == State.OPTIONS) {
             this.setCurrentState(GETNAME1);
         } else if (this.currentState == END) {
@@ -306,9 +343,9 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final Map<Integer, Set<Integer>> fillMap(final IShip[] shipList,
-                                                    final Map<Integer, Set<Integer>> map,
-                                                    final int ships) {
+    public Map<Integer, Set<Integer>> fillMap(final IShip[] shipList,
+                                              final Map<Integer, Set<Integer>> map,
+                                              final int ships) {
         for (int i = 0; i < ships; i++) {
             this.getSet(shipList[i], map);
         }
@@ -345,14 +382,14 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final void configureGame() {
+    public void configureGame() {
         if (this.currentState == START) {
             this.setCurrentState(State.OPTIONS);
         }
     }
 
     @Override
-    public final void setBoardSize(final int boardSize) {
+    public void setBoardSize(final int boardSize) {
         if (this.currentState != State.OPTIONS ||
             (this.boardValues.getMaxShips() + 2) >= boardSize) {
             this.setCurrentState(WRONGINPUT);
@@ -369,7 +406,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final void setShipNumber(final int shipNumber) {
+    public void setShipNumber(final int shipNumber) {
         if (this.currentState != State.OPTIONS ||
             ((shipNumber + 2) >= boardValues.getBoardSize())) {
             this.setCurrentState(WRONGINPUT);
@@ -381,12 +418,12 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final GameMode getGameMode() {
+    public GameMode getGameMode() {
         return this.gm;
     }
 
     @Override
-    public final void setGameMode(final GameMode newMode) {
+    public void setGameMode(final GameMode newMode) {
         if (this.currentState == State.OPTIONS) {
             this.gm = newMode;
             this.notifyObserver();
@@ -396,7 +433,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final void configure() {
+    public void configure() {
         this.setCurrentState(State.OPTIONS);
     }
 
@@ -406,7 +443,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final void restoreGame(IGameSave save) {
+    public void restoreGame(final IGameSave save) {
         if (!save.validate()) {
             throw new IllegalArgumentException(
                 "The game save is not valid, check with IGameSave.validate()");
@@ -423,9 +460,14 @@ public class MasterController extends Observable implements IMasterController {
         board2.restoreBoard(save.getField2(), save.getShipList2());
     }
 
+    private void logTimeout(Throwable throwable) {
+        LOGGER.error("in the masterControler a timeout exception occured",
+                     throwable);
+    }
+
     @Override
     @SuppressWarnings("squid:S1067")
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
@@ -444,11 +486,7 @@ public class MasterController extends Observable implements IMasterController {
 
     @Override
     public int hashCode() {
-        int result = shipController.hashCode();
-        result = 31 * result + shootController.hashCode();
-        result = 31 * result + winController.hashCode();
-        result =
-            31 * result + (getPlayer1() != null ? getPlayer1().hashCode() : 0);
+        int result = getPlayer1() != null ? getPlayer1().hashCode() : 0;
         result =
             31 * result + (getPlayer2() != null ? getPlayer2().hashCode() : 0);
         result = 31 * result +

@@ -1,6 +1,6 @@
-// CollisionOrientationBothTrueTest.java
+// CollisionOrientationFirstTrueTest.java
 
-package de.htwg.battleship.controller.impl;
+package de.htwg.battleship.controller.impl.childs;
 
 import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;
@@ -12,32 +12,32 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * CollisionOrientationBothTrueTest tests an implementation of the chain.
+ * CollisionOrientationFirstTrueTest tests an implementation of the chain.
  *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
  * @since 2014-12-04
  */
-public class CollisionOrientationBothTrueTest extends AbstractTest {
+public class CollisionOrientationFirstTrueTest extends AbstractTest {
 
     /**
      * Saves the implementation.
      */
-    private CollisionOrientationBothTrue cc;
+    private CollisionOrientationFirstTrue cc;
     /**
-     * Saves first IShip.
+     * Saves the first ship.
      */
     private IShip ship1;
     /**
-     * Saves second IShip.
+     * Saves the second ship.
      */
     private IShip ship2;
     /**
-     * Saves third IShip.
+     * Saves the third ship.
      */
     private IShip ship3;
 
-    public CollisionOrientationBothTrueTest(AbstractModule module) {
+    public CollisionOrientationFirstTrueTest(AbstractModule module) {
         this.createInjector(module);
     }
 
@@ -46,14 +46,14 @@ public class CollisionOrientationBothTrueTest extends AbstractTest {
      */
     @Before
     public final void setUp() {
-        cc = new CollisionOrientationBothTrue();
-        ship1 = createShip(3, true, 4, 4);
-        ship2 = createShip(3, true, 4, 5);
-        ship3 = createShip(3, true, 6, 4);
+        cc = new CollisionOrientationFirstTrue();
+        ship1 = createShip(2, true, 4, 4);
+        ship2 = createShip(3, false, 4, 5);
+        ship3 = createShip(3, false, 5, 4);
     }
 
     /**
-     * Test of isCollision method, of class CollisionOrientationBothTrue.
+     * Test of isCollision method, of class CollisionOrientationFirstTrue.
      */
     @Test
     public final void testIsCollision() {
@@ -61,5 +61,11 @@ public class CollisionOrientationBothTrueTest extends AbstractTest {
         assertFalse(result);
         result = cc.isCollision(ship1, ship3);
         assertTrue(result);
+    }
+
+    @Test
+    public final void testIsCollisionFalse() {
+        IShip sh = createShip(1, false, -1, 4);
+        assertFalse(cc.isCollision(ship1, sh));
     }
 }
