@@ -1,4 +1,4 @@
-package de.htwg.battleship.actor
+package de.htwg.battleship.actor.childs
 
 import akka.actor.Actor
 import de.htwg.battleship.actor.messages.BorderMessage
@@ -17,12 +17,11 @@ object BorderActor {
 }
 
 class BorderActor extends Actor {
-
     def isOnField(ship: IShip, boardSize: Int): Boolean = {
         val realBoardSize = boardSize - 1
         val low = if (ship.isOrientation) ship.getX else ship.getY
         val fix = if (ship.isOrientation) ship.getY else ship.getX
-        val up = low + ship.getSize
+        val up = low + ship.getSize - 1
         isBetween(realBoardSize, 0, low) &&
             isBetween(realBoardSize, 0, up) &&
             isBetween(realBoardSize, 0, fix)
