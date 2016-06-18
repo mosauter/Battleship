@@ -3,8 +3,10 @@ package de.htwg.battleship.actor
 import akka.actor.{Actor, ActorRef, Props}
 import akka.pattern.ask
 import akka.util.Timeout
+import de.htwg.battleship.actor.childs.{BorderActor, CollisionActor}
 import de.htwg.battleship.actor.messages.{BorderMessage, CollisionMessage, ShipMessage}
 import de.htwg.battleship.model.{IPlayer, IShip}
+import de.htwg.battleship.util.Reducers
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -29,9 +31,6 @@ class ShipActor extends Actor {
         list.toList
     }
 
-    // TODO: think about an abstract
-    def reduce(one: Boolean, two: Boolean): Boolean = one && two
-
     def placeShip(ship: IShip, player: IPlayer, boardSize: Int, ref: ActorRef) = {
         val borderFuture = (borderer ? BorderMessage(ship, boardSize)).mapTo[Boolean]
         val collisionFutures = createColliderFutures(ship, player)
@@ -39,7 +38,7 @@ class ShipActor extends Actor {
         val aggrFuture = Future sequence allFutures
         aggrFuture onSuccess {
             case results: List[Boolean] =>
-                ref ! results.reduce(reduce)
+                ref ! results.reduce(Reducers.reduceBooleanAND)
         }
     }
 
