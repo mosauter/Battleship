@@ -115,11 +115,11 @@ public class MasterControllerTest extends AbstractTest {
             }
             orientation = ship.isOrientation();
         }
-        assertEquals(orientation, true);
-        assertEquals(size, true);
-        assertEquals(x, true);
-        assertEquals(y, true);
-        assertEquals(shipCount, 1);
+        assertTrue(orientation);
+        assertTrue(size);
+        assertTrue(x);
+        assertTrue(y);
+        assertEquals(1, shipCount);
     }
 
     /**
@@ -138,9 +138,13 @@ public class MasterControllerTest extends AbstractTest {
     public final void testWinPlayer1() {
         givePlayerNames();
         master.getPlayer1().getOwnBoard().addShip(new Ship(1, true, 1, 1));
+        // add a ship for player two
+        master.getPlayer2().getOwnBoard().addShip(new Ship(1, true, 1, 1));
+        // sink the ship
+        master.getPlayer2().getOwnBoard().shoot(1, 1);
         master.addObserver(utilOb);
         master.win();
-        assertEquals(utilOb.util, 2);
+        assertEquals(2, utilOb.util);
     }
 
     /**
@@ -150,9 +154,14 @@ public class MasterControllerTest extends AbstractTest {
     public final void testWinPlayer2() {
         givePlayerNames();
         master.getPlayer2().getOwnBoard().addShip(new Ship(1, true, 1, 1));
+        // add a ship for player one
+        master.getPlayer1().getOwnBoard().addShip(new Ship(1, true, 1, 1));
+        // sink the ship
+        master.getPlayer1().getOwnBoard().shoot(1, 1);
+
         master.addObserver(utilOb);
         master.win();
-        assertEquals(utilOb.util, 3);
+        assertEquals(3, utilOb.util);
     }
 
     /**
@@ -165,7 +174,7 @@ public class MasterControllerTest extends AbstractTest {
         master.getPlayer2().getOwnBoard().addShip(new Ship(1, true, 1, 1));
         master.addObserver(utilOb);
         master.win();
-        assertEquals(master.getCurrentState(), START);
+        assertEquals(START, master.getCurrentState());
     }
 
     /**
@@ -174,14 +183,14 @@ public class MasterControllerTest extends AbstractTest {
     @Test
     public final void testState() {
         State st = START;
-        assertEquals(master.getCurrentState(), st);
+        assertEquals(st, master.getCurrentState());
         st = State.HIT;
         master.setCurrentState(st);
-        assertEquals(master.getCurrentState(), st);
+        assertEquals(st, master.getCurrentState());
         master.setCurrentState(State.WRONGINPUT);
-        assertEquals(master.getCurrentState(), st);
+        assertEquals(st, master.getCurrentState());
         master.setCurrentState(State.PLACEERR);
-        assertEquals(master.getCurrentState(), st);
+        assertEquals(st, master.getCurrentState());
     }
 
     /**
@@ -189,7 +198,7 @@ public class MasterControllerTest extends AbstractTest {
      */
     @Test
     public final void testGetPlayer1() {
-        assertEquals(master.getPlayer1(), player1);
+        assertEquals(player1, master.getPlayer1());
     }
 
     /**
@@ -197,7 +206,7 @@ public class MasterControllerTest extends AbstractTest {
      */
     @Test
     public final void testGetPlayer2() {
-        assertEquals(master.getPlayer2(), player2);
+        assertEquals(player2, master.getPlayer2());
     }
 
     /**
@@ -282,6 +291,7 @@ public class MasterControllerTest extends AbstractTest {
         givePlayerNames();
         master.setCurrentState(SHOOT1);
         master.getPlayer1().getOwnBoard().addShip(new Ship(1, true, 1, 1));
+        master.getPlayer2().getOwnBoard().addShip(new Ship(1, true, 1, 1));
         master.addObserver(utilOb);
         master.shoot(1, 1);
         assertEquals(2, utilOb.util);

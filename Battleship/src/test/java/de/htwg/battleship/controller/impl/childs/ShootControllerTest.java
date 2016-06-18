@@ -1,6 +1,6 @@
 // ShootControllerTest.java
 
-package de.htwg.battleship.controller.impl;
+package de.htwg.battleship.controller.impl.childs;
 
 import com.google.inject.AbstractModule;
 import de.htwg.battleship.AbstractTest;

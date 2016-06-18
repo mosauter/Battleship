@@ -1,4 +1,4 @@
-package de.htwg.battleship.actor
+package de.htwg.battleship.actor.childs
 
 import akka.actor.{Actor, Props}
 import akka.util.Timeout

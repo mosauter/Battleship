@@ -1,4 +1,4 @@
-package de.htwg.battleship.actor
+package de.htwg.battleship.actor.childs.grandchilds
 
 import akka.actor.Actor
 import de.htwg.battleship.actor.messages.ShipDestroyedMessage

@@ -104,7 +104,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final void shoot(final int x, final int y) {
+    public void shoot(final int x, final int y) {
         boolean first;
         State before = this.currentState;
         if (this.currentState == SHOOT1) {
@@ -174,7 +174,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final void placeShip(final int x, final int y,
+    public void placeShip(final int x, final int y,
                                 final boolean orientation) {
         IPlayer player;
         boolean firstPlayer;
@@ -246,7 +246,7 @@ public class MasterController extends Observable implements IMasterController {
      * after that the end-state returns true not until the win- and the
      * end-states are setted
      */
-    final boolean win() {
+    boolean win() {
         Future<Object> future = Patterns.ask(masterActor,
                                              new WinMessage(this.getPlayer1(),
                                                             this.getPlayer2()),
@@ -288,12 +288,12 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final State getCurrentState() {
+    public State getCurrentState() {
         return this.currentState;
     }
 
     @Override
-    public final void setCurrentState(final State newState) {
+    public void setCurrentState(final State newState) {
         State tmp = newState;
         if (newState == WRONGINPUT || newState == PLACEERR) {
             tmp = this.currentState;
@@ -305,12 +305,12 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final IPlayer getPlayer1() {
+    public IPlayer getPlayer1() {
         return player1;
     }
 
     @Override
-    public final IPlayer getPlayer2() {
+    public IPlayer getPlayer2() {
         return player2;
     }
 
@@ -328,12 +328,12 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final void setPlayerName(final String name) {
+    public void setPlayerName(final String name) {
         this.setPlayerProfile(name, -1);
     }
 
     @Override
-    public final void startGame() {
+    public void startGame() {
         if (this.currentState == START || this.currentState == State.OPTIONS) {
             this.setCurrentState(GETNAME1);
         } else if (this.currentState == END) {
@@ -343,9 +343,9 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final Map<Integer, Set<Integer>> fillMap(final IShip[] shipList,
-                                                    final Map<Integer, Set<Integer>> map,
-                                                    final int ships) {
+    public Map<Integer, Set<Integer>> fillMap(final IShip[] shipList,
+                                              final Map<Integer, Set<Integer>> map,
+                                              final int ships) {
         for (int i = 0; i < ships; i++) {
             this.getSet(shipList[i], map);
         }
@@ -382,14 +382,14 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final void configureGame() {
+    public void configureGame() {
         if (this.currentState == START) {
             this.setCurrentState(State.OPTIONS);
         }
     }
 
     @Override
-    public final void setBoardSize(final int boardSize) {
+    public void setBoardSize(final int boardSize) {
         if (this.currentState != State.OPTIONS ||
             (this.boardValues.getMaxShips() + 2) >= boardSize) {
             this.setCurrentState(WRONGINPUT);
@@ -406,7 +406,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final void setShipNumber(final int shipNumber) {
+    public void setShipNumber(final int shipNumber) {
         if (this.currentState != State.OPTIONS ||
             ((shipNumber + 2) >= boardValues.getBoardSize())) {
             this.setCurrentState(WRONGINPUT);
@@ -418,12 +418,12 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final GameMode getGameMode() {
+    public GameMode getGameMode() {
         return this.gm;
     }
 
     @Override
-    public final void setGameMode(final GameMode newMode) {
+    public void setGameMode(final GameMode newMode) {
         if (this.currentState == State.OPTIONS) {
             this.gm = newMode;
             this.notifyObserver();
@@ -433,7 +433,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final void configure() {
+    public void configure() {
         this.setCurrentState(State.OPTIONS);
     }
 
@@ -443,7 +443,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public final void restoreGame(final IGameSave save) {
+    public void restoreGame(final IGameSave save) {
         if (!save.validate()) {
             throw new IllegalArgumentException(
                 "The game save is not valid, check with IGameSave.validate()");

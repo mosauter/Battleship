@@ -1,10 +1,8 @@
-// MasterDecoratorController.java
+// superDecoratorController.java
 
 package de.htwg.battleship.controller.impl;
 
-import com.google.inject.Inject;
 import com.google.inject.Injector;
-import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.model.persistence.IGameSave;
@@ -19,7 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * MasterDecoratorController is a decorator for the real MasterController. used
+ * superDecoratorController is a decorator for the real superController. used
  * for timing measures and for debuging implements the decorator pattern
  *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
@@ -27,7 +25,7 @@ import java.util.Set;
  * @since 2015-01-10
  */
 @SuppressWarnings("unused")
-public class MasterDecoratorController implements IMasterController {
+public class MasterDecoratorController extends MasterController {
 
     /**
      * String constant for x presentation.
@@ -39,33 +37,27 @@ public class MasterDecoratorController implements IMasterController {
     private static final String Y_STRING = " ; y = ";
 
     /**
-     * Saves the real MasterController implementation.
-     */
-    private final MasterController master;
-    /**
      * Saves the LOGGER for the info messages.
      */
-    private static final Logger LOGGER =
-        Logger.getLogger(MasterDecoratorController.class);
+    private final Logger LOGGER = Logger.getLogger(this.getClass());
 
     /**
-     * Public constructor which creates the MasterController with the injected
+     * Public constructor which creates the superController with the injected
      * Players.
      *
      * @param player1 first Player
      * @param player2 second Player
      */
-    @Inject
     public MasterDecoratorController(final IPlayer player1,
-                                     final IPlayer player2, Injector in) {
-        this.master = new MasterController(player1, player2, in,
-                                           in.getInstance(IBoardValues.class));
+                                     final IPlayer player2, Injector in,
+                                     final IBoardValues values) {
+        super(player1, player2, in, values);
     }
 
     @Override
     public final void shoot(final int x, final int y) {
         LOGGER.info("shoot() is called:" + X_STRING + x + Y_STRING + y);
-        master.shoot(x, y);
+        super.shoot(x, y);
         LOGGER.info("shoot() is finished:" + X_STRING + x + Y_STRING + y);
     }
 
@@ -74,7 +66,7 @@ public class MasterDecoratorController implements IMasterController {
                                 final boolean orientation) {
         LOGGER.info("placeShip() is called:" + X_STRING + x + Y_STRING + y +
                     " ; orientation = " + orientation);
-        master.placeShip(x, y, orientation);
+        super.placeShip(x, y, orientation);
         LOGGER.info("placeShip() is finished:" + X_STRING + x + Y_STRING + y +
                     " ; orientation = " + orientation);
     }
@@ -82,7 +74,7 @@ public class MasterDecoratorController implements IMasterController {
     @Override
     public final State getCurrentState() {
         LOGGER.info("getCurrentState() is called");
-        State tmp = master.getCurrentState();
+        State tmp = super.getCurrentState();
         LOGGER
             .info("getCurrentState() is finished: result = " + tmp.toString());
         return tmp;
@@ -92,7 +84,7 @@ public class MasterDecoratorController implements IMasterController {
     public final void setCurrentState(final State newState) {
         LOGGER.info(
             "setCurrentState() is called: new State = " + newState.toString());
-        master.setCurrentState(newState);
+        super.setCurrentState(newState);
         LOGGER.info("setCurrentState() is finished: new State = " +
                     newState.toString());
     }
@@ -100,7 +92,7 @@ public class MasterDecoratorController implements IMasterController {
     @Override
     public final IPlayer getPlayer1() {
         LOGGER.info("getPlayer1Name() is called");
-        IPlayer tmp = master.getPlayer1();
+        IPlayer tmp = super.getPlayer1();
         LOGGER.info("getPlayer1Name() is finished: result = " + tmp.toString());
         return tmp;
     }
@@ -108,7 +100,7 @@ public class MasterDecoratorController implements IMasterController {
     @Override
     public final IPlayer getPlayer2() {
         LOGGER.info("getPlayer2Name() is called");
-        IPlayer tmp = master.getPlayer2();
+        IPlayer tmp = super.getPlayer2();
         LOGGER.info("getPlayer2Name() is finished: result = " + tmp.toString());
         return tmp;
     }
@@ -117,7 +109,7 @@ public class MasterDecoratorController implements IMasterController {
     public void setPlayerProfile(String name, int id) {
         LOGGER.info(
             "setPlayersProfile() is called: name = " + name + " id = " + id);
-        this.master.setPlayerProfile(name, id);
+        super.setPlayerProfile(name, id);
         LOGGER.info(
             "setPlayersProfile() is finished: name = " + name + " id = " + id);
     }
@@ -125,14 +117,14 @@ public class MasterDecoratorController implements IMasterController {
     @Override
     public final void setPlayerName(final String name) {
         LOGGER.info("setPlayerName() is called: Name = " + name);
-        master.setPlayerName(name);
+        super.setPlayerName(name);
         LOGGER.info("setPlayerName() is finished: Name = " + name);
     }
 
     @Override
     public final void startGame() {
         LOGGER.info("startGame() is called");
-        master.startGame();
+        super.startGame();
         LOGGER.info("startGame() is finished");
     }
 
@@ -140,7 +132,7 @@ public class MasterDecoratorController implements IMasterController {
     public final void addObserver(final IObserver observer) {
         LOGGER.info("addObserver() is called: observer = " +
                     observer.getClass().toString());
-        master.addObserver(observer);
+        super.addObserver(observer);
         LOGGER.info("addObserver() is finished: observer = " +
                     observer.getClass().toString());
     }
@@ -148,7 +140,7 @@ public class MasterDecoratorController implements IMasterController {
     @Override
     public final void notifyObserver() {
         LOGGER.info("notifyObserver() is called");
-        master.notifyObserver();
+        super.notifyObserver();
         LOGGER.info("notifyObserver() is finished");
     }
 
@@ -159,7 +151,7 @@ public class MasterDecoratorController implements IMasterController {
         LOGGER.info(
             "fillMap() is called: shipList = " + Arrays.toString(shipList) +
             " ; map = " + map.toString() + " ; ships = " + ships);
-        Map<Integer, Set<Integer>> tmp = master.fillMap(shipList, map, ships);
+        Map<Integer, Set<Integer>> tmp = super.fillMap(shipList, map, ships);
         LOGGER.info(
             "fillMap() is finished: shipList = " + Arrays.toString(shipList) +
             " ; map = " + map.toString() + " ; ships = " + ships);
@@ -169,14 +161,14 @@ public class MasterDecoratorController implements IMasterController {
     @Override
     public final void configureGame() {
         LOGGER.info("configureGame() is called");
-        this.master.configureGame();
+        super.configureGame();
         LOGGER.info("configureGame() is finished");
     }
 
     @Override
     public final GameMode getGameMode() {
         LOGGER.info("getGameMode() is called");
-        GameMode tmp = this.master.getGameMode();
+        GameMode tmp = super.getGameMode();
         LOGGER.info("getGameMode() is finished: result = " + tmp.toString());
         return tmp;
     }
@@ -184,21 +176,21 @@ public class MasterDecoratorController implements IMasterController {
     @Override
     public final void setGameMode(final GameMode gm) {
         LOGGER.info("setGameMode() is called: new Mode = " + gm.toString());
-        this.master.setGameMode(gm);
+        super.setGameMode(gm);
         LOGGER.info("setGameMode() is finished: new Mode = " + gm.toString());
     }
 
     @Override
     public final void configure() {
         LOGGER.info("configure() is called");
-        master.configure();
+        super.configure();
         LOGGER.info("configure() is finished");
     }
 
     @Override
     public int getBoardSize() {
         LOGGER.info("getBoardSize() is called");
-        int boardSize = master.getBoardSize();
+        int boardSize = super.getBoardSize();
         LOGGER.info("getBoardSize() is finished: result = " + boardSize);
         return boardSize;
     }
@@ -206,21 +198,21 @@ public class MasterDecoratorController implements IMasterController {
     @Override
     public void setBoardSize(final int boardSize) {
         LOGGER.info("setBoardSize() is called: newBoardSize = " + boardSize);
-        master.setBoardSize(boardSize);
+        super.setBoardSize(boardSize);
         LOGGER.info("setBoardSize() is finished: newBoardSize = " + boardSize);
     }
 
     @Override
     public int getShipNumber() {
         LOGGER.info("getShipNumber() is called");
-        int max = master.getShipNumber();
+        int max = super.getShipNumber();
         LOGGER.info("getShipNumber() is finished: result = " + max);
         return max;
     }
 
     public final void setBoardValues(final int boardSize) {
         LOGGER.info("setBoardSize() is called: new size = " + boardSize);
-        master.setBoardSize(boardSize);
+        super.setBoardSize(boardSize);
         LOGGER.info("setBoardSize() is finished: new size = " + boardSize);
     }
 
@@ -228,7 +220,7 @@ public class MasterDecoratorController implements IMasterController {
     public final void setShipNumber(final int shipNumber) {
         LOGGER
             .info("setShipNumber() is called: new ship number = " + shipNumber);
-        master.setShipNumber(shipNumber);
+        super.setShipNumber(shipNumber);
         LOGGER.info(
             "setShipNumber() is finished: new ship number = " + shipNumber);
     }
@@ -236,7 +228,7 @@ public class MasterDecoratorController implements IMasterController {
     @Override
     public void restoreGame(IGameSave save) {
         LOGGER.info("restoreGame() is called");
-        master.restoreGame(save);
+        super.restoreGame(save);
         LOGGER.info("restoreGame() is finished");
     }
 }

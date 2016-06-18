@@ -3,6 +3,7 @@ package de.htwg.battleship.actor
 import akka.actor.{Actor, ActorRef, Props}
 import akka.pattern.ask
 import akka.util.Timeout
+import de.htwg.battleship.actor.childs.PlayerDestroyedActor
 import de.htwg.battleship.actor.messages.{PlayerDestroyedMessage, PlayerDestroyedResponse, WinMessage, WinnerResponse}
 import de.htwg.battleship.model.IPlayer
 
