@@ -18,8 +18,8 @@ public class CouchDbUtil {
         HttpClient client = null;
         try {
             client =
-                new StdHttpClient.Builder().url(System.getenv("couchDBLink")).username(System.getenv("couchDbUser"))
-                                           .password(System.getenv("couchDbPassword")).socketTimeout(10000).build();
+                new StdHttpClient.Builder().url(System.getenv("couchDBLink")).username(System.getenv("couchDBUser"))
+                                           .password(System.getenv("couchDBPass")).socketTimeout(10000).build();
 
         } catch (MalformedURLException e) {
             LOGGER.error("Malformed URL", e);
