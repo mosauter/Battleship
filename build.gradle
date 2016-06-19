@@ -1,0 +1,195 @@
+plugins {
+    id "org.sonarqube" version "2.0.1"
+    id "jacoco"
+}
+group 'de.htwg.se.CardGame.PhaseX'
+version '1.2-SNAPSHOT'
+/*
+ * applied plugins
+ */
+apply plugin: 'java'
+apply plugin: 'scala'
+apply plugin: 'maven'
+
+repositories {
+    maven{
+        url "http://nexus-phasex.rhcloud.com/content/groups/public/"
+    }
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = []
+        }
+        scala {
+            srcDirs = ['Battleship/src/main/scala', 'Battleship/src/main/java']
+        }
+        resources {
+            srcDir 'Battleship/src/main/resources'
+        }
+    }
+    test {
+        java {
+            srcDirs = []
+        }
+        scala {
+            srcDirs = ['Battleship/src/test/scala', 'Battleship/src/test/java']
+        }
+        resources {
+            srcDir 'Battleship/src/test/resources'
+        }
+    }
+    integration {
+        java {
+            srcDir 'Battleship/src/integration-test/java'
+        }
+        resources{
+            srcDir 'Battleship/src/integration-test/resources'
+        }
+        compileClasspath += sourceSets.main.runtimeClasspath
+    }
+}
+
+/*
+ * Dependencies
+ */
+dependencies {
+    //adding test only dependencies
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile 'org.mockito:mockito-all:1.10.19'
+    testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.6.2'
+    testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: '1.6.2'
+
+    //adding integrationtest only dependencies
+    integrationCompile group: 'junit', name: 'junit', version: '4.12'
+    integrationCompile 'org.mockito:mockito-all:1.10.19'
+
+    //Adding logger
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+    compile 'org.slf4j:slf4j-api:1.7.20'
+    compile 'org.slf4j:slf4j-simple:1.7.20'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.6.2'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.6.2'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.6.2'
+
+    //Google
+    compile 'com.google.inject:guice:4.0'
+    compile 'com.google.guava:guava:19.0-rc2'
+    compile 'com.google.code.gson:gson:2.6.2'
+
+    //Adding other Artifacts
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'com.google.code.findbugs:annotations:3.0.0'
+
+    //Hibernate
+    compile 'org.hibernate:hibernate-core:5.1.0.Final'
+    compile 'org.hibernate:hibernate-annotations:3.5.6-Final'
+    compile 'mysql:mysql-connector-java:5.1.38'
+    compile 'org.slf4j:slf4j-api:1.7.20'
+    //compile 'org.slf4j:slf4j-simple:1.7.20'
+    compile 'org.javassist:javassist:3.20.0-GA'
+
+    //CouchDB
+    compile 'org.ektorp:org.ektorp:1.4.0'
+    compile 'org.opencredo.couchdb:couchdb-si-support:0.1'
+
+    //Scala
+    compile 'org.scala-lang:scala-library:2.11.1'
+
+    //Akka
+    compile 'com.typesafe.akka:akka-actor_2.11:2.4.4'
+//    compile 'com.typesafe.akka:akka-actor_2.11:2.3.13'
+}
+
+
+/*
+ * Package and Upload to Nexus
+ */
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+                'Implementation-Version': version,
+                'Main-Class': 'phasex.Init'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+artifacts {
+    archives file: file('build/libs/' + project.name + '-' + version + '.jar'), name: 'PhaseX', type: 'jar'
+}
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "http://nexus-phasex.rhcloud.com/content/repositories/snapshots") {
+                authentication(userName: nexusUser, password: nexusPassword)
+            }
+
+            pom.version = version
+            pom.artifactId = project.name
+        }
+    }
+}
+
+uploadArchives.dependsOn jar
+
+/*
+ * Tools
+ */
+jacoco {
+    toolVersion = "0.7.4.201502262128"
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "${group}"
+        property "sonar.projectName", "${project.name}"
+        property "sonar.projectVersion", "${version}"
+
+        property "sonar.language", "java"
+
+        property "sonar.sources", "src/main/java"
+        property "sonar.tests", "src/test/java"
+        property "sonar.binaries", "build/classes"
+
+        property "sonar.junit.reportsPath", "build/reports/junit"
+
+        property "sonar.jacoco.reportPath", "build/jacoco/test.exec"
+        property "sonar.jacoco.itReportPath", "build/jacoco/intTest.exec"
+        property "sonar.exclusions", "**/view/**, **/java/phasex/**"
+
+        property "sonar.jdbc.url", "jdbc:mysql://lenny2.in.htwg-konstanz.de:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance"
+        property "sonar.jdbc.username", "sonar"
+        property "sonar.jdbc.password", "mysql"
+        property "sonar.host.url", "http://lenny2.in.htwg-konstanz.de:9000/"
+        property "sonar.login", "admin"
+        property "sonar.password", "admin"
+    }
+}
+
+/*
+ * Tasks
+ */
+task intTest(type: Test) {
+    jacoco {
+        destinationFile = file("${project.buildDir}/jacoco/intTest.exec")
+        classDumpFile = file("${project.buildDir}/classes/integration")
+    }
+    testClassesDir = sourceSets.integration.output.classesDir
+    classpath += sourceSets.integration.runtimeClasspath
+}
+
+//Separating dirs for unit and int tests
+tasks.withType(Test) {
+    reports.html.destination = file("${reporting.baseDir}/${name}")
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.12'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}
