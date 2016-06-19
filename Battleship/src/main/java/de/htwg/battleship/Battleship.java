@@ -5,7 +5,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.htwg.battleship.aview.tui.TUI;
 import de.htwg.battleship.controller.IMasterController;
-import de.htwg.battleship.modules.BattleshipCouchModule;
+import de.htwg.battleship.modules.BattleshipHibernateModule;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.util.Scanner;
@@ -44,9 +44,8 @@ public final class Battleship {
      * Private Constructor.
      */
     private Battleship() {
-        PropertyConfigurator
-            .configure(getClass().getResource(LOG4J_PROPERTY_CONFIG));
-        injector = Guice.createInjector(new BattleshipCouchModule());
+        PropertyConfigurator.configure(getClass().getResource(LOG4J_PROPERTY_CONFIG));
+        injector = Guice.createInjector(new BattleshipHibernateModule());
         masterController = injector.getInstance(IMasterController.class);
         tui = injector.getInstance(TUI.class);
     }
@@ -66,9 +65,8 @@ public final class Battleship {
     /**
      * Configurable Singleton to get an instance of the game.
      *
-     * @param newInstance is a boolean true:     get always a new instance of
-     *                    the game false:    get the instance of the last called
-     *                    singleton
+     * @param newInstance is a boolean true:     get always a new instance of the game false:    get the instance of the
+     *                    last called singleton
      *
      * @return the new or last instance of battleship
      */

@@ -11,8 +11,8 @@ import de.htwg.battleship.util.GameMode;
 import de.htwg.battleship.util.State;
 
 /**
- * IGameSave represents a whole Game instance. In this particular case it saves
- * a whole {@link IMasterController} Object.
+ * IGameSave represents a whole Game instance. In this particular case it saves a whole {@link IMasterController}
+ * Object.
  *
  * @author ms
  * @since 2016-04-05
@@ -41,8 +41,7 @@ public interface IGameSave {
     void setPlayer1ID(int id);
 
     /**
-     * Same as: {@link IPlayer#setName(String)} but without the second write
-     * protection.
+     * Same as: {@link IPlayer#setName(String)} but without the second write protection.
      *
      * @param player1Name the new name of player one
      */
@@ -56,8 +55,7 @@ public interface IGameSave {
     String getPlayer2Name();
 
     /**
-     * Same as: {@link IPlayer#setName(String)} but without the second write
-     * protection.
+     * Same as: {@link IPlayer#setName(String)} but without the second write protection.
      *
      * @param player2Name the new name of player two
      */
@@ -108,8 +106,7 @@ public interface IGameSave {
     /**
      * Same as: {@link IPlayer#getOwnBoard()} of player one.
      *
-     * @return the field which should be used in {@link IBoard#restoreBoard(boolean[][],
-     * IShip[])}
+     * @return the field which should be used in {@link IBoard#restoreBoard(boolean[][], IShip[])}
      */
     boolean[][] getField1();
 
@@ -123,8 +120,7 @@ public interface IGameSave {
     /**
      * Same as: {@link IPlayer#getOwnBoard()} of player two.
      *
-     * @return the field which should be used in {@link IBoard#restoreBoard(boolean[][],
-     * IShip[])}
+     * @return the field which should be used in {@link IBoard#restoreBoard(boolean[][], IShip[])}
      */
     boolean[][] getField2();
 
@@ -138,8 +134,7 @@ public interface IGameSave {
     /**
      * Same as: {@link IBoard#getShipList()} of player one.
      *
-     * @return the ship list which should be used in {@link
-     * IBoard#restoreBoard(boolean[][], IShip[])}
+     * @return the ship list which should be used in {@link IBoard#restoreBoard(boolean[][], IShip[])}
      */
     IShip[] getShipList1();
 
@@ -153,8 +148,7 @@ public interface IGameSave {
     /**
      * Same as: {@link IBoard#getShipList()} of player two.
      *
-     * @return the ship list which should be used in {@link
-     * IBoard#restoreBoard(boolean[][], IShip[])}
+     * @return the ship list which should be used in {@link IBoard#restoreBoard(boolean[][], IShip[])}
      */
     IShip[] getShipList2();
 
@@ -196,26 +190,22 @@ public interface IGameSave {
     /**
      * Method to restore a whole game with "this" as {@link IGameSave}
      *
-     * @param injector a Guice injector which can create a {@link
-     *                 IMasterController}
+     * @param injector a Guice injector which can create a {@link IMasterController}
      *
-     * @return the {@link IMasterController} which has the restored state of
-     * "this"
+     * @return the {@link IMasterController} which has the restored state of "this"
      */
     IMasterController restoreGame(Injector injector);
 
     /**
      * Method to save a {@link IMasterController}.
      *
-     * @param masterController the IMasterController which will be saved in
-     *                         this
+     * @param masterController the IMasterController which will be saved in this
      */
-    void saveGame(IMasterController masterController);
+    IGameSave saveGame(IMasterController masterController);
 
     /**
-     * Method to check if all properties of the game save are set and so make
-     * sure that this instance isn't a criteria or something with missing
-     * properties.
+     * Method to check if all properties of the game save are set and so make sure that this instance isn't a criteria
+     * or something with missing properties.
      *
      * @return true if the complete IGameSave is valid, false if it isn't
      */

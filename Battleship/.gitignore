@@ -21,6 +21,18 @@ hs_err_pid*
 
 nb-configuration.xml
 
-# IntelliJ configuration
+# IntelliJ
+/out
 .idea/
 *.iml
+
+# gradle
+gradle.properties
+.gradle
+build/
+gradle-app.setting
+gralde-wrapper.properties
+!gradle-wrapper.jar
+gradle-wrapper.properties
+
+

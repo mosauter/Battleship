@@ -2,6 +2,7 @@
 
 package de.htwg.battleship.controller.impl;
 
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
@@ -17,8 +18,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * superDecoratorController is a decorator for the real superController. used
- * for timing measures and for debuging implements the decorator pattern
+ * superDecoratorController is a decorator for the real superController. used for timing measures and for debuging
+ * implements the decorator pattern
  *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
@@ -42,14 +43,13 @@ public class MasterDecoratorController extends MasterController {
     private final Logger LOGGER = Logger.getLogger(this.getClass());
 
     /**
-     * Public constructor which creates the superController with the injected
-     * Players.
+     * Public constructor which creates the superController with the injected Players.
      *
      * @param player1 first Player
      * @param player2 second Player
      */
-    public MasterDecoratorController(final IPlayer player1,
-                                     final IPlayer player2, Injector in,
+    @Inject
+    public MasterDecoratorController(final IPlayer player1, final IPlayer player2, Injector in,
                                      final IBoardValues values) {
         super(player1, player2, in, values);
     }
@@ -62,8 +62,7 @@ public class MasterDecoratorController extends MasterController {
     }
 
     @Override
-    public final void placeShip(final int x, final int y,
-                                final boolean orientation) {
+    public final void placeShip(final int x, final int y, final boolean orientation) {
         LOGGER.info("placeShip() is called:" + X_STRING + x + Y_STRING + y +
                     " ; orientation = " + orientation);
         super.placeShip(x, y, orientation);
@@ -75,18 +74,15 @@ public class MasterDecoratorController extends MasterController {
     public final State getCurrentState() {
         LOGGER.info("getCurrentState() is called");
         State tmp = super.getCurrentState();
-        LOGGER
-            .info("getCurrentState() is finished: result = " + tmp.toString());
+        LOGGER.info("getCurrentState() is finished: result = " + tmp.toString());
         return tmp;
     }
 
     @Override
     public final void setCurrentState(final State newState) {
-        LOGGER.info(
-            "setCurrentState() is called: new State = " + newState.toString());
+        LOGGER.info("setCurrentState() is called: new State = " + newState.toString());
         super.setCurrentState(newState);
-        LOGGER.info("setCurrentState() is finished: new State = " +
-                    newState.toString());
+        LOGGER.info("setCurrentState() is finished: new State = " + newState.toString());
     }
 
     @Override
@@ -107,11 +103,9 @@ public class MasterDecoratorController extends MasterController {
 
     @Override
     public void setPlayerProfile(String name, int id) {
-        LOGGER.info(
-            "setPlayersProfile() is called: name = " + name + " id = " + id);
+        LOGGER.info("setPlayersProfile() is called: name = " + name + " id = " + id);
         super.setPlayerProfile(name, id);
-        LOGGER.info(
-            "setPlayersProfile() is finished: name = " + name + " id = " + id);
+        LOGGER.info("setPlayersProfile() is finished: name = " + name + " id = " + id);
     }
 
     @Override
@@ -130,11 +124,9 @@ public class MasterDecoratorController extends MasterController {
 
     @Override
     public final void addObserver(final IObserver observer) {
-        LOGGER.info("addObserver() is called: observer = " +
-                    observer.getClass().toString());
+        LOGGER.info("addObserver() is called: observer = " + observer.getClass().toString());
         super.addObserver(observer);
-        LOGGER.info("addObserver() is finished: observer = " +
-                    observer.getClass().toString());
+        LOGGER.info("addObserver() is finished: observer = " + observer.getClass().toString());
     }
 
     @Override
@@ -145,16 +137,13 @@ public class MasterDecoratorController extends MasterController {
     }
 
     @Override
-    public final Map<Integer, Set<Integer>> fillMap(final IShip[] shipList,
-                                                    final Map<Integer, Set<Integer>> map,
+    public final Map<Integer, Set<Integer>> fillMap(final IShip[] shipList, final Map<Integer, Set<Integer>> map,
                                                     final int ships) {
-        LOGGER.info(
-            "fillMap() is called: shipList = " + Arrays.toString(shipList) +
-            " ; map = " + map.toString() + " ; ships = " + ships);
+        LOGGER.info("fillMap() is called: shipList = " + Arrays.toString(shipList) +
+                    " ; map = " + map.toString() + " ; ships = " + ships);
         Map<Integer, Set<Integer>> tmp = super.fillMap(shipList, map, ships);
-        LOGGER.info(
-            "fillMap() is finished: shipList = " + Arrays.toString(shipList) +
-            " ; map = " + map.toString() + " ; ships = " + ships);
+        LOGGER.info("fillMap() is finished: shipList = " + Arrays.toString(shipList) +
+                    " ; map = " + map.toString() + " ; ships = " + ships);
         return tmp;
     }
 
@@ -218,11 +207,9 @@ public class MasterDecoratorController extends MasterController {
 
     @Override
     public final void setShipNumber(final int shipNumber) {
-        LOGGER
-            .info("setShipNumber() is called: new ship number = " + shipNumber);
+        LOGGER.info("setShipNumber() is called: new ship number = " + shipNumber);
         super.setShipNumber(shipNumber);
-        LOGGER.info(
-            "setShipNumber() is finished: new ship number = " + shipNumber);
+        LOGGER.info("setShipNumber() is finished: new ship number = " + shipNumber);
     }
 
     @Override
