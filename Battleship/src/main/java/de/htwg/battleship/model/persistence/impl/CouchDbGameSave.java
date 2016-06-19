@@ -1,7 +1,7 @@
 package de.htwg.battleship.model.persistence.impl;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import com.google.inject.Injector;
 import de.htwg.battleship.controller.IMasterController;
@@ -10,11 +10,11 @@ import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.util.GameMode;
 import de.htwg.battleship.util.State;
 import org.ektorp.support.CouchDbDocument;
+
 import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CouchDbGameSave extends CouchDbDocument
-    implements IGameSave, Serializable {
+public class CouchDbGameSave extends CouchDbDocument implements IGameSave, Serializable {
 
     private String id;
     private String revision;
@@ -136,14 +136,13 @@ public class CouchDbGameSave extends CouchDbDocument
 
     @Override
     public IMasterController restoreGame(Injector injector) {
-        IMasterController masterController =
-            injector.getInstance(IMasterController.class);
+        IMasterController masterController = injector.getInstance(IMasterController.class);
         masterController.restoreGame(this);
         return masterController;
     }
 
     @Override
-    public void saveGame(IMasterController masterController) {
+    public IGameSave saveGame(IMasterController masterController) {
         this.player1Name = masterController.getPlayer1().getName();
         this.player2Name = masterController.getPlayer2().getName();
         this.player1ID = masterController.getPlayer1().getID();
@@ -152,12 +151,11 @@ public class CouchDbGameSave extends CouchDbDocument
         this.currentState = masterController.getCurrentState();
         this.setField1(masterController.getPlayer1().getOwnBoard().getHitMap());
         this.setField2(masterController.getPlayer2().getOwnBoard().getHitMap());
-        this.shipList1 =
-            masterController.getPlayer1().getOwnBoard().getShipList();
-        this.shipList2 =
-            masterController.getPlayer2().getOwnBoard().getShipList();
+        this.shipList1 = masterController.getPlayer1().getOwnBoard().getShipList();
+        this.shipList2 = masterController.getPlayer2().getOwnBoard().getShipList();
         this.heightLength = masterController.getBoardSize();
         this.maxShipNumber = masterController.getShipNumber();
+        return this;
     }
 
     @Override

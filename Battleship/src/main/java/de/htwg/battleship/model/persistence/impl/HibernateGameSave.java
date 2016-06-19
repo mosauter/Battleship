@@ -137,14 +137,13 @@ public class HibernateGameSave implements IGameSave, Serializable {
 
     @Override
     public IMasterController restoreGame(Injector injector) {
-        IMasterController masterController =
-            injector.getInstance(IMasterController.class);
+        IMasterController masterController = injector.getInstance(IMasterController.class);
         masterController.restoreGame(this);
         return masterController;
     }
 
     @Override
-    public void saveGame(IMasterController masterController) {
+    public IGameSave saveGame(IMasterController masterController) {
         this.player1Name = masterController.getPlayer1().getName();
         this.player2Name = masterController.getPlayer2().getName();
         this.player1ID = masterController.getPlayer1().getID();
@@ -153,12 +152,11 @@ public class HibernateGameSave implements IGameSave, Serializable {
         this.currentState = masterController.getCurrentState();
         this.setField1(masterController.getPlayer1().getOwnBoard().getHitMap());
         this.setField2(masterController.getPlayer2().getOwnBoard().getHitMap());
-        this.shipList1 =
-            masterController.getPlayer1().getOwnBoard().getShipList();
-        this.shipList2 =
-            masterController.getPlayer2().getOwnBoard().getShipList();
+        this.shipList1 = masterController.getPlayer1().getOwnBoard().getShipList();
+        this.shipList2 = masterController.getPlayer2().getOwnBoard().getShipList();
         this.heightLength = masterController.getBoardSize();
         this.maxShipNumber = masterController.getShipNumber();
+        return this;
     }
 
     @Override

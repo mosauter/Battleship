@@ -8,10 +8,7 @@ import akka.util.Timeout;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import de.htwg.battleship.actor.ActorFactory;
-import de.htwg.battleship.actor.messages.ShipMessage;
-import de.htwg.battleship.actor.messages.ShootMessage;
-import de.htwg.battleship.actor.messages.WinMessage;
-import de.htwg.battleship.actor.messages.WinnerResponse;
+import de.htwg.battleship.actor.messages.*;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
@@ -80,8 +77,7 @@ public class MasterController extends Observable implements IMasterController {
      */
     private Injector injector;
     /**
-     * Saves important values of the size for the board and how many ships could
-     * be set on it.
+     * Saves important values of the size for the board and how many ships could be set on it.
      */
     private IBoardValues boardValues;
 
@@ -92,8 +88,8 @@ public class MasterController extends Observable implements IMasterController {
      * @param player2 player two
      */
     @Inject
-    public MasterController(final IPlayer player1, final IPlayer player2,
-                            final Injector in, final IBoardValues boardValues) {
+    public MasterController(final IPlayer player1, final IPlayer player2, final Injector in,
+                            final IBoardValues boardValues) {
         masterActor = ActorFactory.getMasterRef();
         this.player1 = player1;
         this.player2 = player2;
@@ -115,12 +111,9 @@ public class MasterController extends Observable implements IMasterController {
             this.setCurrentState(WRONGINPUT);
             return;
         }
-        Future<Object> future = Patterns
-            .ask(masterActor, new ShootMessage(player1, player2, x, y, first),
-                 TIMEOUT);
+        Future<Object> future = Patterns.ask(masterActor, new ShootMessage(player1, player2, x, y, first), TIMEOUT);
         try {
-            boolean shootResult =
-                (boolean) Await.result(future, TIMEOUT.duration());
+            boolean shootResult = (boolean) Await.result(future, TIMEOUT.duration());
             // set board value on true
             (first ? player2.getOwnBoard() : player1.getOwnBoard()).shoot(x, y);
             if (shootResult) {
@@ -174,8 +167,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public void placeShip(final int x, final int y,
-                                final boolean orientation) {
+    public void placeShip(final int x, final int y, final boolean orientation) {
         IPlayer player;
         boolean firstPlayer;
 
@@ -189,10 +181,9 @@ public class MasterController extends Observable implements IMasterController {
             this.setCurrentState(WRONGINPUT);
             return;
         }
-        IShip ship =
-            createShip(x, y, orientation, player.getOwnBoard().getShips() + 2);
-        Future<Object> future = Patterns.ask(masterActor, new ShipMessage(
-            boardValues.getBoardSize(), player, ship), TIMEOUT);
+        IShip ship = createShip(x, y, orientation, player.getOwnBoard().getShips() + 2);
+        Future<Object> future =
+            Patterns.ask(masterActor, new ShipMessage(boardValues.getBoardSize(), player, ship), TIMEOUT);
         try {
             boolean result = (boolean) Await.result(future, TIMEOUT.duration());
             if (!result) {
@@ -218,19 +209,16 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     /**
-     * Utility Method to create a ship with dependency injection and additional
-     * setters.
+     * Utility Method to create a ship with dependency injection and additional setters.
      *
      * @param x           x-coordinate where the ship starts
      * @param y           y-coordinate where the ship starts
-     * @param orientation orientation of the ship true if horizontal, false if
-     *                    vertical
+     * @param orientation orientation of the ship true if horizontal, false if vertical
      * @param size        size of the ship
      *
      * @return the created ship
      */
-    private IShip createShip(final int x, final int y,
-                             final boolean orientation, final int size) {
+    private IShip createShip(final int x, final int y, final boolean orientation, final int size) {
         IShip ship = injector.getInstance(IShip.class);
         ship.setX(x);
         ship.setY(y);
@@ -242,20 +230,17 @@ public class MasterController extends Observable implements IMasterController {
     /**
      * Checks if someone has won.
      *
-     * @return true if someone has won false if not, sets the win-states and
-     * after that the end-state returns true not until the win- and the
-     * end-states are setted
+     * @return true if someone has won false if not, sets the win-states and after that the end-state returns true not
+     * until the win- and the end-states are setted
      */
     boolean win() {
-        Future<Object> future = Patterns.ask(masterActor,
-                                             new WinMessage(this.getPlayer1(),
-                                                            this.getPlayer2()),
-                                             TIMEOUT);
+        Future<Object> future =
+            Patterns.ask(masterActor, new WinMessage(this.getPlayer1(), this.getPlayer2()), TIMEOUT);
 
         try {
-            WinnerResponse winnerResponse =
-                (WinnerResponse) Await.result(future, TIMEOUT.duration());
+            WinnerResponse winnerResponse = (WinnerResponse) Await.result(future, TIMEOUT.duration());
             if (winnerResponse.won()) {
+                saveGame();
                 winner(winnerResponse.winner().equals(this.player1));
                 this.setCurrentState(END);
                 return true;
@@ -264,6 +249,10 @@ public class MasterController extends Observable implements IMasterController {
             logTimeout(e);
         }
         return false;
+    }
+
+    private void saveGame() {
+        masterActor.tell(new SaveMessage((injector.getInstance(IGameSave.class)).saveGame(this)), ActorRef.noSender());
     }
 
     /**
@@ -343,8 +332,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public Map<Integer, Set<Integer>> fillMap(final IShip[] shipList,
-                                              final Map<Integer, Set<Integer>> map,
+    public Map<Integer, Set<Integer>> fillMap(final IShip[] shipList, final Map<Integer, Set<Integer>> map,
                                               final int ships) {
         for (int i = 0; i < ships; i++) {
             this.getSet(shipList[i], map);
@@ -360,8 +348,7 @@ public class MasterController extends Observable implements IMasterController {
      *
      * @return the new Map
      */
-    final Map<Integer, Set<Integer>> getSet(final IShip ship,
-                                            final Map<Integer, Set<Integer>> map) {
+    final Map<Integer, Set<Integer>> getSet(final IShip ship, final Map<Integer, Set<Integer>> map) {
         if (ship.isOrientation()) {
             int xlow = ship.getX();
             int xupp = xlow + ship.getSize();
@@ -390,8 +377,7 @@ public class MasterController extends Observable implements IMasterController {
 
     @Override
     public void setBoardSize(final int boardSize) {
-        if (this.currentState != State.OPTIONS ||
-            (this.boardValues.getMaxShips() + 2) >= boardSize) {
+        if (this.currentState != State.OPTIONS || (this.boardValues.getMaxShips() + 2) >= boardSize) {
             this.setCurrentState(WRONGINPUT);
             return;
         }
@@ -407,8 +393,7 @@ public class MasterController extends Observable implements IMasterController {
 
     @Override
     public void setShipNumber(final int shipNumber) {
-        if (this.currentState != State.OPTIONS ||
-            ((shipNumber + 2) >= boardValues.getBoardSize())) {
+        if (this.currentState != State.OPTIONS || ((shipNumber + 2) >= boardValues.getBoardSize())) {
             this.setCurrentState(WRONGINPUT);
             return;
         }
@@ -445,8 +430,7 @@ public class MasterController extends Observable implements IMasterController {
     @Override
     public void restoreGame(final IGameSave save) {
         if (!save.validate()) {
-            throw new IllegalArgumentException(
-                "The game save is not valid, check with IGameSave.validate()");
+            throw new IllegalArgumentException("The game save is not valid, check with IGameSave.validate()");
         }
         player1.setProfile(save.getPlayer1Name(), save.getPlayer1ID());
         player2.setProfile(save.getPlayer2Name(), save.getPlayer2ID());
@@ -461,8 +445,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     private void logTimeout(Throwable throwable) {
-        LOGGER.error("in the masterControler a timeout exception occured",
-                     throwable);
+        LOGGER.error("in the masterControler a timeout exception occured", throwable);
     }
 
     @Override
@@ -477,20 +460,16 @@ public class MasterController extends Observable implements IMasterController {
 
         MasterController that = (MasterController) o;
         return this.getCurrentState() == that.currentState &&
-               this.gm == that.gm && (this.player1.equals(that.player1) &&
-                                      this.player2.equals(that.player2) ||
-                                      this.player1.equals(that.player2) &&
-                                      this.player2.equals(that.player1));
+               this.gm == that.gm && (this.player1.equals(that.player1) && this.player2.equals(that.player2) ||
+                                      this.player1.equals(that.player2) && this.player2.equals(that.player1));
 
     }
 
     @Override
     public int hashCode() {
         int result = getPlayer1() != null ? getPlayer1().hashCode() : 0;
-        result =
-            31 * result + (getPlayer2() != null ? getPlayer2().hashCode() : 0);
-        result = 31 * result +
-                 (getCurrentState() != null ? getCurrentState().hashCode() : 0);
+        result = 31 * result + (getPlayer2() != null ? getPlayer2().hashCode() : 0);
+        result = 31 * result + (getCurrentState() != null ? getCurrentState().hashCode() : 0);
         result = 31 * result + (gm != null ? gm.hashCode() : 0);
         result = 31 * result + (injector != null ? injector.hashCode() : 0);
         return result;

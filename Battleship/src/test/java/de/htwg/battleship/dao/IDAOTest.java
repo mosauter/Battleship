@@ -3,11 +3,13 @@ package de.htwg.battleship.dao;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import de.htwg.battleship.Battleship;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.modules.BattleshipHibernateModule;
 import de.htwg.battleship.persistence.HibernateUtil;
 import de.htwg.battleship.util.State;
+import org.apache.log4j.PropertyConfigurator;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -48,9 +50,8 @@ public class IDAOTest {
     @Parameterized.Parameters
     public static Collection modules() {
         // TODO: maybe use all modules from AbstractTest
-        AbstractModule[] modules =
-            new AbstractModule[] {// new BattleshipCouchModule(),
-                                  new BattleshipHibernateModule()};
+        AbstractModule[] modules = new AbstractModule[] {//new BattleshipCouchModule()};
+                                                         new BattleshipHibernateModule()};
         return Arrays.asList(modules);
     }
 
@@ -60,6 +61,7 @@ public class IDAOTest {
 
     @Before
     public void setUp() {
+        PropertyConfigurator.configure(Battleship.class.getResource("log4j.properties"));
         idao = injector.getInstance(IDAO.class);
         iMasterController = injector.getInstance(IMasterController.class);
         iMasterController.getPlayer1().setProfile(PLAYER_1, PLAYER_1_ID);
@@ -70,16 +72,13 @@ public class IDAOTest {
 
     @Test
     public void isGameExisting() {
-        assertTrue(idao.isGameExisting(iMasterController.getPlayer1(),
-                                       iMasterController.getPlayer2()));
-        assertTrue(idao.isGameExisting(iMasterController.getPlayer2(),
-                                       iMasterController.getPlayer1()));
+        assertTrue(idao.isGameExisting(iMasterController.getPlayer1(), iMasterController.getPlayer2()));
+        assertTrue(idao.isGameExisting(iMasterController.getPlayer2(), iMasterController.getPlayer1()));
     }
 
     @Test
     public void listAllGames() {
-        List<IMasterController> list =
-            idao.listAllGames(iMasterController.getPlayer1());
+        List<IMasterController> list = idao.listAllGames(iMasterController.getPlayer1());
         assertEquals(1, list.size());
         IMasterController tmp1 = list.get(list.size() - 1);
         assertEquals(savedState, tmp1.getCurrentState());
@@ -94,16 +93,14 @@ public class IDAOTest {
 
     @Test
     public void loadGameRightOrder() {
-        IMasterController mc = idao.loadGame(iMasterController.getPlayer1(),
-                                             iMasterController.getPlayer2());
+        IMasterController mc = idao.loadGame(iMasterController.getPlayer1(), iMasterController.getPlayer2());
         assertEquals(iMasterController.getPlayer1(), mc.getPlayer1());
         assertEquals(iMasterController.getPlayer2(), mc.getPlayer2());
     }
 
     @Test
     public void loadGameReverseOrder() {
-        IMasterController mc = idao.loadGame(iMasterController.getPlayer2(),
-                                             iMasterController.getPlayer1());
+        IMasterController mc = idao.loadGame(iMasterController.getPlayer2(), iMasterController.getPlayer1());
         assertEquals(iMasterController.getPlayer1(), mc.getPlayer1());
         assertEquals(iMasterController.getPlayer2(), mc.getPlayer2());
     }
@@ -114,8 +111,7 @@ public class IDAOTest {
         try {
             Session session = HibernateUtil.getInstance().getCurrentSession();
             tx = session.beginTransaction();
-            Criteria criteria = session.createCriteria(
-                injector.getInstance(IGameSave.class).getClass());
+            Criteria criteria = session.createCriteria(injector.getInstance(IGameSave.class).getClass());
             for (Object o : criteria.list()) {
                 session.delete(o);
             }
@@ -125,8 +121,7 @@ public class IDAOTest {
                 try {
                     tx.rollback();
                 } catch (HibernateException e) {
-                    throw new RuntimeException(
-                        "Exception at Rollback:\n" + e.getMessage());
+                    throw new RuntimeException("Exception at Rollback:\n" + e.getMessage());
                 }
                 throw new RuntimeException(ex.getMessage());
             }

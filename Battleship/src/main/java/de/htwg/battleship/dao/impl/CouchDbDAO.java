@@ -41,10 +41,9 @@ public class CouchDbDAO implements IDAO {
 
     @Override
     public boolean isGameExisting(IPlayer player1, IPlayer player2) {
-        ViewQuery query = new ViewQuery().allDocs().includeDocs(true)
-                                         .designDocId("_design/IGameSave")
-                                         .viewName("find_game_by_players").keys(
-                Arrays.asList(player1.getID(), player2.getID())).limit(1);
+        ViewQuery query = new ViewQuery().allDocs().includeDocs(true).designDocId("_design/IGameSave")
+                                         .viewName("find_game_by_players")
+                                         .keys(Arrays.asList(player1.getID(), player2.getID())).limit(1);
 
         ViewResult result = db.queryView(query);
         return result.getSize() > 0;
@@ -53,13 +52,9 @@ public class CouchDbDAO implements IDAO {
     @Override
     public IMasterController loadGame(IPlayer player1, IPlayer player2) {
         if (isGameExisting(player1, player2)) {
-            ViewQuery query = new ViewQuery().allDocs().includeDocs(true)
-                                             .designDocId("_design/IGameSave")
+            ViewQuery query = new ViewQuery().allDocs().includeDocs(true).designDocId("_design/IGameSave")
                                              .viewName("find_game_by_players")
-                                             .keys(Arrays
-                                                       .asList(player1.getID(),
-                                                               player2.getID()))
-                                             .limit(1);
+                                             .keys(Arrays.asList(player1.getID(), player2.getID())).limit(1);
 
             ViewResult result = db.queryView(query);
             IGameSave gameSave = (IGameSave) result.getRows().get(0);
@@ -73,14 +68,11 @@ public class CouchDbDAO implements IDAO {
     public List<IMasterController> listAllGames(IPlayer player) {
         List<IMasterController> list = new LinkedList<>();
 
-        ViewQuery query = new ViewQuery().allDocs().includeDocs(true)
-                                         .designDocId("_design/IGameSave")
-                                         .viewName("find_all_by_player")
-                                         .key(player.getID());
+        ViewQuery query =
+            new ViewQuery().allDocs().includeDocs(true).designDocId("_design/IGameSave").viewName("find_all_by_player")
+                           .key(player.getID());
 
-        for (Object o : db.queryView(query,
-                                     injector.getInstance(IGameSave.class)
-                                             .getClass())) {
+        for (Object o : db.queryView(query, injector.getInstance(IGameSave.class).getClass())) {
             IGameSave gameSave = (IGameSave) o;
             list.add(gameSave.restoreGame(injector));
         }
