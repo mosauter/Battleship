@@ -2,7 +2,7 @@ plugins {
     id "org.sonarqube" version "2.0.1"
     id "jacoco"
 }
-group 'de.htwg.se.CardGame.PhaseX'
+group 'de.htwg.Battleship'
 version '1.2-SNAPSHOT'
 /*
  * applied plugins
@@ -24,10 +24,10 @@ sourceSets {
             srcDirs = []
         }
         scala {
-            srcDirs = ['Battleship/src/main/scala', 'Battleship/src/main/java']
+            srcDirs = ['src/main/scala', 'src/main/java']
         }
         resources {
-            srcDir 'Battleship/src/main/resources'
+            srcDir 'src/main/resources'
         }
     }
     test {
@@ -35,18 +35,18 @@ sourceSets {
             srcDirs = []
         }
         scala {
-            srcDirs = ['Battleship/src/test/scala', 'Battleship/src/test/java']
+            srcDirs = ['src/test/scala', 'src/test/java']
         }
         resources {
-            srcDir 'Battleship/src/test/resources'
+            srcDir 'src/test/resources'
         }
     }
     integration {
         java {
-            srcDir 'Battleship/src/integration-test/java'
+            srcDir 'src/integration-test/java'
         }
         resources{
-            srcDir 'Battleship/src/integration-test/resources'
+            srcDir 'src/integration-test/resources'
         }
         compileClasspath += sourceSets.main.runtimeClasspath
     }
