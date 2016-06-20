@@ -254,7 +254,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     private void saveGame() {
-        masterActor.tell(new SaveMessage((injector.getInstance(IGameSave.class)).saveGame(this)), ActorRef.noSender());
+        masterActor.tell(new SaveMessage(this), ActorRef.noSender());
     }
 
     /**

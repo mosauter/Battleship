@@ -1,7 +1,9 @@
 package de.htwg.battleship.actor
 
 import akka.actor.Actor
+import de.htwg.battleship.Battleship
 import de.htwg.battleship.actor.messages.SaveMessage
+import de.htwg.battleship.dao.IDAO
 
 /**
   * SaveActor
@@ -14,8 +16,10 @@ object SaveActor {
 }
 
 class SaveActor extends Actor {
+    val iDAO = Battleship.getInstance().getInjector.getInstance(classOf[IDAO])
     override def receive: Receive = {
         case msg: SaveMessage =>
+            iDAO.saveOrUpdateGame(msg.master)
             // do nothin for now
         case msg => unhandled(msg)
     }

@@ -35,7 +35,6 @@ class ShootActor extends Actor {
         val shipY = ship.getY
         val size = ship.getSize
         if (ship.isOrientation) {
-
             val xupp = shipX + size - 1
             isHit(xupp, shipX, x, y, shipY)
         } else {

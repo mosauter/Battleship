@@ -1,6 +1,6 @@
 package de.htwg.battleship.actor.messages
 
-import de.htwg.battleship.model.persistence.IGameSave
+import de.htwg.battleship.controller.IMasterController
 import de.htwg.battleship.model.{IPlayer, IShip}
 
 case class CollisionMessage(ship1: IShip, ship2: IShip) {}
@@ -21,4 +21,4 @@ case class WinMessage(player1: IPlayer, player2: IPlayer) {}
 
 case class WinnerResponse(won: Boolean, winner: IPlayer) {}
 
-case class SaveMessage(gameSave: IGameSave) {}
+case class SaveMessage(master: IMasterController) {}
