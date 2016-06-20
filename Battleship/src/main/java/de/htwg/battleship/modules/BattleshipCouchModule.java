@@ -3,7 +3,6 @@
 package de.htwg.battleship.modules;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.controller.impl.MasterController;
 import de.htwg.battleship.dao.IDAO;
@@ -30,12 +29,12 @@ public class BattleshipCouchModule extends AbstractModule {
 
     @Override
     protected final void configure() {
-        bind(IMasterController.class).to(MasterController.class).in(Singleton.class);
+        bind(IMasterController.class).to(MasterController.class);
         bind(IBoard.class).to(BoardField.class);
         bind(IPlayer.class).to(Player.class);
         bind(IShip.class).to(Ship.class);
         bind(IDAO.class).to(CouchDbDAO.class);
         bind(IGameSave.class).to(CouchDbGameSave.class);
-        bind(IBoardValues.class).to(BoardValues.class).in(Singleton.class);
+        bind(IBoardValues.class).to(BoardValues.class);
     }
 }
