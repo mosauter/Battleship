@@ -88,17 +88,17 @@ public class MasterDecoratorController extends MasterController {
 
     @Override
     public final IPlayer getPlayer1() {
-        LOGGER.info("getPlayer1Name() is called");
+        LOGGER.info("getPlayer1() is called");
         IPlayer tmp = super.getPlayer1();
-        LOGGER.info("getPlayer1Name() is finished: result = " + tmp.toString());
+        LOGGER.info("getPlayer1() is finished: result = " + tmp.toString());
         return tmp;
     }
 
     @Override
     public final IPlayer getPlayer2() {
-        LOGGER.info("getPlayer2Name() is called");
+        LOGGER.info("getPlayer2() is called");
         IPlayer tmp = super.getPlayer2();
-        LOGGER.info("getPlayer2Name() is finished: result = " + tmp.toString());
+        LOGGER.info("getPlayer2() is finished: result = " + tmp.toString());
         return tmp;
     }
 
