@@ -22,7 +22,7 @@ import static org.junit.Assert.assertTrue;
 public class PlayerTest extends AbstractTest {
 
     private static final String PLAYER_NAME = "PLAYER_NAME";
-    private static final int PLAYER_ID = 17;
+    private static final String PLAYER_ID = "adolf_hitler_kann_des_sein";
     private static final int HEIGHT_LENGHT = 10;
     private static final int MAX_SHIPS = 5;
     /**
@@ -48,8 +48,7 @@ public class PlayerTest extends AbstractTest {
 
     @Test
     public final void testGetOwnBoard() {
-        boolean[][] expResult =
-            new boolean[boardValues.getBoardSize()][boardValues.getBoardSize()];
+        boolean[][] expResult = new boolean[boardValues.getBoardSize()][boardValues.getBoardSize()];
         IBoard result = player.getOwnBoard();
         for (int x = 0; x < expResult.length; x++) {
             boolean[] betResult = expResult[x];
@@ -82,9 +81,8 @@ public class PlayerTest extends AbstractTest {
     @Test
     public final void testResetBoard() {
         //noinspection SuspiciousNameCombination
-        player.getOwnBoard().addShip(new Ship(boardValues.getBoardSize(), true,
-                                              boardValues.getBoardSize(),
-                                              boardValues.getBoardSize()));
+        player.getOwnBoard().addShip(
+            new Ship(boardValues.getBoardSize(), true, boardValues.getBoardSize(), boardValues.getBoardSize()));
         player.resetBoard(injector.getInstance(IBoard.class));
         assertEquals(player.getOwnBoard().getShips(), 0);
     }
@@ -118,7 +116,7 @@ public class PlayerTest extends AbstractTest {
     @Test
     public void hashPlayer() throws Exception {
         player.setProfile(PLAYER_NAME, PLAYER_ID);
-        assertEquals(PLAYER_ID, player.hashCode());
+        assertEquals(PLAYER_ID.hashCode(), player.hashCode());
     }
 
     @Test

@@ -27,8 +27,8 @@ public class GameSaveTest extends AbstractTest {
     private static final String PLAYER_NAME = "PLAYER_NAME";
     private static final int MAX_SHIPS = 5;
     private static final int BOARD_CONST = MAX_SHIPS;
-    private static final int PLAYER_1_ID = 1;
-    private static final int PLAYER_2_ID = 2;
+    private static final String PLAYER_1_ID = "subber_cool_player_one";
+    private static final String PLAYER_2_ID = "subber_cool_player_two";
     private static final int HEIGHT_LENGTH = 10;
     private IGameSave gameSave;
 
@@ -43,8 +43,7 @@ public class GameSaveTest extends AbstractTest {
 
     @Test
     public void validateTrue() throws Exception {
-        IMasterController masterController =
-            injector.getInstance(IMasterController.class);
+        IMasterController masterController = injector.getInstance(IMasterController.class);
         gameSave.saveGame(masterController);
         assertTrue(gameSave.validate());
     }
@@ -62,20 +61,16 @@ public class GameSaveTest extends AbstractTest {
 
     @Test
     public void restoreGame() throws Exception {
-        IMasterController masterController =
-            injector.getInstance(IMasterController.class);
+        IMasterController masterController = injector.getInstance(IMasterController.class);
         masterController.getPlayer1().setProfile(PLAYER_NAME, PLAYER_1_ID);
         masterController.getPlayer2().setProfile(PLAYER_NAME, PLAYER_2_ID);
         masterController.setCurrentState(State.SHOOT1);
         gameSave.saveGame(masterController);
         IMasterController result = gameSave.restoreGame(injector);
 
-        assertEquals(masterController.getPlayer1().getID(),
-                     result.getPlayer1().getID());
-        assertEquals(masterController.getPlayer2().getID(),
-                     result.getPlayer2().getID());
-        assertEquals(masterController.getCurrentState(),
-                     result.getCurrentState());
+        assertEquals(masterController.getPlayer1().getID(), result.getPlayer1().getID());
+        assertEquals(masterController.getPlayer2().getID(), result.getPlayer2().getID());
+        assertEquals(masterController.getCurrentState(), result.getCurrentState());
         assertEquals(masterController.getGameMode(), result.getGameMode());
     }
 
@@ -120,8 +115,7 @@ public class GameSaveTest extends AbstractTest {
     private void compareField(boolean[][] result, boolean first) {
         for (int i = 0; i < result.length; i++) {
             boolean[] x = result[i];
-            boolean[] y =
-                first ? gameSave.getField1()[i] : gameSave.getField2()[i];
+            boolean[] y = first ? gameSave.getField1()[i] : gameSave.getField2()[i];
             for (int j = 0; j < x.length; j++) {
                 assertEquals(x[j], y[j]);
             }

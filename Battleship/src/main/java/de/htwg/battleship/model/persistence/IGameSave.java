@@ -8,6 +8,7 @@ import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.util.GameMode;
+import de.htwg.battleship.util.IBoardValues;
 import de.htwg.battleship.util.State;
 
 /**
@@ -31,14 +32,14 @@ public interface IGameSave {
      *
      * @return the ID of the player one
      */
-    int getPlayer1ID();
+    String getPlayer1ID();
 
     /**
      * Setter for the ID of player one.
      *
      * @param id the new ID of player one
      */
-    void setPlayer1ID(int id);
+    void setPlayer1ID(String id);
 
     /**
      * Same as: {@link IPlayer#setName(String)} but without the second write protection.
@@ -66,14 +67,14 @@ public interface IGameSave {
      *
      * @return the ID of the player two
      */
-    int getPlayer2ID();
+    String getPlayer2ID();
 
     /**
      * Setter for the ID of player two.
      *
      * @param id the new ID of player two
      */
-    void setPlayer2ID(int id);
+    void setPlayer2ID(String id);
 
     /**
      * The {@link GameMode} of the saved instance of the game.
@@ -160,28 +161,28 @@ public interface IGameSave {
     void setShipList2(IShip[] shipList2);
 
     /**
-     * Same as: {@link de.htwg.battleship.util.StatCollection#heightLenght}
+     * Same as: {@link IBoardValues#getBoardSize()}
      *
      * @return the value of heightLenght
      */
     int getHeightLength();
 
     /**
-     * Setter for {@link de.htwg.battleship.util.StatCollection#heightLenght}
+     * Setter for {@link IBoardValues#getBoardSize()}
      *
      * @param heightLength the new value for heightLenght
      */
     void setHeightLength(int heightLength);
 
     /**
-     * Same as: {@link de.htwg.battleship.util.StatCollection#shipNumberMax}
+     * Same as: {@link IBoardValues#getMaxShips()}
      *
      * @return the value of heightLenght
      */
     int getMaxShipNumber();
 
     /**
-     * Setter for {@link de.htwg.battleship.util.StatCollection#shipNumberMax}
+     * Setter for {@link IBoardValues#getMaxShips()}
      *
      * @param maxShipNumber the new value for shipNumberMax
      */

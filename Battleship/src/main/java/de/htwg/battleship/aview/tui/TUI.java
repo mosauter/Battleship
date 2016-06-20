@@ -7,12 +7,15 @@ import de.htwg.battleship.aview.tui.views.*;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.observer.IObserver;
 import de.htwg.battleship.util.GameMode;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static de.htwg.battleship.util.State.END;
 import static de.htwg.battleship.util.State.OPTIONS;
 import static de.htwg.battleship.util.State.START;
 import static de.htwg.battleship.util.State.WRONGINPUT;
+
+;
 
 /**
  * Textual User Interface.
@@ -46,7 +49,7 @@ public class TUI implements IObserver {
     /**
      * Saves the Logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(TUI.class);
+    private static final Logger LOGGER = LogManager.getLogger(TUI.class);
 
     /**
      * Public constructor.
@@ -61,8 +64,7 @@ public class TUI implements IObserver {
     }
 
     /**
-     * Method to print the current TUI. detects what to do at the current state
-     * of the game
+     * Method to print the current TUI. detects what to do at the current state of the game
      *
      * @return the tui of the current state in a string presentation
      */
@@ -133,13 +135,11 @@ public class TUI implements IObserver {
     }
 
     /**
-     * Method to detect what statement is in the line. is a transmitter between
-     * the user and the master controller
+     * Method to detect what statement is in the line. is a transmitter between the user and the master controller
      *
      * @param line input of stdin
      *
-     * @return true in case the input was 'exit' false if there was unrecognized
-     * input or something valid except 'exit'
+     * @return true in case the input was 'exit' false if there was unrecognized input or something valid except 'exit'
      */
     public final boolean processInputLine(final String line) {
         String[] field = line.split(" ");
@@ -147,8 +147,7 @@ public class TUI implements IObserver {
             //        Exit Statement at any time
             return true;
         }
-        if (master.getCurrentState() == START ||
-            master.getCurrentState() == END) {
+        if (master.getCurrentState() == START || master.getCurrentState() == END) {
             //        Start End Menu
             processStartEndMenu(field);
         } else if (master.getCurrentState() == OPTIONS) {
@@ -199,13 +198,11 @@ public class TUI implements IObserver {
         switch (line[0]) {
             case "1":
                 this.master.setBoardSize(Integer.parseInt(line[1]));
-                LOGGER.info("The new size of the board is set to " +
-                            master.getBoardSize());
+                LOGGER.info("The new size of the board is set to " + master.getBoardSize());
                 break;
             case "2":
                 this.master.setShipNumber(Integer.parseInt(line[1]));
-                LOGGER.info("The new number of ships is set to " +
-                            master.getShipNumber());
+                LOGGER.info("The new number of ships is set to " + master.getShipNumber());
                 break;
             case "3":
                 if ("EXTREME".equalsIgnoreCase(line[1])) {
@@ -224,8 +221,7 @@ public class TUI implements IObserver {
     }
 
     /**
-     * Utility method to set the game mode in the options menu and notify the
-     * user about the new mode.
+     * Utility method to set the game mode in the options menu and notify the user about the new mode.
      *
      * @param mode the new game mode
      */

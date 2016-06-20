@@ -15,13 +15,12 @@ import de.htwg.battleship.model.impl.BoardField;
 import de.htwg.battleship.model.impl.Player;
 import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.model.persistence.IGameSave;
-import de.htwg.battleship.model.persistence.impl.GameSave;
+import de.htwg.battleship.model.persistence.impl.HibernateGameSave;
 import de.htwg.battleship.util.IBoardValues;
 import de.htwg.battleship.util.impl.BoardValues;
 
 /**
- * BattleshipModule provides a configuration of the game with Dependency
- * Injection managed with guice.
+ * BattleshipModule provides a configuration of the game with Dependency Injection managed with guice.
  *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
@@ -31,13 +30,12 @@ public class BattleshipStandardModule extends AbstractModule {
 
     @Override
     protected final void configure() {
-        bind(IMasterController.class).to(MasterDecoratorController.class)
-                                     .in(Singleton.class);
+        bind(IMasterController.class).to(MasterDecoratorController.class).in(Singleton.class);
         bind(IBoard.class).to(BoardField.class);
         bind(IPlayer.class).to(Player.class);
         bind(IShip.class).to(Ship.class);
         bind(IDAO.class).to(HibernateDAO.class);
-        bind(IGameSave.class).to(GameSave.class);
+        bind(IGameSave.class).to(HibernateGameSave.class);
         bind(IBoardValues.class).to(BoardValues.class).in(Singleton.class);
     }
 }

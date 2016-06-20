@@ -7,7 +7,6 @@ import de.htwg.battleship.model.IShip;
 import de.htwg.battleship.modules.BattleshipCouchModule;
 import de.htwg.battleship.modules.BattleshipHibernateModule;
 import de.htwg.battleship.modules.BattleshipStandardModule;
-import org.apache.log4j.PropertyConfigurator;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -24,7 +23,6 @@ import java.util.Collection;
 @RunWith(Parameterized.class)
 public abstract class AbstractTest {
 
-    private static final String LOG4J_PROPERTY_CONFIG = "log4j.properties";
     /**
      * The Guice Injector with the standard Module.
      */
@@ -41,8 +39,6 @@ public abstract class AbstractTest {
     }
 
     protected void createInjector(AbstractModule module) {
-        PropertyConfigurator
-            .configure(AbstractTest.class.getResource(LOG4J_PROPERTY_CONFIG));
         this.injector = Guice.createInjector(module);
     }
 

@@ -17,8 +17,10 @@ import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.observer.impl.Observable;
 import de.htwg.battleship.util.GameMode;
 import de.htwg.battleship.util.IBoardValues;
+import de.htwg.battleship.util.StatCollection;
 import de.htwg.battleship.util.State;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import scala.concurrent.Await;
 import scala.concurrent.Future;
 
@@ -54,7 +56,7 @@ public class MasterController extends Observable implements IMasterController {
 
     private static final State START_STATE = START;
     private static final Timeout TIMEOUT = new Timeout(5, TimeUnit.SECONDS);
-    private final Logger LOGGER = Logger.getLogger(this.getClass());
+    private static final Logger LOGGER = LogManager.getLogger(MasterController.class);
     private final ActorRef masterActor;
     /**
      * Saves the first Player.
@@ -304,7 +306,7 @@ public class MasterController extends Observable implements IMasterController {
     }
 
     @Override
-    public void setPlayerProfile(final String name, final int id) {
+    public void setPlayerProfile(final String name, final String id) {
         if (this.currentState == GETNAME1) {
             this.player1.setProfile(name, id);
             this.setCurrentState(GETNAME2);
@@ -318,7 +320,7 @@ public class MasterController extends Observable implements IMasterController {
 
     @Override
     public void setPlayerName(final String name) {
-        this.setPlayerProfile(name, -1);
+        this.setPlayerProfile(name, StatCollection.LOCAL_PLAYER_ID);
     }
 
     @Override

@@ -19,6 +19,8 @@ public final class StatCollection {
     private StatCollection() {
     }
 
+    public static String LOCAL_PLAYER_ID = "local_player_id";
+
     /**
      * Utility-Method to check if a value is between.
      *
@@ -28,8 +30,7 @@ public final class StatCollection {
      *
      * @return true if the value is between
      */
-    public static boolean isBetween(final int upper, final int lower,
-                                    final int value) {
+    public static boolean isBetween(final int upper, final int lower, final int value) {
         return value >= lower && value <= upper;
     }
 
@@ -37,13 +38,11 @@ public final class StatCollection {
      * Method to create the legend of both fields.
      *
      * @param sb        StringBuilder on which the method has to add a legend
-     * @param boardSize the size of the board which is represented with this
-     *                  border
+     * @param boardSize the size of the board which is represented with this border
      *
      * @return the sb mentioned above with a legend
      */
-    public static StringBuilder createBorder(final StringBuilder sb,
-                                             int boardSize) {
+    public static StringBuilder createBorder(final StringBuilder sb, int boardSize) {
         sb.append(" ");
         for (int i = 0; i < boardSize; i++) {
             char c = (char) ('a' + i);
@@ -55,8 +54,7 @@ public final class StatCollection {
     /**
      * Method to initialize the map for all the ships.
      *
-     * @param boardSize the size of the board which should be represented with
-     *                  this map
+     * @param boardSize the size of the board which should be represented with this map
      *
      * @return Map empty with HEIGHT_LENGTH of empty sets
      */

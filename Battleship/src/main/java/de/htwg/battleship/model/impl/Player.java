@@ -4,6 +4,7 @@ package de.htwg.battleship.model.impl;
 import com.google.inject.Inject;
 import de.htwg.battleship.model.IBoard;
 import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.util.StatCollection;
 
 import java.util.Random;
 
@@ -16,10 +17,11 @@ import java.util.Random;
  */
 public class Player implements IPlayer {
 
+    private static final String NO_ID = "no-id";
     /**
      * Saves an unique identifier for a player.
      */
-    private int id;
+    private String id;
     /**
      * Saves the board of the specified Player.
      */
@@ -37,7 +39,7 @@ public class Player implements IPlayer {
     @Inject
     public Player(final IBoard player1Board) {
         ownBoard = player1Board;
-        id = -2;
+        id = NO_ID;
     }
 
     @Override
@@ -47,17 +49,17 @@ public class Player implements IPlayer {
 
     @Override
     public void setName(String name) {
-        this.setProfile(name, -1);
+        this.setProfile(name, StatCollection.LOCAL_PLAYER_ID);
     }
 
     @Override
-    public final void setProfile(final String name, int id) {
+    public final void setProfile(final String name, String id) {
         if (this.name.isEmpty()) {
             this.name = name;
         }
-        if (this.id == -2) {
-            if (id == -1) {
-                this.id = (new Random()).nextInt(Integer.MAX_VALUE - 1) + 1;
+        if (NO_ID.equals(this.id)) {
+            if (StatCollection.LOCAL_PLAYER_ID.equals(id)) {
+                this.id = Integer.toString((new Random()).nextInt(Integer.MAX_VALUE - 1) + 1);
             } else {
                 this.id = id;
             }
@@ -65,7 +67,7 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public int getID() {
+    public String getID() {
         return id;
     }
 
@@ -90,11 +92,11 @@ public class Player implements IPlayer {
         }
 
         Player player = (Player) o;
-        return this.id == player.id;
+        return this.id.equals(player.getID());
     }
 
     @Override
     public int hashCode() {
-        return id;
+        return id.hashCode();
     }
 }

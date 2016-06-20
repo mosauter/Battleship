@@ -12,7 +12,7 @@ apply plugin: 'scala'
 apply plugin: 'maven'
 
 repositories {
-    maven{
+    maven {
         url "http://nexus-phasex.rhcloud.com/content/groups/public/"
     }
     mavenCentral()
@@ -45,7 +45,7 @@ sourceSets {
         java {
             srcDir 'src/integration-test/java'
         }
-        resources{
+        resources {
             srcDir 'src/integration-test/resources'
         }
         compileClasspath += sourceSets.main.runtimeClasspath
@@ -67,7 +67,8 @@ dependencies {
     integrationCompile 'org.mockito:mockito-all:1.10.19'
 
     //Adding logger
-    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.3'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.3'
     compile 'org.slf4j:slf4j-api:1.7.20'
     compile 'org.slf4j:slf4j-simple:1.7.20'
     compile 'com.fasterxml.jackson.core:jackson-core:2.6.2'
@@ -102,7 +103,6 @@ dependencies {
     compile 'com.typesafe.akka:akka-actor_2.11:2.4.4'
 //    compile 'com.typesafe.akka:akka-actor_2.11:2.3.13'
 }
-
 
 /*
  * Package and Upload to Nexus

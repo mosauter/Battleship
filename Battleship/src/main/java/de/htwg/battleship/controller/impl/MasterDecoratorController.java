@@ -11,7 +11,8 @@ import de.htwg.battleship.observer.IObserver;
 import de.htwg.battleship.util.GameMode;
 import de.htwg.battleship.util.IBoardValues;
 import de.htwg.battleship.util.State;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -40,7 +41,7 @@ public class MasterDecoratorController extends MasterController {
     /**
      * Saves the LOGGER for the info messages.
      */
-    private final Logger LOGGER = Logger.getLogger(this.getClass());
+    private static final Logger LOGGER = LogManager.getLogger();
 
     /**
      * Public constructor which creates the superController with the injected Players.
@@ -102,7 +103,7 @@ public class MasterDecoratorController extends MasterController {
     }
 
     @Override
-    public void setPlayerProfile(String name, int id) {
+    public void setPlayerProfile(String name, String id) {
         LOGGER.info("setPlayersProfile() is called: name = " + name + " id = " + id);
         super.setPlayerProfile(name, id);
         LOGGER.info("setPlayersProfile() is finished: name = " + name + " id = " + id);

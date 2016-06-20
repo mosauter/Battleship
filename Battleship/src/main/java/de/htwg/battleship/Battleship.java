@@ -6,7 +6,6 @@ import com.google.inject.Injector;
 import de.htwg.battleship.aview.tui.TUI;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.modules.BattleshipHibernateModule;
-import org.apache.log4j.PropertyConfigurator;
 
 import java.util.Scanner;
 
@@ -19,10 +18,6 @@ import java.util.Scanner;
  */
 public final class Battleship {
 
-    /**
-     * The location of the log4j-property-file.
-     */
-    private static final String LOG4J_PROPERTY_CONFIG = "log4j.properties";
     /**
      * Saves the injector.
      */
@@ -44,7 +39,6 @@ public final class Battleship {
      * Private Constructor.
      */
     private Battleship() {
-        PropertyConfigurator.configure(getClass().getResource(LOG4J_PROPERTY_CONFIG));
         injector = Guice.createInjector(new BattleshipHibernateModule());
         masterController = injector.getInstance(IMasterController.class);
         tui = injector.getInstance(TUI.class);

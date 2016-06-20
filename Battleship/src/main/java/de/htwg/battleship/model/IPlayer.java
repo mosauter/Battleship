@@ -33,13 +33,13 @@ public interface IPlayer {
      * @param id   of the player should be a positive number given by a login
      *             system
      */
-    void setProfile(String name, int id);
+    void setProfile(String name, String id);
 
     /**
      * Getter for the unique player id.
      * @return the id as an int
      */
-    int getID();
+    String getID();
 
     /**
      * Getter for the Board of the Player.

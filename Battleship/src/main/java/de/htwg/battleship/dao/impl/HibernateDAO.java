@@ -10,12 +10,14 @@ import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.model.persistence.impl.HibernateGameSave;
 import de.htwg.battleship.persistence.HibernateUtil;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * HibernateDAO
@@ -27,7 +29,7 @@ public class HibernateDAO implements IDAO {
 
     private static final String PLAYER_1_COLUMN_ID = "player1ID";
     private static final String PLAYER_2_COLUMN_ID = "player2ID";
-    private static final Logger LOGGER = Logger.getLogger(HibernateDAO.class);
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private final SessionFactory sessionFactory;
     private final Injector injector;
@@ -93,10 +95,8 @@ public class HibernateDAO implements IDAO {
         return gameSave == null ? null : gameSave.restoreGame(injector);
     }
 
-    private IGameSave load(final IPlayer player1, final IPlayer player2,
-                           final Session session) {
-        Criteria criteria = session
-            .createCriteria(injector.getInstance(IGameSave.class).getClass());
+    private IGameSave load(final IPlayer player1, final IPlayer player2, final Session session) {
+        Criteria criteria = session.createCriteria(injector.getInstance(IGameSave.class).getClass());
         criteria.add(Restrictions.eq(PLAYER_1_COLUMN_ID, player1.getID()))
                 .add(Restrictions.eq(PLAYER_2_COLUMN_ID, player2.getID()));
         List list = criteria.list();
@@ -111,15 +111,13 @@ public class HibernateDAO implements IDAO {
             Session session = sessionFactory.getCurrentSession();
             tx = session.beginTransaction();
 
-            int queryPlayer = player.getID();
+            String queryPlayer = player.getID();
 
-            Criteria criteria = session.createCriteria(
-                injector.getInstance(IGameSave.class).getClass());
+            Criteria criteria = session.createCriteria(injector.getInstance(IGameSave.class).getClass());
             List list1 = criteria.list();
             for (Object o : list1) {
                 HibernateGameSave gs = (HibernateGameSave) o;
-                if (gs.getPlayer1ID() == queryPlayer ||
-                    gs.getPlayer2ID() == queryPlayer) {
+                if (Objects.equals(gs.getPlayer1ID(), queryPlayer) || Objects.equals(gs.getPlayer2ID(), queryPlayer)) {
                     list.add(gs.restoreGame(injector));
                 }
             }
@@ -130,22 +128,19 @@ public class HibernateDAO implements IDAO {
     }
 
     /**
-     * Utility Method to centralize the {@link HibernateException} ex in while
-     * handling the {@link Transaction} tx.
+     * Utility Method to centralize the {@link HibernateException} ex in while handling the {@link Transaction} tx.
      *
      * @param ex the {@link HibernateException} which occurred
      * @param tx the {@link Transaction} in which the exception occurred
      */
-    private void handleHibernateException(final HibernateException ex,
-                                          final Transaction tx) {
+    private void handleHibernateException(final HibernateException ex, final Transaction tx) {
         if (tx != null) {
             LOGGER.error("HibernateException occured, tryin to" +
                          " rollback the last transaction.\n" + ex.getMessage());
             try {
                 tx.rollback();
             } catch (HibernateException e) {
-                LOGGER.error("HibernateException occured at rollback.\n" +
-                             e.getMessage());
+                LOGGER.error("HibernateException occured at rollback.\n" + e.getMessage());
             }
         }
     }

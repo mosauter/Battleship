@@ -19,9 +19,9 @@ public class CouchDbGameSave extends CouchDbDocument implements IGameSave, Seria
     private String id;
     private String revision;
     private String player1Name;
-    private int player1ID;
+    private String player1ID;
     private String player2Name;
-    private int player2ID;
+    private String player2ID;
     private GameMode gameMode;
     private State currentState;
     private String field1;
@@ -163,7 +163,7 @@ public class CouchDbGameSave extends CouchDbDocument implements IGameSave, Seria
         return player1Name != null && player2Name != null && gameMode != null &&
                currentState != null && field1 != null && field2 != null &&
                shipList1 != null && shipList2 != null && heightLength != 0 &&
-               maxShipNumber != 0 && player1ID != 0 && player2ID != 0;
+               maxShipNumber != 0 && player1ID != null && player2ID != null;
     }
 
     @Override
@@ -187,22 +187,22 @@ public class CouchDbGameSave extends CouchDbDocument implements IGameSave, Seria
     }
 
     @Override
-    public int getPlayer1ID() {
+    public String getPlayer1ID() {
         return player1ID;
     }
 
     @Override
-    public void setPlayer1ID(int player1ID) {
+    public void setPlayer1ID(String player1ID) {
         this.player1ID = player1ID;
     }
 
     @Override
-    public int getPlayer2ID() {
+    public String getPlayer2ID() {
         return player2ID;
     }
 
     @Override
-    public void setPlayer2ID(int player2ID) {
+    public void setPlayer2ID(String player2ID) {
         this.player2ID = player2ID;
     }
 }

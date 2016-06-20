@@ -20,8 +20,7 @@ import de.htwg.battleship.util.IBoardValues;
 import de.htwg.battleship.util.impl.BoardValues;
 
 /**
- * BattleshipModule provides a configuration of the game with Dependency
- * Injection managed with guice.
+ * BattleshipModule provides a configuration of the game with Dependency Injection managed with guice.
  *
  * @author Moritz Sauter (SauterMoritz@gmx.de)
  * @version 1.00
@@ -31,8 +30,7 @@ public class BattleshipCouchModule extends AbstractModule {
 
     @Override
     protected final void configure() {
-        bind(IMasterController.class).to(MasterController.class)
-                                     .in(Singleton.class);
+        bind(IMasterController.class).to(MasterController.class).in(Singleton.class);
         bind(IBoard.class).to(BoardField.class);
         bind(IPlayer.class).to(Player.class);
         bind(IShip.class).to(Ship.class);

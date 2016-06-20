@@ -3,13 +3,11 @@ package de.htwg.battleship.dao;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import de.htwg.battleship.Battleship;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.modules.BattleshipHibernateModule;
 import de.htwg.battleship.persistence.HibernateUtil;
 import de.htwg.battleship.util.State;
-import org.apache.log4j.PropertyConfigurator;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -39,8 +37,8 @@ public class IDAOTest {
     private static final String PLAYER_1 = "PLAYER_ONE";
     private static final String PLAYER_2 = "PLAYER_TWO";
 
-    private static final int PLAYER_1_ID = 111111;
-    private static final int PLAYER_2_ID = 222222;
+    private static final String PLAYER_1_ID = "1337_h4x0r";
+    private static final String PLAYER_2_ID = "2337_ps30d0_h4x0r";
 
     private IDAO idao;
     private IMasterController iMasterController;
@@ -61,7 +59,6 @@ public class IDAOTest {
 
     @Before
     public void setUp() {
-        PropertyConfigurator.configure(Battleship.class.getResource("log4j.properties"));
         idao = injector.getInstance(IDAO.class);
         iMasterController = injector.getInstance(IMasterController.class);
         iMasterController.getPlayer1().setProfile(PLAYER_1, PLAYER_1_ID);
