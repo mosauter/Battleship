@@ -1,6 +1,7 @@
 package de.htwg.battleship.persistence;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;
 import org.ektorp.http.HttpClient;
@@ -12,21 +13,19 @@ import java.net.MalformedURLException;
 public class CouchDbUtil {
 
     private static final CouchDbConnector db;
-    private static final Logger LOGGER = Logger.getLogger(CouchDbUtil.class);
+    private static final Logger LOGGER = LogManager.getLogger();
 
     static {
         HttpClient client = null;
         try {
-            client = new StdHttpClient.Builder()
-                .url("http://couchdb-phasex.herokuapp.com")
-                .username("phasexgame").password("webtech_ws1516")
-                .socketTimeout(10000).build();
+            client = new StdHttpClient.Builder().url("http://couchdb-phasex.herokuapp.com").username("phasexgame")
+                                                .password("webtech_ws1516").socketTimeout(60000).build();
 
         } catch (MalformedURLException e) {
             LOGGER.error("Malformed URL", e);
         }
         CouchDbInstance dbInstance = new StdCouchDbInstance(client);
-        db = dbInstance.createConnector("battleship_mf", true);
+        db = dbInstance.createConnector("mf_battleship", true);
         db.createDatabaseIfNotExists();
     }
 
