@@ -18,8 +18,9 @@ public class CouchDbUtil {
     static {
         HttpClient client = null;
         try {
-            client = new StdHttpClient.Builder().url("http://couchdb-phasex.herokuapp.com").username("phasexgame")
-                                                .password("webtech_ws1516").socketTimeout(60000).build();
+            client =
+                new StdHttpClient.Builder().url(System.getenv("couchDBLink")).username(System.getenv("couchDBUser"))
+                                           .password(System.getenv("couchDBPass")).socketTimeout(60000).build();
 
         } catch (MalformedURLException e) {
             LOGGER.error("Malformed URL", e);
