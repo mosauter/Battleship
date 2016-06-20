@@ -5,7 +5,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.htwg.battleship.aview.tui.TUI;
 import de.htwg.battleship.controller.IMasterController;
-import de.htwg.battleship.modules.BattleshipHibernateModule;
+import de.htwg.battleship.modules.BattleshipCouchModule;
 
 import java.util.Scanner;
 
@@ -39,7 +39,7 @@ public final class Battleship {
      * Private Constructor.
      */
     private Battleship() {
-        injector = Guice.createInjector(new BattleshipHibernateModule());
+        injector = Guice.createInjector(new BattleshipCouchModule());
         masterController = injector.getInstance(IMasterController.class);
         tui = injector.getInstance(TUI.class);
     }
