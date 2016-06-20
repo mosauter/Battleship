@@ -20,7 +20,7 @@ import java.io.Serializable;
  * @since 2016-03-31
  */
 @Entity
-@Table(name = "HibernateGameSave3")
+@Table(name = "HibernateGameSave4")
 public class HibernateGameSave implements IGameSave, Serializable {
 
     @Id
