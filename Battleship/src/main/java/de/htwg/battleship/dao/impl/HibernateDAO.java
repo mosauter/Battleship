@@ -2,13 +2,14 @@
 
 package de.htwg.battleship.dao.impl;
 
-import com.google.inject.Inject;
+import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.dao.IDAO;
 import de.htwg.battleship.model.IPlayer;
 import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.model.persistence.impl.HibernateGameSave;
+import de.htwg.battleship.modules.BattleshipHibernateModule;
 import de.htwg.battleship.persistence.HibernateUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,10 +35,9 @@ public class HibernateDAO implements IDAO {
     private final SessionFactory sessionFactory;
     private final Injector injector;
 
-    @Inject
-    public HibernateDAO(Injector injector) {
+    public HibernateDAO() {
         sessionFactory = HibernateUtil.getInstance();
-        this.injector = injector;
+        this.injector = Guice.createInjector(new BattleshipHibernateModule());
     }
 
     @Override
@@ -104,9 +104,9 @@ public class HibernateDAO implements IDAO {
     }
 
     @Override
-    public List<IMasterController> listAllGames(final IPlayer player) {
+    public List<IGameSave> listAllGames(final IPlayer player) {
         Transaction tx = null;
-        List<IMasterController> list = new LinkedList<>();
+        List<IGameSave> list = new LinkedList<>();
         try {
             Session session = sessionFactory.getCurrentSession();
             tx = session.beginTransaction();
@@ -118,7 +118,7 @@ public class HibernateDAO implements IDAO {
             for (Object o : list1) {
                 HibernateGameSave gs = (HibernateGameSave) o;
                 if (Objects.equals(gs.getPlayer1ID(), queryPlayer) || Objects.equals(gs.getPlayer2ID(), queryPlayer)) {
-                    list.add(gs.restoreGame(injector));
+                    list.add(gs);
                 }
             }
         } catch (HibernateException ex) {

@@ -4,6 +4,7 @@ package de.htwg.battleship.dao;
 
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IPlayer;
+import de.htwg.battleship.model.persistence.IGameSave;
 
 import java.util.List;
 
@@ -58,5 +59,5 @@ public interface IDAO {
      * @return a list of all possible {@link IMasterController} with the
      * specified player
      */
-    List<IMasterController> listAllGames(IPlayer player);
+    List<IGameSave> listAllGames(IPlayer player);
 }
