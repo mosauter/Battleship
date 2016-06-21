@@ -2,10 +2,12 @@ package de.htwg.battleship.model.persistence.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.gson.Gson;
 import com.google.inject.Injector;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.model.IShip;
+import de.htwg.battleship.model.impl.Ship;
 import de.htwg.battleship.model.persistence.IGameSave;
 import de.htwg.battleship.util.GameMode;
 import de.htwg.battleship.util.State;
@@ -26,7 +28,9 @@ public class CouchDbGameSave extends CouchDbDocument implements IGameSave, Seria
     private State currentState;
     private String field1;
     private String field2;
+    @JsonDeserialize(contentAs = Ship.class)
     private IShip[] shipList1;
+    @JsonDeserialize(contentAs = Ship.class)
     private IShip[] shipList2;
     private int heightLength;
     private int maxShipNumber;
